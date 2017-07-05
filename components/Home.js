@@ -4,7 +4,7 @@ import style from '../Style';
 import {StackNavigator} from 'react-navigation';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-class Home extends React.Component {
+export default class Home extends React.Component {
 
     static navigationOptions = {
         drawerLabel: 'Liste des groupes',

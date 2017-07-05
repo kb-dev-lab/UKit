@@ -1,4 +1,4 @@
-import StatusBar from 'react-native';
+import {StatusBar} from 'react-native';
 
 const colors = {
     red: '',
@@ -19,7 +19,8 @@ export default {
         headerTitleStyle: {
             color: colors.white,
             marginBottom: 20,
-            marginTop: 20
+            marginTop: 20,
+            fontSize: 22
         },
         headerBackTitleStyle: {
             color: colors.white
