@@ -37,7 +37,6 @@ export default class Home extends React.Component {
                         groupList.push({name: groupName, code: response.data[groupName]})
                     }
                 }
-                console.log(groupList);
                 this.setState({list: groupList});
             })
     }
