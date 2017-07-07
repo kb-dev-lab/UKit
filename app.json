@@ -1,23 +1,31 @@
 {
-  "expo": {
-    "name": "edtBordeaux",
-    "description": "An empty new project",
-    "slug": "edtBordeaux",
-    "privacy": "public",
-    "sdkVersion": "18.0.0",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "primaryColor": "#cccccc",
-    "icon": "./assets/icons/app.png",
-    "loading": {
-      "icon": "./assets/icons/loading.png",
-      "hideExponentText": false
-    },
-    "packagerOpts": {
-      "assetExts": ["ttf", "mp4"]
-    },
-    "ios": {
-      "supportsTablet": true
+    "expo": {
+        "name": "edtBordeaux",
+        "description": "An empty new project",
+        "slug": "edtBordeaux",
+        "privacy": "public",
+        "sdkVersion": "18.0.0",
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "primaryColor": "#cccccc",
+        "icon": "./assets/icons/ic_launcher.png",
+        "loading": {
+            "icon": "./assets/icons/ic_launcher.png",
+            "hideExponentText": true,
+            "backgroundColor": "#0D47A1"
+        },
+        "packagerOpts": {
+            "assetExts": [
+                "ttf",
+                "mp4"
+            ]
+        },
+        "ios": {
+            "supportsTablet": true,
+            "bundleIdentifier": "com.bordeaux.edt"
+        },
+        "android": {
+            "package": "com.bordeaux.edt"
+        }
     }
-  }
 }
