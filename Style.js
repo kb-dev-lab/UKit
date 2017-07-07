@@ -26,5 +26,20 @@ export default {
             color: colors.white
         },
         headerTintColor: colors.white
+    },
+    containerView: {
+        margin: 20,
+        marginTop: 30
+    },
+    list: {
+        view: {
+            backgroundColor: '#40C4FF',
+            borderWidth: 0,
+            borderBottomWidth: 1,
+            borderBottomColor: '#0D47A1',
+            paddingHorizontal: 20,
+            paddingVertical: 10,
+            justifyContent: 'space-between'
+        }
     }
 };
