@@ -9,22 +9,22 @@ export default class Row extends React.Component {
         index: React.PropTypes.number,
     };
 
-    displayName(name){
+    displayName(name) {
         name.replace(/_/g, '');
         return name;
     }
 
-    openGroup(group){
+    openGroup(group) {
         Alert.alert(group);
     }
 
     render() {
         return (
-        <TouchableHighlight onPress={this.openGroup(this.props.group.code)} underlayColor="white">
-            <View style={[style.list.view]}>
-                <Text>{this.displayName(this.props.group.name)}</Text>
-            </View>
-        </TouchableHighlight>
+            <TouchableHighlight onPress={ _  => this.openGroup(this.props.group.code)} underlayColor="white">
+                <View style={[style.list.view]}>
+                    <Text>{this.displayName(this.props.group.name)}</Text>
+                </View>
+            </TouchableHighlight>
         );
     }
 }
