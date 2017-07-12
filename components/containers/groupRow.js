@@ -3,24 +3,20 @@ import {View, Text, TouchableHighlight, Alert} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import style from '../../Style';
 
-export default class Row extends React.Component {
-    static propTypes = {
-        group: React.PropTypes.object,
-        index: React.PropTypes.number,
-    };
+export default class GroupRow extends React.Component {
+
+    constructor(props) {
+        super(props);
+    }
 
     displayName(name) {
         name.replace(/_/g, '');
         return name;
     }
 
-    openGroup(group) {
-        Alert.alert(group);
-    }
-
     render() {
         return (
-            <TouchableHighlight onPress={ _  => this.openGroup(this.props.group.code)} underlayColor="white">
+            <TouchableHighlight onPress={this.props.openGroup} underlayColor="white">
                 <View style={[style.list.view]}>
                     <Text>{this.displayName(this.props.group.name)}</Text>
                 </View>

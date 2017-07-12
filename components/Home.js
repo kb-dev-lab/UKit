@@ -34,11 +34,16 @@ export default class Home extends React.Component {
                 let groupList = [];
                 for (let groupName in response.data) {
                     if (response.data.hasOwnProperty(groupName)) {
-                        groupList.push({name: groupName, code: response.data[groupName]})
+                        groupList.push({name: groupName, code: response.data[groupName]});
                     }
                 }
                 this.setState({list: groupList});
-            })
+            });
+    }
+
+    openGroup(group) {
+        const {navigate} = this.props.navigation;
+        navigate('Group', {name: group.name, code: group.code});
     }
 
     render() {
@@ -47,12 +52,13 @@ export default class Home extends React.Component {
                 <ActivityIndicator style={style.containerView} size="large" animating={true}/>
             );
         } else {
+            // TODO list view with sections
             const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
             return (
                 <ListView
                     dataSource={ds.cloneWithRows(this.state.list)}
                     pageSize={10}
-                    renderRow={(row, j, index) => <GroupRow group={row} index={parseInt(index)}/>}
+                    renderRow={(row, j, index) => <GroupRow group={row} index={parseInt(index)} openGroup={ _ => this.openGroup(row)}/>}
                 />
             );
         }
