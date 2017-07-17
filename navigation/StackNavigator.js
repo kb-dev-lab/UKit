@@ -18,9 +18,5 @@ export default StackNavigator({
     About: {
         screen: About,
         navigationOptions: style.stackNavigator
-    },
-    GroupRow: {
-        screen: GroupRow,
-        navigationOptions: style.stackNavigator
     }
 });
