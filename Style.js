@@ -41,5 +41,39 @@ export default {
             paddingVertical: 10,
             justifyContent: 'space-between'
         }
+    },
+    schedule: {
+        containerView: {
+            flex: 1,
+            flexDirection: 'column',
+            justifyContent: 'space-around',
+            alignItems: 'center'
+        },
+        titleView: {
+            flex: 1
+        },
+        contentView: {
+            flex: 1
+        },
+        actionView: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            bottom: 0
+        },
+        titleText: {
+            fontSize: 25,
+            textAlign: 'center',
+            paddingVertical: 10
+        },
+        noCourse: {
+            fontSize: 20,
+            textAlign: 'center',
+            fontWeight: 'bold'
+        },
+        actionButton: {
+            flex: 2,
+            borderRadius: 0,
+            border: 'none'
+        }
     }
 };
