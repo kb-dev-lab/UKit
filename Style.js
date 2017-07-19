@@ -50,15 +50,21 @@ export default {
             alignItems: 'center'
         },
         titleView: {
-            flex: 1
+            flex: 1,
+            alignSelf: "stretch",
+            justifyContent: "center",
+            alignItems: 'center'
         },
         contentView: {
-            flex: 1
+            flex: 10,
+            alignSelf: "stretch"
         },
         actionView: {
             flexDirection: 'row',
-            justifyContent: 'space-between',
-            bottom: 0
+            justifyContent: 'center',
+            bottom: 0,
+            backgroundColor: 'white',
+            alignSelf: "stretch"
         },
         titleText: {
             fontSize: 25,
@@ -71,9 +77,23 @@ export default {
             fontWeight: 'bold'
         },
         actionButton: {
-            flex: 2,
-            borderRadius: 0,
-            border: 'none'
+            backgroundColor: 'grey',
+            alignSelf: "stretch"
+        },
+        actionButtonText: {
+            color: 'white',
+            fontSize: 18,
+            paddingVertical: 8,
+            textAlign: 'center'
+        },
+        actionButtonView: {
+            borderWidth: 1,
+            borderColor: 'white',
+            borderBottomWidth: 0,
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'white'
         }
     }
 };

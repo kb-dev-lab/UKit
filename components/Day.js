@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, ListView, ActivityIndicator, Text, Button} from 'react-native';
+import {View, ListView, ActivityIndicator, Text, TouchableOpacity} from 'react-native';
 import axios from 'axios';
 import style from '../Style';
 import CourseRow from "./containers/courseRow";
@@ -75,10 +75,16 @@ export default class Day extends React.Component {
                     {content}
                 </View>
                 <View style={style.schedule.actionView}>
-                    <Button style={style.schedule.actionButton} onPress={() => this.previousDay()}
-                            title="Jour précédent"/>
-                    <Button style={style.schedule.actionButton} onPress={() => this.nextDay()}
-                            title="Jour suivant"/>
+                    <View  style={style.schedule.actionButtonView}>
+                        <TouchableOpacity style={style.schedule.actionButton} onPress={() => this.previousDay()}>
+                            <Text style={style.schedule.actionButtonText}>Jour précédent</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={style.schedule.actionButtonView}>
+                        <TouchableOpacity style={style.schedule.actionButton} onPress={() => this.nextDay()}>
+                            <Text style={style.schedule.actionButtonText}>Jour suivant</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
         );
