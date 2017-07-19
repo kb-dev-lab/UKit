@@ -1,6 +1,5 @@
 import React from 'react';
 import {View, Text, TouchableHighlight, Alert} from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import style from '../../Style';
 
 export default class GroupRow extends React.Component {

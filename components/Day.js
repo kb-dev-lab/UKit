@@ -51,58 +51,36 @@ export default class Day extends React.Component {
     }
 
     render() {
+        let content;
         if (this.state.schedule === null) {
-            return (
-                <View style={style.schedule.containerView}>
-                    <View style={style.schedule.titleView}>
-                        <Text style={style.schedule.titleText}>{this.displayDate()}</Text>
-                    </View>
-                    <View style={style.schedule.contentView}>
-                        <ActivityIndicator style={style.containerView} size="large" animating={true}/>
-                    </View>
-                    <View style={style.schedule.actionView}>
-                        <Button style={style.schedule.actionButton} onPress={() => this.previousDay()} title="Jour précédent"/>
-                        <Button style={style.schedule.actionButton} onPress={() => this.nextDay()} title="Jour suivant"/>
-                    </View>
-                </View>
-            );
+            content = <ActivityIndicator style={style.containerView} size="large" animating={true}/>;
         } else if (this.state.schedule instanceof Array) {
             if (this.state.schedule.length === 0) {
-                return (
-                    <View style={style.schedule.containerView}>
-                        <View style={style.schedule.titleView}>
-                            <Text style={style.schedule.titleText}>{this.displayDate()}</Text>
-                        </View>
-                        <View style={style.schedule.contentView}>
-                            <Text style={style.schedule.noCourse}>Pas de cours</Text>
-                        </View>
-                        <View style={style.schedule.actionView}>
-                            <Button style={style.schedule.actionButton} onPress={() => this.previousDay()} title="Jour précédent"/>
-                            <Button style={style.schedule.actionButton} onPress={() => this.nextDay()} title="Jour suivant"/>
-                        </View>
-                    </View>
-                );
+                content = <Text style={style.schedule.noCourse}>Pas de cours</Text>;
             } else {
                 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-                return (
-                    <View style={style.schedule.containerView}>
-                        <View style={style.schedule.titleView}>
-                            <Text style={style.schedule.titleText}>{this.displayDate()}</Text>
-                        </View>
-                        <View style={style.schedule.contentView}>
-                            <ListView
-                                dataSource={ds.cloneWithRows(this.state.schedule)}
-                                pageSize={10}
-                                renderRow={(row, j, index) => <CourseRow data={row} index={parseInt(index)}/>}
-                            />
-                        </View>
-                        <View style={style.schedule.actionView}>
-                            <Button style={style.schedule.actionButton} onPress={() => this.previousDay()} title="Jour précédent"/>
-                            <Button style={style.schedule.actionButton} onPress={() => this.nextDay()} title="Jour suivant"/>
-                        </View>
-                    </View>
-                );
+                content = <ListView
+                    dataSource={ds.cloneWithRows(this.state.schedule)}
+                    pageSize={10}
+                    renderRow={(row, j, index) => <CourseRow data={row} index={parseInt(index)}/>}
+                />;
             }
         }
+        return (
+            <View style={style.schedule.containerView}>
+                <View style={style.schedule.titleView}>
+                    <Text style={style.schedule.titleText}>{this.displayDate()}</Text>
+                </View>
+                <View style={style.schedule.contentView}>
+                    {content}
+                </View>
+                <View style={style.schedule.actionView}>
+                    <Button style={style.schedule.actionButton} onPress={() => this.previousDay()}
+                            title="Jour précédent"/>
+                    <Button style={style.schedule.actionButton} onPress={() => this.nextDay()}
+                            title="Jour suivant"/>
+                </View>
+            </View>
+        );
     }
 }

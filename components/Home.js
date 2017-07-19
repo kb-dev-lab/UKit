@@ -1,7 +1,6 @@
 import React from 'react';
 import {ListView, ActivityIndicator} from 'react-native';
 import style from '../Style';
-import {StackNavigator} from 'react-navigation';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios';
 import GroupRow from './containers/groupRow';
