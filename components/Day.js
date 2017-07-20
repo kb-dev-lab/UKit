@@ -19,6 +19,7 @@ export default class Day extends React.Component {
         this.state = {
             groupName: this.props.screenProps.groupName,
             day: moment(),
+            error: null,
             schedule: null
         };
         this.fetchSchedule();
@@ -30,8 +31,10 @@ export default class Day extends React.Component {
         let date = this.state.day.format('YYYY/MM/DD');
         axios.get(`https://hackjack.info/et/json.php?type=day&name=${data[0]}&group=${data[1]}&date=${date}`)
             .then((response) => {
-                this.setState({schedule: response.data});
-            });
+                this.setState({schedule: response.data, error: null});
+            }).catch((error) => {
+            this.setState({schedule: null, error: error});
+        });
     }
 
     displayDate() {
@@ -39,13 +42,21 @@ export default class Day extends React.Component {
     }
 
     nextDay() {
-        this.setState({day: this.state.day.add(1, 'days'), schedule: null});
+        let incrementDay = 1;
+        if (this.state.day.day() === 6) {
+            incrementDay = 2;
+        }
+        this.setState({day: this.state.day.add(incrementDay, 'days'), schedule: null});
         this.fetchSchedule();
 
     }
 
     previousDay() {
-        this.setState({day: this.state.day.subtract(1, 'days'), schedule: null});
+        let decrementDay = 1;
+        if (this.state.day.day() === 1) {
+            decrementDay = 2;
+        }
+        this.setState({day: this.state.day.subtract(decrementDay, 'days'), schedule: null});
         this.fetchSchedule();
 
     }
@@ -53,7 +64,11 @@ export default class Day extends React.Component {
     render() {
         let content;
         if (this.state.schedule === null) {
-            content = <ActivityIndicator style={style.containerView} size="large" animating={true}/>;
+            if (this.state.error === null) {
+                content = <ActivityIndicator style={style.containerView} size="large" animating={true}/>;
+            } else {
+                content = <Text style={style.schedule.noCourse}>Erreur {this.state.error.response.status}</Text>
+            }
         } else if (this.state.schedule instanceof Array) {
             if (this.state.schedule.length === 0) {
                 content = <Text style={style.schedule.noCourse}>Pas de cours</Text>;
@@ -75,7 +90,7 @@ export default class Day extends React.Component {
                     {content}
                 </View>
                 <View style={style.schedule.actionView}>
-                    <View  style={style.schedule.actionButtonView}>
+                    <View style={style.schedule.actionButtonView}>
                         <TouchableOpacity style={style.schedule.actionButton} onPress={() => this.previousDay()}>
                             <Text style={style.schedule.actionButtonText}>Jour précédent</Text>
                         </TouchableOpacity>
