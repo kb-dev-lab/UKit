@@ -4,7 +4,10 @@ const colors = {
     red: '',
     white: '#FFF',
     green: '#4CAF50',
-    gray: '#454545'
+    gray: '#454545',
+    lightblue: '#40C4FF',
+    darkblue: '#0D47A1',
+    darkred: '#B71C1C'
 };
 
 export default {
@@ -33,16 +36,40 @@ export default {
     },
     list: {
         view: {
-            backgroundColor: '#40C4FF',
+            backgroundColor: colors.lightblue,
             borderWidth: 0,
             borderBottomWidth: 1,
-            borderBottomColor: '#0D47A1',
+            borderBottomColor: colors.darkblue,
             paddingHorizontal: 20,
             paddingVertical: 10,
             justifyContent: 'space-between'
         }
     },
     schedule: {
+        course: {
+            row: {
+                backgroundColor: colors.lightblue,
+                borderWidth: 1,
+                borderColor: colors.darkblue,
+                paddingHorizontal: 20,
+                paddingVertical: 10,
+                marginHorizontal: 15,
+                marginVertical: 2,
+                justifyContent: 'space-between'
+            },
+            title:{
+                textAlign: 'center',
+                fontWeight: 'bold'
+            },
+            header:{},
+            content:{
+                color: colors.darkred
+            },
+            line:{
+                flexDirection: 'row',
+                justifyContent: 'flex-start'
+            }
+        },
         containerView: {
             flex: 1,
             flexDirection: 'column',
