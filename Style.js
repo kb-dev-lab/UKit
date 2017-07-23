@@ -7,7 +7,7 @@ const colors = {
     gray: '#454545',
     lightblue: '#40C4FF',
     darkblue: '#0D47A1',
-    darkred: '#B71C1C'
+    darkred: '#D50000'
 };
 
 export default {
