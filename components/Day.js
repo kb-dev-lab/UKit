@@ -16,9 +16,13 @@ export default class Day extends React.Component {
 
     constructor(props) {
         super(props);
+        let day = moment();
+        if (day.day() === 6){
+            day = day.add(1,'days');
+        }
         this.state = {
             groupName: this.props.screenProps.groupName,
-            day: moment(),
+            day: day,
             error: null,
             schedule: null
         };
