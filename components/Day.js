@@ -52,7 +52,6 @@ export default class Day extends React.Component {
         }
         this.setState({day: this.state.day.add(incrementDay, 'days'), schedule: null});
         this.fetchSchedule();
-
     }
 
     previousDay() {
@@ -62,7 +61,6 @@ export default class Day extends React.Component {
         }
         this.setState({day: this.state.day.subtract(decrementDay, 'days'), schedule: null});
         this.fetchSchedule();
-
     }
 
     render() {
