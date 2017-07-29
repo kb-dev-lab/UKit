@@ -1,6 +1,4 @@
 import React from 'react';
-import About from './components/About';
-import Home from './components/Home';
 import StackNavigator from './navigation/StackNavigator';
 import {StyleSheet, View, StatusBar, Text} from 'react-native';
 import {DrawerNavigator, DrawerItems} from 'react-navigation';

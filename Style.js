@@ -45,6 +45,13 @@ export default {
             justifyContent: 'space-between'
         }
     },
+    weekView: {
+        dayTitle: {
+            textAlign: 'center',
+            fontSize: 18,
+            fontWeight: 'bold'
+        }
+    },
     schedule: {
         course: {
             row: {

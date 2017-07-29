@@ -26,7 +26,6 @@ export default class Week extends React.Component {
     fetchSchedule() {
         let groupName = this.state.groupName;
         let data = groupName.split('_');
-        console.log('WEEK', this.state.week);
         axios.get(`https://hackjack.info/et/json.php?type=week&name=${data[0]}&group=${data[1]}&week=${this.state.week}&clean=true`)
             .then((response) => {
                 this.setState({schedule: response.data, error: null});
@@ -60,46 +59,25 @@ export default class Week extends React.Component {
                 content = <Text style={style.schedule.noCourse}>Erreur {JSON.stringify(this.state.error)}</Text>
             }
         } else if (this.state.schedule instanceof Array) {
-            content = [];
             let sections = [];
             this.state.schedule.forEach(function(day) {
                 let sectionContent = {
-                    title: '',
+                    key: '',
                     data: []
                 };
-                let dayContent;
-                let dayDate = moment.unix(day.dayTimestamp).format('dddd DD/MM/YYYY');
-                sectionContent.title = dayDate;
-                sectionContent.date = day.courses;
+                sectionContent.key = upperCaseFirstLetter(moment.unix(day.dayTimestamp).format('dddd DD/MM/YYYY'));
+                sectionContent.data = day.courses;
                 sections.push(sectionContent);
-                console.log(day.courses);
-                if (day.courses.length === 0) {
-                    dayContent = <Text style={style.schedule.noCourse}>Pas de cours</Text>;
-                } else {
-                    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-                    dayContent = <ListView
-                        dataSource={ds.cloneWithRows(day.courses)}
-                        pageSize={10}
-                        renderRow={(row, j, index) => <CourseRow data={row} index={parseInt(index)}/>}
-                    />;
-                }
-                let dayView =
-                    <View style={style.schedule.containerView}>
-                        <View style={style.schedule.titleView}>
-                            <Text style={style.schedule.titleText}>{dayDate}</Text>
-                        </View>
-                        <View style={style.schedule.contentView}>
-                            {dayContent}
-                        </View>
-                    </View>;
-                // content.push(dayView);
             });
             content =
                 <View style={style.schedule.contentView}>
                     <SectionList
+                        renderItem={({item}) => <CourseRow data={item}/>}
+                        renderSectionHeader={({section}) => <Text style={style.weekView.dayTitle}>{section.key}</Text>}
                         sections={sections}
-                        renderItem={({row, j, index}) => <CourseRow data={row} index={parseInt(index)}/>}
-                        renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
+                        keyExtractor={(item, index) => {
+                            return String(item.dayNumber) + String(index);
+                        }}
                     />
                 </View>;
         }
