@@ -60,12 +60,15 @@ export default class Week extends React.Component {
             }
         } else if (this.state.schedule instanceof Array) {
             let sections = [];
-            this.state.schedule.forEach(function(day) {
+            this.state.schedule.forEach(function (day) {
                 let sectionContent = {
                     key: '',
                     data: []
                 };
                 sectionContent.key = upperCaseFirstLetter(moment.unix(day.dayTimestamp).format('dddd DD/MM/YYYY'));
+                if (day.courses.length === 0) {
+                    day.courses = [{dayNumber: day.dayNumber, category: 'nocourse'}];
+                }
                 sectionContent.data = day.courses;
                 sections.push(sectionContent);
             });
