@@ -11,8 +11,8 @@ export default class CourseRow extends React.Component {
     render() {
         if (this.props.data.category === 'nocourse') {
             return (
-                <View style={style.schedule.course.row}>
-                    <Text style={style.schedule.course.title}>Aucun cours ce jour</Text>
+                <View style={style.schedule.course.noCourse}>
+                    <Text style={style.schedule.course.noCourseText}>Aucun cours ce jour</Text>
                 </View>
             );
         }

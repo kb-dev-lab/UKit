@@ -78,9 +78,7 @@ export default class Week extends React.Component {
                         renderItem={({item}) => <CourseRow data={item}/>}
                         renderSectionHeader={({section}) => <Text style={style.weekView.dayTitle}>{section.key}</Text>}
                         sections={sections}
-                        keyExtractor={(item, index) => {
-                            return String(item.dayNumber) + String(index);
-                        }}
+                        keyExtractor={(item, index) => String(item.dayNumber) + String(index)}
                     />
                 </View>;
         }

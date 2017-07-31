@@ -64,6 +64,17 @@ export default {
                 marginVertical: 2,
                 justifyContent: 'space-between'
             },
+            noCourse: {
+                paddingVertical: 10,
+                marginVertical: 2,
+                justifyContent: 'space-between'
+            },
+            noCourseText:{
+                fontStyle: 'italic',
+                textAlign: 'center',
+                color: '#5d5d5d',
+                fontWeight: 'bold'
+            },
             title:{
                 textAlign: 'center',
                 fontWeight: 'bold'
@@ -105,7 +116,7 @@ export default {
             textAlign: 'center',
             paddingVertical: 10
         },
-        noCourse: {
+        error: {
             fontSize: 20,
             textAlign: 'center',
             fontWeight: 'bold'

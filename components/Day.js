@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, ListView, ActivityIndicator, Text, TouchableOpacity} from 'react-native';
+import {View, FlatList, ActivityIndicator, Text, TouchableHighlight} from 'react-native';
 import axios from 'axios';
 import style from '../Style';
 import CourseRow from "./containers/courseRow";
@@ -17,8 +17,8 @@ export default class Day extends React.Component {
     constructor(props) {
         super(props);
         let day = moment();
-        if (day.day() === 6){
-            day = day.add(1,'days');
+        if (day.day() === 6) {
+            day = day.add(1, 'days');
         }
         this.state = {
             groupName: this.props.screenProps.groupName,
@@ -37,6 +37,7 @@ export default class Day extends React.Component {
             .then((response) => {
                 this.setState({schedule: response.data, error: null});
             }).catch((error) => {
+            console.error(error);
             this.setState({schedule: null, error: error});
         });
     }
@@ -65,23 +66,24 @@ export default class Day extends React.Component {
 
     render() {
         let content;
+        console.log("schedule");
+        console.log(this.state.schedule);
         if (this.state.schedule === null) {
             if (this.state.error === null) {
                 content = <ActivityIndicator style={style.containerView} size="large" animating={true}/>;
             } else {
-                content = <Text style={style.schedule.noCourse}>Erreur {this.state.error.response.status}</Text>
+                content = <Text style={style.schedule.error}>Erreur {this.state.error.response.status}</Text>
             }
         } else if (this.state.schedule instanceof Array) {
             if (this.state.schedule.length === 0) {
-                content = <Text style={style.schedule.noCourse}>Pas de cours</Text>;
-            } else {
-                const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-                content = <ListView
-                    dataSource={ds.cloneWithRows(this.state.schedule)}
-                    pageSize={10}
-                    renderRow={(row, j, index) => <CourseRow data={row} index={parseInt(index)}/>}
-                />;
+                this.state.schedule = [{schedule: 0, category: 'nocourse'}];
             }
+                content = <FlatList
+                    data={this.state.schedule}
+                    extraData={this.state}
+                    renderItem={(item) => <CourseRow data={item.item}/>}
+                    keyExtractor={(item, index) => item.schedule + String(index)}
+                />;
         }
         return (
             <View style={style.schedule.containerView}>
@@ -93,14 +95,15 @@ export default class Day extends React.Component {
                 </View>
                 <View style={style.schedule.actionView}>
                     <View style={style.schedule.actionButtonView}>
-                        <TouchableOpacity style={style.schedule.actionButton} onPress={() => this.previousDay()}>
+                        <TouchableHighlight underlayColor="#333" style={style.schedule.actionButton} onPress={() => this.previousDay()}>
                             <Text style={style.schedule.actionButtonText}>Jour précédent</Text>
-                        </TouchableOpacity>
+                        </TouchableHighlight>
                     </View>
                     <View style={style.schedule.actionButtonView}>
-                        <TouchableOpacity style={style.schedule.actionButton} onPress={() => this.nextDay()}>
+                        <TouchableHighlight underlayColor="#333" style={style.schedule.actionButton}
+                                             onPress={() => this.nextDay()}>
                             <Text style={style.schedule.actionButtonText}>Jour suivant</Text>
-                        </TouchableOpacity>
+                        </TouchableHighlight>
                     </View>
                 </View>
             </View>
