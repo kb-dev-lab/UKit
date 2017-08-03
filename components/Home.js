@@ -36,6 +36,9 @@ export default class Home extends React.Component {
                         groupList.push({name: groupName, code: response.data[groupName]});
                     }
                 }
+                groupList.sort((a,b)=>{
+
+                });
                 this.setState({list: groupList});
             });
     }

@@ -66,8 +66,6 @@ export default class Day extends React.Component {
 
     render() {
         let content;
-        console.log("schedule");
-        console.log(this.state.schedule);
         if (this.state.schedule === null) {
             if (this.state.error === null) {
                 content = <ActivityIndicator style={style.containerView} size="large" animating={true}/>;
