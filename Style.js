@@ -36,13 +36,29 @@ export default {
     },
     list: {
         view: {
-            backgroundColor: colors.lightblue,
+            backgroundColor: 'transparent',
             borderWidth: 0,
             borderBottomWidth: 1,
-            borderBottomColor: colors.darkblue,
+            borderBottomColor: colors.gray,
             paddingHorizontal: 20,
             paddingVertical: 10,
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+        },
+        sectionHeaderView: {
+            backgroundColor: 'white',
+            height: 40,
+            flex: 1,
+            flexDirection: 'column',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+            alignContent: 'center',
+            borderBottomWidth: 1,
+            borderBottomColor: colors.gray,
+        },
+        sectionHeaderTitle: {
+            textAlign: 'center',
+            fontSize: 18,
+            fontWeight: 'bold'
         }
     },
     weekView: {
@@ -69,21 +85,23 @@ export default {
                 marginVertical: 2,
                 justifyContent: 'space-between'
             },
-            noCourseText:{
+            noCourseText: {
                 fontStyle: 'italic',
                 textAlign: 'center',
                 color: '#5d5d5d',
                 fontWeight: 'bold'
             },
-            title:{
+            title: {
                 textAlign: 'center',
                 fontWeight: 'bold'
             },
-            header:{},
-            content:{
-                color: colors.darkred
+            header: {},
+            content: {
+                color: colors.darkred,
+                flex: 1,
+                flexWrap: 'wrap'
             },
-            line:{
+            line: {
                 flexDirection: 'row',
                 justifyContent: 'flex-start'
             }

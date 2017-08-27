@@ -21,7 +21,7 @@ const CustomDrawerContentComponent = (props) => (
                     size={50}
                     style={{color: '#FFF', marginLeft: 20}}
                 />
-                <Text style={{color: '#FFF', fontWeight: 'bold', fontSize: 30, marginLeft: 10}}>EdT Bordeaux</Text>
+                <Text style={{color: '#FFF', fontWeight: 'bold', fontSize: 30, marginLeft: 10, flex: 1, flexWrap: 'wrap'}}>EdT Bordeaux</Text>
             </View>
             <DrawerItems {...props} />
         </View>

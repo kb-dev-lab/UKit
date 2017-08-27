@@ -1,9 +1,10 @@
 import React from 'react';
-import {ListView, ActivityIndicator} from 'react-native';
+import {SectionList, Text, ActivityIndicator} from 'react-native';
 import style from '../Style';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios';
 import GroupRow from './containers/groupRow';
+import SectionListHeader from './containers/sectionListHeader';
 
 export default class Home extends React.Component {
 
@@ -22,7 +23,7 @@ export default class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            list: null
+            sections: null
         };
         this.fetchList();
     }
@@ -36,10 +37,27 @@ export default class Home extends React.Component {
                         groupList.push({name: groupName, code: response.data[groupName]});
                     }
                 }
-                groupList.sort((a,b)=>{
-
+                let list = groupList.sort((a, b) => {
+                    return a.name.localeCompare(b.name);
                 });
-                this.setState({list: groupList});
+
+                let sections = [];
+                let sectionContent = null;
+                let previousSection = null;
+                list.forEach((e) => {
+                    let splitName = e.name.split('_');
+                    if (splitName[0] !== previousSection) {
+                        if (previousSection !== null) {
+                            sections.push(sectionContent);
+                        }
+                        previousSection = splitName[0];
+                        sectionContent = {key: previousSection, data: []};
+                    }
+                    sectionContent.data.push(e);
+                });
+                sections.push(sectionContent);
+                console.log(sections);
+                this.setState({sections});
             });
     }
 
@@ -49,18 +67,19 @@ export default class Home extends React.Component {
     }
 
     render() {
-        if (this.state.list === null) {
+        if (this.state.sections === null) {
             return (
                 <ActivityIndicator style={style.containerView} size="large" animating={true}/>
             );
         } else {
-            // TODO list view with sections
-            const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
             return (
-                <ListView
-                    dataSource={ds.cloneWithRows(this.state.list)}
-                    pageSize={10}
-                    renderRow={(row, j, index) => <GroupRow group={row} index={parseInt(index)} openGroup={ _ => this.openGroup(row)}/>}
+                <SectionList
+                    renderItem={({item, j, index}) => <GroupRow group={item} index={parseInt(index)}
+                                                                openGroup={_ => this.openGroup(item)}/>}
+                    renderSectionHeader={({section}) => <SectionListHeader title={section.key}/>}
+                    sections={this.state.sections}
+                    keyExtractor={(item, index) => String(item.dayNumber) + String(index)}
+                    initialNumToRender={100}
                 />
             );
         }

@@ -9,8 +9,7 @@ export default class GroupRow extends React.Component {
     }
 
     displayName(name) {
-        name.replace(/_/g, '');
-        return name;
+        return name.replace(/_/g, ' ');
     }
 
     render() {
