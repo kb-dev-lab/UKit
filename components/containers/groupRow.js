@@ -12,10 +12,15 @@ export default class GroupRow extends React.Component {
         return name.replace(/_/g, ' ');
     }
 
+    getSectionStyle(){
+        let indexStyle = this.props.group.sectionIndex % style.list.sections.length;
+        return style.list.sections[indexStyle];
+    }
+
     render() {
         return (
             <TouchableHighlight onPress={this.props.openGroup} underlayColor="white">
-                <View style={[style.list.view]}>
+                <View style={[style.list.view, this.getSectionStyle()]}>
                     <Text>{this.displayName(this.props.group.name)}</Text>
                 </View>
             </TouchableHighlight>
