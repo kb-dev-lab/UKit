@@ -17,7 +17,7 @@ export default class Day extends React.Component {
     constructor(props) {
         super(props);
         let day = moment();
-        if (day.day() === 6) {
+        if (day.isoWeekday() === 7) {
             day = day.add(1, 'days');
         }
         this.state = {
@@ -48,7 +48,7 @@ export default class Day extends React.Component {
 
     nextDay() {
         let incrementDay = 1;
-        if (this.state.day.day() === 6) {
+        if (this.state.day.isoWeekday() === 6) {
             incrementDay = 2;
         }
         this.setState({day: this.state.day.add(incrementDay, 'days'), schedule: null});
@@ -57,7 +57,7 @@ export default class Day extends React.Component {
 
     previousDay() {
         let decrementDay = 1;
-        if (this.state.day.day() === 1) {
+        if (this.state.day.isoWeekday() === 1) {
             decrementDay = 2;
         }
         this.setState({day: this.state.day.subtract(decrementDay, 'days'), schedule: null});

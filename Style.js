@@ -102,14 +102,15 @@ export default {
     },
     list: {
         searchInputView:{
-            borderBottomWidth: 3,
-            borderBottomColor: 'white',
-            backgroundColor: colors.green
+            flex: 0
         },
         searchInput: {
             height: 40,
             paddingLeft: 5,
             color: 'white'
+        },
+        sectionList: {
+            flex: 0
         },
         sections: [
             {backgroundColor: colors50.deepOrange},
@@ -128,6 +129,7 @@ export default {
             {backgroundColor: colors200.purple}
         ],
         homeView: {
+            flex: 1,
             backgroundColor: 'transparent',
         },
         view: {
@@ -174,7 +176,7 @@ export default {
                 backgroundColor: colors.lightblue,
                 borderWidth: 1,
                 borderColor: colors.darkblue,
-                paddingHorizontal: 20,
+                paddingBottom: 20,
                 paddingVertical: 10,
                 marginHorizontal: 15,
                 marginVertical: 2,
@@ -192,6 +194,8 @@ export default {
                 fontWeight: 'bold'
             },
             title: {
+                paddingTop: 0,
+                paddingBottom: 5,
                 textAlign: 'center',
                 fontWeight: 'bold'
             },

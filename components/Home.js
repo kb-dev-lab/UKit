@@ -5,19 +5,21 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios';
 import GroupRow from './containers/groupRow';
 import SectionListHeader from './containers/sectionListHeader';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import {Hideo} from 'react-native-textinput-effects';
 
 export default class Home extends React.Component {
 
     static navigationOptions = {
-        drawerLabel: 'Liste des groupes',
+        drawerLabel: 'Groupes',
         drawerIcon: ({tintColor}) => (
             <MaterialIcons
-                name="search"
+                name="list"
                 size={24}
                 style={{color: tintColor}}
             />
         ),
-        title: 'Liste des groupes'
+        title: 'Groupes'
     };
 
     constructor(props) {
@@ -74,7 +76,7 @@ export default class Home extends React.Component {
     }
 
     search(input) {
-        this.setState({input, sections: null, emptySearchResults: false});
+        this.setState({sections: null, emptySearchResults: false});
         let list = this.state.list;
         if (input.length !== 0) {
             let regex = new RegExp(input, "gi");
@@ -83,6 +85,7 @@ export default class Home extends React.Component {
             });
         }
         if (list.length > 0) {
+            this.setState({emptySearchResults: false});
             this.generateSections(list);
         } else {
             this.setState({emptySearchResults: true});
@@ -92,23 +95,25 @@ export default class Home extends React.Component {
     render() {
         let content;
         let searchInput = (
-            <View style={style.list.searchInputView}>
-                <TextInput
-                    style={style.list.searchInput}
-                    onChangeText={(text) => this.search(text)}
-                    value={this.state.text}
-                />
-            </View>
+            <Hideo
+                iconClass={FontAwesomeIcon}
+                iconName={'search'}
+                iconColor={'white'}
+                iconBackgroundColor={'#4CAF50'}
+                inputStyle={{color: '#464949'}}
+                onChangeText={(text) => this.search(text)}
+                style={style.list.searchInputView}
+            />
         );
-        if (this.state.sections === null) {
-            content = (
-                <ActivityIndicator style={style.containerView} size="large" animating={true}/>
-            );
-        } else if (this.state.emptySearchResults) {
+        if (this.state.emptySearchResults) {
             content = (
                 <View style={style.schedule.course.noCourse}>
                     <Text style={style.schedule.course.noCourseText}>Aucun groupe correspondant à cette recherche n'a été trouvé.</Text>
                 </View>
+            );
+        } else if (this.state.sections === null) {
+            content = (
+                <ActivityIndicator style={style.containerView} size="large" animating={true}/>
             );
         } else {
             content = (
@@ -118,6 +123,7 @@ export default class Home extends React.Component {
                     sections={this.state.sections}
                     keyExtractor={(item, index) => String(item.dayNumber) + String(index)}
                     initialNumToRender={100}
+                    style={style.list.sectionList}
                 />
             );
         }
