@@ -1,18 +1,18 @@
 {
     "expo": {
-        "name": "edtBordeaux",
+        "name": "USmart",
         "description": "An empty new project",
-        "slug": "edtBordeaux",
+        "slug": "USmart",
         "privacy": "public",
         "sdkVersion": "18.0.0",
         "version": "1.0.0",
         "orientation": "portrait",
         "primaryColor": "#cccccc",
-        "icon": "./assets/icons/ic_launcher.png",
+        "icon": "./assets/icons/app.png",
         "loading": {
-            "icon": "./assets/icons/ic_launcher.png",
+            "icon": "./assets/icons/app.png",
             "hideExponentText": true,
-            "backgroundColor": "#0D47A1"
+            "backgroundColor": "#009DE0"
         },
         "packagerOpts": {
             "assetExts": [
