@@ -1,11 +1,11 @@
 {
     "expo": {
         "name": "USmart",
-        "description": "An empty new project",
+        "description": "USmart, a companion app for student of University of Bordeaux",
         "slug": "USmart",
         "privacy": "public",
         "sdkVersion": "18.0.0",
-        "version": "1.0.0",
+        "version": "3.0.0",
         "orientation": "portrait",
         "primaryColor": "#cccccc",
         "icon": "./assets/icons/app.png",
@@ -22,10 +22,10 @@
         },
         "ios": {
             "supportsTablet": true,
-            "bundleIdentifier": "com.bordeaux.edt"
+            "bundleIdentifier": "com.bordeaux.usmart"
         },
         "android": {
-            "package": "com.bordeaux.edt"
+            "package": "com.bordeaux.usmart"
         }
     }
 }
