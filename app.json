@@ -1,8 +1,8 @@
 {
     "expo": {
-        "name": "USmart",
-        "description": "USmart, a companion app for student of University of Bordeaux",
-        "slug": "USmart",
+        "name": "Ukit",
+        "description": "Ukit, a companion app for student of University of Bordeaux",
+        "slug": "Ukit",
         "privacy": "public",
         "sdkVersion": "18.0.0",
         "version": "3.0.0",
@@ -22,10 +22,10 @@
         },
         "ios": {
             "supportsTablet": true,
-            "bundleIdentifier": "com.bordeaux.usmart"
+            "bundleIdentifier": "com.bordeaux.uukitart"
         },
         "android": {
-            "package": "com.bordeaux.usmart"
+            "package": "com.bordeaux.ukit"
         }
     }
 }

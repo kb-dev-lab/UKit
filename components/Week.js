@@ -26,6 +26,7 @@ export default class Week extends React.Component {
     fetchSchedule() {
         let groupName = this.state.groupName;
         let data = groupName.split('_');
+        console.log('GET WEEK : ' + this.state.week);
         axios.get(`https://hackjack.info/et/json.php?type=week&name=${data[0]}&group=${data[1]}&week=${this.state.week}&clean=true`)
             .then((response) => {
                 this.setState({schedule: response.data, error: null});
@@ -42,11 +43,13 @@ export default class Week extends React.Component {
 
     nextWeek() {
         this.setState({week: this.state.week + 1, schedule: null});
+        console.log("NEXT WEEK :" + this.state.week);
         this.fetchSchedule();
     }
 
     previousWeek() {
         this.setState({week: this.state.week - 1, schedule: null});
+        console.log("PREVIOUS WEEK :" + this.state.week);
         this.fetchSchedule();
     }
 

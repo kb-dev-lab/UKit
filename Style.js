@@ -101,7 +101,7 @@ export default {
         marginTop: 30
     },
     list: {
-        searchInputView:{
+        searchInputView: {
             flex: 0
         },
         searchInput: {
@@ -172,15 +172,38 @@ export default {
     },
     schedule: {
         course: {
+            hours: {
+                borderRightWidth: 5,
+                borderColor: colors.lightblue,
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                alignContent: 'center',
+                alignItems: 'center',
+                paddingLeft: 2,
+                paddingRight: 4,
+                marginLeft: 1,
+                paddingVertical: 5
+            },
+            hoursText: {
+                fontWeight: 'bold'
+            },
+            contentBlock: {
+                flex: 1,
+                justifyContent: 'space-between',
+                flexDirection: 'column',
+                marginLeft: 5,
+                paddingVertical: 5
+            },
             row: {
-                backgroundColor: colors.lightblue,
-                borderWidth: 1,
+                flex: 1,
+                justifyContent: 'space-between',
+                flexDirection: 'row',
+                backgroundColor: '#EEEEEE',
+                borderWidth: 0,
                 borderColor: colors.darkblue,
-                paddingBottom: 20,
-                paddingVertical: 10,
+                paddingVertical: 5,
                 marginHorizontal: 15,
-                marginVertical: 2,
-                justifyContent: 'space-between'
+                marginVertical: 2
             },
             noCourse: {
                 paddingVertical: 10,
