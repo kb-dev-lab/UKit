@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StatusBar} from 'react-native';
-import Style from '../Style';
+import style from '../Style';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 export default class About extends React.Component {
@@ -19,9 +19,11 @@ export default class About extends React.Component {
         return (
             <View style={{flex: 1}}>
                 <View style={{flex: 1, marginTop: StatusBar.currentHeight}}>
-                    <View style={Style.aboutView}>
-                        <Text style={Style.aboutTitle}>À propos de l'application</Text>
-                        <Text>Cette application a été développée par HackJack dans le cadre du concours HackeTaFac 2017.</Text>
+                    <View style={style.about.view}>
+                        <Text style={style.about.title}>Ukit</Text>
+                        <Text style={style.about.content}>
+                            Cette application a été développée par HackJack dans le cadre du concours HackeTaFac 2017.
+                        </Text>
                     </View>
                 </View>
             </View>

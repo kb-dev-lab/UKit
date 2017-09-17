@@ -1,5 +1,6 @@
 import React from 'react';
 import StackNavigator from './navigation/StackNavigator';
+import About from './components/About';
 import {StyleSheet, View, StatusBar, Text} from 'react-native';
 import {DrawerNavigator, DrawerItems} from 'react-navigation';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -21,7 +22,7 @@ const CustomDrawerContentComponent = (props) => (
                     size={50}
                     style={{color: '#FFF', marginLeft: 20}}
                 />
-                <Text style={{color: '#FFF', fontWeight: 'bold', fontSize: 30, marginLeft: 10, flex: 1, flexWrap: 'wrap'}}>USmart</Text>
+                <Text style={{color: '#FFF', fontWeight: 'bold', fontSize: 30, marginLeft: 10, flex: 1, flexWrap: 'wrap'}}>Ukit</Text>
             </View>
             <DrawerItems {...props} />
         </View>
@@ -37,6 +38,9 @@ const styles = StyleSheet.create({
 const drawer = DrawerNavigator({
     Home: {
         screen: StackNavigator,
+    },
+    About: {
+        screen: About,
     }
 }, {
     contentComponent: CustomDrawerContentComponent

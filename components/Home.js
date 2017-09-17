@@ -1,5 +1,5 @@
 import React from 'react';
-import {SectionList, TextInput, View, ActivityIndicator, Text} from 'react-native';
+import {SectionList, View, ActivityIndicator, Text} from 'react-native';
 import style from '../Style';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios';

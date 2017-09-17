@@ -3,6 +3,7 @@ import {View, FlatList, ActivityIndicator, Text, TouchableHighlight} from 'react
 import axios from 'axios';
 import style from '../Style';
 import CourseRow from "./containers/courseRow";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import moment from 'moment';
 import {upperCaseFirstLetter} from '../Utils';
 import 'moment/locale/fr';
@@ -11,7 +12,14 @@ moment.locale('fr');
 
 export default class Day extends React.Component {
     static navigationOptions = {
-        title: "Jour"
+        tabBarLabel: "Jour",
+        tabBarIcon: ({ tintColor }) => (
+            <MaterialCommunityIcons
+                name="calendar"
+                size={24}
+                style={{color: tintColor}}
+            />
+        )
     };
 
     constructor(props) {

@@ -78,6 +78,18 @@ const colors50 = {
 
 export default {
     colors,
+    about: {
+        title: {
+            fontWeight: 'bold',
+            fontSize: 24
+        },
+        view: {
+            padding: 10
+        },
+        content:{
+            marginTop: 5
+        }
+    },
     stackNavigator: {
         headerStyle: {
             marginTop: 0,

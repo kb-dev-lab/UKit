@@ -3,13 +3,21 @@ import {View, ActivityIndicator, Text, TouchableOpacity, SectionList} from 'reac
 import axios from 'axios';
 import style from '../Style';
 import CourseRow from "./containers/courseRow";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import moment from 'moment';
 import {upperCaseFirstLetter} from '../Utils';
 import 'moment/locale/fr';
 
 export default class Week extends React.Component {
     static navigationOptions = {
-        title: "Semaine"
+        tabBarLabel: "Semaine",
+        tabBarIcon: ({ tintColor }) => (
+            <MaterialCommunityIcons
+                name="calendar-multiple"
+                size={24}
+                style={{color: tintColor}}
+            />
+        )
     };
 
     constructor(props) {
