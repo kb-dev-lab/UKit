@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, ListView, ActivityIndicator, Text, TouchableOpacity, SectionList} from 'react-native';
+import {View, ActivityIndicator, Text, TouchableOpacity, SectionList} from 'react-native';
 import axios from 'axios';
 import style from '../Style';
 import CourseRow from "./containers/courseRow";
@@ -16,25 +16,20 @@ export default class Week extends React.Component {
         super(props);
         this.state = {
             groupName: this.props.screenProps.groupName,
-            week: moment().isoWeek(),
+            week: parseInt(moment().isoWeek()),
             error: null,
             schedule: null
         };
-        this.fetchSchedule();
+        this.fetchSchedule(this.state.week);
     }
 
-    fetchSchedule() {
+    fetchSchedule(week) {
         let groupName = this.state.groupName;
         let data = groupName.split('_');
-        console.log('GET WEEK : ' + this.state.week);
-        axios.get(`https://hackjack.info/et/json.php?type=week&name=${data[0]}&group=${data[1]}&week=${this.state.week}&clean=true`)
+        axios.get(`https://hackjack.info/et/json.php?type=week&name=${data[0]}&group=${data[1]}&week=${week}&clean=true`)
             .then((response) => {
-                this.setState({schedule: response.data, error: null});
-            })
-        // .catch((error) => {
-        //     console.error(error);
-        //     this.setState({schedule: null, error: error});
-        // });
+                this.setState({schedule: response.data, week, error: null});
+            });
     }
 
     displayWeek() {
@@ -42,15 +37,13 @@ export default class Week extends React.Component {
     }
 
     nextWeek() {
-        this.setState({week: this.state.week + 1, schedule: null});
-        console.log("NEXT WEEK :" + this.state.week);
-        this.fetchSchedule();
+        this.setState({schedule: null});
+        this.fetchSchedule(parseInt(this.state.week) + 1);
     }
 
     previousWeek() {
-        this.setState({week: this.state.week - 1, schedule: null});
-        console.log("PREVIOUS WEEK :" + this.state.week);
-        this.fetchSchedule();
+        this.setState({schedule: null});
+        this.fetchSchedule(parseInt(this.state.week) - 1);
     }
 
     render() {
