@@ -11,8 +11,7 @@ export default StackNavigator({
         navigationOptions: style.stackNavigator
     },
     Group: {
-        screen: Group,
-        navigationOptions: style.stackNavigator
+        screen: Group
     },
     About: {
         screen: About,

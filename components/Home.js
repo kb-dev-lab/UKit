@@ -1,5 +1,5 @@
 import React from 'react';
-import {SectionList, View, ActivityIndicator, Text} from 'react-native';
+import {SectionList, View, ActivityIndicator, Text, StatusBar, Platform, TouchableHighlight} from 'react-native';
 import style from '../Style';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios';
@@ -7,19 +7,55 @@ import GroupRow from './containers/groupRow';
 import SectionListHeader from './containers/sectionListHeader';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import {Hideo} from 'react-native-textinput-effects';
+import NavigationBar from 'react-native-navbar';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default class Home extends React.Component {
 
-    static navigationOptions = {
-        drawerLabel: 'Groupes',
-        drawerIcon: ({tintColor}) => (
-            <MaterialIcons
-                name="list"
-                size={24}
-                style={{color: tintColor}}
-            />
-        ),
-        title: 'Groupes'
+    static navigationOptions = ({navigation}) => {
+        let title = 'Groupes';
+        return {
+            drawerLabel: title,
+            drawerIcon: ({tintColor}) => (
+                <MaterialIcons
+                    name="list"
+                    size={24}
+                    style={{color: tintColor}}
+                />
+            ),
+            title,
+            header: (
+                <View
+                    style={{
+                        paddingTop: (Platform.OS === "android") ? StatusBar.currentHeight : 0,
+                        backgroundColor: style.colors.green
+                    }}>
+                    <NavigationBar
+                        title={{title, tintColor: "white"}}
+                        tintColor={"transparent"}
+                        leftButton={
+                            <TouchableHighlight onPress={_ => {navigation.navigate('DrawerOpen')}} underlayColor={"transparent"} style={{
+                                justifyContent: 'space-around',
+                                paddingLeft: 5
+                            }}>
+                                <View style={{
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-between'
+                                }}>
+                                    <MaterialCommunityIcons
+                                        name="menu"
+                                        size={32}
+                                        style={{
+                                            color: 'white'
+                                        }}
+                                    />
+                                </View>
+                            </TouchableHighlight>
+                        }
+                    />
+                </View>
+            )
+        };
     };
 
     constructor(props) {
@@ -90,7 +126,8 @@ export default class Home extends React.Component {
         } else {
             this.setState({emptySearchResults: true});
         }
-    };
+    }
+    ;
 
     render() {
         let content;
