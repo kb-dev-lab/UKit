@@ -34,7 +34,9 @@ export default class Home extends React.Component {
                         title={{title, tintColor: "white"}}
                         tintColor={"transparent"}
                         leftButton={
-                            <TouchableHighlight onPress={_ => {navigation.navigate('DrawerOpen')}} underlayColor={"transparent"} style={{
+                            <TouchableHighlight onPress={_ => {
+                                navigation.navigate('DrawerOpen')
+                            }} underlayColor={"transparent"} style={{
                                 justifyContent: 'space-around',
                                 paddingLeft: 5
                             }}>
@@ -65,6 +67,18 @@ export default class Home extends React.Component {
             list: null,
             emptySearchResults: false
         };
+        this.mounted = false;
+    }
+
+    componentWillMount() {
+        this.mounted = true;
+    }
+
+    componentWillUnmount() {
+        this.mounted = false;
+    }
+
+    componentDidMount() {
         this.fetchList();
     }
 
@@ -86,7 +100,9 @@ export default class Home extends React.Component {
             sectionContent.data.push(e);
         });
         sections.push(sectionContent);
-        this.setState({sections});
+        if (this.mounted) {
+            this.setState({list, sections});
+        }
     }
 
     fetchList() {
@@ -101,7 +117,6 @@ export default class Home extends React.Component {
                 let list = groupList.sort((a, b) => {
                     return a.name.localeCompare(b.name);
                 });
-                this.setState({list});
                 this.generateSections(list);
             });
     }

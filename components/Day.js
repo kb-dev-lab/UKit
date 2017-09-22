@@ -1,39 +1,32 @@
 import React from 'react';
-import {View, FlatList, ActivityIndicator, Text, TouchableHighlight} from 'react-native';
+import {View, FlatList, ActivityIndicator, Text, TouchableOpacity, Platform} from 'react-native';
 import axios from 'axios';
 import style from '../Style';
 import CourseRow from "./containers/courseRow";
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import moment from 'moment';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {upperCaseFirstLetter} from '../Utils';
-import 'moment/locale/fr';
-
-moment.locale('fr');
 
 export default class Day extends React.Component {
-    static navigationOptions = {
-        tabBarLabel: "Jour",
-        tabBarIcon: ({ tintColor }) => (
-            <MaterialCommunityIcons
-                name="calendar"
-                size={24}
-                style={{color: tintColor}}
-            />
-        )
-    };
-
     constructor(props) {
         super(props);
-        let day = moment();
-        if (day.isoWeekday() === 7) {
-            day = day.add(1, 'days');
-        }
         this.state = {
-            groupName: this.props.screenProps.groupName,
-            day: day,
+            groupName: this.props.groupName,
+            day: this.props.day,
             error: null,
             schedule: null
         };
+        this.mounted = false;
+    }
+
+    componentWillMount() {
+        this.mounted = true;
+    }
+
+    componentWillUnmount() {
+        this.mounted = false;
+    }
+
+    componentDidMount() {
         this.fetchSchedule();
     }
 
@@ -43,33 +36,14 @@ export default class Day extends React.Component {
         let date = this.state.day.format('YYYY/MM/DD');
         axios.get(`https://hackjack.info/et/json.php?type=day&name=${data[0]}&group=${data[1]}&date=${date}`)
             .then((response) => {
-                this.setState({schedule: response.data, error: null});
-            }).catch((error) => {
-            console.error(error);
-            this.setState({schedule: null, error: error});
-        });
+                if (this.mounted) {
+                    this.setState({schedule: response.data, error: null});
+                }
+            });
     }
 
     displayDate() {
         return upperCaseFirstLetter(this.state.day.format('dddd DD/MM/YYYY'));
-    }
-
-    nextDay() {
-        let incrementDay = 1;
-        if (this.state.day.isoWeekday() === 6) {
-            incrementDay = 2;
-        }
-        this.setState({day: this.state.day.add(incrementDay, 'days'), schedule: null});
-        this.fetchSchedule();
-    }
-
-    previousDay() {
-        let decrementDay = 1;
-        if (this.state.day.isoWeekday() === 1) {
-            decrementDay = 2;
-        }
-        this.setState({day: this.state.day.subtract(decrementDay, 'days'), schedule: null});
-        this.fetchSchedule();
     }
 
     render() {
@@ -84,33 +58,69 @@ export default class Day extends React.Component {
             if (this.state.schedule.length === 0) {
                 this.state.schedule = [{schedule: 0, category: 'nocourse'}];
             }
-                content = <FlatList
-                    data={this.state.schedule}
-                    extraData={this.state}
-                    renderItem={(item) => <CourseRow data={item.item}/>}
-                    keyExtractor={(item, index) => item.schedule + String(index)}
-                />;
+            content = <FlatList
+                data={this.state.schedule}
+                extraData={this.state}
+                renderItem={(item) => <CourseRow data={item.item}/>}
+                keyExtractor={(item, index) => item.schedule + String(index)}
+            />;
+        }
+        let previousButton, nextButton;
+        if (Platform.OS === 'android') {
+            previousButton = (<View style={{flex:1}}></View>);
+            nextButton = (<View style={{flex:1}}></View>);
+        } else {
+            previousButton = (<TouchableOpacity onPress={() => this.props.previousFunction()} style={{
+                flex: 1,
+                alignSelf: "stretch",
+                justifyContent: 'center'
+            }}>
+                <View style={{
+                    justifyContent: 'flex-start'
+                }}>
+                    <MaterialIcons
+                        name="navigate-before"
+                        size={32}
+                        style={{
+                            color: "black"
+                        }}
+                    />
+                </View>
+            </TouchableOpacity>);
+            nextButton = (<TouchableOpacity onPress={() => this.props.nextFunction()} style={{
+                flex: 1,
+                alignSelf: "stretch",
+                justifyContent: 'center'
+            }}>
+                <View style={{
+                    justifyContent: 'flex-end',
+                    flexDirection: 'row'
+                }}>
+                    <MaterialIcons
+                        name="navigate-next"
+                        size={32}
+                        style={{
+                            color: "black"
+                        }}
+                    />
+                </View>
+            </TouchableOpacity>);
         }
         return (
             <View style={style.schedule.containerView}>
                 <View style={style.schedule.titleView}>
-                    <Text style={style.schedule.titleText}>{this.displayDate()}</Text>
+                    {previousButton}
+                    <View style={{
+                        flex: 5,
+                        alignSelf: "stretch",
+                        justifyContent: 'center'
+                    }}>
+                        <Text style={[style.schedule.titleText]}>{this.displayDate()}</Text>
+                    </View>
+                    {nextButton}
                 </View>
                 <View style={style.schedule.contentView}>
                     {content}
-                </View>
-                <View style={style.schedule.actionView}>
-                    <View style={style.schedule.actionButtonView}>
-                        <TouchableHighlight underlayColor="#333" style={style.schedule.actionButton} onPress={() => this.previousDay()}>
-                            <Text style={style.schedule.actionButtonText}>Jour précédent</Text>
-                        </TouchableHighlight>
-                    </View>
-                    <View style={style.schedule.actionButtonView}>
-                        <TouchableHighlight underlayColor="#333" style={style.schedule.actionButton}
-                                             onPress={() => this.nextDay()}>
-                            <Text style={style.schedule.actionButtonText}>Jour suivant</Text>
-                        </TouchableHighlight>
-                    </View>
                 </View>
             </View>
         );

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, ActivityIndicator, Text, TouchableOpacity, SectionList} from 'react-native';
+import {View, ActivityIndicator, Text, TouchableOpacity, SectionList, Platform} from 'react-native';
 import axios from 'axios';
 import style from '../Style';
 import CourseRow from "./containers/courseRow";
@@ -11,13 +11,16 @@ import 'moment/locale/fr';
 export default class Week extends React.Component {
     static navigationOptions = {
         tabBarLabel: "Semaine",
-        tabBarIcon: ({ tintColor }) => (
-            <MaterialCommunityIcons
-                name="calendar-multiple"
-                size={24}
-                style={{color: tintColor}}
-            />
-        )
+        tabBarIcon: ({tintColor}) => {
+            let size = (Platform.OS === 'android') ? 16 : 24;
+            return (
+                <MaterialCommunityIcons
+                    name="calendar-multiple"
+                    size={size}
+                    style={{color: tintColor}}
+                />
+            )
+        }
     };
 
     constructor(props) {

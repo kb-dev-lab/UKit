@@ -253,19 +253,13 @@ export default {
         },
         titleView: {
             flex: 1,
+            justifyContent: 'space-between',
+            flexDirection: 'row',
             alignSelf: "stretch",
-            justifyContent: "center",
             alignItems: 'center'
         },
         contentView: {
             flex: 10,
-            alignSelf: "stretch"
-        },
-        actionView: {
-            flexDirection: 'row',
-            justifyContent: 'center',
-            bottom: 0,
-            backgroundColor: 'white',
             alignSelf: "stretch"
         },
         titleText: {
@@ -277,25 +271,6 @@ export default {
             fontSize: 20,
             textAlign: 'center',
             fontWeight: 'bold'
-        },
-        actionButton: {
-            backgroundColor: 'grey',
-            alignSelf: "stretch"
-        },
-        actionButtonText: {
-            color: 'white',
-            fontSize: 18,
-            paddingVertical: 8,
-            textAlign: 'center'
-        },
-        actionButtonView: {
-            borderWidth: 1,
-            borderColor: 'white',
-            borderBottomWidth: 0,
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'white'
         }
     }
 };
