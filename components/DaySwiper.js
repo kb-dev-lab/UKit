@@ -1,7 +1,7 @@
 import React from 'react';
 import {Platform, View, ActivityIndicator} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import DayComponent from './Day';
+import DayComponent from './containers/Day';
 import moment from 'moment';
 import style from '../Style';
 import 'moment/locale/fr';
@@ -39,7 +39,6 @@ export default class DaySwiper extends React.Component {
             index: null,
             startYear: (currentMonth > 7) ? currentYear : currentYear - 1,
             endYear: (currentMonth > 7) ? currentYear + 1 : currentYear,
-            scrollEnabled: true,
             days: []
         };
         this.mounted = false;
@@ -60,9 +59,10 @@ export default class DaySwiper extends React.Component {
     generateAllDays() {
         let days = [];
         let day = moment().set({year: this.state.startYear, month: 7, date: 20});
+        let lastDay = moment().set({year: this.state.endYear, month: 6, date: 31});
         let index = 0;
         let currentIndex = 0;
-        while (!(day.date() === 31 && day.month() === 6 && day.year() === this.state.endYear)) {
+        while (day.isBefore(lastDay, 'day')) {
             let isSunday = (day.isoWeekday() === 7);
             if (day.isSame(this.state.currentDay, 'day')) {
                 if (!isSunday) {
@@ -99,8 +99,8 @@ export default class DaySwiper extends React.Component {
                         return (<DayComponent key={key}
                                               day={day}
                                               groupName={this.state.groupName}
-                                              nextFunction={_ => this.refs.daySwiper.scrollBy(1, false)}
-                                              previousFunction={_ => this.refs.daySwiper.scrollBy(-1, false)}/>);
+                                              nextFunction={_ => this.refs.daySwiper.scrollBy(1, true)}
+                                              previousFunction={_ => this.refs.daySwiper.scrollBy(-1, true)}/>);
                     })}
                 </Swiper>
             );

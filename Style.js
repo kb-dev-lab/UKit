@@ -7,7 +7,8 @@ const colors = {
     gray: '#454545',
     lightblue: '#40C4FF',
     darkblue: '#0D47A1',
-    darkred: '#D50000'
+    darkred: '#D50000',
+    backgroundGrey: '#E9E9EF'
 };
 
 const colors200 = {
@@ -261,6 +262,11 @@ export default {
         contentView: {
             flex: 10,
             alignSelf: "stretch"
+        },
+        titleTextView:{
+            flex: 5,
+            alignSelf: "stretch",
+            justifyContent: 'center'
         },
         titleText: {
             fontSize: 25,

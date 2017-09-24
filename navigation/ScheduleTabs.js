@@ -1,18 +1,19 @@
 import React from 'react';
 import {TabNavigator} from 'react-navigation';
 import DaySwiper from '../components/DaySwiper';
-import Week from '../components/Week';
+import WeekSwiper from '../components/WeekSwiper';
 
 export default TabNavigator({
     Day: {
         screen: DaySwiper
     },
     Week: {
-        screen: Week
+        screen: WeekSwiper
     }
 }, {
     tabBarPosition: 'bottom',
     swipeEnabled: false,
+    lazy: true,
     tabBarOptions: {
         indicatorStyle: {
             backgroundColor: '#FFF'

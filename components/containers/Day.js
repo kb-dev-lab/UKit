@@ -1,10 +1,10 @@
 import React from 'react';
 import {View, FlatList, ActivityIndicator, Text, TouchableOpacity, Platform} from 'react-native';
 import axios from 'axios';
-import style from '../Style';
-import CourseRow from "./containers/courseRow";
+import style from '../../Style';
+import CourseRow from "./courseRow";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {upperCaseFirstLetter} from '../Utils';
+import {upperCaseFirstLetter} from '../../Utils';
 
 export default class Day extends React.Component {
     constructor(props) {
@@ -76,7 +76,8 @@ export default class Day extends React.Component {
                 justifyContent: 'center'
             }}>
                 <View style={{
-                    justifyContent: 'flex-start'
+                    justifyContent: 'flex-start',
+                    flexDirection: 'row'
                 }}>
                     <MaterialIcons
                         name="navigate-before"
@@ -110,11 +111,7 @@ export default class Day extends React.Component {
             <View style={style.schedule.containerView}>
                 <View style={style.schedule.titleView}>
                     {previousButton}
-                    <View style={{
-                        flex: 5,
-                        alignSelf: "stretch",
-                        justifyContent: 'center'
-                    }}>
+                    <View style={style.schedule.titleTextView}>
                         <Text style={[style.schedule.titleText]}>{this.displayDate()}</Text>
                     </View>
                     {nextButton}
