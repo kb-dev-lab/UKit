@@ -3,3 +3,5 @@ node_modules/**/*
 npm-debug.*
 .idea/
 /Keys.keystore
+.stignore
+.stforlder/*
