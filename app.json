@@ -4,7 +4,7 @@
         "description": "Ukit, a companion app for student of University of Bordeaux",
         "slug": "Ukit",
         "privacy": "public",
-        "sdkVersion": "18.0.0",
+        "sdkVersion": "21.0.0",
         "version": "3.0.0",
         "orientation": "portrait",
         "primaryColor": "#cccccc",
