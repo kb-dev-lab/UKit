@@ -2,7 +2,7 @@ import React from 'react';
 import {View, ActivityIndicator, Text, TouchableOpacity, SectionList, Platform} from 'react-native';
 import axios from 'axios';
 import style from '../../Style';
-import CourseRow from "./courseRow";
+import CourseRow from "./CourseRow";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import moment from 'moment';

@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text} from 'react-native';
-import style from '../../Style';
+import style from '../../../Style';
 
 export default class SectionListHeader extends React.Component {
 

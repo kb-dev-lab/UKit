@@ -1,14 +1,16 @@
 import React from 'react';
 import {SectionList, View, ActivityIndicator, Text, StatusBar, Platform, TouchableHighlight} from 'react-native';
+import NavigationActions from 'react-navigation';
 import style from '../Style';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios';
-import GroupRow from './containers/groupRow';
-import SectionListHeader from './containers/sectionListHeader';
+import GroupRow from './containers/GroupRow';
+import SectionListHeader from './containers/headers/SectionListHeader';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import {Hideo} from 'react-native-textinput-effects';
 import NavigationBar from 'react-native-navbar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import store from 'react-native-simple-store';
 
 export default class Home extends React.Component {
 
@@ -63,11 +65,22 @@ export default class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            completeList: null,
             sections: null,
             list: null,
             emptySearchResults: false
         };
         this.mounted = false;
+        store.get("profile").then((profile) => {
+                if (profile !== null && profile.group !== null) {
+                    const navigateAction = NavigationActions.navigate({
+                        routeName: 'Group',
+                        params: {name: profile.group}
+                    });
+                    this.props.navigation.dispatch(navigateAction);
+                }
+            }
+        );
     }
 
     componentWillMount() {
@@ -82,7 +95,7 @@ export default class Home extends React.Component {
         this.fetchList();
     }
 
-    generateSections(list) {
+    generateSections(list, save = false) {
         let sections = [];
         let sectionContent = null;
         let previousSection = null;
@@ -100,25 +113,36 @@ export default class Home extends React.Component {
             sectionContent.data.push(e);
         });
         sections.push(sectionContent);
+
         if (this.mounted) {
-            this.setState({list, sections});
+            if (save) {
+                store.update('home', {list, sections});
+                this.setState({list, sections, completeList: list});
+            } else {
+                this.setState({list, sections});
+            }
         }
     }
 
     fetchList() {
-        axios.get('https://hackjack.info/et/json.php')
-            .then((response) => {
-                let groupList = [];
-                for (let groupName in response.data) {
-                    if (response.data.hasOwnProperty(groupName)) {
-                        groupList.push({name: groupName, code: response.data[groupName]});
+        store.get("home").then((home) => {
+            if (home !== null) {
+                this.setState({list: home.list, sections: home.sections})
+            }
+            axios.get('https://hackjack.info/et/json.php')
+                .then((response) => {
+                    let groupList = [];
+                    for (let groupName in response.data) {
+                        if (response.data.hasOwnProperty(groupName)) {
+                            groupList.push({name: groupName, code: response.data[groupName]});
+                        }
                     }
-                }
-                let list = groupList.sort((a, b) => {
-                    return a.name.localeCompare(b.name);
+                    let list = groupList.sort((a, b) => {
+                        return a.name.localeCompare(b.name);
+                    });
+                    this.generateSections(list, true);
                 });
-                this.generateSections(list);
-            });
+        });
     }
 
     openGroup(group) {
@@ -128,7 +152,7 @@ export default class Home extends React.Component {
 
     search(input) {
         this.setState({sections: null, emptySearchResults: false});
-        let list = this.state.list;
+        let list = this.state.completeList;
         if (input.length !== 0) {
             let regex = new RegExp(input, "gi");
             list = list.filter(e => {
@@ -160,7 +184,8 @@ export default class Home extends React.Component {
         if (this.state.emptySearchResults) {
             content = (
                 <View style={style.schedule.course.noCourse}>
-                    <Text style={style.schedule.course.noCourseText}>Aucun groupe correspondant à cette recherche n'a été trouvé.</Text>
+                    <Text style={style.schedule.course.noCourseText}>Aucun groupe correspondant à cette recherche n'a
+                        été trouvé.</Text>
                 </View>
             );
         } else if (this.state.sections === null) {
@@ -170,8 +195,10 @@ export default class Home extends React.Component {
         } else {
             content = (
                 <SectionList
-                    renderItem={({item, j, index}) => <GroupRow group={item} index={parseInt(index)} openGroup={_ => this.openGroup(item)}/>}
-                    renderSectionHeader={({section}) => <SectionListHeader title={section.key} sectionIndex={section.sectionIndex}/>}
+                    renderItem={({item, j, index}) => <GroupRow group={item} index={parseInt(index)}
+                                                                openGroup={_ => this.openGroup(item)}/>}
+                    renderSectionHeader={({section}) => <SectionListHeader title={section.key}
+                                                                           sectionIndex={section.sectionIndex}/>}
                     sections={this.state.sections}
                     keyExtractor={(item, index) => String(item.dayNumber) + String(index)}
                     initialNumToRender={100}

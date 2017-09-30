@@ -2,7 +2,7 @@ import React from 'react';
 import {View, FlatList, ActivityIndicator, Text, TouchableOpacity, Platform} from 'react-native';
 import axios from 'axios';
 import style from '../../Style';
-import CourseRow from "./courseRow";
+import CourseRow from "./CourseRow";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {upperCaseFirstLetter} from '../../Utils';
 
