@@ -1,7 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 
-export default class Split extends React.Component {
+export default class Split extends React.PureComponent {
     constructor(props) {
         super(props);
     }
@@ -9,8 +9,8 @@ export default class Split extends React.Component {
     render(){
         return (
             <View style={{
-                borderWidth:1,
-                borderColor: 'black'
+                borderBottomWidth:1,
+                borderColor: '#303030'
             }}>
             </View>
         );

@@ -43,18 +43,9 @@ export default class WeekSwiper extends React.Component {
             weeks: [],
             index: null
         };
-        this.mounted = false;
     }
 
     componentWillMount() {
-        this.mounted = true;
-    }
-
-    componentWillUnmount() {
-        this.mounted = false;
-    }
-
-    componentDidMount() {
         setTimeout(_ => this.generateAllWeeks());
     }
 
@@ -78,9 +69,7 @@ export default class WeekSwiper extends React.Component {
 
             day = day.add(1, 'weeks');
         }
-        if (this.mounted) {
-            this.setState({index: Math.min(currentIndex, index - 1), weeks});
-        }
+        this.setState({index: Math.min(currentIndex, index - 1), weeks});
     }
 
     render() {

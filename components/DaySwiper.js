@@ -41,18 +41,9 @@ export default class DaySwiper extends React.Component {
             endYear: (currentMonth > 7) ? currentYear + 1 : currentYear,
             days: []
         };
-        this.mounted = false;
     }
 
     componentWillMount() {
-        this.mounted = true;
-    }
-
-    componentWillUnmount() {
-        this.mounted = false;
-    }
-
-    componentDidMount() {
         setTimeout(_ => this.generateAllDays());
     }
 
@@ -77,9 +68,7 @@ export default class DaySwiper extends React.Component {
             }
             day = day.add(1, 'days');
         }
-        if (this.mounted) {
-            this.setState({index: Math.min(currentIndex, index - 1), days});
-        }
+        this.setState({index: Math.min(currentIndex, index - 1), days});
     }
 
     render() {

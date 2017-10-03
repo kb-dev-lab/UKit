@@ -11,6 +11,11 @@ const colors = {
     backgroundGrey: '#E9E9EF'
 };
 
+const hintColors = {
+    green: '#55da59',
+    gray: '#9a9a9a'
+};
+
 const colors200 = {
     red: '#EF9A9A',
     pink: '#F48FB1',
@@ -79,6 +84,7 @@ const colors50 = {
 
 export default {
     colors,
+    hintColors,
     about: {
         title: {
             fontWeight: 'bold',

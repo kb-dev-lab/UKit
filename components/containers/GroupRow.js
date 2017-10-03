@@ -2,26 +2,17 @@ import React from 'react';
 import {View, Text, TouchableHighlight} from 'react-native';
 import style from '../../Style';
 
-export default class GroupRow extends React.Component {
+export default class GroupRow extends React.PureComponent {
 
     constructor(props) {
         super(props);
     }
 
-    displayName(name) {
-        return name.replace(/_/g, ' ');
-    }
-
-    getSectionStyle(){
-        let indexStyle = this.props.group.sectionIndex % style.list.sections.length;
-        return style.list.sections[indexStyle];
-    }
-
     render() {
         return (
-            <TouchableHighlight onPress={this.props.openGroup} underlayColor="white">
-                <View style={[style.list.view, this.getSectionStyle()]}>
-                    <Text>{this.displayName(this.props.group.name)}</Text>
+            <TouchableHighlight onPress={this.props.openGroup} underlayColor={style.hintColors.gray}>
+                <View style={[style.list.view, this.props.group.sectionStyle]}>
+                    <Text>{this.props.group.cleanName}</Text>
                 </View>
             </TouchableHighlight>
         );

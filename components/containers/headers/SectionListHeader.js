@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text} from 'react-native';
 import style from '../../../Style';
 
-export default class SectionListHeader extends React.Component {
+export default class SectionListHeader extends React.PureComponent {
 
     constructor(props) {
         super(props);

@@ -32,18 +32,9 @@ export default class Week extends React.Component {
             error: null,
             schedule: null
         };
-        this.mounted = false;
     }
 
     componentWillMount() {
-        this.mounted = true;
-    }
-
-    componentWillUnmount() {
-        this.mounted = false;
-    }
-
-    componentDidMount() {
         this.fetchSchedule();
     }
 
@@ -52,9 +43,7 @@ export default class Week extends React.Component {
         let data = groupName.split('_');
         axios.get(`https://hackjack.info/et/json.php?type=week&name=${data[0]}&group=${data[1]}&week=${this.state.week}&clean=true`)
             .then((response) => {
-                if (this.mounted) {
-                    this.setState({schedule: response.data, error: null});
-                }
+                this.setState({schedule: response.data, error: null});
             });
     }
 
@@ -89,7 +78,7 @@ export default class Week extends React.Component {
                     <SectionList
                         renderItem={({item}) => <CourseRow data={item}/>}
                         renderSectionHeader={({section}) => (
-                            <View style={{backgroundColor: style.colors.backgroundGrey, paddingVertical:3}}>
+                            <View style={{backgroundColor: style.colors.backgroundGrey, paddingVertical: 3}}>
                                 <Text style={style.weekView.dayTitle}>{section.key}</Text>
                             </View>)}
                         sections={sections}

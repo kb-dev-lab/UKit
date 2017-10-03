@@ -70,7 +70,6 @@ export default class Home extends React.Component {
             list: null,
             emptySearchResults: false
         };
-        this.mounted = false;
         store.get("profile").then((profile) => {
                 if (profile !== null && profile.group !== null) {
                     const navigateAction = NavigationActions.navigate({
@@ -84,15 +83,7 @@ export default class Home extends React.Component {
     }
 
     componentWillMount() {
-        this.mounted = true;
-    }
-
-    componentWillUnmount() {
-        this.mounted = false;
-    }
-
-    componentDidMount() {
-        this.fetchList();
+        setTimeout(_ => this.fetchList());
     }
 
     generateSections(list, save = false) {
@@ -109,18 +100,18 @@ export default class Home extends React.Component {
                 previousSection = splitName[0];
                 sectionContent = {key: previousSection, data: [], sectionIndex: ++sectionIndex};
             }
-            e.sectionIndex = sectionIndex;
+            e.sectionStyle = style.list.sections[sectionIndex % style.list.sections.length];
             sectionContent.data.push(e);
         });
         sections.push(sectionContent);
 
-        if (this.mounted) {
-            if (save) {
-                store.update('home', {list, sections});
-                this.setState({list, sections, completeList: list});
-            } else {
-                this.setState({list, sections});
-            }
+        console.log('list.length', list.length);
+        console.log('sections.length', sections.length);
+        if (save) {
+            store.update('home', {list, sections});
+            this.setState({list, sections, completeList: list});
+        } else {
+            this.setState({list, sections});
         }
     }
 
@@ -134,7 +125,11 @@ export default class Home extends React.Component {
                     let groupList = [];
                     for (let groupName in response.data) {
                         if (response.data.hasOwnProperty(groupName)) {
-                            groupList.push({name: groupName, code: response.data[groupName]});
+                            groupList.push({
+                                name: groupName,
+                                code: response.data[groupName],
+                                cleanName: groupName.replace(/_/g, ' ')
+                            });
                         }
                     }
                     let list = groupList.sort((a, b) => {
@@ -195,13 +190,14 @@ export default class Home extends React.Component {
         } else {
             content = (
                 <SectionList
-                    renderItem={({item, j, index}) => <GroupRow group={item} index={parseInt(index)}
+                    renderItem={({item, j, index}) => <GroupRow group={item} key={index}
                                                                 openGroup={_ => this.openGroup(item)}/>}
-                    renderSectionHeader={({section}) => <SectionListHeader title={section.key}
+                    renderSectionHeader={({section}) => <SectionListHeader title={section.key} key={section.key}
                                                                            sectionIndex={section.sectionIndex}/>}
                     sections={this.state.sections}
-                    keyExtractor={(item, index) => String(item.dayNumber) + String(index)}
-                    initialNumToRender={100}
+                    keyExtractor={(item, index) => index}
+                    initialNumToRender={20}
+                    onEndReachedThreshold={0.1}
                     style={style.list.sectionList}
                 />
             );

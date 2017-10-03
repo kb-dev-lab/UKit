@@ -15,7 +15,7 @@ export default class Group extends React.Component {
         let leftButton = (
             <TouchableHighlight onPress={_ => {
                 navigation.goBack();
-            }} underlayColor={"transparent"} style={{
+            }} underlayColor={style.hintColors.green} style={{
                 justifyContent: 'space-around',
                 paddingLeft: 5
             }}>

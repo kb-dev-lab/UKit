@@ -10,24 +10,15 @@ export default class Week extends React.Component {
             displayedGroup: this.props.groupName,
             savedGroup: null
         };
-        this.mounted = false;
     }
 
     componentWillMount() {
-        this.mounted = true;
-    }
-
-    componentWillUnmount() {
-        this.mounted = false;
-    }
-
-    componentDidMount() {
         this.getSavedGroup();
     }
 
     getSavedGroup() {
         store.get("profile").then((profile) => {
-                if (this.mounted && profile !== null) {
+                if (profile !== null) {
                     this.setState({savedGroup: profile.group})
                 }
             }

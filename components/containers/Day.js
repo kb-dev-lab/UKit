@@ -15,18 +15,9 @@ export default class Day extends React.Component {
             error: null,
             schedule: null
         };
-        this.mounted = false;
     }
 
     componentWillMount() {
-        this.mounted = true;
-    }
-
-    componentWillUnmount() {
-        this.mounted = false;
-    }
-
-    componentDidMount() {
         this.fetchSchedule();
     }
 
@@ -36,9 +27,7 @@ export default class Day extends React.Component {
         let date = this.state.day.format('YYYY/MM/DD');
         axios.get(`https://hackjack.info/et/json.php?type=day&name=${data[0]}&group=${data[1]}&date=${date}`)
             .then((response) => {
-                if (this.mounted) {
-                    this.setState({schedule: response.data, error: null});
-                }
+                this.setState({schedule: response.data, error: null});
             });
     }
 
@@ -67,8 +56,8 @@ export default class Day extends React.Component {
         }
         let previousButton, nextButton;
         if (Platform.OS === 'android') {
-            previousButton = (<View style={{flex:1}}></View>);
-            nextButton = (<View style={{flex:1}}></View>);
+            previousButton = (<View style={{flex: 1}}></View>);
+            nextButton = (<View style={{flex: 1}}></View>);
         } else {
             previousButton = (<TouchableOpacity onPress={() => this.props.previousFunction()} style={{
                 flex: 1,
