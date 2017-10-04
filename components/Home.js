@@ -68,7 +68,8 @@ export default class Home extends React.Component {
             completeList: null,
             sections: null,
             list: null,
-            emptySearchResults: false
+            emptySearchResults: false,
+            refreshing: false
         };
         store.get("profile").then((profile) => {
                 if (profile !== null && profile.group !== null) {
@@ -82,8 +83,8 @@ export default class Home extends React.Component {
         );
     }
 
-    componentWillMount() {
-        setTimeout(_ => this.fetchList());
+    componentDidMount() {
+        this.getList();
     }
 
     generateSections(list, save = false) {
@@ -104,40 +105,47 @@ export default class Home extends React.Component {
             sectionContent.data.push(e);
         });
         sections.push(sectionContent);
-
-        console.log('list.length', list.length);
-        console.log('sections.length', sections.length);
         if (save) {
             store.update('home', {list, sections});
-            this.setState({list, sections, completeList: list});
+            this.setState({list, sections, completeList: list, refreshing: false});
         } else {
             this.setState({list, sections});
         }
     }
 
-    fetchList() {
+    refreshList() {
+        this.setState({refreshing: true});
+        this.fetchList();
+    }
+
+    getList() {
         store.get("home").then((home) => {
             if (home !== null) {
                 this.setState({list: home.list, sections: home.sections})
+            } else {
+                this.fetchList();
             }
-            axios.get('https://hackjack.info/et/json.php')
-                .then((response) => {
-                    let groupList = [];
-                    for (let groupName in response.data) {
-                        if (response.data.hasOwnProperty(groupName)) {
-                            groupList.push({
-                                name: groupName,
-                                code: response.data[groupName],
-                                cleanName: groupName.replace(/_/g, ' ')
-                            });
-                        }
-                    }
-                    let list = groupList.sort((a, b) => {
-                        return a.name.localeCompare(b.name);
-                    });
-                    this.generateSections(list, true);
-                });
         });
+    }
+
+    fetchList() {
+        axios.get('https://hackjack.info/et/json.php')
+            .then((response) => {
+                let groupList = [];
+                for (let groupName in response.data) {
+                    if (response.data.hasOwnProperty(groupName)) {
+                        groupList.push({
+                            name: groupName,
+                            code: response.data[groupName],
+                            cleanName: groupName.replace(/_/g, ' ')
+                        });
+                    }
+                }
+                let list = groupList.sort((a, b) => {
+                    return a.name.localeCompare(b.name);
+                });
+                this.generateSections(list, true);
+            });
     }
 
     openGroup(group) {
@@ -156,12 +164,11 @@ export default class Home extends React.Component {
         }
         if (list.length > 0) {
             this.setState({emptySearchResults: false});
-            this.generateSections(list);
+            this.generateSections(list, false);
         } else {
             this.setState({emptySearchResults: true});
         }
     }
-    ;
 
     render() {
         let content;
@@ -199,6 +206,9 @@ export default class Home extends React.Component {
                     initialNumToRender={20}
                     onEndReachedThreshold={0.1}
                     style={style.list.sectionList}
+                    onRefresh={() => this.refreshList()}
+                    refreshing={this.state.refreshing}
+                    onEndReached={(info) => console.log('info', info)}
                 />
             );
         }
