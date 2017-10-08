@@ -22,7 +22,7 @@
         },
         "ios": {
             "supportsTablet": true,
-            "bundleIdentifier": "com.bordeaux.uukitart"
+            "bundleIdentifier": "com.bordeaux.ukit"
         },
         "android": {
             "package": "com.bordeaux.ukit"

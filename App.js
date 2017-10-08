@@ -1,18 +1,19 @@
 import React from 'react';
 import StackNavigator from './navigation/StackNavigator';
 import About from './components/About';
-import {StyleSheet, View, StatusBar, Text} from 'react-native';
+import {StyleSheet, View, StatusBar, Text, Image} from 'react-native';
 import {DrawerNavigator, NavigationActions} from 'react-navigation';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import DrawerButton from './components/containers/buttons/DrawerButton';
 import Split from './components/containers/headers/Split';
+import style from './Style';
 
 const CustomDrawerContentComponent = (props) => {
     return (
         <View style={styles.container}>
             <View style={{flex: 1}}>
                 <View style={{
-                    backgroundColor: '#0D47A1',
+                    backgroundColor: '#009DE0',
                     paddingTop: StatusBar.currentHeight,
                     flexDirection: 'row',
                     justifyContent: 'flex-start',
@@ -20,16 +21,15 @@ const CustomDrawerContentComponent = (props) => {
                     alignContent: 'center',
                     height: 150
                 }}>
-                    <MaterialCommunityIcons
-                        name="school"
-                        size={50}
-                        style={{color: '#FFF', marginLeft: 20}}
+                    <Image
+                        style={{width: 50, height: 50, marginLeft:20}}
+                        source={require('./assets/icons/app_96.png')}
                     />
                     <Text style={{
                         color: '#FFF',
                         fontWeight: 'bold',
                         fontSize: 30,
-                        marginLeft: 10,
+                        marginLeft: 20,
                         flex: 1,
                         flexWrap: 'wrap'
                     }}>Ukit</Text>
@@ -42,7 +42,14 @@ const CustomDrawerContentComponent = (props) => {
                         });
                         props.navigation.dispatch(navigateAction);
                     }}/>
-                    <Split/>
+                    <Split title='Mon groupe'/>
+
+                    <Split title='Navigation'/>
+                    <DrawerButton title={"ENT"} size={28} textSize={14} icon={'dashboard'} color={"#757575"}
+                                  tintColor={'transparent'} onPress={() => null}/>
+                    <DrawerButton title={"Boîte email"} size={28} textSize={14} icon={'mail-outline'} color={"#757575"}
+                                  tintColor={'transparent'} onPress={() => null}/>
+                    <Split title='Application'/>
                     <DrawerButton title={"Paramètres"} size={28} textSize={14} icon={'settings'} color={"#757575"}
                                   tintColor={'transparent'} onPress={() => null}/>
                     <DrawerButton title={"À propos"} size={28} textSize={14} icon={'info'} color={"#757575"}
