@@ -3,8 +3,8 @@ import StackNavigator from './navigation/StackNavigator';
 import About from './components/About';
 import {StyleSheet, View, StatusBar, Text, Image} from 'react-native';
 import {DrawerNavigator, NavigationActions} from 'react-navigation';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import DrawerButton from './components/containers/buttons/DrawerButton';
+import MyGroupButton from './components/containers/buttons/MyGroupButton';
 import Split from './components/containers/headers/Split';
 import style from './Style';
 
@@ -22,7 +22,7 @@ const CustomDrawerContentComponent = (props) => {
                     height: 150
                 }}>
                     <Image
-                        style={{width: 50, height: 50, marginLeft:20}}
+                        style={{width: 50, height: 50, marginLeft: 20}}
                         source={require('./assets/icons/app_96.png')}
                     />
                     <Text style={{
@@ -43,7 +43,13 @@ const CustomDrawerContentComponent = (props) => {
                         props.navigation.dispatch(navigateAction);
                     }}/>
                     <Split title='Mon groupe'/>
-
+                    <MyGroupButton onPress={(group) => {
+                        const navigateAction = NavigationActions.navigate({
+                            routeName: 'Group',
+                            params: {name: group}
+                        });
+                        props.navigation.dispatch(navigateAction);
+                    }}/>
                     <Split title='Navigation'/>
                     <DrawerButton title={"ENT"} size={28} textSize={14} icon={'dashboard'} color={"#757575"}
                                   tintColor={'transparent'} onPress={() => null}/>

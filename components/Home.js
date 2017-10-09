@@ -208,7 +208,6 @@ export default class Home extends React.Component {
                     style={style.list.sectionList}
                     onRefresh={() => this.refreshList()}
                     refreshing={this.state.refreshing}
-                    onEndReached={(info) => console.log('info', info)}
                 />
             );
         }
