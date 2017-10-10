@@ -32,7 +32,7 @@ export default class Week extends React.Component {
         } else {
             return (
                 <DrawerButton title={this.state.savedGroup} size={28} textSize={14} icon={'star'} color={"#757575"}
-                              tintColor={'transparent'} onPress={_ => this.props.onPress(this.state.savedGroup)}/>
+                              tintColor={'transparent'} onPress={_ => this.props.navigate('Group', {name: this.state.savedGroup})}/>
             );
         }
     }

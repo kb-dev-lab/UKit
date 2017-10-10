@@ -1,12 +1,12 @@
 import React from 'react';
-import {Platform, View, ActivityIndicator} from 'react-native';
+import {Platform, ActivityIndicator} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import DayComponent from './containers/Day';
 import moment from 'moment';
 import style from '../Style';
 import 'moment/locale/fr';
 import Swiper from 'react-native-swiper';
-import store from 'react-native-simple-store';
+import DayStore from '../stores/DayStore';
 
 moment.locale('fr');
 
@@ -31,56 +31,26 @@ export default class DaySwiper extends React.Component {
         if (currentDay.isoWeekday() === 7) {
             currentDay = currentDay.add(1, 'days');
         }
-        let currentMonth = currentDay.month();
-        let currentYear = currentDay.year();
         let groupName = this.props.screenProps.groupName;
         this.state = {
             groupName,
             currentDay: currentDay,
             index: null,
-            startYear: (currentMonth > 7) ? currentYear : currentYear - 1,
-            endYear: (currentMonth > 7) ? currentYear + 1 : currentYear,
             days: []
         };
     }
 
     componentWillMount() {
-        // setTimeout(_ => this.generateAllDays());
         setTimeout(() => {
-            store.get("days").then((days) => {
-                let index = 0;
-                for (index; index < days.data.length; index++) {
-                    if (this.state.currentDay.isSame(days.data[index])) {
-                        return true;
-                    }
+            let days = DayStore.getDays();
+            let index = 0;
+            for (index; index < days.length; index++) {
+                if (this.state.currentDay.isSame(days[index], 'day')) {
+                    break;
                 }
-                this.setState({index, days: days.data});
-            });
+            }
+            this.setState({index, days});
         });
-    }
-
-    generateAllDays() {
-        let days = [];
-        let day = moment().set({year: this.state.startYear, month: 7, date: 20});
-        let lastDay = moment().set({year: this.state.endYear, month: 6, date: 31});
-        let index = 0;
-        let currentIndex = 0;
-        while (day.isBefore(lastDay, 'day')) {
-            let isSunday = (day.isoWeekday() === 7);
-            if (day.isSame(this.state.currentDay, 'day')) {
-                if (!isSunday) {
-                    currentIndex = index;
-                } else {
-                    currentIndex = index + 1;
-                }
-            }
-            if (!isSunday) {
-                days.push(day.clone());
-                index++;
-            }
-            day = day.add(1, 'days');
-        }
-        this.setState({index: Math.min(currentIndex, index - 1), days});
     }
 
     render() {

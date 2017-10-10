@@ -5,13 +5,16 @@ import style from '../../Style';
 import CourseRow from "./CourseRow";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {upperCaseFirstLetter} from '../../Utils';
+import moment from 'moment';
+import 'moment/locale/fr';
+moment.locale('fr');
 
 export default class Day extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             groupName: this.props.groupName,
-            day: this.props.day,
+            day: moment(this.props.day),
             error: null,
             schedule: null
         };

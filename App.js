@@ -7,12 +7,8 @@ import DrawerButton from './components/containers/buttons/DrawerButton';
 import MyGroupButton from './components/containers/buttons/MyGroupButton';
 import Split from './components/containers/headers/Split';
 import style from './Style';
-import moment from 'moment';
-import 'moment/locale/fr';
-import store from 'react-native-simple-store';
-
-
-moment.locale('fr');
+import DayStore from './stores/DayStore';
+import WeekStore from './stores/WeekStore';
 
 const CustomDrawerContentComponent = (props) => {
     const {navigate} = props.navigation;
@@ -45,7 +41,7 @@ const CustomDrawerContentComponent = (props) => {
                     <DrawerButton title={"Groupes"} size={28} textSize={14} icon={'list'} color={"#757575"}
                                   tintColor={'#ededed'} onPress={() => navigate('Home')}/>
                     <Split title='Mon groupe'/>
-                    <MyGroupButton onPress={(group) => navigate('Group', {name: group})}/>
+                    <MyGroupButton navigate={navigate}/>
                     <Split title='Navigation'/>
                     <DrawerButton title={"ENT"} size={28} textSize={14} icon={'dashboard'} color={"#757575"}
                                   tintColor={'transparent'} onPress={() => null}/>
@@ -79,34 +75,7 @@ const drawer = DrawerNavigator({
     contentComponent: CustomDrawerContentComponent
 });
 
-function generateAllDays() {
-
-    let currentDay = moment();
-    if (currentDay.isoWeekday() === 7) {
-        currentDay = currentDay.add(1, 'days');
-    }
-    let currentMonth = currentDay.month();
-    let currentYear = currentDay.year();
-    let startYear = (currentMonth > 7) ? currentYear : currentYear - 1;
-    let endYear = (currentMonth > 7) ? currentYear + 1 : currentYear;
-
-
-    let days = [];
-    let day = moment().set({year: startYear, month: 7, date: 20});
-    let lastDay = moment().set({year: endYear, month: 6, date: 31});
-    let index = 0;
-    while (day.isBefore(lastDay, 'day')) {
-        let isSunday = (day.isoWeekday() === 7);
-        if (!isSunday) {
-            days.push(day.clone());
-            index++;
-        }
-        day = day.add(1, 'days');
-    }
-    console.log('days', days);
-    store.update('days', {data: days});
-}
-
-generateAllDays();
+DayStore.check();
+WeekStore.check();
 
 export default drawer;

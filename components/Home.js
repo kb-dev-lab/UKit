@@ -73,11 +73,8 @@ export default class Home extends React.Component {
         };
         store.get("profile").then((profile) => {
                 if (profile !== null && profile.group !== null) {
-                    const navigateAction = NavigationActions.navigate({
-                        routeName: 'Group',
-                        params: {name: profile.group}
-                    });
-                    this.props.navigation.dispatch(navigateAction);
+                    const {navigate} = props.navigation;
+                    navigate('Group', {name: profile.group});
                 }
             }
         );
