@@ -15,6 +15,7 @@ import store from 'react-native-simple-store';
 moment.locale('fr');
 
 const CustomDrawerContentComponent = (props) => {
+    const {navigate} = props.navigation;
     return (
         <View style={styles.container}>
             <View style={{flex: 1}}>
@@ -42,20 +43,9 @@ const CustomDrawerContentComponent = (props) => {
                 </View>
                 <View style={{paddingTop: 5}}>
                     <DrawerButton title={"Groupes"} size={28} textSize={14} icon={'list'} color={"#757575"}
-                                  tintColor={'#ededed'} onPress={() => {
-                        const navigateAction = NavigationActions.navigate({
-                            routeName: 'Home'
-                        });
-                        props.navigation.dispatch(navigateAction);
-                    }}/>
+                                  tintColor={'#ededed'} onPress={() => navigate('Home')}/>
                     <Split title='Mon groupe'/>
-                    <MyGroupButton onPress={(group) => {
-                        const navigateAction = NavigationActions.navigate({
-                            routeName: 'Group',
-                            params: {name: group}
-                        });
-                        props.navigation.dispatch(navigateAction);
-                    }}/>
+                    <MyGroupButton onPress={(group) => navigate('Group', {name: group})}/>
                     <Split title='Navigation'/>
                     <DrawerButton title={"ENT"} size={28} textSize={14} icon={'dashboard'} color={"#757575"}
                                   tintColor={'transparent'} onPress={() => null}/>
@@ -65,12 +55,7 @@ const CustomDrawerContentComponent = (props) => {
                     <DrawerButton title={"Paramètres"} size={28} textSize={14} icon={'settings'} color={"#757575"}
                                   tintColor={'transparent'} onPress={() => null}/>
                     <DrawerButton title={"À propos"} size={28} textSize={14} icon={'info'} color={"#757575"}
-                                  tintColor={'transparent'} onPress={() => {
-                        const navigateAction = NavigationActions.navigate({
-                            routeName: 'About'
-                        });
-                        props.navigation.dispatch(navigateAction);
-                    }}/>
+                                  tintColor={'transparent'} onPress={() => navigate('About')}/>
                 </View>
             </View>
         </View>
@@ -118,6 +103,7 @@ function generateAllDays() {
         }
         day = day.add(1, 'days');
     }
+    console.log('days', days);
     store.update('days', {data: days});
 }
 
