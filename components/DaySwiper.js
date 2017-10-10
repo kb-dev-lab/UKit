@@ -6,6 +6,7 @@ import moment from 'moment';
 import style from '../Style';
 import 'moment/locale/fr';
 import Swiper from 'react-native-swiper';
+import store from 'react-native-simple-store';
 
 moment.locale('fr');
 
@@ -44,7 +45,18 @@ export default class DaySwiper extends React.Component {
     }
 
     componentWillMount() {
-        setTimeout(_ => this.generateAllDays());
+        // setTimeout(_ => this.generateAllDays());
+        setTimeout(() => {
+            store.get("days").then((days) => {
+                let index = 0;
+                for (index; index < days.data.length; index++) {
+                    if (this.state.currentDay.isSame(days.data[index])) {
+                        return true;
+                    }
+                }
+                this.setState({index, days: days.data});
+            });
+        });
     }
 
     generateAllDays() {
