@@ -44,7 +44,7 @@ const CustomDrawerContentComponent = (props) => {
                     <MyGroupButton navigate={navigate}/>
                     <Split title='Navigation'/>
                     <DrawerButton title={"ENT"} size={28} textSize={14} icon={'dashboard'} color={"#757575"}
-                                  tintColor={'transparent'} onPress={() => null}/>
+                                  tintColor={'transparent'} onPress={() => navigate('ENTWebview')}/>
                     <DrawerButton title={"Boîte email"} size={28} textSize={14} icon={'mail-outline'} color={"#757575"}
                                   tintColor={'transparent'} onPress={() => null}/>
                     <Split title='Application'/>
@@ -67,9 +67,6 @@ const styles = StyleSheet.create({
 const drawer = DrawerNavigator({
     Home: {
         screen: StackNavigator,
-    },
-    About: {
-        screen: About,
     }
 }, {
     contentComponent: CustomDrawerContentComponent
