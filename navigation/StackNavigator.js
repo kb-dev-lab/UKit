@@ -3,7 +3,8 @@ import {StackNavigator} from 'react-navigation';
 import Home from '../components/Home';
 import Group from '../components/Group';
 import About from '../components/About';
-import ENTWebview from "../components/ENTWebview";
+import WebBrowser from '../components/WebBrowser';
+import Geolocation from '../components/Geolocation';
 import style from '../Style';
 
 export default StackNavigator({
@@ -18,8 +19,12 @@ export default StackNavigator({
         screen: About,
         navigationOptions: style.stackNavigator
     },
-    ENTWebview: {
-        screen: ENTWebview,
+    WebBrowser: {
+        screen: WebBrowser,
+        navigationOptions: style.stackNavigator
+    },
+    Geolocation: {
+        screen: Geolocation,
         navigationOptions: style.stackNavigator
     }
 });

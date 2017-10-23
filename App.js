@@ -9,6 +9,9 @@ import Split from './components/containers/headers/Split';
 import style from './Style';
 import DayStore from './stores/DayStore';
 import WeekStore from './stores/WeekStore';
+import WebBrowser from "./components/WebBrowser";
+import Geolocation from './components/Geolocation';
+import Group from "./components/Group";
 
 const CustomDrawerContentComponent = (props) => {
     const {navigate} = props.navigation;
@@ -44,7 +47,7 @@ const CustomDrawerContentComponent = (props) => {
                     <MyGroupButton navigate={navigate}/>
                     <Split title='Navigation'/>
                     <DrawerButton title={"ENT"} size={28} textSize={14} icon={'dashboard'} color={"#757575"}
-                                  tintColor={'transparent'} onPress={() => navigate('ENTWebview')}/>
+                                  tintColor={'transparent'} onPress={() => navigate('WebBrowser', {entrypoint:'ent'})}/>
                     <DrawerButton title={"Boîte email"} size={28} textSize={14} icon={'mail-outline'} color={"#757575"}
                                   tintColor={'transparent'} onPress={() => null}/>
                     <Split title='Application'/>
@@ -67,6 +70,18 @@ const styles = StyleSheet.create({
 const drawer = DrawerNavigator({
     Home: {
         screen: StackNavigator,
+    },
+    About: {
+        screen: About,
+        navigationOptions: style.stackNavigator
+    },
+    WebBrowser: {
+        screen: WebBrowser,
+        navigationOptions: style.stackNavigator
+    },
+    Geolocation: {
+        screen: Geolocation,
+        navigationOptions: style.stackNavigator
     }
 }, {
     contentComponent: CustomDrawerContentComponent
