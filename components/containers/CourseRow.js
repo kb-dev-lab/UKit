@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, TouchableHighlight} from 'react-native';
 import style from '../../Style';
+import OpenMapButton from './buttons/OpenMapButton';
 
 export default class CourseRow extends React.Component {
 
@@ -89,6 +90,7 @@ export default class CourseRow extends React.Component {
                     <View style={style.schedule.course.line}>
                         <Text style={style.schedule.course.header}>Salle : </Text>
                         <Text style={style.schedule.course.content}>{this.props.data.room}</Text>
+                        <OpenMapButton location={this.props.data.room}/>
                     </View>
                 );
             }

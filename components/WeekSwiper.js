@@ -9,6 +9,7 @@ import Swiper from 'react-native-swiper';
 import WeekStore from "../stores/WeekStore";
 
 moment.locale('fr');
+const swiperReference = "weekSwiper";
 
 export default class WeekSwiper extends React.Component {
     static navigationOptions = {
@@ -65,7 +66,7 @@ export default class WeekSwiper extends React.Component {
         } else {
             return (
                 <View style={{flex: 1}}>
-                    <Swiper ref="weekSwiper"
+                    <Swiper ref={swiperReference}
                             showsButtons={false}
                             showsPagination={false}
                             index={this.state.index}
@@ -77,8 +78,8 @@ export default class WeekSwiper extends React.Component {
                             return (<WeekComponent key={key}
                                                    week={week}
                                                    groupName={this.state.groupName}
-                                                   nextFunction={_ => this.refs.weekSwiper.scrollBy(1, true)}
-                                                   previousFunction={_ => this.refs.weekSwiper.scrollBy(-1, true)}/>);
+                                                   nextFunction={_ => this.refs[swiperReference].scrollBy(1, true)}
+                                                   previousFunction={_ => this.refs[swiperReference].scrollBy(-1, true)}/>);
                         })}
                     </Swiper>
                 </View>
