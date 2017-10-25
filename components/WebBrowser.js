@@ -1,33 +1,181 @@
 import React from 'react';
-import {View, WebView} from 'react-native';
+import {View, WebView, Platform, TouchableHighlight, Text, StatusBar, ActivityIndicator, TouchableOpacity} from 'react-native';
+import style from '../Style';
+import NavigationBar from 'react-native-navbar';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 export default class WebBrowser extends React.Component {
+
+    static navigationOptions = ({navigation}) => {
+        let title = "Navigateur web";
+        let leftButton = (
+            <TouchableHighlight onPress={_ => {
+                navigation.goBack();
+            }} underlayColor={style.hintColors.green} style={{
+                justifyContent: 'space-around',
+                paddingLeft: 5
+            }}>
+                <View style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between'
+                }}>
+                    <Ionicons
+                        name="ios-arrow-back"
+                        size={32}
+                        style={{
+                            color: "white"
+                        }}
+                    />
+                    <View style={{
+                        justifyContent: 'space-around',
+                        marginLeft: 5
+                    }}>
+                        <Text style={{
+                            fontWeight: 'bold',
+                            color: "white"
+                        }}>Retour</Text>
+                    </View>
+                </View>
+            </TouchableHighlight>
+        );
+        let rightButton = (
+            <View style={{
+                justifyContent: 'space-around',
+                paddingLeft: 5,
+                flexDirection: "row"
+            }}>
+                <View style={{
+                    justifyContent: 'space-around'
+                }}>
+                    <MaterialCommunityIcons
+                        name="dots-vertical"
+                        size={30}
+                        style={{color: "white"}}
+                    />
+                </View>
+            </View>
+        );
+        return {
+            title,
+            header: (
+                <View
+                    style={{
+                        paddingTop: (Platform.OS === "android") ? StatusBar.currentHeight : 0,
+                        backgroundColor: style.colors.green
+                    }}>
+                    <NavigationBar
+                        title={{title, tintColor: "white"}}
+                        tintColor={"transparent"}
+                        leftButton={leftButton}
+                        rightButton={rightButton}
+                    />
+                </View>
+            )
+        }
+    };
+
     constructor(props) {
         super(props);
         console.log('WebBrowser', props);
         this.state = {
-            entrypoint: this.props.entrypoint
+            entrypoint: this.props.navigation.state.params.entrypoint,
+            title: '',
+            url: '',
+            uri: null,
+            canGoBack: false,
+            canGoForward: false,
+            loading: true
         };
         this.entrypoints = {
             ent: 'https://ent.u-bordeaux.fr',
             email: 'https://webmel.u-bordeaux.fr',
-            groups: 'https://ent.u-bordeaux.fr'
+            apogee: 'https://apogee.u-bordeaux.fr'
         };
     }
 
+    componentWillMount() {
+        this.getUri();
+    }
+
     getUri() {
+        console.log(this.state.entrypoint);
+        console.log(this.entrypoints);
         if (this.entrypoints.hasOwnProperty(this.state.entrypoint)) {
-            return this.entrypoints[this.state.entrypoint];
+            this.setState({uri: this.entrypoints[this.state.entrypoint]});
         }
-        return this.entrypoints.ent;
+    }
+
+    onRefresh() {
+        this.refs['WebBrowser'].reload();
+    }
+
+    onBack() {
+        this.refs['WebBrowser'].goBack();
+    }
+
+    onForward() {
+        this.refs['WebBrowser'].goForward();
+    }
+
+    renderLoading() {
+        return ((
+            <View style={{marginTop: 20}}>
+                <ActivityIndicator size="large"/>
+            </View>
+        ));
     }
 
     render() {
+        if (this.state.uri === null) {
+            return this.renderLoading();
+        }
         return (
-            <View style={{flex: 1}}>
+            <View style={{flex: 1, flexDirection: 'column'}}>
                 <WebView
-                    source={{uri: this.getUri()}}
+                    style={{}}
+                    ref={'WebBrowser'}
+                    javaScriptEnabled={true}
+                    domStorageEnabled={true}
+                    startInLoadingState={true}
+                    renderLoading={() => this.renderLoading()}
+                    onNavigationStateChange={(e) => {
+                        console.log('navigation', e);
+                        if (!e.loading) {
+                            this.setState({url: e.url, title: e.title, canGoBack: e.canGoBack, loading: e.loading})
+                        }
+                    }}
+                    source={{uri: this.state.uri}}
                 />
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 5}}>
+                    <TouchableOpacity disabled={!this.state.canGoBack} onPress={this.onBack.bind(this)}>
+                        <SimpleLineIcons
+                            name="arrow-left"
+                            size={30}
+                            style={{color: this.state.canGoBack ? 'black' : 'grey'}}
+                        />
+                    </TouchableOpacity>
+                    <TouchableOpacity disabled={!this.state.canGoForward} onPress={this.onForward.bind(this)}>
+                        <SimpleLineIcons
+                            name="arrow-right"
+                            size={30}
+                            style={{color: this.state.canGoForward ? 'black' : 'grey'}}
+                        />
+                    </TouchableOpacity>
+
+                    <View style={{justifyContent: 'center'}}>
+                        <Text>{this.state.title}</Text>
+                    </View>
+
+                    <TouchableOpacity disabled={this.state.loading} onPress={this.onRefresh.bind(this)}>
+                        <SimpleLineIcons
+                            name="refresh"
+                            size={30}
+                            style={{color: this.state.loading ? 'grey' : 'black'}}
+                        />
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     }

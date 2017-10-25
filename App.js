@@ -11,7 +11,6 @@ import DayStore from './stores/DayStore';
 import WeekStore from './stores/WeekStore';
 import WebBrowser from "./components/WebBrowser";
 import Geolocation from './components/Geolocation';
-import Group from "./components/Group";
 
 const CustomDrawerContentComponent = (props) => {
     const {navigate} = props.navigation;
@@ -49,7 +48,9 @@ const CustomDrawerContentComponent = (props) => {
                     <DrawerButton title={"ENT"} size={28} textSize={14} icon={'dashboard'} color={"#757575"}
                                   tintColor={'transparent'} onPress={() => navigate('WebBrowser', {entrypoint:'ent'})}/>
                     <DrawerButton title={"Boîte email"} size={28} textSize={14} icon={'mail-outline'} color={"#757575"}
-                                  tintColor={'transparent'} onPress={() => null}/>
+                                  tintColor={'transparent'} onPress={() => navigate('WebBrowser', {entrypoint:'email'})}/>
+                    <DrawerButton title={"Apogée"} size={28} textSize={14} icon={'school'} color={"#757575"}
+                                  tintColor={'transparent'} onPress={() => navigate('WebBrowser', {entrypoint:'apogee'})}/>
                     <Split title='Application'/>
                     <DrawerButton title={"Paramètres"} size={28} textSize={14} icon={'settings'} color={"#757575"}
                                   tintColor={'transparent'} onPress={() => null}/>
