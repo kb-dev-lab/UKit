@@ -18,25 +18,16 @@ export default class WebBrowser extends React.Component {
                 paddingLeft: 5
             }}>
                 <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between'
+                    flexDirection: 'column',
+                    justifyContent: 'center'
                 }}>
                     <Ionicons
-                        name="ios-arrow-back"
-                        size={32}
+                        name="ios-close-outline"
+                        size={54}
                         style={{
                             color: "white"
                         }}
                     />
-                    <View style={{
-                        justifyContent: 'space-around',
-                        marginLeft: 5
-                    }}>
-                        <Text style={{
-                            fontWeight: 'bold',
-                            color: "white"
-                        }}>Retour</Text>
-                    </View>
                 </View>
             </TouchableHighlight>
         );

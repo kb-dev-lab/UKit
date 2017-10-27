@@ -3,6 +3,7 @@ import {View, Text, StatusBar, Platform, TouchableHighlight} from 'react-native'
 import style from '../Style';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import NavigationBar from 'react-native-navbar';
+import URLButton from './containers/buttons/URLButton';
 
 export default class About extends React.Component {
 
@@ -61,9 +62,16 @@ export default class About extends React.Component {
             <View style={{flex: 1}}>
                 <View style={style.about.view}>
                     <Text style={style.about.title}>Ukit</Text>
-                    <Text style={style.about.content}>
-                        Cette application a été développée par HackJack dans le cadre du concours HackeTaFac 2017.
-                    </Text>
+                    <View style={style.about.content}>
+                        <Text>Cette application a été développée par Jean B. dans le cadre du concours HackeTaFac 2017.</Text>
+                    </View>
+
+                    <Text style={style.about.title}>Me retrouver</Text>
+                    <View style={style.about.content}>
+                        <URLButton url="https://twitter.com/HackJack_" title="Twitter"/>
+                        <URLButton url="https://github.com/Jack3113" title="Github"/>
+                        <URLButton url="https://hackjack.info" title="Site web"/>
+                    </View>
                 </View>
             </View>
         );

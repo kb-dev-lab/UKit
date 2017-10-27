@@ -1,4 +1,4 @@
-import {StatusBar,Platform} from 'react-native';
+import {StatusBar, Platform} from 'react-native';
 
 const colors = {
     red: '',
@@ -93,7 +93,7 @@ export default {
         view: {
             padding: 10
         },
-        content:{
+        content: {
             marginTop: 5
         }
     },
@@ -250,6 +250,10 @@ export default {
             line: {
                 flexDirection: 'row',
                 justifyContent: 'flex-start'
+            },
+            centeredLine: {
+                flexDirection: 'row',
+                justifyContent: 'center'
             }
         },
         containerView: {
@@ -269,7 +273,7 @@ export default {
             flex: 10,
             alignSelf: "stretch"
         },
-        titleTextView:{
+        titleTextView: {
             flex: 5,
             alignSelf: "stretch",
             justifyContent: 'center'

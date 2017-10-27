@@ -87,10 +87,14 @@ export default class CourseRow extends React.Component {
             }
             if (this.props.data.room !== 'N/C') {
                 room = (
-                    <View style={style.schedule.course.line}>
-                        <Text style={style.schedule.course.header}>Salle : </Text>
-                        <Text style={style.schedule.course.content}>{this.props.data.room}</Text>
-                        <OpenMapButton location={this.props.data.room}/>
+                    <View>
+                        <View style={style.schedule.course.line}>
+                            <Text style={style.schedule.course.header}>Salle : </Text>
+                            <Text style={style.schedule.course.content}>{this.props.data.room}</Text>
+                        </View>
+                        <View style={style.schedule.course.centeredLine}>
+                            <OpenMapButton location={this.props.data.room}/>
+                        </View>
                     </View>
                 );
             }

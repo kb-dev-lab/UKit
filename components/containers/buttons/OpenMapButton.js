@@ -1,7 +1,6 @@
 import React from 'react';
-import {TouchableHighlight, Text, View, Linking} from 'react-native';
-import style from '../../../Style';
-
+import {View} from 'react-native';
+import URLButton from './URLButton';
 const locations = require('../../../assets/locations.json');
 
 export default class OpenMapButton extends React.Component {
@@ -20,32 +19,16 @@ export default class OpenMapButton extends React.Component {
     }
 
     getLatLng() {
-        if (this.isLocationKnown()) {
-            return {lat: locations[this.state.location].lat, lng: locations[this.state.location].lng};
-        }
-        return {lat: null, lng: null};
-    }
-
-    openMaps() {
-        let {lat: lat, lng: lng} = this.getLatLng();
-        console.log('latlng', lat, lng);
-        let url = 'https://www.google.com/maps/?q=' + lat + ',' + lng;
-        Linking.canOpenURL(url).then(supported => {
-            if (!supported) {
-                console.log('Can\'t handle url: ' + url);
-            } else {
-                return Linking.openURL(url);
-            }
-        }).catch(err => console.error('An error occurred', err));
+        let lat = locations[this.state.location].lat;
+        let lng = locations[this.state.location].lng;
+        return 'https://www.google.com/maps/?q=' + lat + ',' + lng;
     }
 
     render() {
         if (this.isLocationKnown()) {
             return (
-                <View style={{paddingRight: 5}}>
-                    <TouchableHighlight onPress={() => this.openMaps()}>
-                        <Text style={{color:style.colors.darkred}}>Afficher sur la carte</Text>
-                    </TouchableHighlight>
+                <View style={{paddingBottom: 5}}>
+                    <URLButton title="Afficher sur la carte" url={this.getLatLng()}/>
                 </View>
             );
         }
