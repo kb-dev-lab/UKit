@@ -241,7 +241,13 @@ export default {
                 textAlign: 'center',
                 fontWeight: 'bold'
             },
-            header: {},
+            header: {
+                flexDirection: 'column'
+            },
+            container: {
+                flex:1,
+                flexDirection: 'column'
+            },
             content: {
                 color: colors.darkred,
                 flex: 1,

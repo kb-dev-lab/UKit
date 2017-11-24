@@ -60,22 +60,20 @@ export default class CourseRow extends React.Component {
             );
         }
         else {
-            let annotations, staff, subject, room;
+            let annotations, staff, subject, room, group;
+            let annotationsTitle, staffTitle, roomTitle, groupTitle;
+
             if (this.props.data.annotation.length > 0) {
-                annotations = (
-                    <View style={style.schedule.course.line}>
-                        <Text style={style.schedule.course.header}>Notes : </Text>
-                        <Text style={style.schedule.course.content}>{this.props.data.annotation}</Text>
-                    </View>
-                );
+                annotationsTitle = (<Text style={style.schedule.course.header}>Notes : </Text>);
+                annotations = this.props.data.annotation.split("\n").map((annotation, key) => {
+                    return (<Text key={key} style={style.schedule.course.content}>{annotation}</Text>);
+                });
             }
             if (this.props.data.staff !== 'N/C') {
-                staff = (
-                    <View style={style.schedule.course.line}>
-                        <Text style={style.schedule.course.header}>Avec : </Text>
-                        <Text style={style.schedule.course.content}>{this.props.data.staff}</Text>
-                    </View>
-                );
+                staffTitle = (<Text style={style.schedule.course.header}>Avec : </Text>);
+                staff = this.props.data.staff.split(' | ').map((staff, key) => {
+                    return (<Text key={key} style={style.schedule.course.content}>{staff}</Text>);
+                });
             }
             if (this.props.data.subject !== 'N/C') {
                 subject = (
@@ -86,24 +84,27 @@ export default class CourseRow extends React.Component {
                 );
             }
             if (this.props.data.room !== 'N/C') {
-                room = (
-                    <View>
-                        <View style={style.schedule.course.line}>
-                            <Text style={style.schedule.course.header}>Salle : </Text>
-                            <Text style={style.schedule.course.content}>{this.props.data.room}</Text>
-                        </View>
-                        <View style={style.schedule.course.centeredLine}>
-                            <OpenMapButton location={this.props.data.room}/>
-                        </View>
-                    </View>
-                );
+                roomTitle = (<Text style={style.schedule.course.header}>Salle : </Text>);
+                room = this.props.data.room.split(' | ').map((room, key) => {
+                    return (<OpenMapButton key={key} location={room}/>);
+                });
+            }
+            if (this.props.data.group !== 'N/C') {
+
+                groupTitle = (<Text style={style.schedule.course.header}>Groupe : </Text>);
+                group = this.props.data.group.split(' | ').map((group, key) => {
+                    return (<Text key={key} style={style.schedule.course.content}>{group}</Text>);
+                });
             }
 
             return (
                 <TouchableHighlight onPress={() => {
                 }} underlayColor="white">
                     <View
-                        style={[style.schedule.course.row, {backgroundColor: this.state.backgroundColor, borderColor: this.state.borderColor}]}>
+                        style={[style.schedule.course.row, {
+                            backgroundColor: this.state.backgroundColor,
+                            borderColor: this.state.borderColor
+                        }]}>
                         <View style={[style.schedule.course.hours, {borderColor: this.state.lineColor}]}>
                             <View>
                                 <Text style={style.schedule.course.hoursText}>{this.props.data.starttime}</Text>
@@ -118,13 +119,34 @@ export default class CourseRow extends React.Component {
                                 <Text style={style.schedule.course.title}>{this.props.data.category}</Text>
                             </View>
                             {subject}
-                            {staff}
-                            {room}
+
                             <View style={style.schedule.course.line}>
-                                <Text style={style.schedule.course.header}>Groupes : </Text>
-                                <Text style={style.schedule.course.content}>{this.props.data.group}</Text>
+                                {staffTitle}
+                                <View style={style.schedule.course.container}>
+                                    {staff}
+                                </View>
                             </View>
-                            {annotations}
+
+                            <View style={style.schedule.course.line}>
+                                {roomTitle}
+                                <View style={style.schedule.course.container}>
+                                    {room}
+                                </View>
+                            </View>
+
+                            <View style={style.schedule.course.line}>
+                                {groupTitle}
+                                <View style={style.schedule.course.container}>
+                                    {group}
+                                </View>
+                            </View>
+
+                            <View style={style.schedule.course.line}>
+                                {annotationsTitle}
+                                <View style={style.schedule.course.container}>
+                                    {annotations}
+                                </View>
+                            </View>
                         </View>
                     </View>
                 </TouchableHighlight>

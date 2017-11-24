@@ -1,6 +1,8 @@
 import React from 'react';
-import {View} from 'react-native';
+import {Text} from 'react-native';
+import style from './../../../Style';
 import URLButton from './URLButton';
+
 const locations = require('../../../assets/locations.json');
 
 export default class OpenMapButton extends React.Component {
@@ -8,9 +10,7 @@ export default class OpenMapButton extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            location: this.props.location.split('/')[0],
-            lat: null,
-            lng: null
+            location: this.props.location.split('/')[0]
         }
     }
 
@@ -18,21 +18,21 @@ export default class OpenMapButton extends React.Component {
         return locations.hasOwnProperty(this.state.location);
     }
 
-    getLatLng() {
-        let lat = locations[this.state.location].lat;
-        let lng = locations[this.state.location].lng;
-        return 'https://www.google.com/maps/?q=' + lat + ',' + lng;
+    getGMapsLocation() {
+        let location = locations[this.state.location];
+        if (location.hasOwnProperty('placeID')) {
+            return `https://www.google.com/maps/search/?api=1&query=${location.lat},${location.lng}&query_place_id=${location.placeID}`;
+        }
+        return `https://www.google.com/maps/search/?api=1&query=${location.lat},${location.lng}`;
     }
 
     render() {
         if (this.isLocationKnown()) {
             return (
-                <View style={{paddingBottom: 5}}>
-                    <URLButton title="Afficher sur la carte" url={this.getLatLng()}/>
-                </View>
+                <URLButton title={this.props.location} url={this.getGMapsLocation()}/>
             );
         }
-        return (<View></View>)
+        return (<Text style={style.schedule.course.content}>{this.props.location}</Text>);
     }
 
 }

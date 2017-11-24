@@ -6,7 +6,6 @@ const locations = require('../assets/locations.json');
 export default class Geolocation extends React.Component {
     constructor(props) {
         super(props);
-        console.log('WebBrowser', props);
         this.state = {
             location: this.props.location,
             lat: null,
@@ -21,7 +20,6 @@ export default class Geolocation extends React.Component {
     getLatLng() {
         let data = this.state.location.split('/');
         let house = data[0];
-        console.log('house', house);
         if (locations.hasOwnProperty(house)) {
             this.setState({lat: location[house].lat, lng: location[house].lng});
         }

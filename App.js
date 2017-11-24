@@ -2,7 +2,7 @@ import React from 'react';
 import StackNavigator from './navigation/StackNavigator';
 import About from './components/About';
 import {StyleSheet, View, StatusBar, Text, Image} from 'react-native';
-import {DrawerNavigator, NavigationActions} from 'react-navigation';
+import {DrawerNavigator} from 'react-navigation';
 import DrawerButton from './components/containers/buttons/DrawerButton';
 import MyGroupButton from './components/containers/buttons/MyGroupButton';
 import Split from './components/containers/headers/Split';
@@ -11,6 +11,8 @@ import DayStore from './stores/DayStore';
 import WeekStore from './stores/WeekStore';
 import WebBrowser from "./components/WebBrowser";
 import Geolocation from './components/Geolocation';
+import { Provider } from 'react-redux'
+import configureStore from './stores'
 
 const CustomDrawerContentComponent = (props) => {
     const {navigate} = props.navigation;
@@ -68,7 +70,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const drawer = DrawerNavigator({
+const Drawer = DrawerNavigator({
     Home: {
         screen: StackNavigator,
     },
@@ -91,4 +93,11 @@ const drawer = DrawerNavigator({
 DayStore.check();
 WeekStore.check();
 
-export default drawer;
+const store = configureStore();
+const RNRedux = () => (
+    	  <Provider store={store}>
+    	    <Drawer />
+    	  </Provider>
+	);
+
+export default RNRedux;

@@ -1,6 +1,5 @@
 import React from 'react';
 import {SectionList, View, ActivityIndicator, Text, StatusBar, Platform, TouchableHighlight} from 'react-native';
-import NavigationActions from 'react-navigation';
 import style from '../Style';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios';
@@ -71,13 +70,6 @@ export default class Home extends React.Component {
             emptySearchResults: false,
             refreshing: false
         };
-        store.get("profile").then((profile) => {
-                if (profile !== null && profile.group !== null) {
-                    const {navigate} = props.navigation;
-                    navigate('Group', {name: profile.group});
-                }
-            }
-        );
     }
 
     componentDidMount() {
@@ -118,7 +110,7 @@ export default class Home extends React.Component {
     getList() {
         store.get("home").then((home) => {
             if (home !== null) {
-                this.setState({list: home.list, sections: home.sections})
+                this.setState({list: home.list, completeList: home.list, sections: home.sections})
             } else {
                 this.fetchList();
             }

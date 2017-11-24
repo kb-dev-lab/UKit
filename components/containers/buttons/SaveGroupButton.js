@@ -2,27 +2,15 @@ import React from 'react';
 import {View, TouchableHighlight} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import store from 'react-native-simple-store';
+import {connect} from 'react-redux';
 
-export default class Week extends React.Component {
+class SaveGroupButton extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             displayedGroup: this.props.groupName,
             savedGroup: null
         };
-    }
-
-    componentWillMount() {
-        this.getSavedGroup();
-    }
-
-    getSavedGroup() {
-        store.get("profile").then((profile) => {
-                if (profile !== null) {
-                    this.setState({savedGroup: profile.group})
-                }
-            }
-        );
     }
 
     saveGroup() {
@@ -62,3 +50,14 @@ export default class Week extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        favorite: {
+            groupName: state.savedGroup
+        }
+    };
+};
+
+
+export default connect(mapStateToProps)(SaveGroupButton);

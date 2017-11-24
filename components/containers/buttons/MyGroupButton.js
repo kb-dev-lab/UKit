@@ -2,8 +2,9 @@ import React from 'react';
 import {View, Text} from 'react-native';
 import DrawerButton from './DrawerButton';
 import store from 'react-native-simple-store';
+import {connect} from 'react-redux';
 
-export default class Week extends React.Component {
+class MyGroupButton extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -11,17 +12,14 @@ export default class Week extends React.Component {
         };
     }
 
-    componentWillMount() {
-        this.getSavedGroup();
+    componentWillUpdate(nextProps, nextState) {
+        console.log('nextProps', nextProps);
+        console.log('nextState', nextState);
     }
 
-    getSavedGroup() {
-        store.get("profile").then((profile) => {
-                if (profile !== null) {
-                    this.setState({savedGroup: profile.group})
-                }
-            }
-        );
+    setFavoriteGroup(groupName) {
+        console.log("setFavoriteGroup", groupName);
+        this.setState({savedGroup: groupName});
     }
 
     render() {
@@ -38,3 +36,13 @@ export default class Week extends React.Component {
     }
 
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        dispatchSetFavoriteGroup: (groupName) => {
+            dispatch(setFavoriteGroup(groupName));
+        }
+    };
+};
+
+export default connect(undefined, mapDispatchToProps)(MyGroupButton);

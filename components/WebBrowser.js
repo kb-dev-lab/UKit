@@ -69,7 +69,6 @@ export default class WebBrowser extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log('WebBrowser', props);
         this.state = {
             entrypoint: this.props.navigation.state.params.entrypoint,
             title: '',
@@ -91,8 +90,6 @@ export default class WebBrowser extends React.Component {
     }
 
     getUri() {
-        console.log(this.state.entrypoint);
-        console.log(this.entrypoints);
         if (this.entrypoints.hasOwnProperty(this.state.entrypoint)) {
             this.setState({uri: this.entrypoints[this.state.entrypoint]});
         }
@@ -132,7 +129,6 @@ export default class WebBrowser extends React.Component {
                     startInLoadingState={true}
                     renderLoading={() => this.renderLoading()}
                     onNavigationStateChange={(e) => {
-                        console.log('navigation', e);
                         if (!e.loading) {
                             this.setState({url: e.url, title: e.title, canGoBack: e.canGoBack, loading: e.loading})
                         }
