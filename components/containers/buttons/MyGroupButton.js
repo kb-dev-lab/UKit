@@ -1,7 +1,6 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import DrawerButton from './DrawerButton';
-import store from 'react-native-simple-store';
 import {connect} from 'react-redux';
 
 class MyGroupButton extends React.Component {
@@ -10,16 +9,6 @@ class MyGroupButton extends React.Component {
         this.state = {
             savedGroup: null
         };
-    }
-
-    componentWillUpdate(nextProps, nextState) {
-        console.log('nextProps', nextProps);
-        console.log('nextState', nextState);
-    }
-
-    setFavoriteGroup(groupName) {
-        console.log("setFavoriteGroup", groupName);
-        this.setState({savedGroup: groupName});
     }
 
     render() {
@@ -37,12 +26,10 @@ class MyGroupButton extends React.Component {
 
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
     return {
-        dispatchSetFavoriteGroup: (groupName) => {
-            dispatch(setFavoriteGroup(groupName));
-        }
+        savedGroup: state.favorite.savedGroup
     };
 };
 
-export default connect(undefined, mapDispatchToProps)(MyGroupButton);
+export default connect(mapStateToProps)(MyGroupButton);

@@ -1,18 +1,10 @@
-import  {ADD_TO_FAVORITE} from "../actions/addToFavorite";
+import {SET_FAVORITE_GROUP} from "../actions/setFavoriteGroup";
 
-let cloneObject = function (obj){
-    return JSON.parse(JSON.stringify(obj));
-};
-
-let newState = {favorite : {groupName : null}};
-
-export default function (state, action){
-    switch(action.type){
-        case ADD_TO_FAVORITE:
-            newState = cloneObject(state);
-            newState = {favorite: {groupName : action.groupName}};
-            return newState;
+export default function (state = {groupName: null}, action) {
+    switch (action.type) {
+        case SET_FAVORITE_GROUP:
+            return {groupName: action.groupName};
         default:
-            return state || newState;
+            return state;
     }
 }
