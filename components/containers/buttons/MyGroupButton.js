@@ -11,15 +11,22 @@ class MyGroupButton extends React.Component {
         };
     }
 
+    componentWillReceiveProps(nextProps) {
+        console.log('willReceive', nextProps);
+        if (this.props.savedGroup !== nextProps.savedGroup) {
+            nextProps.load();
+        }
+    }
+
     render() {
-        if (this.state.savedGroup === null) {
+        if (!this.props.hasOwnProperty('savedGroup') || this.props.savedGroup === null) {
             return (
                 <View><Text>Aucun</Text></View>
             );
         } else {
             return (
-                <DrawerButton title={this.state.savedGroup} size={28} textSize={14} icon={'star'} color={"#757575"}
-                              tintColor={'transparent'} onPress={_ => this.props.navigate('Group', {name: this.state.savedGroup})}/>
+                <DrawerButton title={this.props.savedGroup} size={28} textSize={14} icon={'star'} color={"#757575"}
+                              tintColor={'transparent'} onPress={_ => this.props.navigate('Group', {name: this.props.savedGroup})}/>
             );
         }
     }
@@ -27,6 +34,7 @@ class MyGroupButton extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    console.log(state);
     return {
         savedGroup: state.favorite.savedGroup
     };
