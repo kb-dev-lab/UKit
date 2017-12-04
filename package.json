@@ -12,6 +12,7 @@
     "moment": "^2.18.1",
     "react": "16.0.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-23.0.0.tar.gz",
+    "react-native-awesome-button": "git+https://github.com/jurahalas/react-native-awesome-button",
     "react-native-navbar": "^2.0.1",
     "react-native-simple-store": "^1.3.0",
     "react-native-swiper": "^1.5.12",

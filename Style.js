@@ -97,6 +97,31 @@ export default {
             marginTop: 5
         }
     },
+    demo: {
+        title: {
+            fontWeight: 'bold',
+            fontSize: 24,
+            color: colors.lightblue
+        },
+        labelStyle:{
+            color:'black'
+        },
+        rootStyle:{
+            marginVertical: 5,
+            height: 64,
+        },
+        inputStyle:{
+            color: 'black',
+        },
+        view: {
+            padding: 10,
+            backgroundColor: colors.backgroundGrey,
+            flex: 1
+        },
+        content: {
+            marginTop: 20
+        }
+    },
     stackNavigator: {
         headerStyle: {
             // marginTop: 0,
@@ -245,7 +270,7 @@ export default {
                 flexDirection: 'column'
             },
             container: {
-                flex:1,
+                flex: 1,
                 flexDirection: 'column'
             },
             content: {

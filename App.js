@@ -1,6 +1,7 @@
 import React from 'react';
 import StackNavigator from './navigation/StackNavigator';
 import About from './components/About';
+import Demo from './components/Demo';
 import {StyleSheet, View, StatusBar, Text, Image, ActivityIndicator} from 'react-native';
 import {DrawerNavigator} from 'react-navigation';
 import DrawerButton from './components/containers/buttons/DrawerButton';
@@ -55,6 +56,8 @@ const CustomDrawerContentComponent = (props) => {
                     <DrawerButton title={"Apogée"} size={28} textSize={14} icon={'school'} color={"#757575"}
                                   tintColor={'transparent'} onPress={() => navigate('WebBrowser', {entrypoint: 'apogee'})}/>
                     <Split title='Application'/>
+                    <DrawerButton title={"Demo"} size={28} textSize={14} icon={'tv'} color={"#757575"}
+                                  tintColor={'transparent'} onPress={() => navigate('Demo')}/>
                     <DrawerButton title={"Paramètres"} size={28} textSize={14} icon={'settings'} color={"#757575"}
                                   tintColor={'transparent'} onPress={() => null}/>
                     <DrawerButton title={"À propos"} size={28} textSize={14} icon={'info'} color={"#757575"}
@@ -77,6 +80,10 @@ const Drawer = DrawerNavigator({
     },
     About: {
         screen: About,
+        navigationOptions: style.stackNavigator
+    },
+    Demo: {
+        screen: Demo,
         navigationOptions: style.stackNavigator
     },
     WebBrowser: {
