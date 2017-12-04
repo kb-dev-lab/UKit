@@ -1,7 +1,7 @@
 import React from 'react';
 import StackNavigator from './navigation/StackNavigator';
 import About from './components/About';
-import {StyleSheet, View, StatusBar, Text, Image} from 'react-native';
+import {StyleSheet, View, StatusBar, Text, Image, ActivityIndicator} from 'react-native';
 import {DrawerNavigator} from 'react-navigation';
 import DrawerButton from './components/containers/buttons/DrawerButton';
 import MyGroupButton from './components/containers/buttons/MyGroupButton';
@@ -11,8 +11,9 @@ import DayStore from './stores/DayStore';
 import WeekStore from './stores/WeekStore';
 import WebBrowser from "./components/WebBrowser";
 import Geolocation from './components/Geolocation';
-import { Provider } from 'react-redux'
-import configureStore from './stores'
+import {Provider} from 'react-redux';
+import configureStore from './stores';
+import {PersistGate} from 'redux-persist/es/integration/react';
 
 const CustomDrawerContentComponent = (props) => {
     const {navigate} = props.navigation;
@@ -48,11 +49,11 @@ const CustomDrawerContentComponent = (props) => {
                     <MyGroupButton navigate={navigate}/>
                     <Split title='Navigation'/>
                     <DrawerButton title={"ENT"} size={28} textSize={14} icon={'dashboard'} color={"#757575"}
-                                  tintColor={'transparent'} onPress={() => navigate('WebBrowser', {entrypoint:'ent'})}/>
+                                  tintColor={'transparent'} onPress={() => navigate('WebBrowser', {entrypoint: 'ent'})}/>
                     <DrawerButton title={"Boîte email"} size={28} textSize={14} icon={'mail-outline'} color={"#757575"}
-                                  tintColor={'transparent'} onPress={() => navigate('WebBrowser', {entrypoint:'email'})}/>
+                                  tintColor={'transparent'} onPress={() => navigate('WebBrowser', {entrypoint: 'email'})}/>
                     <DrawerButton title={"Apogée"} size={28} textSize={14} icon={'school'} color={"#757575"}
-                                  tintColor={'transparent'} onPress={() => navigate('WebBrowser', {entrypoint:'apogee'})}/>
+                                  tintColor={'transparent'} onPress={() => navigate('WebBrowser', {entrypoint: 'apogee'})}/>
                     <Split title='Application'/>
                     <DrawerButton title={"Paramètres"} size={28} textSize={14} icon={'settings'} color={"#757575"}
                                   tintColor={'transparent'} onPress={() => null}/>
@@ -93,11 +94,15 @@ const Drawer = DrawerNavigator({
 DayStore.check();
 WeekStore.check();
 
-const store = configureStore();
+const {pStore, store} = configureStore();
 const RNRedux = () => (
-    	  <Provider store={store}>
-    	    <Drawer />
-    	  </Provider>
-	);
+    <Provider store={store}>
+        <PersistGate
+            loading={<ActivityIndicator style={style.containerView} size="large" animating={true}/>}
+            persistor={pStore}>
+            <Drawer/>
+        </PersistGate>
+    </Provider>
+);
 
 export default RNRedux;

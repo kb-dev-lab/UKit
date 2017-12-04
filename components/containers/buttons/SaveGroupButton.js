@@ -8,9 +8,13 @@ import {setFavoriteGroup} from "../../../actions/setFavoriteGroup";
 class SaveGroupButton extends React.Component {
     constructor(props) {
         super(props);
+        let savedGroup = null;
+        if(props.hasOwnProperty('savedGroup')){
+            savedGroup = props.savedGroup;
+        }
         this.state = {
             displayedGroup: this.props.groupName,
-            savedGroup: null
+            savedGroup
         };
     }
 
@@ -67,4 +71,11 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 
-export default connect(undefined, mapDispatchToProps)(SaveGroupButton);
+const mapStateToProps = (state) => {
+    return {
+        savedGroup: state.favorite.groupName
+    };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(SaveGroupButton);

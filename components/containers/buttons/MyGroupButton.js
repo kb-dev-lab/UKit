@@ -6,27 +6,30 @@ import {connect} from 'react-redux';
 class MyGroupButton extends React.Component {
     constructor(props) {
         super(props);
+        let savedGroup = null;
+        if(props.hasOwnProperty('savedGroup')){
+            savedGroup = props.savedGroup;
+        }
         this.state = {
-            savedGroup: null
+            savedGroup
         };
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('willReceive', nextProps);
-        if (this.props.savedGroup !== nextProps.savedGroup) {
-            nextProps.load();
+        if (this.state.savedGroup !== nextProps.savedGroup) {
+            this.setState({savedGroup: nextProps.savedGroup})
         }
     }
 
     render() {
-        if (!this.props.hasOwnProperty('savedGroup') || this.props.savedGroup === null) {
+        if (this.state.savedGroup === null) {
             return (
-                <View><Text>Aucun</Text></View>
+                <View style={{paddingLeft: 15}}><Text>Aucun</Text></View>
             );
         } else {
             return (
-                <DrawerButton title={this.props.savedGroup} size={28} textSize={14} icon={'star'} color={"#757575"}
-                              tintColor={'transparent'} onPress={_ => this.props.navigate('Group', {name: this.props.savedGroup})}/>
+                <DrawerButton title={this.state.savedGroup} size={28} textSize={14} icon={'star'} color={"#757575"}
+                              tintColor={'transparent'} onPress={_ => this.props.navigate('Group', {name: this.state.savedGroup})}/>
             );
         }
     }
@@ -34,9 +37,8 @@ class MyGroupButton extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
     return {
-        savedGroup: state.favorite.savedGroup
+        savedGroup: state.favorite.groupName
     };
 };
 
