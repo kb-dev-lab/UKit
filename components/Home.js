@@ -29,7 +29,7 @@ export default class Home extends React.Component {
                 <View
                     style={{
                         paddingTop: (Platform.OS === "android") ? StatusBar.currentHeight : 0,
-                        backgroundColor: style.colors.green
+                        backgroundColor: style.colors.blue
                     }}>
                     <NavigationBar
                         title={{title, tintColor: "white"}}
@@ -166,7 +166,7 @@ export default class Home extends React.Component {
                 iconClass={FontAwesomeIcon}
                 iconName={'search'}
                 iconColor={'white'}
-                iconBackgroundColor={'#4CAF50'}
+                iconBackgroundColor={style.colors.blue}
                 inputStyle={{color: '#464949'}}
                 onChangeText={(text) => this.search(text)}
                 style={style.list.searchInputView}

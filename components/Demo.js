@@ -40,7 +40,7 @@ export default class Demo extends React.Component {
                 <View
                     style={{
                         paddingTop: (Platform.OS === "android") ? StatusBar.currentHeight : 0,
-                        backgroundColor: style.colors.green
+                        backgroundColor: style.colors.blue
                     }}>
                     <NavigationBar
                         title={{title, tintColor: "white"}}
@@ -54,23 +54,40 @@ export default class Demo extends React.Component {
 
     constructor(props) {
         super(props);
+        let {navigate} = props.navigation;
+        this.navigate = navigate;
         this.state = {
-            buttonState: 'idle'
+            buttonState: 'idle',
+            email: '',
+            password: ''
         };
         this.handleLogin = this.handleLogin.bind(this);
     }
 
     handleLogin() {
-        this.setState({ buttonState: 'busy' });
+        this.setState({buttonState: 'busy'});
         setTimeout(() => {
-            this.setState({ buttonState: 'success' });
+            if (this.state.email === 'test@u-bordeaux.fr' && this.state.password === 'test') {
+                this.setState({buttonState: 'idle'});
+                this.navigate('Group', {name: 'Master1_4TIN701S'});
+            } else if (this.state.email === 'test1@u-bordeaux.fr' && this.state.password === 'test1') {
+                this.setState({buttonState: 'idle'});
+                this.navigate('Group', {name: 'INF501_A1'});
+            } else {
+                this.setState({buttonState: 'error'});
+                setTimeout(() => {
+                    this.setState({buttonState: 'idle'});
+                }, 1500);
+            }
         }, 2500);
     }
 
     render() {
         return (
             <View style={style.demo.view}>
-                <Text style={style.demo.title}>Connexion</Text>
+                <View style={style.demo.titleView}>
+                    <Text style={style.demo.title}>Connexion</Text>
+                </View>
                 <Fumi
                     label={'Adresse email'}
                     labelStyle={style.demo.labelStyle}
@@ -83,11 +100,15 @@ export default class Demo extends React.Component {
                     autoCapitalize={'none'}
                     autoCorrect={false}
                     keyboardType={'email-address'}
+                    value={this.state.email}
+                    onChangeText={(text) => {
+                        this.setState({email: text})
+                    }}
                 />
                 <Fumi
                     label={'Mot de passe'}
                     labelStyle={style.demo.labelStyle}
-                    style={style.demo.rootStyle}
+                    style={[style.demo.rootStyle, {marginBottom: 20}]}
                     inputStyle={style.demo.inputStyle}
                     iconClass={MaterialCommunityIcons}
                     iconName={'textbox-password'}
@@ -97,15 +118,19 @@ export default class Demo extends React.Component {
                     autoCorrect={false}
                     keyboardType={(Platform.OS === "android") ? 'visible-password' : 'default'}
                     secureTextEntry={true}
+                    value={this.state.password}
+                    onChangeText={(text) => {
+                        this.setState({password: text})
+                    }}
                 />
                 <AwesomeButton
                     states={{
                         idle: {
                             text: 'Se connecter',
-                            icon: <MaterialIcons name="person" color="rgba(255, 255, 255, .9)" />,
+                            icon: <MaterialIcons name="person" color="rgba(255, 255, 255, .9)" size={25}/>,
                             iconAlignment: 'left',
                             backgroundStyle: {
-                                backgroundColor: style.colors.lightblue,
+                                backgroundColor: style.colors.blue,
                                 minHeight: 40,
                                 alignItems: 'center',
                                 justifyContent: 'center',
@@ -127,17 +152,17 @@ export default class Demo extends React.Component {
                                 color: 'white'
                             },
                             backgroundStyle: {
-                                backgroundColor: 'darkblue',
+                                backgroundColor: '#666666',
                                 minHeight: 40,
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 borderRadius: 0
                             }
                         },
-                        success: {
-                            text: 'Connecté',
+                        error: {
+                            text: 'Non valide',
                             backgroundStyle: {
-                                backgroundColor: 'green',
+                                backgroundColor: style.colors.darkred,
                                 minHeight: 40,
                                 alignItems: 'center',
                                 justifyContent: 'center',

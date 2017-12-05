@@ -6,6 +6,7 @@ const colors = {
     green: '#4CAF50',
     gray: '#454545',
     lightblue: '#40C4FF',
+    blue: '#006F9F',
     darkblue: '#0D47A1',
     darkred: '#D50000',
     backgroundGrey: '#E9E9EF'
@@ -98,16 +99,20 @@ export default {
         }
     },
     demo: {
+        titleView: {
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+        },
         title: {
             fontWeight: 'bold',
-            fontSize: 24,
-            color: colors.lightblue
+            fontSize: 32,
+            color: colors.blue
         },
         labelStyle:{
             color:'black'
         },
         rootStyle:{
-            marginVertical: 5,
+            marginVertical: 10,
             height: 64,
         },
         inputStyle:{
@@ -126,7 +131,7 @@ export default {
         headerStyle: {
             // marginTop: 0,
             paddingTop: (Platform.OS === "android") ? StatusBar.currentHeight : 0,
-            backgroundColor: colors.green,
+            backgroundColor: colors.blue,
             // height: 80
         },
         headerTitleStyle: {

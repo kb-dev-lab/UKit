@@ -54,7 +54,7 @@ export default class WebBrowser extends React.Component {
                 <View
                     style={{
                         paddingTop: (Platform.OS === "android") ? StatusBar.currentHeight : 0,
-                        backgroundColor: style.colors.green
+                        backgroundColor: style.colors.blue
                     }}>
                     <NavigationBar
                         title={{title, tintColor: "white"}}

@@ -14,8 +14,8 @@ export default class Group extends React.Component {
         let title = groupName.replace(/_/g, " ");
         let leftButton = (
             <TouchableHighlight onPress={_ => {
-                navigation.goBack();
-            }} underlayColor={style.hintColors.green} style={{
+                navigation.navigate('Home');
+            }} underlayColor={style.hintColors.blue} style={{
                 justifyContent: 'space-around',
                 paddingLeft: 5
             }}>
@@ -66,7 +66,7 @@ export default class Group extends React.Component {
                 <View
                     style={{
                         paddingTop: (Platform.OS === "android") ? StatusBar.currentHeight : 0,
-                        backgroundColor: style.colors.green
+                        backgroundColor: style.colors.blue
                     }}>
                     <NavigationBar
                         title={{title, tintColor: "white"}}

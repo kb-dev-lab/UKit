@@ -12,7 +12,7 @@
         "loading": {
             "icon": "./assets/icons/app.png",
             "hideExponentText": true,
-            "backgroundColor": "#009DE0"
+            "backgroundColor": "#006F9F"
         },
         "packagerOpts": {
             "assetExts": [

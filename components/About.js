@@ -12,7 +12,7 @@ export default class About extends React.Component {
         let leftButton = (
             <TouchableHighlight onPress={_ => {
                 navigation.goBack();
-            }} underlayColor={style.hintColors.green} style={{
+            }} underlayColor={style.hintColors.blue} style={{
                 justifyContent: 'space-around',
                 paddingLeft: 5
             }}>
@@ -45,7 +45,7 @@ export default class About extends React.Component {
                 <View
                     style={{
                         paddingTop: (Platform.OS === "android") ? StatusBar.currentHeight : 0,
-                        backgroundColor: style.colors.green
+                        backgroundColor: style.colors.blue
                     }}>
                     <NavigationBar
                         title={{title, tintColor: "white"}}

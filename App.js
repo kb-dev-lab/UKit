@@ -22,7 +22,7 @@ const CustomDrawerContentComponent = (props) => {
         <View style={styles.container}>
             <View style={{flex: 1}}>
                 <View style={{
-                    backgroundColor: '#009DE0',
+                    backgroundColor: style.colors.blue,
                     paddingTop: StatusBar.currentHeight,
                     flexDirection: 'row',
                     justifyContent: 'flex-start',
