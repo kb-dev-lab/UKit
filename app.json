@@ -8,7 +8,7 @@
         "version": "3.0.0",
         "orientation": "portrait",
         "primaryColor": "#cccccc",
-        "icon": "./assets/icons/app.png",
+        "icon": "./assets/icons/app_1024_alpha.png",
         "loading": {
             "icon": "./assets/icons/app.png",
             "hideExponentText": true,
