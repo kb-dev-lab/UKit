@@ -81,6 +81,7 @@ export default class WebBrowser extends React.Component {
         this.entrypoints = {
             ent: 'https://ent.u-bordeaux.fr',
             email: 'https://webmel.u-bordeaux.fr',
+            cas: 'https://cas.u-bordeaux.fr',
             apogee: 'https://apogee.u-bordeaux.fr'
         };
     }
@@ -119,6 +120,15 @@ export default class WebBrowser extends React.Component {
         if (this.state.uri === null) {
             return this.renderLoading();
         }
+
+        let js = "";
+        if (this.state.entrypoint === 'cas') {
+            js = `
+            setTimeout(() => {
+                window.postMessage(String(document.cookie))
+            },0);
+            `;
+        }
         return (
             <View style={{flex: 1, flexDirection: 'column'}}>
                 <WebView
@@ -127,6 +137,10 @@ export default class WebBrowser extends React.Component {
                     javaScriptEnabled={true}
                     domStorageEnabled={true}
                     startInLoadingState={true}
+                    onMessage={(e) => {
+                        console.log(e.nativeEvent.data);
+                    }}
+                    injectedJavaScript={js}
                     renderLoading={() => this.renderLoading()}
                     onNavigationStateChange={(e) => {
                         if (!e.loading) {

@@ -56,6 +56,8 @@ const CustomDrawerContentComponent = (props) => {
                     <DrawerButton title={"Apogée"} size={28} textSize={14} icon={'school'} color={"#757575"}
                                   tintColor={'transparent'} onPress={() => navigate('WebBrowser', {entrypoint: 'apogee'})}/>
                     <Split title='Application'/>
+                    <DrawerButton title={"CAS"} size={28} textSize={14} icon={'dashboard'} color={"#757575"}
+                                  tintColor={'transparent'} onPress={() => navigate('WebBrowser', {entrypoint: 'cas'})}/>
                     <DrawerButton title={"Demo"} size={28} textSize={14} icon={'tv'} color={"#757575"}
                                   tintColor={'transparent'} onPress={() => navigate('Demo')}/>
                     <DrawerButton title={"Paramètres"} size={28} textSize={14} icon={'settings'} color={"#757575"}
@@ -107,6 +109,9 @@ const RNRedux = () => (
         <PersistGate
             loading={<ActivityIndicator style={style.containerView} size="large" animating={true}/>}
             persistor={pStore}>
+            <StatusBar
+                barStyle="light-content"
+            />
             <Drawer/>
         </PersistGate>
     </Provider>

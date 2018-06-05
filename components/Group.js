@@ -14,7 +14,7 @@ export default class Group extends React.Component {
         let title = groupName.replace(/_/g, " ");
         let leftButton = (
             <TouchableHighlight onPress={_ => {
-                navigation.navigate('Home');
+                navigation.goBack();
             }} underlayColor={style.hintColors.blue} style={{
                 justifyContent: 'space-around',
                 paddingLeft: 5
