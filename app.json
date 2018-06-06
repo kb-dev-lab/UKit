@@ -11,9 +11,8 @@
         "primaryColor": "#006F9F",
         "icon": "./assets/icons/app_1024_alpha.png",
         "splash": {
-            "image": "./assets/icons/app.png",
-            "hideExponentText": true,
-            "backgroundColor": "#006F9F"
+            "image": "./assets/icons/splash.png",
+            "backgroundColor": "#009de0"
         },
         "packagerOpts": {
             "assetExts": [
