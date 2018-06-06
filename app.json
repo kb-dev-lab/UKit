@@ -4,13 +4,14 @@
         "description": "Ukit, a companion app for student of University of Bordeaux",
         "slug": "Ukit",
         "privacy": "public",
+        "githubUrl": "https://github.com/Jack3113/UKit",
         "sdkVersion": "27.0.0",
         "version": "3.0.0",
         "orientation": "portrait",
-        "primaryColor": "#cccccc",
+        "primaryColor": "#006F9F",
         "icon": "./assets/icons/app_1024_alpha.png",
-        "loading": {
-            "icon": "./assets/icons/app.png",
+        "splash": {
+            "image": "./assets/icons/app.png",
             "hideExponentText": true,
             "backgroundColor": "#006F9F"
         },
@@ -21,11 +22,16 @@
             ]
         },
         "ios": {
+            "icon": "./assets/icons/app_1024.png",
             "supportsTablet": true,
             "bundleIdentifier": "com.bordeaux.ukit"
         },
         "android": {
-            "package": "com.bordeaux.ukit"
+            "package": "com.bordeaux.ukit",
+            "permissions": []
+        },
+        "androidStatusBar": {
+            "barStyle": "light-content"
         }
     }
 }
