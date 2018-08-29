@@ -1,13 +1,12 @@
 import React from 'react';
-import { Platform, StatusBar, Text, TouchableHighlight, View } from 'react-native';
-import style from '../Style';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Feather from 'react-native-vector-icons/Feather';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Platform, Text, TouchableHighlight, View } from 'react-native';
+import { Feather, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import NavigationBar from 'react-native-navbar';
 import { Fumi } from 'react-native-textinput-effects';
 import URLButton from './containers/buttons/URLButton';
 import AwesomeButton from 'react-native-awesome-button';
+
+import style from '../Style';
 
 export default class Demo extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -42,7 +41,6 @@ export default class Demo extends React.Component {
             header: (
                 <View
                     style={{
-                        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
                         backgroundColor: style.colors.blue,
                     }}>
                     <NavigationBar title={{ title, tintColor: 'white' }} tintColor={'transparent'} leftButton={leftButton} />

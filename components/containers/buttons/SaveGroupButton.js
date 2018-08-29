@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableHighlight, View } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { MaterialIcons } from '@expo/vector-icons';
 import store from 'react-native-simple-store';
 import { connect } from 'react-redux';
 import { setFavoriteGroup } from '../../../actions/setFavoriteGroup';
@@ -39,7 +39,7 @@ class SaveGroupButton extends React.Component {
     render() {
         return (
             <TouchableHighlight
-                onPress={(_) => this.saveGroup()}
+                onPress={() => this.saveGroup()}
                 underlayColor={'transparent'}
                 style={{
                     justifyContent: 'space-around',

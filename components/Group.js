@@ -1,10 +1,9 @@
 import React from 'react';
 import Tabs from '../navigation/ScheduleTabs';
-import { Platform, StatusBar, Text, TouchableHighlight, View } from 'react-native';
+import { Text, TouchableHighlight, View } from 'react-native';
 import style from '../Style';
 import NavigationBar from 'react-native-navbar';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import SaveButton from './containers/buttons/SaveGroupButton';
 
 export default class Group extends React.Component {
@@ -15,7 +14,7 @@ export default class Group extends React.Component {
         let title = groupName.replace(/_/g, ' ');
         let leftButton = (
             <TouchableHighlight
-                onPress={(_) => {
+                onPress={() => {
                     navigation.goBack();
                 }}
                 underlayColor={style.hintColors.blue}
@@ -72,7 +71,6 @@ export default class Group extends React.Component {
             header: (
                 <View
                     style={{
-                        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
                         backgroundColor: style.colors.blue,
                     }}>
                     <NavigationBar

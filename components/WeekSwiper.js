@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, Platform, View } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import WeekComponent from './containers/Week';
 import moment from 'moment';
 import style from '../Style';
@@ -9,21 +9,15 @@ import Swiper from 'react-native-swiper';
 import WeekStore from '../stores/WeekStore';
 
 moment.locale('fr');
-const swiperReference = "weekSwiper";
+const swiperReference = 'weekSwiper';
 
 export default class WeekSwiper extends React.Component {
     static navigationOptions = {
-        tabBarLabel: "Semaine",
-        tabBarIcon: ({tintColor}) => {
-            let size = (Platform.OS === 'android') ? 16 : 24;
-            return (
-                <MaterialCommunityIcons
-                    name="calendar-multiple"
-                    size={size}
-                    style={{color: tintColor}}
-                />
-            )
-        }
+        tabBarLabel: 'Semaine',
+        tabBarIcon: ({ tintColor }) => {
+            let size = Platform.OS === 'android' ? 16 : 24;
+            return <MaterialCommunityIcons name="calendar-multiple" size={size} style={{ color: tintColor }} />;
+        },
     };
 
     constructor(props) {
@@ -39,7 +33,7 @@ export default class WeekSwiper extends React.Component {
             week: parseInt(currentDay.isoWeek()),
             currentDay,
             weeks: [],
-            index: null
+            index: null,
         };
     }
 
@@ -52,34 +46,38 @@ export default class WeekSwiper extends React.Component {
                     break;
                 }
             }
-            this.setState({index, weeks});
+            this.setState({ index, weeks });
         });
     }
 
     render() {
         if (this.state.weeks.length === 0 || this.state.index === null) {
             return (
-                <View style={{flex: 1}}>
-                    <ActivityIndicator style={style.containerView} size="large" animating={false}/>
+                <View style={{ flex: 1 }}>
+                    <ActivityIndicator style={style.containerView} size="large" animating={false} />
                 </View>
             );
         } else {
             return (
-                <View style={{flex: 1}}>
-                    <Swiper ref={swiperReference}
-                            showsButtons={false}
-                            showsPagination={false}
-                            index={this.state.index}
-                            loadMinimal={true}
-                            loadMinimalSize={7}
-                            loop={true}
-                    >
+                <View style={{ flex: 1 }}>
+                    <Swiper
+                        ref={swiperReference}
+                        showsButtons={false}
+                        showsPagination={false}
+                        index={this.state.index}
+                        loadMinimal={true}
+                        loadMinimalSize={7}
+                        loop={true}>
                         {this.state.weeks.map((week, key) => {
-                            return (<WeekComponent key={key}
-                                                   week={week}
-                                                   groupName={this.state.groupName}
-                                                   nextFunction={_ => this.refs[swiperReference].scrollBy(1, true)}
-                                                   previousFunction={_ => this.refs[swiperReference].scrollBy(-1, true)}/>);
+                            return (
+                                <WeekComponent
+                                    key={key}
+                                    week={week}
+                                    groupName={this.state.groupName}
+                                    nextFunction={() => this.refs[swiperReference].scrollBy(1, true)}
+                                    previousFunction={() => this.refs[swiperReference].scrollBy(-1, true)}
+                                />
+                            );
                         })}
                     </Swiper>
                 </View>

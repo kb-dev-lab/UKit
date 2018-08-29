@@ -3,8 +3,7 @@ import { ActivityIndicator, Platform, SectionList, Text, TouchableOpacity, View 
 import axios from 'axios';
 import style from '../../Style';
 import CourseRow from './CourseRow';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import moment from 'moment';
 import { upperCaseFirstLetter } from '../../Utils';
 import 'moment/locale/fr';

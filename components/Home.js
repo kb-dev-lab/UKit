@@ -1,19 +1,32 @@
 import React from 'react';
-import { ActivityIndicator, Platform, SectionList, StatusBar, Text, TouchableHighlight, View } from 'react-native';
+import { ActivityIndicator, Image, SectionList, Text, TouchableHighlight, View } from 'react-native';
+import { AppLoading, Asset, Font } from 'expo';
 import style from '../Style';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios';
 import GroupRow from './containers/GroupRow';
 import SectionListHeader from './containers/headers/SectionListHeader';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { Hideo } from 'react-native-textinput-effects';
 import NavigationBar from 'react-native-navbar';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import store from 'react-native-simple-store';
 import moment from 'moment';
 import 'moment/locale/fr';
+import { Feather, FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
 
 moment.locale('fr');
+
+function cacheFonts(fonts) {
+    return fonts.map((font) => Font.loadAsync(font));
+}
+
+function cacheImages(images) {
+    return images.map((image) => {
+        if (typeof image === 'string') {
+            return Image.prefetch(image);
+        } else {
+            return Asset.fromModule(image).downloadAsync();
+        }
+    });
+}
 
 export default class Home extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -25,7 +38,6 @@ export default class Home extends React.Component {
             header: (
                 <View
                     style={{
-                        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
                         backgroundColor: style.colors.blue,
                     }}>
                     <NavigationBar
@@ -65,12 +77,28 @@ export default class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            isReady: false,
             completeList: null,
             sections: null,
             list: null,
             emptySearchResults: false,
             refreshing: false,
         };
+    }
+
+    static async _loadAssetsAsync() {
+        const imageAssets = cacheImages([require('./../assets/icons/app_96.png')]);
+
+        const fontAssets = cacheFonts([
+            FontAwesome.font,
+            Feather.font,
+            Ionicons.font,
+            MaterialCommunityIcons.font,
+            MaterialIcons.font,
+            SimpleLineIcons.font,
+        ]);
+
+        await Promise.all([...imageAssets, ...fontAssets]);
     }
 
     componentDidMount() {
@@ -167,7 +195,7 @@ export default class Home extends React.Component {
         let content;
         let searchInput = (
             <Hideo
-                iconClass={FontAwesomeIcon}
+                iconClass={FontAwesome}
                 iconName={'search'}
                 iconColor={'white'}
                 iconBackgroundColor={style.colors.blue}
@@ -176,7 +204,9 @@ export default class Home extends React.Component {
                 style={style.list.searchInputView}
             />
         );
-        if (this.state.emptySearchResults) {
+        if (!this.state.isReady) {
+            return <AppLoading startAsync={Home._loadAssetsAsync} onFinish={() => this.setState({ isReady: true })} onError={console.warn} />;
+        } else if (this.state.emptySearchResults) {
             content = (
                 <View style={style.schedule.course.noCourse}>
                     <Text style={style.schedule.course.noCourseText}>Aucun groupe correspondant à cette recherche n'a été trouvé.</Text>

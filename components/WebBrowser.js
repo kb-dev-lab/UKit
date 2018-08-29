@@ -1,17 +1,15 @@
 import React from 'react';
-import { ActivityIndicator, Platform, StatusBar, Text, TouchableHighlight, TouchableOpacity, View, WebView } from 'react-native';
+import { ActivityIndicator, Text, TouchableHighlight, TouchableOpacity, View, WebView } from 'react-native';
 import style from '../Style';
 import NavigationBar from 'react-native-navbar';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import { Ionicons, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
 
 export default class WebBrowser extends React.Component {
     static navigationOptions = ({ navigation }) => {
         let title = 'Navigateur web';
         let leftButton = (
             <TouchableHighlight
-                onPress={(_) => {
+                onPress={() => {
                     navigation.goBack();
                 }}
                 underlayColor={style.hintColors.green}
@@ -54,7 +52,6 @@ export default class WebBrowser extends React.Component {
             header: (
                 <View
                     style={{
-                        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
                         backgroundColor: style.colors.blue,
                     }}>
                     <NavigationBar
@@ -109,7 +106,7 @@ export default class WebBrowser extends React.Component {
         this.refs['WebBrowser'].goForward();
     }
 
-    renderLoading() {
+    static renderLoading() {
         return (
             <View style={{ marginTop: 20 }}>
                 <ActivityIndicator size="large" />
@@ -119,7 +116,7 @@ export default class WebBrowser extends React.Component {
 
     render() {
         if (this.state.uri === null) {
-            return this.renderLoading();
+            return WebBrowser.renderLoading();
         }
 
         let js = '';
@@ -142,7 +139,7 @@ export default class WebBrowser extends React.Component {
                         console.log(e.nativeEvent.data);
                     }}
                     injectedJavaScript={js}
-                    renderLoading={() => this.renderLoading()}
+                    renderLoading={() => WebBrowser.renderLoading()}
                     onNavigationStateChange={(e) => {
                         if (!e.loading) {
                             this.setState({ url: e.url, title: e.title, canGoBack: e.canGoBack, loading: e.loading });

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Platform, StatusBar, Text, TouchableHighlight, View } from 'react-native';
+import { Text, TouchableHighlight, View } from 'react-native';
 import style from '../Style';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 import NavigationBar from 'react-native-navbar';
 import URLButton from './containers/buttons/URLButton';
 
@@ -51,7 +51,6 @@ export default class About extends React.Component {
             header: (
                 <View
                     style={{
-                        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
                         backgroundColor: style.colors.blue,
                     }}>
                     <NavigationBar title={{ title, tintColor: 'white' }} tintColor={'transparent'} leftButton={leftButton} />

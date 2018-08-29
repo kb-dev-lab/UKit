@@ -31,6 +31,9 @@
         },
         "androidStatusBar": {
             "barStyle": "light-content"
-        }
+        },
+        "assetBundlePatterns": [
+            "assets/icons/**"
+        ]
     }
 }

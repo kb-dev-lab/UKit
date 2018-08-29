@@ -1,5 +1,3 @@
-import { Platform, StatusBar } from 'react-native';
-
 const colors = {
     red: '',
     white: '#FFF',
@@ -130,7 +128,7 @@ export default {
     stackNavigator: {
         headerStyle: {
             // marginTop: 0,
-            paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+            // paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
             backgroundColor: colors.blue,
             // height: 80
         },

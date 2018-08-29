@@ -3,7 +3,7 @@ import { ActivityIndicator, FlatList, Platform, Text, TouchableOpacity, View } f
 import axios from 'axios';
 import style from '../../Style';
 import CourseRow from './CourseRow';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { upperCaseFirstLetter } from '../../Utils';
 import moment from 'moment';
 import 'moment/locale/fr';

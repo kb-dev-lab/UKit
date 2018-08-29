@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, Platform } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import DayComponent from './containers/Day';
 import moment from 'moment';
 import style from '../Style';
