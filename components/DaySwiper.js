@@ -21,11 +21,14 @@ export default class DaySwiper extends React.Component {
 
     constructor(props) {
         super(props);
+
         let currentDay = moment();
         if (currentDay.isoWeekday() === 7) {
             currentDay = currentDay.add(1, 'days');
         }
+
         let groupName = this.props.screenProps.groupName;
+
         this.state = {
             groupName,
             currentDay: currentDay,
@@ -38,7 +41,9 @@ export default class DaySwiper extends React.Component {
         setTimeout(() => {
             let days = DayStore.getDays();
             let index = 0;
-            for (index; index < days.length; index++) {
+            let maxDays = days.length;
+
+            for (index; index < maxDays; index++) {
                 if (this.state.currentDay.isSame(days[index], 'day')) {
                     break;
                 }
@@ -66,8 +71,8 @@ export default class DaySwiper extends React.Component {
                                 key={key}
                                 day={day}
                                 groupName={this.state.groupName}
-                                nextFunction={(_) => this.refs.daySwiper.scrollBy(1, true)}
-                                previousFunction={(_) => this.refs.daySwiper.scrollBy(-1, true)}
+                                nextFunction={() => this.refs.daySwiper.scrollBy(1, true)}
+                                previousFunction={() => this.refs.daySwiper.scrollBy(-1, true)}
                             />
                         );
                     })}

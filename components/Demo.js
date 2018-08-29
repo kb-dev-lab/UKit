@@ -14,8 +14,8 @@ export default class Demo extends React.Component {
         let title = 'Demo';
         let leftButton = (
             <TouchableHighlight
-                onPress={(_) => {
-                    navigation.navigate('DrawerOpen');
+                onPress={() => {
+                    navigation.openDrawer();
                 }}
                 underlayColor={'transparent'}
                 style={{

@@ -11,8 +11,6 @@ export default createBottomTabNavigator({
         screen: WeekSwiper
     }
 }, {
-    tabBarPosition: 'bottom',
-    swipeEnabled: false,
     lazy: true,
     tabBarOptions: {
         indicatorStyle: {

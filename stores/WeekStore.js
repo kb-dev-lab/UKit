@@ -18,8 +18,8 @@ class WeekStore {
         }
         let currentMonth = currentDay.month();
         let currentYear = currentDay.year();
-        let startYear = currentMonth > 7 ? currentYear : currentYear - 1;
-        let endYear = currentMonth > 7 ? currentYear + 1 : currentYear;
+        let startYear = currentMonth > 6 ? currentYear : currentYear - 1;
+        let endYear = currentMonth > 6 ? currentYear + 1 : currentYear;
 
         let weeks = [];
         let day = moment().set({ year: startYear, month: 7, date: 20 });

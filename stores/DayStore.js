@@ -18,8 +18,8 @@ class DayStore {
         }
         let currentMonth = currentDay.month();
         let currentYear = currentDay.year();
-        let startYear = currentMonth > 7 ? currentYear : currentYear - 1;
-        let endYear = currentMonth > 7 ? currentYear + 1 : currentYear;
+        let startYear = currentMonth > 6 ? currentYear : currentYear - 1;
+        let endYear = currentMonth > 6 ? currentYear + 1 : currentYear;
 
         let days = [];
         let day = moment().set({ year: startYear, month: 7, date: 20 });
@@ -29,6 +29,7 @@ class DayStore {
             let isSunday = day.isoWeekday() === 7;
             if (!isSunday) {
                 days.push(day.clone());
+                // days.push(day.format('YYYY-MM-DD'));
                 index++;
             }
             day = day.add(1, 'days');

@@ -10,6 +10,10 @@ import { Hideo } from 'react-native-textinput-effects';
 import NavigationBar from 'react-native-navbar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import store from 'react-native-simple-store';
+import moment from 'moment';
+import 'moment/locale/fr';
+
+moment.locale('fr');
 
 export default class Home extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -30,7 +34,7 @@ export default class Home extends React.Component {
                         leftButton={
                             <TouchableHighlight
                                 onPress={() => {
-                                    navigation.toggleDrawer();
+                                    navigation.openDrawer();
                                 }}
                                 underlayColor={'transparent'}
                                 style={{
@@ -92,8 +96,10 @@ export default class Home extends React.Component {
         });
         sections.push(sectionContent);
         if (save) {
-            store.update('home', { list, sections });
-            this.setState({ list, sections, completeList: list, refreshing: false });
+            store
+                .delete('home')
+                .then(() => store.update('home', { list, sections, unix: moment().unix() }))
+                .then(() => this.setState({ list, sections, completeList: list, refreshing: false }));
         } else {
             this.setState({ list, sections });
         }
@@ -106,7 +112,9 @@ export default class Home extends React.Component {
 
     getList() {
         store.get('home').then((home) => {
-            if (home !== null) {
+            const now = moment().unix();
+            const daysWithoutUpdate = 8;
+            if (home !== null && home.unix && now - home.unix < daysWithoutUpdate * 24 * 3600) {
                 this.setState({ list: home.list, completeList: home.list, sections: home.sections });
             } else {
                 this.fetchList();
@@ -129,7 +137,6 @@ export default class Home extends React.Component {
             let list = groupList.sort((a, b) => {
                 return a.name.localeCompare(b.name);
             });
-            console.log({ list });
             this.generateSections(list, true);
         });
     }
@@ -180,7 +187,7 @@ export default class Home extends React.Component {
         } else {
             content = (
                 <SectionList
-                    renderItem={({ item, j, index }) => <GroupRow group={item} key={index} openGroup={(_) => this.openGroup(item)} />}
+                    renderItem={({ item, j, index }) => <GroupRow group={item} key={index} openGroup={() => this.openGroup(item)} />}
                     renderSectionHeader={({ section }) => (
                         <SectionListHeader title={section.key} key={section.key} sectionIndex={section.sectionIndex} />
                     )}
