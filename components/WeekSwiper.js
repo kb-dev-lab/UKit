@@ -1,12 +1,12 @@
 import React from 'react';
-import {Platform, ActivityIndicator, View} from 'react-native';
+import { ActivityIndicator, Platform, View } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import WeekComponent from './containers/Week';
 import moment from 'moment';
 import style from '../Style';
 import 'moment/locale/fr';
 import Swiper from 'react-native-swiper';
-import WeekStore from "../stores/WeekStore";
+import WeekStore from '../stores/WeekStore';
 
 moment.locale('fr');
 const swiperReference = "weekSwiper";

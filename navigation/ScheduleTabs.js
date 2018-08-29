@@ -1,9 +1,9 @@
 import React from 'react';
-import {TabNavigator} from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation';
 import DaySwiper from '../components/DaySwiper';
 import WeekSwiper from '../components/WeekSwiper';
 
-export default TabNavigator({
+export default createBottomTabNavigator({
     Day: {
         screen: DaySwiper
     },

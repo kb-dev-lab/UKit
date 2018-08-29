@@ -1,36 +1,34 @@
 import React from 'react';
-import {View, TouchableHighlight} from 'react-native';
+import { TouchableHighlight, View } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import store from 'react-native-simple-store';
-import {connect} from 'react-redux';
-import {setFavoriteGroup} from "../../../actions/setFavoriteGroup";
+import { connect } from 'react-redux';
+import { setFavoriteGroup } from '../../../actions/setFavoriteGroup';
 
 class SaveGroupButton extends React.Component {
     constructor(props) {
         super(props);
         let savedGroup = null;
-        if(props.hasOwnProperty('savedGroup')){
+        if (props.hasOwnProperty('savedGroup')) {
             savedGroup = props.savedGroup;
         }
         this.state = {
             displayedGroup: this.props.groupName,
-            savedGroup
+            savedGroup,
         };
     }
 
     saveGroup() {
         if (this.isSaved()) {
-            store.update('profile', {group: null}).then(() => {
-                    this.setState({savedGroup: null});
-                    this.props.dispatchSetFavoriteGroup(null);
-                }
-            );
+            store.update('profile', { group: null }).then(() => {
+                this.setState({ savedGroup: null });
+                this.props.dispatchSetFavoriteGroup(null);
+            });
         } else {
-            store.update('profile', {group: this.state.displayedGroup}).then(() => {
-                    this.setState({savedGroup: this.state.displayedGroup});
+            store.update('profile', { group: this.state.displayedGroup }).then(() => {
+                this.setState({ savedGroup: this.state.displayedGroup });
                 this.props.dispatchSetFavoriteGroup(this.state.displayedGroup);
-                }
-            );
+            });
         }
     }
 
@@ -41,21 +39,18 @@ class SaveGroupButton extends React.Component {
     render() {
         return (
             <TouchableHighlight
-                onPress={_ => this.saveGroup()}
-                underlayColor={"transparent"}
+                onPress={(_) => this.saveGroup()}
+                underlayColor={'transparent'}
                 style={{
                     justifyContent: 'space-around',
-                    paddingLeft: 5
+                    paddingLeft: 5,
                 }}>
-                <View style={{
-                    justifyContent: 'space-around',
-                    paddingHorizontal: 5
-                }}>
-                    <MaterialIcons
-                        name={this.isSaved() ? "star" : "star-border"}
-                        size={30}
-                        style={{color: "white"}}
-                    />
+                <View
+                    style={{
+                        justifyContent: 'space-around',
+                        paddingHorizontal: 5,
+                    }}>
+                    <MaterialIcons name={this.isSaved() ? 'star' : 'star-border'} size={30} style={{ color: 'white' }} />
                 </View>
             </TouchableHighlight>
         );
@@ -66,16 +61,17 @@ const mapDispatchToProps = (dispatch) => {
     return {
         dispatchSetFavoriteGroup: (groupName) => {
             dispatch(setFavoriteGroup(groupName));
-        }
+        },
     };
 };
-
 
 const mapStateToProps = (state) => {
     return {
-        savedGroup: state.favorite.groupName
+        savedGroup: state.favorite.groupName,
     };
 };
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(SaveGroupButton);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SaveGroupButton);

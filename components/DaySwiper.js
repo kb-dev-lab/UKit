@@ -1,5 +1,5 @@
 import React from 'react';
-import {Platform, ActivityIndicator} from 'react-native';
+import { ActivityIndicator, Platform } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import DayComponent from './containers/Day';
 import moment from 'moment';
@@ -12,17 +12,11 @@ moment.locale('fr');
 
 export default class DaySwiper extends React.Component {
     static navigationOptions = {
-        tabBarLabel: "Jour",
-        tabBarIcon: ({tintColor}) => {
-            let size = (Platform.OS === 'android') ? 16 : 24;
-            return (
-                <MaterialCommunityIcons
-                    name="calendar"
-                    size={size}
-                    style={{color: tintColor}}
-                />
-            )
-        }
+        tabBarLabel: 'Jour',
+        tabBarIcon: ({ tintColor }) => {
+            let size = Platform.OS === 'android' ? 16 : 24;
+            return <MaterialCommunityIcons name="calendar" size={size} style={{ color: tintColor }} />;
+        },
     };
 
     constructor(props) {
@@ -36,7 +30,7 @@ export default class DaySwiper extends React.Component {
             groupName,
             currentDay: currentDay,
             index: null,
-            days: []
+            days: [],
         };
     }
 
@@ -49,29 +43,33 @@ export default class DaySwiper extends React.Component {
                     break;
                 }
             }
-            this.setState({index, days});
+            this.setState({ index, days });
         });
     }
 
     render() {
         if (this.state.days.length === 0 || this.state.index === null) {
-            return (<ActivityIndicator style={style.containerView} size="large" animating={true}/>);
+            return <ActivityIndicator style={style.containerView} size="large" animating={true} />;
         } else {
             return (
-                <Swiper ref="daySwiper"
-                        showsButtons={false}
-                        showsPagination={false}
-                        index={this.state.index}
-                        loadMinimal={true}
-                        loadMinimalSize={7}
-                        loop={true}
-                >
+                <Swiper
+                    ref="daySwiper"
+                    showsButtons={false}
+                    showsPagination={false}
+                    index={this.state.index}
+                    loadMinimal={true}
+                    loadMinimalSize={7}
+                    loop={true}>
                     {this.state.days.map((day, key) => {
-                        return (<DayComponent key={key}
-                                              day={day}
-                                              groupName={this.state.groupName}
-                                              nextFunction={_ => this.refs.daySwiper.scrollBy(1, true)}
-                                              previousFunction={_ => this.refs.daySwiper.scrollBy(-1, true)}/>);
+                        return (
+                            <DayComponent
+                                key={key}
+                                day={day}
+                                groupName={this.state.groupName}
+                                nextFunction={(_) => this.refs.daySwiper.scrollBy(1, true)}
+                                previousFunction={(_) => this.refs.daySwiper.scrollBy(-1, true)}
+                            />
+                        );
                     })}
                 </Swiper>
             );

@@ -1,17 +1,16 @@
 import React from 'react';
-import {Text} from 'react-native';
+import { Text } from 'react-native';
 import style from './../../../Style';
 import URLButton from './URLButton';
 
 const locations = require('../../../assets/locations.json');
 
 export default class OpenMapButton extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
-            location: this.props.location.split('/')[0]
-        }
+            location: this.props.location.split('/')[0],
+        };
     }
 
     isLocationKnown() {
@@ -28,12 +27,8 @@ export default class OpenMapButton extends React.Component {
 
     render() {
         if (this.isLocationKnown()) {
-            return (
-                <URLButton title={this.props.location} url={this.getGMapsLocation()}/>
-            );
+            return <URLButton title={this.props.location} url={this.getGMapsLocation()} />;
         }
-        return (<Text style={style.schedule.course.content}>{this.props.location}</Text>);
+        return <Text style={style.schedule.course.content}>{this.props.location}</Text>;
     }
-
 }
-

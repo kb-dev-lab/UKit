@@ -1,6 +1,6 @@
 import React from 'react';
 import Tabs from '../navigation/ScheduleTabs';
-import {StatusBar, View, Text, TouchableHighlight, Platform} from 'react-native';
+import { Platform, StatusBar, Text, TouchableHighlight, View } from 'react-native';
 import style from '../Style';
 import NavigationBar from 'react-native-navbar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -81,9 +81,7 @@ export default class Group extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            groupName: this.props.navigation.state.params.name
-        };
+        this.state = { groupName: this.props.navigation.state.params.name };
     }
 
     render() {

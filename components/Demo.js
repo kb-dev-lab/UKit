@@ -1,34 +1,37 @@
 import React from 'react';
-import {View, Text, StatusBar, Platform, TouchableHighlight, TextInput} from 'react-native';
+import { Platform, StatusBar, Text, TouchableHighlight, View } from 'react-native';
 import style from '../Style';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import NavigationBar from 'react-native-navbar';
-import {Fumi} from 'react-native-textinput-effects';
+import { Fumi } from 'react-native-textinput-effects';
 import URLButton from './containers/buttons/URLButton';
 import AwesomeButton from 'react-native-awesome-button';
 
 export default class Demo extends React.Component {
-
-    static navigationOptions = ({navigation}) => {
+    static navigationOptions = ({ navigation }) => {
         let title = 'Demo';
         let leftButton = (
-            <TouchableHighlight onPress={_ => {
-                navigation.navigate('DrawerOpen')
-            }} underlayColor={"transparent"} style={{
-                justifyContent: 'space-around',
-                paddingLeft: 5
-            }}>
-                <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between'
+            <TouchableHighlight
+                onPress={(_) => {
+                    navigation.navigate('DrawerOpen');
+                }}
+                underlayColor={'transparent'}
+                style={{
+                    justifyContent: 'space-around',
+                    paddingLeft: 5,
                 }}>
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                    }}>
                     <MaterialCommunityIcons
                         name="menu"
                         size={32}
                         style={{
-                            color: 'white'
+                            color: 'white',
                         }}
                     />
                 </View>
@@ -39,44 +42,40 @@ export default class Demo extends React.Component {
             header: (
                 <View
                     style={{
-                        paddingTop: (Platform.OS === "android") ? StatusBar.currentHeight : 0,
-                        backgroundColor: style.colors.blue
+                        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+                        backgroundColor: style.colors.blue,
                     }}>
-                    <NavigationBar
-                        title={{title, tintColor: "white"}}
-                        tintColor={"transparent"}
-                        leftButton={leftButton}
-                    />
+                    <NavigationBar title={{ title, tintColor: 'white' }} tintColor={'transparent'} leftButton={leftButton} />
                 </View>
-            )
-        }
+            ),
+        };
     };
 
     constructor(props) {
         super(props);
-        let {navigate} = props.navigation;
+        let { navigate } = props.navigation;
         this.navigate = navigate;
         this.state = {
             buttonState: 'idle',
             email: '',
-            password: ''
+            password: '',
         };
         this.handleLogin = this.handleLogin.bind(this);
     }
 
     handleLogin() {
-        this.setState({buttonState: 'busy'});
+        this.setState({ buttonState: 'busy' });
         setTimeout(() => {
             if (this.state.email === 'test@u-bordeaux.fr' && this.state.password === 'test') {
-                this.setState({buttonState: 'idle'});
-                this.navigate('Group', {name: 'Master1_4TIN701S'});
+                this.setState({ buttonState: 'idle' });
+                this.navigate('Group', { name: 'Master1_4TIN701S' });
             } else if (this.state.email === 'test1@u-bordeaux.fr' && this.state.password === 'test1') {
-                this.setState({buttonState: 'idle'});
-                this.navigate('Group', {name: 'INF501_A1'});
+                this.setState({ buttonState: 'idle' });
+                this.navigate('Group', { name: 'INF501_A1' });
             } else {
-                this.setState({buttonState: 'error'});
+                this.setState({ buttonState: 'error' });
                 setTimeout(() => {
-                    this.setState({buttonState: 'idle'});
+                    this.setState({ buttonState: 'idle' });
                 }, 1500);
             }
         }, 2500);
@@ -102,13 +101,13 @@ export default class Demo extends React.Component {
                     keyboardType={'email-address'}
                     value={this.state.email}
                     onChangeText={(text) => {
-                        this.setState({email: text})
+                        this.setState({ email: text });
                     }}
                 />
                 <Fumi
                     label={'Mot de passe'}
                     labelStyle={style.demo.labelStyle}
-                    style={[style.demo.rootStyle, {marginBottom: 20}]}
+                    style={[style.demo.rootStyle, { marginBottom: 20 }]}
                     inputStyle={style.demo.inputStyle}
                     iconClass={MaterialCommunityIcons}
                     iconName={'textbox-password'}
@@ -116,48 +115,48 @@ export default class Demo extends React.Component {
                     iconSize={20}
                     autoCapitalize={'none'}
                     autoCorrect={false}
-                    keyboardType={(Platform.OS === "android") ? 'visible-password' : 'default'}
+                    keyboardType={Platform.OS === 'android' ? 'visible-password' : 'default'}
                     secureTextEntry={true}
                     value={this.state.password}
                     onChangeText={(text) => {
-                        this.setState({password: text})
+                        this.setState({ password: text });
                     }}
                 />
                 <AwesomeButton
                     states={{
                         idle: {
                             text: 'Se connecter',
-                            icon: <MaterialIcons name="person" color="rgba(255, 255, 255, .9)" size={25}/>,
+                            icon: <MaterialIcons name="person" color="rgba(255, 255, 255, .9)" size={25} />,
                             iconAlignment: 'left',
                             backgroundStyle: {
                                 backgroundColor: style.colors.blue,
                                 minHeight: 40,
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                borderRadius: 0
+                                borderRadius: 0,
                             },
                             labelStyle: {
                                 color: 'white',
                                 fontWeight: 'bold',
                                 alignSelf: 'center',
-                                marginLeft: 10
+                                marginLeft: 10,
                             },
-                            onPress: this.handleLogin
+                            onPress: this.handleLogin,
                         },
                         busy: {
                             text: 'Connexion en cours',
                             spinner: true,
                             spinnerProps: {
                                 animated: true,
-                                color: 'white'
+                                color: 'white',
                             },
                             backgroundStyle: {
                                 backgroundColor: '#666666',
                                 minHeight: 40,
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                borderRadius: 0
-                            }
+                                borderRadius: 0,
+                            },
                         },
                         error: {
                             text: 'Non valide',
@@ -166,17 +165,17 @@ export default class Demo extends React.Component {
                                 minHeight: 40,
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                borderRadius: 0
-                            }
-                        }
+                                borderRadius: 0,
+                            },
+                        },
                     }}
                     transitionDuration={400}
                     buttonState={this.state.buttonState}
                 />
                 <View style={style.demo.content}>
-                    <URLButton url="https://idnum.u-bordeaux.fr/" title="Activer mon IDNUM"/>
-                    <URLButton url="https://idnum.u-bordeaux.fr/" title="Perte d'identifiant ou de mot de passe"/>
-                    <URLButton url="https://idnum.u-bordeaux.fr/faq" title="Questions fréquentes"/>
+                    <URLButton url="https://idnum.u-bordeaux.fr/" title="Activer mon IDNUM" />
+                    <URLButton url="https://idnum.u-bordeaux.fr/" title="Perte d'identifiant ou de mot de passe" />
+                    <URLButton url="https://idnum.u-bordeaux.fr/faq" title="Questions fréquentes" />
                 </View>
             </View>
         );

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, WebView, Platform, TouchableHighlight, Text, StatusBar, ActivityIndicator, TouchableOpacity} from 'react-native';
+import { ActivityIndicator, Platform, StatusBar, Text, TouchableHighlight, TouchableOpacity, View, WebView } from 'react-native';
 import style from '../Style';
 import NavigationBar from 'react-native-navbar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -7,44 +7,45 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 export default class WebBrowser extends React.Component {
-
-    static navigationOptions = ({navigation}) => {
-        let title = "Navigateur web";
+    static navigationOptions = ({ navigation }) => {
+        let title = 'Navigateur web';
         let leftButton = (
-            <TouchableHighlight onPress={_ => {
-                navigation.goBack();
-            }} underlayColor={style.hintColors.green} style={{
-                justifyContent: 'space-around',
-                paddingLeft: 5
-            }}>
-                <View style={{
-                    flexDirection: 'column',
-                    justifyContent: 'center'
+            <TouchableHighlight
+                onPress={(_) => {
+                    navigation.goBack();
+                }}
+                underlayColor={style.hintColors.green}
+                style={{
+                    justifyContent: 'space-around',
+                    paddingLeft: 5,
                 }}>
+                <View
+                    style={{
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                    }}>
                     <Ionicons
                         name="ios-close-outline"
                         size={54}
                         style={{
-                            color: "white"
+                            color: 'white',
                         }}
                     />
                 </View>
             </TouchableHighlight>
         );
         let rightButton = (
-            <View style={{
-                justifyContent: 'space-around',
-                paddingLeft: 5,
-                flexDirection: "row"
-            }}>
-                <View style={{
-                    justifyContent: 'space-around'
+            <View
+                style={{
+                    justifyContent: 'space-around',
+                    paddingLeft: 5,
+                    flexDirection: 'row',
                 }}>
-                    <MaterialCommunityIcons
-                        name="dots-vertical"
-                        size={30}
-                        style={{color: "white"}}
-                    />
+                <View
+                    style={{
+                        justifyContent: 'space-around',
+                    }}>
+                    <MaterialCommunityIcons name="dots-vertical" size={30} style={{ color: 'white' }} />
                 </View>
             </View>
         );
@@ -53,18 +54,18 @@ export default class WebBrowser extends React.Component {
             header: (
                 <View
                     style={{
-                        paddingTop: (Platform.OS === "android") ? StatusBar.currentHeight : 0,
-                        backgroundColor: style.colors.blue
+                        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+                        backgroundColor: style.colors.blue,
                     }}>
                     <NavigationBar
-                        title={{title, tintColor: "white"}}
-                        tintColor={"transparent"}
+                        title={{ title, tintColor: 'white' }}
+                        tintColor={'transparent'}
                         leftButton={leftButton}
                         rightButton={rightButton}
                     />
                 </View>
-            )
-        }
+            ),
+        };
     };
 
     constructor(props) {
@@ -76,13 +77,13 @@ export default class WebBrowser extends React.Component {
             uri: null,
             canGoBack: false,
             canGoForward: false,
-            loading: true
+            loading: true,
         };
         this.entrypoints = {
             ent: 'https://ent.u-bordeaux.fr',
             email: 'https://webmel.u-bordeaux.fr',
             cas: 'https://cas.u-bordeaux.fr',
-            apogee: 'https://apogee.u-bordeaux.fr'
+            apogee: 'https://apogee.u-bordeaux.fr',
         };
     }
 
@@ -92,7 +93,7 @@ export default class WebBrowser extends React.Component {
 
     getUri() {
         if (this.entrypoints.hasOwnProperty(this.state.entrypoint)) {
-            this.setState({uri: this.entrypoints[this.state.entrypoint]});
+            this.setState({ uri: this.entrypoints[this.state.entrypoint] });
         }
     }
 
@@ -109,11 +110,11 @@ export default class WebBrowser extends React.Component {
     }
 
     renderLoading() {
-        return ((
-            <View style={{marginTop: 20}}>
-                <ActivityIndicator size="large"/>
+        return (
+            <View style={{ marginTop: 20 }}>
+                <ActivityIndicator size="large" />
             </View>
-        ));
+        );
     }
 
     render() {
@@ -121,7 +122,7 @@ export default class WebBrowser extends React.Component {
             return this.renderLoading();
         }
 
-        let js = "";
+        let js = '';
         if (this.state.entrypoint === 'cas') {
             js = `
             setTimeout(() => {
@@ -130,7 +131,7 @@ export default class WebBrowser extends React.Component {
             `;
         }
         return (
-            <View style={{flex: 1, flexDirection: 'column'}}>
+            <View style={{ flex: 1, flexDirection: 'column' }}>
                 <WebView
                     style={{}}
                     ref={'WebBrowser'}
@@ -144,37 +145,25 @@ export default class WebBrowser extends React.Component {
                     renderLoading={() => this.renderLoading()}
                     onNavigationStateChange={(e) => {
                         if (!e.loading) {
-                            this.setState({url: e.url, title: e.title, canGoBack: e.canGoBack, loading: e.loading})
+                            this.setState({ url: e.url, title: e.title, canGoBack: e.canGoBack, loading: e.loading });
                         }
                     }}
-                    source={{uri: this.state.uri}}
+                    source={{ uri: this.state.uri }}
                 />
-                <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 5}}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 5 }}>
                     <TouchableOpacity disabled={!this.state.canGoBack} onPress={this.onBack.bind(this)}>
-                        <SimpleLineIcons
-                            name="arrow-left"
-                            size={30}
-                            style={{color: this.state.canGoBack ? 'black' : 'grey'}}
-                        />
+                        <SimpleLineIcons name="arrow-left" size={30} style={{ color: this.state.canGoBack ? 'black' : 'grey' }} />
                     </TouchableOpacity>
                     <TouchableOpacity disabled={!this.state.canGoForward} onPress={this.onForward.bind(this)}>
-                        <SimpleLineIcons
-                            name="arrow-right"
-                            size={30}
-                            style={{color: this.state.canGoForward ? 'black' : 'grey'}}
-                        />
+                        <SimpleLineIcons name="arrow-right" size={30} style={{ color: this.state.canGoForward ? 'black' : 'grey' }} />
                     </TouchableOpacity>
 
-                    <View style={{justifyContent: 'center'}}>
+                    <View style={{ justifyContent: 'center' }}>
                         <Text>{this.state.title}</Text>
                     </View>
 
                     <TouchableOpacity disabled={this.state.loading} onPress={this.onRefresh.bind(this)}>
-                        <SimpleLineIcons
-                            name="refresh"
-                            size={30}
-                            style={{color: this.state.loading ? 'grey' : 'black'}}
-                        />
+                        <SimpleLineIcons name="refresh" size={30} style={{ color: this.state.loading ? 'grey' : 'black' }} />
                     </TouchableOpacity>
                 </View>
             </View>
