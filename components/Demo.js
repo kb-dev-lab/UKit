@@ -16,7 +16,6 @@ export default class Demo extends React.Component {
                 onPress={() => {
                     navigation.openDrawer();
                 }}
-                underlayColor={'transparent'}
                 style={{
                     justifyContent: 'space-around',
                     paddingLeft: 5,

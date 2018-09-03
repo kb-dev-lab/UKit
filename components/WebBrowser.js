@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, Text, TouchableHighlight, TouchableOpacity, View, WebView } from 'react-native';
+import { ActivityIndicator, Text, TouchableOpacity, View, WebView } from 'react-native';
 import style from '../Style';
 import NavigationBar from 'react-native-navbar';
 import { Ionicons, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
@@ -8,11 +8,10 @@ export default class WebBrowser extends React.Component {
     static navigationOptions = ({ navigation }) => {
         let title = 'Navigateur web';
         let leftButton = (
-            <TouchableHighlight
+            <TouchableOpacity
                 onPress={() => {
                     navigation.goBack();
                 }}
-                underlayColor={style.hintColors.green}
                 style={{
                     justifyContent: 'space-around',
                     paddingLeft: 5,
@@ -30,7 +29,7 @@ export default class WebBrowser extends React.Component {
                         }}
                     />
                 </View>
-            </TouchableHighlight>
+            </TouchableOpacity>
         );
         let rightButton = (
             <View
@@ -84,7 +83,7 @@ export default class WebBrowser extends React.Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.getUri();
     }
 

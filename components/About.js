@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableHighlight, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import style from '../Style';
 import { Ionicons } from '@expo/vector-icons';
 import NavigationBar from 'react-native-navbar';
@@ -9,11 +9,10 @@ export default class About extends React.Component {
     static navigationOptions = ({ navigation }) => {
         let title = 'À propos';
         let leftButton = (
-            <TouchableHighlight
+            <TouchableOpacity
                 onPress={() => {
                     navigation.goBack();
                 }}
-                underlayColor={style.hintColors.blue}
                 style={{
                     justifyContent: 'space-around',
                     paddingLeft: 5,
@@ -44,7 +43,7 @@ export default class About extends React.Component {
                         </Text>
                     </View>
                 </View>
-            </TouchableHighlight>
+            </TouchableOpacity>
         );
         return {
             title,
@@ -63,7 +62,7 @@ export default class About extends React.Component {
         return (
             <View style={{ flex: 1 }}>
                 <View style={style.about.view}>
-                    <Text style={style.about.title}>Ukit</Text>
+                    <Text style={style.about.title}>Ukit Bordeaux</Text>
                     <View style={style.about.content}>
                         <Text>Cette application a été développée par Jean B. dans le cadre du concours HackeTaFac 2017.</Text>
                     </View>
@@ -72,7 +71,7 @@ export default class About extends React.Component {
                     <View style={style.about.content}>
                         <URLButton url="https://twitter.com/HackJack_" title="Twitter" />
                         <URLButton url="https://github.com/Jack3113" title="Github" />
-                        <URLButton url="https://hackjack.info" title="Site web" />
+                        <URLButton url="https://ukit-bordeaux.fr" title="Site web" />
                     </View>
                 </View>
             </View>

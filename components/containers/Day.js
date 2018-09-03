@@ -21,7 +21,7 @@ export default class Day extends React.Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.fetchSchedule();
     }
 

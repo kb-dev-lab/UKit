@@ -6,7 +6,7 @@
         "privacy": "public",
         "githubUrl": "https://github.com/Jack3113/UKit",
         "sdkVersion": "29.0.0",
-        "version": "3.0.2",
+        "version": "3.0.3",
         "orientation": "portrait",
         "primaryColor": "#006F9F",
         "icon": "./assets/icons/app_1024_alpha.png",
@@ -26,8 +26,9 @@
             "bundleIdentifier": "com.bordeaux.ukit"
         },
         "android": {
-            "package": "com.bordeaux.ukit",
-            "permissions": []
+            "package": "com.bordeaux1.emplois",
+            "permissions": [],
+            "versionCode": 43
         },
         "androidStatusBar": {
             "barStyle": "light-content"

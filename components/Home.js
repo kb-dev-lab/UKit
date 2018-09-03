@@ -1,17 +1,17 @@
 import React from 'react';
-import { ActivityIndicator, Image, SectionList, Text, TouchableHighlight, View } from 'react-native';
+import { ActivityIndicator, Image, SectionList, Text, TouchableOpacity, View } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
-import style from '../Style';
+import { Feather, FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
 import axios from 'axios';
-import GroupRow from './containers/GroupRow';
-import SectionListHeader from './containers/headers/SectionListHeader';
 import { Hideo } from 'react-native-textinput-effects';
 import NavigationBar from 'react-native-navbar';
 import store from 'react-native-simple-store';
 import moment from 'moment';
 import 'moment/locale/fr';
-import { Feather, FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
 
+import SectionListHeader from './containers/headers/SectionListHeader';
+import GroupRow from './containers/GroupRow';
+import style from '../Style';
 moment.locale('fr');
 
 function cacheFonts(fonts) {
@@ -44,11 +44,10 @@ export default class Home extends React.Component {
                         title={{ title, tintColor: 'white' }}
                         tintColor={'transparent'}
                         leftButton={
-                            <TouchableHighlight
+                            <TouchableOpacity
                                 onPress={() => {
                                     navigation.openDrawer();
                                 }}
-                                underlayColor={'transparent'}
                                 style={{
                                     justifyContent: 'space-around',
                                     paddingLeft: 5,
@@ -66,7 +65,7 @@ export default class Home extends React.Component {
                                         }}
                                     />
                                 </View>
-                            </TouchableHighlight>
+                            </TouchableOpacity>
                         }
                     />
                 </View>

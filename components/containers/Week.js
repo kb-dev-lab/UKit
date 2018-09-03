@@ -27,7 +27,7 @@ export default class Week extends React.Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.fetchSchedule();
     }
 
@@ -45,8 +45,14 @@ export default class Week extends React.Component {
         return 'Semaine ' + this.state.week;
     }
 
+    openDay(day) {
+        const { navigate } = this.props.navigation;
+        navigate('Day', { groupName: this.state.groupName });
+    }
+
     render() {
         let content;
+
         if (this.state.schedule === null) {
             if (this.state.error === null) {
                 content = <ActivityIndicator style={style.containerView} size="large" animating={true} />;
@@ -73,7 +79,9 @@ export default class Week extends React.Component {
                         renderItem={({ item }) => <CourseRow data={item} />}
                         renderSectionHeader={({ section }) => (
                             <View style={{ backgroundColor: style.colors.backgroundGrey, paddingVertical: 3 }}>
-                                <Text style={style.weekView.dayTitle}>{section.key}</Text>
+                                <TouchableOpacity>
+                                    <Text style={style.weekView.dayTitle}>{section.key}</Text>
+                                </TouchableOpacity>
                             </View>
                         )}
                         sections={sections}

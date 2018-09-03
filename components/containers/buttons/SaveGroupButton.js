@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableHighlight, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import store from 'react-native-simple-store';
 import { connect } from 'react-redux';
@@ -38,9 +38,8 @@ class SaveGroupButton extends React.Component {
 
     render() {
         return (
-            <TouchableHighlight
+            <TouchableOpacity
                 onPress={() => this.saveGroup()}
-                underlayColor={'transparent'}
                 style={{
                     justifyContent: 'space-around',
                     paddingLeft: 5,
@@ -52,7 +51,7 @@ class SaveGroupButton extends React.Component {
                     }}>
                     <MaterialIcons name={this.isSaved() ? 'star' : 'star-border'} size={30} style={{ color: 'white' }} />
                 </View>
-            </TouchableHighlight>
+            </TouchableOpacity>
         );
     }
 }

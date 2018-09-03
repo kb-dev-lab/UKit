@@ -1,5 +1,5 @@
 import React from 'react';
-import { Linking, Text, TouchableHighlight } from 'react-native';
+import { Linking, Text, TouchableOpacity } from 'react-native';
 import style from '../../../Style';
 
 export default class URLButton extends React.Component {
@@ -25,9 +25,9 @@ export default class URLButton extends React.Component {
 
     render() {
         return (
-            <TouchableHighlight underlayColor={style.colors.lightblue} onPress={() => this.openURL()}>
+            <TouchableOpacity onPress={() => this.openURL()}>
                 <Text style={{ color: style.colors.darkblue }}>{this.state.title}</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
         );
     }
 }

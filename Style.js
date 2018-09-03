@@ -1,3 +1,5 @@
+import { Constants } from 'expo';
+
 const colors = {
     red: '',
     white: '#FFF',
@@ -322,5 +324,9 @@ export default {
             textAlign: 'center',
             fontWeight: 'bold',
         },
+    },
+    statusBar: {
+        backgroundColor: colors.blue,
+        height: Constants.statusBarHeight,
     },
 };

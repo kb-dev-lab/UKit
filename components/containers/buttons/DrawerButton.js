@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableHighlight, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 export default class DrawerButton extends React.Component {
@@ -22,11 +22,10 @@ export default class DrawerButton extends React.Component {
             icon = <MaterialIcons name={this.state.icon} size={this.state.size} style={{ color: this.state.color }} />;
         }
         return (
-            <TouchableHighlight
+            <TouchableOpacity
                 onPress={() => {
                     this.state.onPress();
-                }}
-                underlayColor={'#9b9b9b'}>
+                }}>
                 <View
                     style={{
                         justifyContent: 'space-around',
@@ -46,7 +45,7 @@ export default class DrawerButton extends React.Component {
                         </View>
                     </View>
                 </View>
-            </TouchableHighlight>
+            </TouchableOpacity>
         );
     }
 }

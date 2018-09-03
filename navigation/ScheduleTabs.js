@@ -11,7 +11,6 @@ export default createBottomTabNavigator({
         screen: WeekSwiper
     }
 }, {
-    lazy: true,
     tabBarOptions: {
         indicatorStyle: {
             backgroundColor: '#FFF'

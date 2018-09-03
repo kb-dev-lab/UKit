@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, Platform, View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import WeekComponent from './containers/Week';
 import moment from 'moment';
@@ -15,8 +15,7 @@ export default class WeekSwiper extends React.Component {
     static navigationOptions = {
         tabBarLabel: 'Semaine',
         tabBarIcon: ({ tintColor }) => {
-            let size = Platform.OS === 'android' ? 16 : 24;
-            return <MaterialCommunityIcons name="calendar-multiple" size={size} style={{ color: tintColor }} />;
+            return <MaterialCommunityIcons name="calendar-multiple" size={24} style={{ color: tintColor }} />;
         },
     };
 
@@ -37,21 +36,20 @@ export default class WeekSwiper extends React.Component {
         };
     }
 
-    componentWillMount() {
-        setTimeout(() => {
-            let weeks = WeekStore.getWeeks();
-            let index = 0;
-            for (index; index < weeks.length; index++) {
-                if (parseInt(this.state.currentDay.isoWeek()) === weeks[index]) {
-                    break;
-                }
+    componentDidMount() {
+        let weeks = WeekStore.getWeeks();
+        let index = 0;
+        for (index; index < weeks.length; index++) {
+            if (parseInt(this.state.currentDay.isoWeek()) === weeks[index]) {
+                break;
             }
-            this.setState({ index, weeks });
-        });
+        }
+        this.setState({ index, weeks });
     }
 
     render() {
-        if (this.state.weeks.length === 0 || this.state.index === null) {
+        console.log({ swipe: 'week', ...this.state });
+        if (true || this.state.weeks.length === 0 || this.state.index === null) {
             return (
                 <View style={{ flex: 1 }}>
                     <ActivityIndicator style={style.containerView} size="large" animating={false} />

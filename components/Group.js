@@ -1,6 +1,6 @@
 import React from 'react';
 import Tabs from '../navigation/ScheduleTabs';
-import { Text, TouchableHighlight, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import style from '../Style';
 import NavigationBar from 'react-native-navbar';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -13,11 +13,10 @@ export default class Group extends React.Component {
         let groupName = navigation.state.params.name;
         let title = groupName.replace(/_/g, ' ');
         let leftButton = (
-            <TouchableHighlight
+            <TouchableOpacity
                 onPress={() => {
                     navigation.goBack();
                 }}
-                underlayColor={style.hintColors.blue}
                 style={{
                     justifyContent: 'space-around',
                     paddingLeft: 5,
@@ -48,7 +47,7 @@ export default class Group extends React.Component {
                         </Text>
                     </View>
                 </View>
-            </TouchableHighlight>
+            </TouchableOpacity>
         );
         let rightButton = (
             <View
