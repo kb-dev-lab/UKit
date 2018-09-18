@@ -48,13 +48,8 @@ export default class WeekSwiper extends React.Component {
     }
 
     render() {
-        console.log({ swipe: 'week', ...this.state });
         if (true || this.state.weeks.length === 0 || this.state.index === null) {
-            return (
-                <View style={{ flex: 1 }}>
-                    <ActivityIndicator style={style.containerView} size="large" animating={false} />
-                </View>
-            );
+            return <ActivityIndicator style={style.containerView} size="large" animating={false} />;
         } else {
             return (
                 <View style={{ flex: 1 }}>

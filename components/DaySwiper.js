@@ -54,7 +54,7 @@ export default class DaySwiper extends React.Component {
             );
         });
 
-        this.setState({ index: 2, days, renderedDays });
+        this.setState({ index: 4, days, renderedDays });
     }
 
     static getNextDay(day) {
@@ -80,16 +80,33 @@ export default class DaySwiper extends React.Component {
     }
 
     static computeDays(currentDay) {
-        let nextDay = this.getNextDay(currentDay);
-        let previousDay = this.getPreviousDay(currentDay);
+        let dayPlus1 = this.getNextDay(currentDay);
+        let dayPlus2 = this.getNextDay(dayPlus1);
+        let dayPlus3 = this.getNextDay(dayPlus2);
 
-        return [this.getPreviousDay(previousDay), previousDay, currentDay, nextDay, this.getNextDay(nextDay)];
+        let dayMinus1 = this.getPreviousDay(currentDay);
+        let dayMinus2 = this.getPreviousDay(dayMinus1);
+        let dayMinus3 = this.getPreviousDay(dayMinus2);
+
+        return [
+            this.getPreviousDay(dayMinus3),
+            dayMinus3,
+            dayMinus2,
+            dayMinus1,
+            currentDay,
+            dayPlus1,
+            dayPlus2,
+            dayPlus3,
+            this.getNextDay(dayPlus3),
+        ];
     }
 
-    onDayChange(e, state) {
+    onDayChange(e, state, context) {
         let index = state.index;
+        console.log({ state });
 
         if (index > this.state.index) {
+            console.log('NEXT DAY', { SwiperIndex: index, StateIndex: this.state.index });
             if (index >= this.state.days.length - 1) {
                 let nextDay = this.state.days[this.state.days.length - 1].clone();
 
@@ -117,21 +134,52 @@ export default class DaySwiper extends React.Component {
                 this.setState({ index });
             }
         } else if (index < this.state.index) {
-            this.setState({ index });
+            console.log('PREVIOUS DAY', { SwiperIndex: index, StateIndex: this.state.index });
+            if (index === 0) {
+                let previousDays = this.state.days[0].clone();
+
+                previousDays.subtract(1, 'days');
+                if (previousDays.isoWeekday() === 7) {
+                    previousDays.subtract(1, 'days');
+                }
+
+                const days = this.state.days;
+                days.unshift(previousDays);
+
+                const renderedDays = this.state.renderedDays;
+                renderedDays.unshift(
+                    <DayComponent
+                        key={previousDays.dayOfYear()}
+                        day={previousDays}
+                        groupName={this.state.groupName}
+                        nextFunction={() => this.refs.daySwiper.scrollBy(1, true)}
+                        previousFunction={() => this.refs.daySwiper.scrollBy(-1, true)}
+                    />
+                );
+
+                this.setState({ days, renderedDays, index: 1 });
+            } else {
+                context.setState({ index: index });
+            }
+        } else {
+            console.log('NOTHING');
         }
     }
 
     render() {
         if (this.state.index !== null) {
+            console.log({ indexRender: this.state.index });
             return (
                 <Swiper
                     ref="daySwiper"
+                    // key={this.state.days.length}
                     showsButtons={false}
                     showsPagination={true}
                     index={this.state.index}
                     loadMinimal={true}
-                    loadMinimalSize={1}
+                    loadMinimalSize={3}
                     loop={false}
+                    loadMinimalLoader={null}
                     onMomentumScrollEnd={this.onDayChange}>
                     {this.state.renderedDays}
                 </Swiper>
