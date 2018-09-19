@@ -8,8 +8,8 @@ import DrawerButton from './components/containers/buttons/DrawerButton';
 import MyGroupButton from './components/containers/buttons/MyGroupButton';
 import Split from './components/containers/headers/Split';
 import style from './Style';
-import DayStore from './stores/DayStore';
-import WeekStore from './stores/WeekStore';
+// import DayStore from './stores/DayStore';
+// import WeekStore from './stores/WeekStore';
 import WebBrowser from './components/WebBrowser';
 import Geolocation from './components/Geolocation';
 import { Provider } from 'react-redux';
@@ -145,8 +145,8 @@ const Drawer = createDrawerNavigator(
     }
 );
 
-DayStore.check();
-WeekStore.check();
+// DayStore.check();
+// WeekStore.check();
 
 const { pStore, store } = configureStore();
 const RNRedux = () => (
