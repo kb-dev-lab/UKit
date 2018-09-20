@@ -5,7 +5,7 @@ import WeekComponent from './containers/Week';
 import moment from 'moment';
 import style from '../Style';
 import 'moment/locale/fr';
-import Swiper from 'react-native-swiper';
+import Swiper from './Swiper';
 
 moment.locale('fr');
 const swiperReference = 'weekSwiper';
@@ -41,8 +41,6 @@ export default class WeekSwiper extends React.Component {
     componentDidMount() {
         let weeks = WeekSwiper.computeWeeks(this.state.currentWeek);
 
-        console.log({ weeks });
-
         const renderedWeeks = weeks.map((week, key) => {
             return (
                 <WeekComponent
@@ -66,6 +64,7 @@ export default class WeekSwiper extends React.Component {
 
         if (index > this.state.index) {
             if (index >= this.state.weeks.length - 2) {
+                // TODO : Avoid numbers > 53
                 let nextWeek = this.state.weeks[this.state.weeks.length - 1] + 1;
 
                 const weeks = this.state.weeks;
@@ -88,6 +87,7 @@ export default class WeekSwiper extends React.Component {
             }
         } else if (index < this.state.index) {
             if (index <= 0) {
+                // TODO : Avoid negative numbers
                 let previousWeek = this.state.weeks[0] - 1;
 
                 const weeks = this.state.weeks;
@@ -123,7 +123,7 @@ export default class WeekSwiper extends React.Component {
                         loadMinimal={true}
                         dynamic={true}
                         loadMinimalSize={3}
-                        onMomentumScrollEnd={this.onDayChange}>
+                        onMomentumScrollEnd={this.onWeekChange}>
                         {this.state.renderedWeeks}
                     </Swiper>
                 </View>

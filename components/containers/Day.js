@@ -19,19 +19,27 @@ export default class Day extends React.Component {
             error: null,
             schedule: null,
         };
+        this._source = axios.CancelToken.source();
     }
 
     componentDidMount() {
         this.fetchSchedule();
     }
 
+    componentWillUnmount() {
+        this._source.cancel('Operation canceled due component being unmounted.');
+    }
+
     fetchSchedule() {
         let groupName = this.state.groupName;
         let data = groupName.split('_');
         let date = this.state.day.format('YYYY/MM/DD');
-        axios.get(`https://hackjack.info/et/json.php?type=day&name=${data[0]}&group=${data[1]}&date=${date}`).then((response) => {
-            this.setState({ schedule: response.data, error: null });
-        });
+        axios
+            .get(`https://hackjack.info/et/json.php?type=day&name=${data[0]}&group=${data[1]}&date=${date}`, { cancelToken: this._source.token })
+            .then((response) => {
+                this.setState({ schedule: response.data, error: null });
+            })
+            .catch(() => null);
     }
 
     displayDate() {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, Platform, SectionList, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Platform, FlatList, SectionList, Text, TouchableOpacity, View } from 'react-native';
 import axios from 'axios';
 import style from '../../Style';
 import CourseRow from './CourseRow';
@@ -26,20 +26,29 @@ export default class Week extends React.Component {
             error: null,
             schedule: null,
         };
+
+        this._source = axios.CancelToken.source();
     }
 
     componentDidMount() {
         this.fetchSchedule();
     }
 
+    componentWillUnmount() {
+        this._source.cancel('Operation canceled due component being unmounted.');
+    }
+
     fetchSchedule() {
         let groupName = this.state.groupName;
         let data = groupName.split('_');
         axios
-            .get(`https://hackjack.info/et/json.php?type=week&name=${data[0]}&group=${data[1]}&week=${this.state.week}&clean=true`)
+            .get(`https://hackjack.info/et/json.php?type=week&name=${data[0]}&group=${data[1]}&week=${this.state.week}&clean=true`, {
+                cancelToken: this._source.token,
+            })
             .then((response) => {
                 this.setState({ schedule: response.data, error: null });
-            });
+            })
+            .catch(() => null);
     }
 
     displayWeek() {
@@ -61,34 +70,41 @@ export default class Week extends React.Component {
                 content = <Text style={style.schedule.noCourse}>Erreur {JSON.stringify(this.state.error)}</Text>;
             }
         } else if (this.state.schedule instanceof Array) {
-            let sections = [];
-            this.state.schedule.forEach(function(day) {
-                let sectionContent = {
-                    key: '',
-                    data: [],
-                };
-                sectionContent.key = upperCaseFirstLetter(moment.unix(day.dayTimestamp).format('dddd DD/MM/YYYY'));
+            let courses = this.state.schedule.reduce((allCourses, day) => {
+                let content = [
+                    {
+                        category: false,
+                        type: 'header',
+                        content: upperCaseFirstLetter(moment.unix(day.dayTimestamp).format('dddd DD/MM/YYYY')),
+                        schedule: 'header' + day.dayTimestamp,
+                    },
+                ];
                 if (day.courses.length === 0) {
-                    day.courses = [{ dayNumber: day.dayNumber, category: 'nocourse' }];
+                    day.courses = [{ dayNumber: day.dayNumber, schedule: 'nocourse', category: 'nocourse' }];
                 }
-                sectionContent.data = day.courses;
-                sections.push(sectionContent);
-            });
+
+                return allCourses.concat(content.concat(day.courses));
+            }, []);
+
             content = (
                 <View style={style.schedule.contentView}>
-                    <SectionList
-                        renderItem={({ item }) => <CourseRow data={item} />}
-                        renderSectionHeader={({ section }) => (
-                            <View style={{ backgroundColor: style.colors.backgroundGrey, paddingVertical: 3 }}>
-                                <TouchableOpacity>
-                                    <Text style={style.weekView.dayTitle}>{section.key}</Text>
-                                </TouchableOpacity>
-                            </View>
-                        )}
-                        sections={sections}
+                    <FlatList
+                        renderItem={({ item }) => {
+                            if (item.category) {
+                                return <CourseRow data={item} />;
+                            }
+                            return (
+                                <View style={{ backgroundColor: style.colors.backgroundGrey, paddingVertical: 3 }}>
+                                    <TouchableOpacity>
+                                        <Text style={style.weekView.dayTitle}>{item.content}</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            );
+                        }}
+                        data={courses}
                         initialNumToRender={20}
-                        onEndReachedThreshold={0.1}
-                        keyExtractor={(item, index) => String(item.dayNumber) + String(index)}
+                        onEndReachedThreshold={0.5}
+                        keyExtractor={(item, index) => String(item.dayNumber) + String(index) + item.schedule}
                     />
                 </View>
             );
