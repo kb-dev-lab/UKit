@@ -138,7 +138,7 @@ export default class DaySwiper extends React.Component {
                 this.setState({ index });
             }
         } else if (index < this.state.index) {
-            if (index <= 1) {
+            if (index <= 0) {
                 let previousDays = this.state.days[0].clone();
 
                 previousDays.subtract(1, 'days');
@@ -160,12 +160,10 @@ export default class DaySwiper extends React.Component {
                     />
                 );
 
-                this.setState({ days, renderedDays, index: 2 });
+                this.setState({ days, renderedDays, index: 1 });
             } else {
                 this.setState({ index: index });
             }
-        } else {
-            console.log('NOTHING');
         }
     }
 
@@ -175,7 +173,7 @@ export default class DaySwiper extends React.Component {
                 <Swiper
                     ref="daySwiper"
                     showsButtons={false}
-                    showsPagination={true}
+                    showsPagination={false}
                     index={this.state.index}
                     loadMinimal={true}
                     loadMinimalSize={3}

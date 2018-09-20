@@ -187,22 +187,20 @@ export default class extends Component {
     loopJumpTimer = null;
 
     componentWillReceiveProps(nextProps) {
-        console.log({ nextProps });
-
         let indexUpdated = this.props.index !== nextProps.index;
 
         if (nextProps.dynamic) {
             indexUpdated = this.props.index <= 2;
         }
 
-        console.log({ indexUpdated });
-
         this.setState(this.initState(nextProps, indexUpdated), () => {
             indexUpdated && this.androidPageIndexChangeFix();
         });
     }
 
-    componentDidMount() {}
+    componentDidMount() {
+        this.scrollView.scrollTo({ x: this.state.width * this.state.index, y: 0, animated: false });
+    }
 
     componentWillUnmount() {}
 
@@ -256,20 +254,16 @@ export default class extends Component {
             initState.height = height;
         }
 
-        initState.offset[initState.dir] = initState.dir === 'y' ? height * props.index : width * props.index;
-
-        let offset;
-
-        if (initState.dir === 'y') {
-            offset = { y: height * props.index };
-        } else {
-            offset = { x: width * props.index };
+        if (initState.index === 1) {
+            this.scrollView.scrollTo({ x: width, y: 0, animated: false });
         }
+
+        initState.offset[initState.dir] = initState.dir === 'y' ? height * props.index : width * props.index;
 
         this.internals = {
             ...this.internals,
             isScrolling: false,
-            offset,
+            offset: initState.offset,
         };
 
         return initState;
@@ -296,15 +290,6 @@ export default class extends Component {
             state.offset = offset;
         }
 
-        // related to https://github.com/leecade/react-native-swiper/issues/570
-        // contentOffset is not working in react 0.48.x so we need to use scrollTo
-        // to emulate offset.
-        if (this.props.dynamic || Platform.OS === 'ios') {
-            if (this.initialRender && this.state.total > 1) {
-                this.scrollView.scrollTo({ ...offset, animated: false });
-                this.initialRender = false;
-            }
-        }
         this.setState(state);
     };
 
@@ -573,10 +558,11 @@ export default class extends Component {
                     {...this.props}
                     {...this.scrollViewPropOverrides()}
                     contentContainerStyle={[styles.wrapperIOS, this.props.style]}
-                    contentOffset={this.state.offset}
                     onScrollBeginDrag={this.onScrollBegin}
                     onMomentumScrollEnd={this.onScrollEnd}
                     onScrollEndDrag={this.onScrollEndDrag}
+                    horizontal={true}
+                    pagingEnabled={true}
                     style={this.props.scrollViewStyle}>
                     {pages}
                 </ScrollView>
@@ -638,20 +624,20 @@ export default class extends Component {
                 if (loadMinimal) {
                     if (i >= index + loopVal - loadMinimalSize && i <= index + loopVal + loadMinimalSize) {
                         return (
-                            <View style={pageStyle} key={i}>
+                            <View style={pageStyle} key={children[page].key}>
                                 {children[page]}
                             </View>
                         );
                     } else {
                         return (
-                            <View style={pageStyleLoading} key={i}>
+                            <View style={pageStyleLoading} key={children[page].key}>
                                 {loadMinimalLoader ? loadMinimalLoader : <ActivityIndicator />}
                             </View>
                         );
                     }
                 } else {
                     return (
-                        <View style={pageStyle} key={i}>
+                        <View style={pageStyle} key={children[page].key}>
                             {children[page]}
                         </View>
                     );
