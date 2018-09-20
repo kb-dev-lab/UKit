@@ -5,8 +5,9 @@ import DayComponent from './containers/Day';
 import moment from 'moment';
 import style from '../Style';
 import 'moment/locale/fr';
-import Swiper from 'react-native-swiper';
-import DayStore from '../stores/DayStore';
+import Swiper from './Swiper';
+// import Swiper from 'react-native-swiper';
+// import DayStore from '../stores/DayStore';
 
 moment.locale('fr');
 
@@ -37,6 +38,7 @@ export default class DaySwiper extends React.Component {
         };
 
         this.onDayChange = this.onDayChange.bind(this);
+        this.onIndexChange = this.onIndexChange.bind(this);
     }
 
     componentDidMount() {
@@ -101,13 +103,15 @@ export default class DaySwiper extends React.Component {
         ];
     }
 
+    onIndexChange(index) {
+        // console.log({ index, stateIndex: this.state.index });
+    }
+
     onDayChange(e, state, context) {
         let index = state.index;
-        console.log({ state });
 
         if (index > this.state.index) {
-            console.log('NEXT DAY', { SwiperIndex: index, StateIndex: this.state.index });
-            if (index >= this.state.days.length - 1) {
+            if (index >= this.state.days.length - 2) {
                 let nextDay = this.state.days[this.state.days.length - 1].clone();
 
                 nextDay.add(1, 'days');
@@ -134,8 +138,7 @@ export default class DaySwiper extends React.Component {
                 this.setState({ index });
             }
         } else if (index < this.state.index) {
-            console.log('PREVIOUS DAY', { SwiperIndex: index, StateIndex: this.state.index });
-            if (index === 0) {
+            if (index <= 1) {
                 let previousDays = this.state.days[0].clone();
 
                 previousDays.subtract(1, 'days');
@@ -157,9 +160,9 @@ export default class DaySwiper extends React.Component {
                     />
                 );
 
-                this.setState({ days, renderedDays, index: 1 });
+                this.setState({ days, renderedDays, index: 2 });
             } else {
-                context.setState({ index: index });
+                this.setState({ index: index });
             }
         } else {
             console.log('NOTHING');
@@ -168,18 +171,16 @@ export default class DaySwiper extends React.Component {
 
     render() {
         if (this.state.index !== null) {
-            console.log({ indexRender: this.state.index });
             return (
                 <Swiper
                     ref="daySwiper"
-                    // key={this.state.days.length}
                     showsButtons={false}
                     showsPagination={true}
                     index={this.state.index}
                     loadMinimal={true}
                     loadMinimalSize={3}
                     loop={false}
-                    loadMinimalLoader={null}
+                    dynamic={true}
                     onMomentumScrollEnd={this.onDayChange}>
                     {this.state.renderedDays}
                 </Swiper>
