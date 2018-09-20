@@ -38,7 +38,6 @@ export default class DaySwiper extends React.Component {
         };
 
         this.onDayChange = this.onDayChange.bind(this);
-        this.onIndexChange = this.onIndexChange.bind(this);
     }
 
     componentDidMount() {
@@ -103,21 +102,12 @@ export default class DaySwiper extends React.Component {
         ];
     }
 
-    onIndexChange(index) {
-        // console.log({ index, stateIndex: this.state.index });
-    }
-
     onDayChange(e, state, context) {
         let index = state.index;
 
         if (index > this.state.index) {
             if (index >= this.state.days.length - 2) {
-                let nextDay = this.state.days[this.state.days.length - 1].clone();
-
-                nextDay.add(1, 'days');
-                if (nextDay.isoWeekday() === 7) {
-                    nextDay.add(1, 'days');
-                }
+                let nextDay = DaySwiper.getNextDay(this.state.days[this.state.days.length - 1]);
 
                 const days = this.state.days;
                 days.push(nextDay);
@@ -139,12 +129,7 @@ export default class DaySwiper extends React.Component {
             }
         } else if (index < this.state.index) {
             if (index <= 0) {
-                let previousDays = this.state.days[0].clone();
-
-                previousDays.subtract(1, 'days');
-                if (previousDays.isoWeekday() === 7) {
-                    previousDays.subtract(1, 'days');
-                }
+                let previousDays = DaySwiper.getPreviousDay(this.state.days[0]);
 
                 const days = this.state.days;
                 days.unshift(previousDays);
@@ -162,7 +147,7 @@ export default class DaySwiper extends React.Component {
 
                 this.setState({ days, renderedDays, index: 1 });
             } else {
-                this.setState({ index: index });
+                this.setState({ index });
             }
         }
     }
@@ -177,7 +162,6 @@ export default class DaySwiper extends React.Component {
                     index={this.state.index}
                     loadMinimal={true}
                     loadMinimalSize={3}
-                    loop={false}
                     dynamic={true}
                     onMomentumScrollEnd={this.onDayChange}>
                     {this.state.renderedDays}

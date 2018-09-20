@@ -6,7 +6,6 @@ import moment from 'moment';
 import style from '../Style';
 import 'moment/locale/fr';
 import Swiper from 'react-native-swiper';
-import WeekStore from '../stores/WeekStore';
 
 moment.locale('fr');
 const swiperReference = 'weekSwiper';
@@ -29,52 +28,108 @@ export default class WeekSwiper extends React.Component {
 
         this.state = {
             groupName,
-            week: parseInt(currentDay.isoWeek()),
+            currentWeek: parseInt(currentDay.isoWeek()),
             currentDay,
             weeks: [],
             index: null,
+            renderedWeeks: [],
         };
+
+        this.onWeekChange = this.onWeekChange.bind(this);
     }
 
     componentDidMount() {
-        let weeks = WeekStore.getWeeks();
-        let index = 0;
-        for (index; index < weeks.length; index++) {
-            if (parseInt(this.state.currentDay.isoWeek()) === weeks[index]) {
-                break;
+        let weeks = WeekSwiper.computeWeeks(this.state.currentWeek);
+
+        console.log({ weeks });
+
+        const renderedWeeks = weeks.map((week, key) => {
+            return (
+                <WeekComponent
+                    key={key}
+                    week={week}
+                    groupName={this.state.groupName}
+                    nextFunction={() => this.refs[swiperReference].scrollBy(1, true)}
+                    previousFunction={() => this.refs[swiperReference].scrollBy(-1, true)}
+                />
+            );
+        });
+        this.setState({ index: 3, weeks, renderedWeeks });
+    }
+
+    static computeWeeks(currentWeek) {
+        return [currentWeek - 3, currentWeek - 2, currentWeek - 1, currentWeek, currentWeek + 1, currentWeek + 2, currentWeek + 3];
+    }
+
+    onWeekChange(e, state, context) {
+        let index = state.index;
+
+        if (index > this.state.index) {
+            if (index >= this.state.weeks.length - 2) {
+                let nextWeek = this.state.weeks[this.state.weeks.length - 1] + 1;
+
+                const weeks = this.state.weeks;
+                weeks.push(nextWeek);
+
+                const renderedWeeks = this.state.renderedWeeks;
+                renderedWeeks.push(
+                    <WeekComponent
+                        key={nextWeek}
+                        week={nextWeek}
+                        groupName={this.state.groupName}
+                        nextFunction={() => this.refs[swiperReference].scrollBy(1, true)}
+                        previousFunction={() => this.refs[swiperReference].scrollBy(-1, true)}
+                    />
+                );
+
+                this.setState({ weeks, renderedWeeks, index });
+            } else {
+                this.setState({ index });
+            }
+        } else if (index < this.state.index) {
+            if (index <= 0) {
+                let previousWeek = this.state.weeks[0] - 1;
+
+                const weeks = this.state.weeks;
+                weeks.unshift(previousWeek);
+
+                const renderedWeeks = this.state.renderedWeeks;
+                renderedWeeks.push(
+                    <WeekComponent
+                        key={previousWeek}
+                        week={previousWeek}
+                        groupName={this.state.groupName}
+                        nextFunction={() => this.refs[swiperReference].scrollBy(1, true)}
+                        previousFunction={() => this.refs[swiperReference].scrollBy(-1, true)}
+                    />
+                );
+
+                this.setState({ weeks, renderedWeeks, index: 1 });
+            } else {
+                this.setState({ index });
             }
         }
-        this.setState({ index, weeks });
     }
 
     render() {
-        if (true || this.state.weeks.length === 0 || this.state.index === null) {
-            return <ActivityIndicator style={style.containerView} size="large" animating={false} />;
-        } else {
+        if (this.state.index !== null) {
             return (
                 <View style={{ flex: 1 }}>
                     <Swiper
                         ref={swiperReference}
                         showsButtons={false}
-                        showsPagination={false}
+                        showsPagination={true}
                         index={this.state.index}
                         loadMinimal={true}
-                        loadMinimalSize={7}
-                        loop={true}>
-                        {this.state.weeks.map((week, key) => {
-                            return (
-                                <WeekComponent
-                                    key={key}
-                                    week={week}
-                                    groupName={this.state.groupName}
-                                    nextFunction={() => this.refs[swiperReference].scrollBy(1, true)}
-                                    previousFunction={() => this.refs[swiperReference].scrollBy(-1, true)}
-                                />
-                            );
-                        })}
+                        dynamic={true}
+                        loadMinimalSize={3}
+                        onMomentumScrollEnd={this.onDayChange}>
+                        {this.state.renderedWeeks}
                     </Swiper>
                 </View>
             );
+        } else {
+            return <ActivityIndicator style={style.containerView} size="large" animating={true} />;
         }
     }
 }

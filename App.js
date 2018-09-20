@@ -1,9 +1,10 @@
 import React from 'react';
+import { ActivityIndicator, Image, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { createDrawerNavigator } from 'react-navigation';
+
 import StackNavigator from './navigation/StackNavigator';
 import About from './components/About';
 // import Demo from './components/Demo';
-import { ActivityIndicator, Image, StatusBar, StyleSheet, Text, View } from 'react-native';
-import { createDrawerNavigator } from 'react-navigation';
 import DrawerButton from './components/containers/buttons/DrawerButton';
 import MyGroupButton from './components/containers/buttons/MyGroupButton';
 import Split from './components/containers/headers/Split';

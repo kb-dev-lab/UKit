@@ -4,18 +4,7 @@
  */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-    Text,
-    View,
-    ViewPropTypes,
-    ScrollView,
-    Dimensions,
-    TouchableOpacity,
-    ViewPagerAndroid,
-    Platform,
-    ActivityIndicator,
-} from 'react-native';
-import ViewPagerAndroidContainer from './ViewPagerAndroidContainer';
+import { Text, View, ScrollView, Dimensions, TouchableOpacity, Platform, ActivityIndicator } from 'react-native';
 
 /**
  * Default styles
@@ -123,10 +112,6 @@ export default class extends Component {
         loadMinimal: PropTypes.bool,
         loadMinimalSize: PropTypes.number,
         loadMinimalLoader: PropTypes.element,
-        loop: PropTypes.bool,
-        autoplay: PropTypes.bool,
-        autoplayTimeout: PropTypes.number,
-        autoplayDirection: PropTypes.bool,
         index: PropTypes.number,
         renderPagination: PropTypes.func,
         dotStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
@@ -160,9 +145,6 @@ export default class extends Component {
         loop: true,
         loadMinimal: false,
         loadMinimalSize: 1,
-        autoplay: false,
-        autoplayTimeout: 2.5,
-        autoplayDirection: true,
         index: 0,
         onIndexChanged: () => null,
     };
@@ -173,25 +155,12 @@ export default class extends Component {
      */
     state = this.initState(this.props);
 
-    /**
-     * Initial render flag
-     * @type {bool}
-     */
-    initialRender = true;
-
-    /**
-     * autoplay timer
-     * @type {null}
-     */
-    autoplayTimer = null;
-    loopJumpTimer = null;
-
     componentWillReceiveProps(nextProps) {
         let indexUpdated = this.props.index !== nextProps.index;
 
-        if (nextProps.dynamic) {
-            indexUpdated = this.props.index <= 2;
-        }
+        // if (nextProps.dynamic) {
+        //     indexUpdated = this.props.index <= 2;
+        // }
 
         this.setState(this.initState(nextProps, indexUpdated), () => {
             indexUpdated && this.androidPageIndexChangeFix();
@@ -199,10 +168,10 @@ export default class extends Component {
     }
 
     componentDidMount() {
-        this.scrollView.scrollTo({ x: this.state.width * this.state.index, y: 0, animated: false });
+        setTimeout(() => {
+            this.scrollView.scrollTo({ x: this.state.width * this.state.index, y: 0, animated: false });
+        });
     }
-
-    componentWillUnmount() {}
 
     componentWillUpdate(nextProps, nextState) {
         // If the index has changed, we notify the parent via the onIndexChanged callback
@@ -236,7 +205,7 @@ export default class extends Component {
         // Default: horizontal
         const { width, height } = Dimensions.get('window');
 
-        initState.dir = props.horizontal === false ? 'y' : 'x';
+        initState.dir = 'x';
 
         if (props.width) {
             initState.width = props.width;
@@ -258,7 +227,7 @@ export default class extends Component {
             this.scrollView.scrollTo({ x: width, y: 0, animated: false });
         }
 
-        initState.offset[initState.dir] = initState.dir === 'y' ? height * props.index : width * props.index;
+        initState.offset.x = width * props.index;
 
         this.internals = {
             ...this.internals,
@@ -281,7 +250,7 @@ export default class extends Component {
 
         if (this.state.total > 1) {
             let setup = this.state.index;
-            offset[this.state.dir] = this.state.dir === 'y' ? height * setup : width * setup;
+            offset.x = width * setup;
         }
 
         // only update the offset in state if needed, updating offset while swiping
@@ -311,7 +280,7 @@ export default class extends Component {
         // update scroll state
         this.internals.isScrolling = false;
 
-        this.updateIndex(e.nativeEvent.contentOffset, this.state.dir, () => {
+        this.updateIndex(e.nativeEvent.contentOffset, () => {
             // if `onMomentumScrollEnd` registered will be called here
             this.props.onMomentumScrollEnd && this.props.onMomentumScrollEnd(e, this.fullState(), this);
         });
@@ -337,15 +306,12 @@ export default class extends Component {
     /**
      * Update index after scroll
      * @param  {object} offset content offset
-     * @param  {string} dir    'x' || 'y'
      */
-    updateIndex = (offset, dir, cb) => {
+    updateIndex = (offset, cb) => {
         const state = this.state;
         let index = state.index;
-        const diff = offset[dir] - this.internals.offset[dir];
-        const step = dir === 'x' ? state.width : state.height;
-        let loopJump = false;
-        let dynamic = false;
+        const diff = offset.x - this.internals.offset.x;
+        const step = state.width;
 
         // Do nothing if offset no change.
         if (!diff) return;
@@ -357,7 +323,6 @@ export default class extends Component {
 
         const newState = {};
         newState.index = index;
-        newState.loopJump = loopJump;
 
         this.internals.offset = offset;
 
@@ -376,8 +341,7 @@ export default class extends Component {
         const diff = (this.props.loop ? 1 : 0) + index + this.state.index;
         let x = 0;
         let y = 0;
-        if (state.dir === 'x') x = diff * state.width;
-        if (state.dir === 'y') y = diff * state.height;
+        x = diff * state.width;
 
         if (!this.props.dynamic && Platform.OS !== 'ios') {
             this.scrollView && this.scrollView[animated ? 'setPage' : 'setPageWithoutAnimation'](diff);
@@ -406,16 +370,6 @@ export default class extends Component {
     scrollViewPropOverrides = () => {
         const props = this.props;
         let overrides = {};
-
-        /*
-        const scrollResponders = [
-          'onMomentumScrollBegin',
-          'onTouchStartCapture',
-          'onTouchStart',
-          'onTouchEnd',
-          'onResponderRelease',
-        ]
-        */
 
         for (let prop in props) {
             // if(~scrollResponders.indexOf(prop)
@@ -481,7 +435,7 @@ export default class extends Component {
         }
 
         return (
-            <View pointerEvents="none" style={[styles['pagination_' + this.state.dir], this.props.paginationStyle]}>
+            <View pointerEvents="none" style={[styles['pagination_x'], this.props.paginationStyle]}>
                 {dots}
             </View>
         );
@@ -551,34 +505,20 @@ export default class extends Component {
     }
 
     renderScrollView = (pages) => {
-        if (this.props.dynamic || Platform.OS === 'ios') {
-            return (
-                <ScrollView
-                    ref={this.refScrollView}
-                    {...this.props}
-                    {...this.scrollViewPropOverrides()}
-                    contentContainerStyle={[styles.wrapperIOS, this.props.style]}
-                    onScrollBeginDrag={this.onScrollBegin}
-                    onMomentumScrollEnd={this.onScrollEnd}
-                    onScrollEndDrag={this.onScrollEndDrag}
-                    horizontal={true}
-                    pagingEnabled={true}
-                    style={this.props.scrollViewStyle}>
-                    {pages}
-                </ScrollView>
-            );
-        }
-
         return (
-            <ViewPagerAndroid
+            <ScrollView
                 ref={this.refScrollView}
                 {...this.props}
-                initialPage={this.state.index}
-                onPageSelected={this.onScrollEnd}
-                // key={key}
-                style={[styles.wrapperAndroid, this.props.style]}>
+                {...this.scrollViewPropOverrides()}
+                contentContainerStyle={[styles.wrapperIOS, this.props.style]}
+                onScrollBeginDrag={this.onScrollBegin}
+                onMomentumScrollEnd={this.onScrollEnd}
+                onScrollEndDrag={this.onScrollEndDrag}
+                horizontal={true}
+                pagingEnabled={true}
+                style={this.props.scrollViewStyle}>
                 {pages}
-            </ViewPagerAndroid>
+            </ScrollView>
         );
     };
 
@@ -601,8 +541,7 @@ export default class extends Component {
             showsButtons,
             showsPagination,
         } = this.props;
-        // let dir = state.dir
-        // let key = 0
+
         const loopVal = loop ? 1 : 0;
         let pages = [];
 
