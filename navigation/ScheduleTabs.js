@@ -1,5 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from 'react-navigation';
+
 import DaySwiper from '../components/DaySwiper';
 import WeekSwiper from '../components/WeekSwiper';
 

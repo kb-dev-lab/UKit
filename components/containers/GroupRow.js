@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
+
 import style from '../../Style';
 
 export default class GroupRow extends React.PureComponent {

@@ -1,12 +1,13 @@
 import React from 'react';
-import { ActivityIndicator, FlatList, Platform, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 import axios from 'axios';
-import style from '../../Style';
-import CourseRow from './CourseRow';
 import { MaterialIcons } from '@expo/vector-icons';
-import { upperCaseFirstLetter } from '../../Utils';
 import moment from 'moment';
 import 'moment/locale/fr';
+
+import style from '../../Style';
+import CourseRow from './CourseRow';
+import { upperCaseFirstLetter } from '../../Utils';
 
 moment.locale('fr');
 
@@ -68,51 +69,35 @@ export default class Day extends React.Component {
             );
         }
         const previousButton = (
-            <TouchableOpacity
-                onPress={() => this.props.previousFunction()}
+            <View
                 style={{
-                    flex: 1,
-                    alignSelf: 'stretch',
-                    justifyContent: 'center',
+                    justifyContent: 'flex-start',
+                    flexDirection: 'row',
                 }}>
-                <View
+                <MaterialIcons
+                    name="navigate-before"
+                    size={32}
                     style={{
-                        justifyContent: 'flex-start',
-                        flexDirection: 'row',
-                    }}>
-                    <MaterialIcons
-                        name="navigate-before"
-                        size={32}
-                        style={{
-                            color: 'black',
-                        }}
-                    />
-                </View>
-            </TouchableOpacity>
+                        color: 'black',
+                    }}
+                />
+            </View>
         );
 
         const nextButton = (
-            <TouchableOpacity
-                onPress={() => this.props.nextFunction()}
+            <View
                 style={{
-                    flex: 1,
-                    alignSelf: 'stretch',
-                    justifyContent: 'center',
+                    justifyContent: 'flex-end',
+                    flexDirection: 'row',
                 }}>
-                <View
+                <MaterialIcons
+                    name="navigate-next"
+                    size={32}
                     style={{
-                        justifyContent: 'flex-end',
-                        flexDirection: 'row',
-                    }}>
-                    <MaterialIcons
-                        name="navigate-next"
-                        size={32}
-                        style={{
-                            color: 'black',
-                        }}
-                    />
-                </View>
-            </TouchableOpacity>
+                        color: 'black',
+                    }}
+                />
+            </View>
         );
 
         return (

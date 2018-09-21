@@ -3,6 +3,8 @@ import { Text } from 'react-native';
 import style from './../../../Style';
 import URLButton from './URLButton';
 
+``
+
 const locations = require('../../../assets/locations.json');
 
 export default class OpenMapButton extends React.Component {

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import DrawerButton from './DrawerButton';
 import { connect } from 'react-redux';
+
+import DrawerButton from './DrawerButton';
 
 class MyGroupButton extends React.Component {
     constructor(props) {

@@ -12,6 +12,7 @@ import 'moment/locale/fr';
 import SectionListHeader from './containers/headers/SectionListHeader';
 import GroupRow from './containers/GroupRow';
 import style from '../Style';
+
 moment.locale('fr');
 
 function cacheFonts(fonts) {
@@ -86,7 +87,7 @@ export default class Home extends React.Component {
     }
 
     static async _loadAssetsAsync() {
-        const imageAssets = cacheImages([require('./../assets/icons/app_96.png')]);
+        const imageAssets = cacheImages([require('./../assets/icons/app.png')]);
 
         const fontAssets = cacheFonts([
             FontAwesome.font,
@@ -204,7 +205,14 @@ export default class Home extends React.Component {
             />
         );
         if (!this.state.isReady) {
-            return <AppLoading startAsync={Home._loadAssetsAsync} onFinish={() => this.setState({ isReady: true })} onError={console.warn} />;
+            return (
+                <AppLoading
+                    startAsync={Home._loadAssetsAsync}
+                    onFinish={() => this.setState({ isReady: true })}
+                    onError={console.warn}
+                    autoHideSplash={true}
+                />
+            );
         } else if (this.state.emptySearchResults) {
             content = (
                 <View style={style.schedule.course.noCourse}>

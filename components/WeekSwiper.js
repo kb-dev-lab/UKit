@@ -47,8 +47,6 @@ export default class WeekSwiper extends React.Component {
                     key={key}
                     week={week}
                     groupName={this.state.groupName}
-                    nextFunction={() => this.refs[swiperReference].scrollBy(1, true)}
-                    previousFunction={() => this.refs[swiperReference].scrollBy(-1, true)}
                 />
             );
         });
@@ -76,8 +74,6 @@ export default class WeekSwiper extends React.Component {
                         key={nextWeek}
                         week={nextWeek}
                         groupName={this.state.groupName}
-                        nextFunction={() => this.refs[swiperReference].scrollBy(1, true)}
-                        previousFunction={() => this.refs[swiperReference].scrollBy(-1, true)}
                     />
                 );
 
@@ -97,8 +93,6 @@ export default class WeekSwiper extends React.Component {
                         key={previousWeek}
                         week={previousWeek}
                         groupName={this.state.groupName}
-                        nextFunction={() => this.refs[swiperReference].scrollBy(1, true)}
-                        previousFunction={() => this.refs[swiperReference].scrollBy(-1, true)}
                     />
                 );
 
@@ -114,7 +108,7 @@ export default class WeekSwiper extends React.Component {
                     <Swiper
                         ref={swiperReference}
                         showsButtons={false}
-                        showsPagination={true}
+                        showsPagination={false}
                         index={this.state.index}
                         loadMinimal={true}
                         dynamic={true}

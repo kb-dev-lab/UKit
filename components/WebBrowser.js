@@ -1,10 +1,11 @@
 import React from 'react';
 import { ActivityIndicator, Linking, Platform, Text, TouchableOpacity, View, WebView } from 'react-native';
-import style from '../Style';
 import NavigationBar from 'react-native-navbar';
 import { NavigationActions, withNavigation } from 'react-navigation';
 import { Ionicons, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+
+import style from '../Style';
 
 function treatTitle(str) {
     if (str.length > 18) {
