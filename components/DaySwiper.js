@@ -124,8 +124,6 @@ export default class DaySwiper extends React.Component {
                 );
 
                 this.setState({ days, renderedDays, index });
-            } else {
-                this.setState({ index });
             }
         } else if (index < this.state.index) {
             if (index <= 0) {
@@ -146,8 +144,6 @@ export default class DaySwiper extends React.Component {
                 );
 
                 this.setState({ days, renderedDays, index: 1 });
-            } else {
-                this.setState({ index });
             }
         }
     }

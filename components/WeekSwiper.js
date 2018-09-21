@@ -82,8 +82,6 @@ export default class WeekSwiper extends React.Component {
                 );
 
                 this.setState({ weeks, renderedWeeks, index });
-            } else {
-                this.setState({ index });
             }
         } else if (index < this.state.index) {
             if (index <= 0) {
@@ -94,7 +92,7 @@ export default class WeekSwiper extends React.Component {
                 weeks.unshift(previousWeek);
 
                 const renderedWeeks = this.state.renderedWeeks;
-                renderedWeeks.push(
+                renderedWeeks.unshift(
                     <WeekComponent
                         key={previousWeek}
                         week={previousWeek}
@@ -105,8 +103,6 @@ export default class WeekSwiper extends React.Component {
                 );
 
                 this.setState({ weeks, renderedWeeks, index: 1 });
-            } else {
-                this.setState({ index });
             }
         }
     }
