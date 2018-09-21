@@ -23,7 +23,7 @@ const CustomDrawerContentComponent = (props) => {
             <View style={{ flex: 1 }}>
                 <View
                     style={{
-                        backgroundColor: style.colors.blue,
+                        backgroundColor: style.Theme.primary,
                         flexDirection: 'row',
                         justifyContent: 'flex-start',
                         alignItems: 'center',

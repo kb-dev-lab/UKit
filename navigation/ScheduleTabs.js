@@ -3,29 +3,34 @@ import { createBottomTabNavigator } from 'react-navigation';
 
 import DaySwiper from '../components/DaySwiper';
 import WeekSwiper from '../components/WeekSwiper';
+import style from '../Style';
 
-export default createBottomTabNavigator({
-    Day: {
-        screen: DaySwiper
+export default createBottomTabNavigator(
+    {
+        Day: {
+            screen: DaySwiper,
+        },
+        Week: {
+            screen: WeekSwiper,
+        },
     },
-    Week: {
-        screen: WeekSwiper
+    {
+        tabBarOptions: {
+            activeTintColor: style.Theme.primary,
+            indicatorStyle: {
+                backgroundColor: '#FFF',
+            },
+            iconStyle: {
+                height: 16,
+                width: 16,
+            },
+            labelStyle: {
+                fontSize: 10,
+                backgroundColor: 'transparent',
+                padding: 0,
+                margin: 0,
+            },
+            showIcon: true,
+        },
     }
-}, {
-    tabBarOptions: {
-        indicatorStyle: {
-            backgroundColor: '#FFF'
-        },
-        iconStyle: {
-            height: 16,
-            width: 16
-        },
-        labelStyle: {
-            fontSize: 10,
-            backgroundColor: 'transparent',
-            padding: 0,
-            margin: 0
-        },
-        showIcon: true
-    }
-});
+);

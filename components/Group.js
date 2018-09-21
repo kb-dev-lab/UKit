@@ -43,7 +43,7 @@ export default class Group extends React.Component {
             <View
                 style={{
                     justifyContent: 'space-around',
-                    paddingLeft: 5,
+                    paddingRight: 16,
                     flexDirection: 'row',
                 }}>
                 <SaveButton groupName={groupName} />
