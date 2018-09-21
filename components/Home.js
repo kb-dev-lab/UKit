@@ -51,7 +51,7 @@ export default class Home extends React.Component {
                                 }}
                                 style={{
                                     justifyContent: 'space-around',
-                                    paddingLeft: 5,
+                                    paddingLeft: 16,
                                 }}>
                                 <View
                                     style={{
@@ -63,6 +63,8 @@ export default class Home extends React.Component {
                                         size={32}
                                         style={{
                                             color: 'white',
+                                            height: 32,
+                                            width: 32,
                                         }}
                                     />
                                 </View>
