@@ -30,7 +30,7 @@ const CustomDrawerContentComponent = (props) => {
                         alignContent: 'center',
                         height: 150,
                     }}>
-                    <Image style={{ width: 50, height: 50, marginLeft: 20 }} source={require('./assets/icons/app_96.png')} />
+                    <Image style={{ width: 50, height: 50, marginLeft: 20 }} source={require('./assets/icons/app.png')} />
                     <Text
                         style={{
                             color: '#FFF',

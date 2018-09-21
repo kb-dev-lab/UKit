@@ -87,7 +87,7 @@ export default class Home extends React.Component {
     }
 
     static async _loadAssetsAsync() {
-        const imageAssets = cacheImages([require('./../assets/icons/app_96.png')]);
+        const imageAssets = cacheImages([require('./../assets/icons/app.png')]);
 
         const fontAssets = cacheFonts([
             FontAwesome.font,

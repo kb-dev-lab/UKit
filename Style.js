@@ -135,10 +135,7 @@ export default {
     },
     stackNavigator: {
         headerStyle: {
-            // marginTop: 0,
-            // paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
             backgroundColor: colors.blue,
-            // height: 80
         },
         headerTitleStyle: {
             color: colors.white,
