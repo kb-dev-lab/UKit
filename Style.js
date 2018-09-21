@@ -83,6 +83,10 @@ const colors50 = {
     blueGrey: '#ECEFF1',
 };
 
+const Theme = {
+    primary: '#009ee0',
+};
+
 export default {
     fonts: {
         default: {
@@ -112,7 +116,7 @@ export default {
         title: {
             fontWeight: 'bold',
             fontSize: 32,
-            color: colors.blue,
+            color: Theme.primary,
         },
         labelStyle: {
             color: 'black',
@@ -135,7 +139,7 @@ export default {
     },
     stackNavigator: {
         headerStyle: {
-            backgroundColor: colors.blue,
+            backgroundColor: Theme.primary,
         },
         headerTitleStyle: {
             color: colors.white,
@@ -201,7 +205,10 @@ export default {
             alignItems: 'center',
             alignContent: 'center',
             borderBottomColor: colors.gray,
-            shadowOpacity: 0.5,
+            borderRadius: 4,
+            marginHorizontal: 8,
+            marginTop: 8,
+            shadowOpacity: 0.3,
             shadowColor: '#666',
             shadowOffset: {
                 width: 0,
@@ -329,7 +336,8 @@ export default {
         },
     },
     statusBar: {
-        backgroundColor: colors.blue,
+        backgroundColor: Theme.primary,
         height: Constants.statusBarHeight,
     },
+    Theme,
 };
