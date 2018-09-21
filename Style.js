@@ -83,6 +83,10 @@ const colors50 = {
     blueGrey: '#ECEFF1',
 };
 
+const Theme = {
+    primary: '#009ee0',
+};
+
 export default {
     colors,
     hintColors,
@@ -106,7 +110,7 @@ export default {
         title: {
             fontWeight: 'bold',
             fontSize: 32,
-            color: colors.blue,
+            color: Theme.primary,
         },
         labelStyle: {
             color: 'black',
@@ -131,7 +135,7 @@ export default {
         headerStyle: {
             // marginTop: 0,
             // paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-            backgroundColor: colors.blue,
+            backgroundColor: Theme.primary,
             // height: 80
         },
         headerTitleStyle: {
@@ -198,7 +202,10 @@ export default {
             alignItems: 'center',
             alignContent: 'center',
             borderBottomColor: colors.gray,
-            shadowOpacity: 0.5,
+            borderRadius: 4,
+            marginHorizontal: 8,
+            marginTop: 8,
+            shadowOpacity: 0.3,
             shadowColor: '#666',
             shadowOffset: {
                 width: 0,
@@ -326,7 +333,8 @@ export default {
         },
     },
     statusBar: {
-        backgroundColor: colors.blue,
+        backgroundColor: Theme.primary,
         height: Constants.statusBarHeight,
     },
+    Theme,
 };

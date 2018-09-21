@@ -38,7 +38,7 @@ export default class Home extends React.Component {
             header: (
                 <View
                     style={{
-                        backgroundColor: style.colors.blue,
+                        backgroundColor: style.Theme.primary,
                     }}>
                     <NavigationBar
                         title={{ title, tintColor: 'white' }}
@@ -196,8 +196,8 @@ export default class Home extends React.Component {
             <Hideo
                 iconClass={FontAwesome}
                 iconName={'search'}
-                iconColor={'white'}
-                iconBackgroundColor={style.colors.blue}
+                iconColor={style.Theme.primary}
+                iconBackgroundColor={'white'}
                 inputStyle={{ color: '#464949' }}
                 onChangeText={(text) => this.search(text)}
                 style={style.list.searchInputView}

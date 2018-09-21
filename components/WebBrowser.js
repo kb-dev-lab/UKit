@@ -1,63 +1,67 @@
 import React from 'react';
-import { ActivityIndicator, Text, TouchableOpacity, View, WebView } from 'react-native';
+import { ActivityIndicator, Linking, Platform, Text, TouchableOpacity, View, WebView } from 'react-native';
 import style from '../Style';
 import NavigationBar from 'react-native-navbar';
+import { NavigationActions, withNavigation } from 'react-navigation';
 import { Ionicons, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
-export default class WebBrowser extends React.Component {
+function treatTitle(str) {
+    if (str.length > 18) {
+        if (str.charAt(18) === ' ') {
+            return `${str.substr(0, 18)}…`;
+        }
+
+        return `${str.substr(0, 18)} …`;
+    }
+
+    return str;
+}
+
+class WebBrowser extends React.Component {
     static navigationOptions = ({ navigation }) => {
-        let title = 'Navigateur web';
+        let title = treatTitle(navigation.getParam('title', 'Navigateur web'));
         let leftButton = (
             <TouchableOpacity
                 onPress={() => {
                     navigation.goBack();
                 }}
                 style={{
-                    justifyContent: 'space-around',
-                    paddingLeft: 5,
+                    paddingLeft: 16,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                 }}>
-                <View
-                    style={{
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                    }}>
+                <View>
                     <Ionicons
                         name="ios-close-outline"
-                        size={54}
+                        size={50}
                         style={{
                             color: 'white',
+                            height: 50,
+                            width: 50,
                         }}
                     />
                 </View>
             </TouchableOpacity>
         );
-        let rightButton = (
-            <View
-                style={{
-                    justifyContent: 'space-around',
-                    paddingLeft: 5,
-                    flexDirection: 'row',
-                }}>
-                <View
-                    style={{
-                        justifyContent: 'space-around',
-                    }}>
-                    <MaterialCommunityIcons name="dots-vertical" size={30} style={{ color: 'white' }} />
-                </View>
-            </View>
-        );
+
         return {
             title,
             header: (
                 <View
                     style={{
-                        backgroundColor: style.colors.blue,
+                        backgroundColor: style.Theme.primary,
                     }}>
                     <NavigationBar
                         title={{ title, tintColor: 'white' }}
                         tintColor={'transparent'}
                         leftButton={leftButton}
-                        rightButton={rightButton}
+                        style={{
+                            alignItems: 'center',
+                            flex: 1,
+                            flexDirection: 'row',
+                        }}
                     />
                 </View>
             ),
@@ -68,7 +72,7 @@ export default class WebBrowser extends React.Component {
         super(props);
         this.state = {
             entrypoint: this.props.navigation.state.params.entrypoint,
-            title: '',
+            title: null,
             url: '',
             uri: null,
             canGoBack: false,
@@ -81,6 +85,8 @@ export default class WebBrowser extends React.Component {
             cas: 'https://cas.u-bordeaux.fr',
             apogee: 'https://apogee.u-bordeaux.fr',
         };
+
+        this.openURL = this.openURL.bind(this);
     }
 
     componentDidMount() {
@@ -105,6 +111,18 @@ export default class WebBrowser extends React.Component {
         this.refs['WebBrowser'].goForward();
     }
 
+    openURL() {
+        Linking.canOpenURL(this.state.url)
+            .then((supported) => {
+                if (!supported) {
+                    console.log("Can't handle url: " + this.state.url);
+                } else {
+                    return Linking.openURL(this.state.url);
+                }
+            })
+            .catch((err) => console.error('An error occurred', err));
+    }
+
     static renderLoading() {
         return (
             <View style={{ marginTop: 20 }}>
@@ -118,14 +136,6 @@ export default class WebBrowser extends React.Component {
             return WebBrowser.renderLoading();
         }
 
-        let js = '';
-        if (this.state.entrypoint === 'cas') {
-            js = `
-            setTimeout(() => {
-                window.postMessage(String(document.cookie))
-            },0);
-            `;
-        }
         return (
             <View style={{ flex: 1, flexDirection: 'column' }}>
                 <WebView
@@ -134,35 +144,50 @@ export default class WebBrowser extends React.Component {
                     javaScriptEnabled={true}
                     domStorageEnabled={true}
                     startInLoadingState={true}
-                    onMessage={(e) => {
-                        console.log(e.nativeEvent.data);
-                    }}
-                    injectedJavaScript={js}
                     renderLoading={() => WebBrowser.renderLoading()}
                     onNavigationStateChange={(e) => {
                         if (!e.loading) {
-                            this.setState({ url: e.url, title: e.title, canGoBack: e.canGoBack, loading: e.loading });
+                            this.setState({ url: e.url, title: e.title, canGoBack: e.canGoBack, loading: e.loading }, () => {
+                                if (!!this.state.title) {
+                                    this.props.navigation.setParams({ title: this.state.title });
+                                }
+                            });
                         }
                     }}
                     source={{ uri: this.state.uri }}
                 />
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 5 }}>
                     <TouchableOpacity disabled={!this.state.canGoBack} onPress={this.onBack.bind(this)}>
-                        <SimpleLineIcons name="arrow-left" size={30} style={{ color: this.state.canGoBack ? 'black' : 'grey' }} />
+                        <MaterialIcons name="navigate-before" size={30} style={{ color: this.state.canGoBack ? style.Theme.primary : 'grey', height: 30, width: 30 }} />
                     </TouchableOpacity>
                     <TouchableOpacity disabled={!this.state.canGoForward} onPress={this.onForward.bind(this)}>
-                        <SimpleLineIcons name="arrow-right" size={30} style={{ color: this.state.canGoForward ? 'black' : 'grey' }} />
+                        <MaterialIcons name="navigate-next" size={30} style={{ color: this.state.canGoForward ? style.Theme.primary : 'grey', height: 30, width: 30 }} />
                     </TouchableOpacity>
 
-                    <View style={{ justifyContent: 'center' }}>
-                        <Text>{this.state.title}</Text>
-                    </View>
-
                     <TouchableOpacity disabled={this.state.loading} onPress={this.onRefresh.bind(this)}>
-                        <SimpleLineIcons name="refresh" size={30} style={{ color: this.state.loading ? 'grey' : 'black' }} />
+                        <MaterialIcons name="refresh" size={30} style={{ color: this.state.loading ? 'grey' : style.Theme.primary, height: 30, width: 30 }} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        onPress={this.openURL}
+                        style={{
+                            paddingRight: 16,
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}>
+                        <View>
+                            {Platform.OS === 'ios' ? (
+                                <MaterialCommunityIcons name="apple-safari" size={30} style={{ color: style.Theme.primary, height: 30, width: 30 }} />
+                            ) : (
+                                <MaterialCommunityIcons name="google-chrome" size={30} style={{ color: style.Theme.primary, height: 30, width: 30 }} />
+                            )}
+                        </View>
                     </TouchableOpacity>
                 </View>
             </View>
         );
     }
 }
+
+export default withNavigation(WebBrowser);

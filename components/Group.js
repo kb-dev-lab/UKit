@@ -18,34 +18,21 @@ export default class Group extends React.Component {
                     navigation.goBack();
                 }}
                 style={{
-                    justifyContent: 'space-around',
-                    paddingLeft: 5,
+                    paddingLeft: 16,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                 }}>
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                    }}>
+                <View>
                     <Ionicons
                         name="ios-arrow-back"
                         size={32}
                         style={{
                             color: 'white',
+                            height: 32,
+                            width: 32,
                         }}
                     />
-                    <View
-                        style={{
-                            justifyContent: 'space-around',
-                            marginLeft: 5,
-                        }}>
-                        <Text
-                            style={{
-                                fontWeight: 'bold',
-                                color: 'white',
-                            }}>
-                            Retour
-                        </Text>
-                    </View>
                 </View>
             </TouchableOpacity>
         );
@@ -70,7 +57,7 @@ export default class Group extends React.Component {
             header: (
                 <View
                     style={{
-                        backgroundColor: style.colors.blue,
+                        backgroundColor: style.Theme.primary,
                     }}>
                     <NavigationBar
                         title={{ title, tintColor: 'white' }}
