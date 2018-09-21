@@ -1,10 +1,6 @@
-/**
- * react-native-swiper
- * @author leecade<leecade@163.com>
- */
 import React, { Component } from 'react';
+import { ActivityIndicator, Dimensions, Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import PropTypes from 'prop-types';
-import { Text, View, ScrollView, Dimensions, TouchableOpacity, Platform, ActivityIndicator } from 'react-native';
 
 /**
  * Default styles
@@ -85,8 +81,6 @@ const styles = {
     },
 };
 
-// missing `module.exports = exports['default'];` with babel6
-// export default React.createClass({
 export default class extends Component {
     /**
      * Props Validation
@@ -286,7 +280,7 @@ export default class extends Component {
         });
     };
 
-    /*
+    /**
      * Drag end handle
      * @param {object} e native event
      */

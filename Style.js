@@ -84,6 +84,11 @@ const colors50 = {
 };
 
 export default {
+    fonts: {
+        default: {
+            fontFamily: 'system',
+        },
+    },
     colors,
     hintColors,
     about: {
@@ -96,6 +101,7 @@ export default {
         },
         content: {
             marginTop: 5,
+            marginBottom: 15,
         },
     },
     demo: {

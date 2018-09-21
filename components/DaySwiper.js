@@ -1,13 +1,12 @@
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import DayComponent from './containers/Day';
 import moment from 'moment';
-import style from '../Style';
 import 'moment/locale/fr';
+
+import DayComponent from './containers/Day';
+import style from '../Style';
 import Swiper from './Swiper';
-// import Swiper from 'react-native-swiper';
-// import DayStore from '../stores/DayStore';
 
 moment.locale('fr');
 
@@ -44,15 +43,7 @@ export default class DaySwiper extends React.Component {
         const days = DaySwiper.computeDays(this.state.currentDay);
 
         const renderedDays = days.map((day) => {
-            return (
-                <DayComponent
-                    key={day.dayOfYear()}
-                    day={day}
-                    groupName={this.state.groupName}
-                    nextFunction={() => this.refs.daySwiper.scrollBy(1, true)}
-                    previousFunction={() => this.refs.daySwiper.scrollBy(-1, true)}
-                />
-            );
+            return <DayComponent key={day.dayOfYear()} day={day} groupName={this.state.groupName} />;
         });
 
         this.setState({ index: 4, days, renderedDays });
@@ -113,15 +104,7 @@ export default class DaySwiper extends React.Component {
                 days.push(nextDay);
 
                 const renderedDays = this.state.renderedDays;
-                renderedDays.push(
-                    <DayComponent
-                        key={nextDay.dayOfYear()}
-                        day={nextDay}
-                        groupName={this.state.groupName}
-                        nextFunction={() => this.refs.daySwiper.scrollBy(1, true)}
-                        previousFunction={() => this.refs.daySwiper.scrollBy(-1, true)}
-                    />
-                );
+                renderedDays.push(<DayComponent key={nextDay.dayOfYear()} day={nextDay} groupName={this.state.groupName} />);
 
                 this.setState({ days, renderedDays, index });
             }
@@ -133,15 +116,7 @@ export default class DaySwiper extends React.Component {
                 days.unshift(previousDays);
 
                 const renderedDays = this.state.renderedDays;
-                renderedDays.unshift(
-                    <DayComponent
-                        key={previousDays.dayOfYear()}
-                        day={previousDays}
-                        groupName={this.state.groupName}
-                        nextFunction={() => this.refs.daySwiper.scrollBy(1, true)}
-                        previousFunction={() => this.refs.daySwiper.scrollBy(-1, true)}
-                    />
-                );
+                renderedDays.unshift(<DayComponent key={previousDays.dayOfYear()} day={previousDays} groupName={this.state.groupName} />);
 
                 this.setState({ days, renderedDays, index: 1 });
             }

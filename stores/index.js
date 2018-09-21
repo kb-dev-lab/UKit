@@ -1,6 +1,7 @@
 import { persistCombineReducers, persistStore } from 'redux-persist';
 import storage from 'redux-persist/es/storage';
 import { createStore } from 'redux';
+
 import rootReducer from './../reducers';
 
 const config = {

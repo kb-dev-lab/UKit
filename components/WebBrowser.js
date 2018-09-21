@@ -1,8 +1,9 @@
 import React from 'react';
 import { ActivityIndicator, Text, TouchableOpacity, View, WebView } from 'react-native';
-import style from '../Style';
 import NavigationBar from 'react-native-navbar';
 import { Ionicons, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
+
+import style from '../Style';
 
 export default class WebBrowser extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -117,15 +118,6 @@ export default class WebBrowser extends React.Component {
         if (this.state.uri === null) {
             return WebBrowser.renderLoading();
         }
-
-        let js = '';
-        if (this.state.entrypoint === 'cas') {
-            js = `
-            setTimeout(() => {
-                window.postMessage(String(document.cookie))
-            },0);
-            `;
-        }
         return (
             <View style={{ flex: 1, flexDirection: 'column' }}>
                 <WebView
@@ -134,10 +126,6 @@ export default class WebBrowser extends React.Component {
                     javaScriptEnabled={true}
                     domStorageEnabled={true}
                     startInLoadingState={true}
-                    onMessage={(e) => {
-                        console.log(e.nativeEvent.data);
-                    }}
-                    injectedJavaScript={js}
                     renderLoading={() => WebBrowser.renderLoading()}
                     onNavigationStateChange={(e) => {
                         if (!e.loading) {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
+
 import style from '../../Style';
 import OpenMapButton from './buttons/OpenMapButton';
 
@@ -62,6 +63,7 @@ export default class CourseRow extends React.Component {
             let annotationsTitle, staffTitle, roomTitle, groupTitle;
 
             if (this.props.data.annotation.length > 0) {
+                // TODO detect location
                 annotationsTitle = <Text style={style.schedule.course.header}>Notes : </Text>;
                 annotations = this.props.data.annotation.split('\n').map((annotation, key) => {
                     return (

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Linking, Text, TouchableOpacity } from 'react-native';
+
 import style from '../../../Style';
 
 export default class URLButton extends React.Component {

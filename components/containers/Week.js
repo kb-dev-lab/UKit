@@ -1,12 +1,13 @@
 import React from 'react';
-import { ActivityIndicator, Platform, FlatList, SectionList, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, FlatList, Platform, Text, View } from 'react-native';
 import axios from 'axios';
-import style from '../../Style';
-import CourseRow from './CourseRow';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import moment from 'moment';
-import { upperCaseFirstLetter } from '../../Utils';
 import 'moment/locale/fr';
+
+import style from '../../Style';
+import CourseRow from './CourseRow';
+import { upperCaseFirstLetter } from '../../Utils';
 
 export default class Week extends React.Component {
     static navigationOptions = {
@@ -95,9 +96,7 @@ export default class Week extends React.Component {
                             }
                             return (
                                 <View style={{ backgroundColor: style.colors.backgroundGrey, paddingVertical: 3 }}>
-                                    <TouchableOpacity>
-                                        <Text style={style.weekView.dayTitle}>{item.content}</Text>
-                                    </TouchableOpacity>
+                                    <Text style={style.weekView.dayTitle}>{item.content}</Text>
                                 </View>
                             );
                         }}
@@ -110,50 +109,34 @@ export default class Week extends React.Component {
             );
         }
         const previousButton = (
-            <TouchableOpacity
-                onPress={() => this.props.previousFunction()}
+            <View
                 style={{
-                    flex: 1,
-                    alignSelf: 'stretch',
-                    justifyContent: 'center',
+                    justifyContent: 'flex-start',
+                    flexDirection: 'row',
                 }}>
-                <View
+                <MaterialIcons
+                    name="navigate-before"
+                    size={32}
                     style={{
-                        justifyContent: 'flex-start',
-                        flexDirection: 'row',
-                    }}>
-                    <MaterialIcons
-                        name="navigate-before"
-                        size={32}
-                        style={{
-                            color: 'black',
-                        }}
-                    />
-                </View>
-            </TouchableOpacity>
+                        color: 'black',
+                    }}
+                />
+            </View>
         );
         const nextButton = (
-            <TouchableOpacity
-                onPress={() => this.props.nextFunction()}
+            <View
                 style={{
-                    flex: 1,
-                    alignSelf: 'stretch',
-                    justifyContent: 'center',
+                    justifyContent: 'flex-end',
+                    flexDirection: 'row',
                 }}>
-                <View
+                <MaterialIcons
+                    name="navigate-next"
+                    size={32}
                     style={{
-                        justifyContent: 'flex-end',
-                        flexDirection: 'row',
-                    }}>
-                    <MaterialIcons
-                        name="navigate-next"
-                        size={32}
-                        style={{
-                            color: 'black',
-                        }}
-                    />
-                </View>
-            </TouchableOpacity>
+                        color: 'black',
+                    }}
+                />
+            </View>
         );
 
         return (
