@@ -28,7 +28,7 @@
         "android": {
             "package": "com.bordeaux1.emplois",
             "permissions": [],
-            "versionCode": 43
+            "versionCode": 44
         },
         "androidStatusBar": {
             "barStyle": "light-content"
