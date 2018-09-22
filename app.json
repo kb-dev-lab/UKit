@@ -31,7 +31,8 @@
             "versionCode": 44
         },
         "androidStatusBar": {
-            "barStyle": "light-content"
+            "barStyle": "light-content",
+            "backgroundColor": "#009ee0"
         },
         "assetBundlePatterns": [
             "assets/icons/**"
