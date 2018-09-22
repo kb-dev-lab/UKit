@@ -85,15 +85,6 @@ const CustomDrawerContentComponent = (props) => {
                     />
                     <Split title="Application" />
                     <DrawerButton
-                        title={'Paramètres'}
-                        size={28}
-                        textSize={14}
-                        icon={'settings'}
-                        color={'#757575'}
-                        tintColor={'transparent'}
-                        onPress={() => null}
-                    />
-                    <DrawerButton
                         title={'À propos'}
                         size={28}
                         textSize={14}

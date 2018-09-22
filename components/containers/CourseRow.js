@@ -62,6 +62,13 @@ export default class CourseRow extends React.Component {
             let annotations, staff, subject, room, group;
             let annotationsTitle, staffTitle, roomTitle, groupTitle;
 
+
+            if (this.props.data.room !== 'N/C') {
+                roomTitle = <Text style={style.schedule.course.header}>Salle : </Text>;
+                room = this.props.data.room.split(' | ').map((room, key) => {
+                    return <OpenMapButton key={key} location={room} />;
+                });
+            }
             if (this.props.data.annotation.length > 0) {
                 // TODO detect location
                 annotationsTitle = <Text style={style.schedule.course.header}>Notes : </Text>;
@@ -90,12 +97,6 @@ export default class CourseRow extends React.Component {
                         <Text style={style.schedule.course.content}>{this.props.data.subject}</Text>
                     </View>
                 );
-            }
-            if (this.props.data.room !== 'N/C') {
-                roomTitle = <Text style={style.schedule.course.header}>Salle : </Text>;
-                room = this.props.data.room.split(' | ').map((room, key) => {
-                    return <OpenMapButton key={key} location={room} />;
-                });
             }
             if (this.props.data.group !== 'N/C') {
                 groupTitle = <Text style={style.schedule.course.header}>Groupe : </Text>;
