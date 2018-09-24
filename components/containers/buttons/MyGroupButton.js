@@ -22,6 +22,12 @@ class MyGroupButton extends React.Component {
         }
     }
 
+    componentWillMount() {
+        if (this.state.savedGroup !== null) {
+            this.props.navigate('Group', { name: this.state.savedGroup });
+        }
+    }
+
     render() {
         if (this.state.savedGroup === null) {
             return (
@@ -38,7 +44,7 @@ class MyGroupButton extends React.Component {
                     icon={'star'}
                     color={'#757575'}
                     tintColor={'transparent'}
-                    onPress={(_) => this.props.navigate('Group', { name: this.state.savedGroup })}
+                    onPress={() => this.props.navigate('Group', { name: this.state.savedGroup })}
                 />
             );
         }
