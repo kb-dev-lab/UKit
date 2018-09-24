@@ -309,23 +309,17 @@ export default {
             alignItems: 'center',
         },
         titleView: {
-            flex: 1,
-            justifyContent: 'space-between',
+            justifyContent: 'center',
             flexDirection: 'row',
             alignSelf: 'stretch',
             alignItems: 'center',
         },
         contentView: {
-            flex: 10,
+            flex: 1,
             alignSelf: 'stretch',
-        },
-        titleTextView: {
-            flex: 5,
-            alignSelf: 'stretch',
-            justifyContent: 'center',
         },
         titleText: {
-            fontSize: 25,
+            fontSize: 18,
             textAlign: 'center',
             paddingVertical: 10,
         },
@@ -338,6 +332,13 @@ export default {
     statusBar: {
         backgroundColor: Theme.primary,
         height: Constants.statusBarHeight,
+    },
+    dayView: {
+
+    },
+    calendarList: {
+        itemSize: 64,
+        header: 38,
     },
     Theme,
 };

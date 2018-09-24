@@ -6,18 +6,7 @@ function upperCaseFirstLetter(string) {
 }
 
 function setStatusBar(navigation) {
-    navigation.addListener('willFocus', () => {
-        StatusBar.setBarStyle('light-content');
-    });
-    navigation.addListener('didFocus', () => {
-        StatusBar.setBarStyle('light-content');
-    });
-    navigation.addListener('willBlur', () => {
-        StatusBar.setBarStyle('light-content');
-    });
-    navigation.addListener('didBlur', () => {
-        StatusBar.setBarStyle('light-content');
-    });
+    return;
 }
 
 export { upperCaseFirstLetter, setStatusBar };
