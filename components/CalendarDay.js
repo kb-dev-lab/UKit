@@ -3,12 +3,32 @@ import { Text, TouchableOpacity, View } from 'react-native';
 
 import style from '../Style';
 
-class CalendarDay extends React.PureComponent {
+class CalendarDay extends React.Component {
     _onPress = () => {
         if (this.props.onPressItem) {
-            this.props.onPressItem(this.props.item);
+            requestAnimationFrame(() => {
+                this.props.onPressItem(this.props.item);
+            });
         }
     };
+
+    static getBackgroundColor(props) {
+        return props.item.isSame(props.selectedDay, 'day')
+            ? style.Theme.primary
+            : props.item.isSame(props.currentDay, 'day')
+                ? '#CCCCCC'
+                : props.item.day() === 0
+                    ? '#EEEEEE'
+                    : 'transparent';
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (CalendarDay.getBackgroundColor(nextProps) !== CalendarDay.getBackgroundColor(this.props)) {
+            return true;
+        }
+
+        return false;
+    }
 
     render() {
         return (
@@ -23,13 +43,7 @@ class CalendarDay extends React.PureComponent {
                     flex: 1,
                     borderTopRightRadius: 4,
                     borderTopLeftRadius: 4,
-                    backgroundColor: this.props.item.isSame(this.props.selectedDay, 'day')
-                        ? style.Theme.primary
-                        : this.props.item.isSame(this.props.currentDay, 'day')
-                            ? '#CCCCCC'
-                            : this.props.item.day() === 0
-                                ? '#EEEEEE'
-                                : 'transparent',
+                    backgroundColor: CalendarDay.getBackgroundColor(this.props),
                 }}>
                 <View data-month={this.props.item.month()}>
                     <Text

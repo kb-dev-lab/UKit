@@ -43,8 +43,27 @@ export default class DaySwiper extends React.Component {
         };
 
         this.checkViewableItems = this.checkViewableItems.bind(this);
+        this.extractCalendarListItemKey = this.extractCalendarListItemKey.bind(this);
+        this.getCalendarListItemLayout = this.getCalendarListItemLayout.bind(this);
         this.onTodayPress = this.onTodayPress.bind(this);
         this.onDayPress = this.onDayPress.bind(this);
+        this.renderCalendarListItem = this.renderCalendarListItem.bind(this);
+    }
+
+    getCalendarListItemLayout(data, index) {
+        return {
+            length: style.calendarList.itemSize,
+            offset: style.calendarList.itemSize * index,
+            index,
+        };
+    }
+
+    renderCalendarListItem({ item }) {
+        return <CalendarDay item={item} selectedDay={this.state.selectedDay} currentDay={this.state.currentDay} onPressItem={this.onDayPress} />;
+    }
+
+    extractCalendarListItemKey(item, index) {
+        return `${item.date()}-${item.month()}`;
     }
 
     onTodayPress() {
@@ -54,7 +73,7 @@ export default class DaySwiper extends React.Component {
             },
             () => {
                 if (this.calendarList) {
-                    this.calendarList.scrollToIndex({index: this.state.currentDayIndex, animated: true});
+                    this.calendarList.scrollToIndex({ index: this.state.currentDayIndex, animated: true });
                 }
             }
         );
@@ -140,24 +159,13 @@ export default class DaySwiper extends React.Component {
                         showsHorizontalScrollIndicator={false}
                         data={this.state.days}
                         horizontal={true}
-                        keyExtractor={(item, index) => `${item.date()}-${item.month()}`}
+                        keyExtractor={this.extractCalendarListItemKey}
                         viewabilityConfig={this.viewability}
                         onViewableItemsChanged={this.checkViewableItems}
                         initialScrollIndex={this.state.currentDayIndex}
-                        getItemLayout={(data, index) => ({
-                            length: style.calendarList.itemSize,
-                            offset: style.calendarList.itemSize * index,
-                            index,
-                        })}
+                        getItemLayout={this.getCalendarListItemLayout}
                         extraData={this.state}
-                        renderItem={({ item }) => (
-                            <CalendarDay
-                                item={item}
-                                selectedDay={this.state.selectedDay}
-                                currentDay={this.state.currentDay}
-                                onPressItem={this.onDayPress}
-                            />
-                        )}
+                        renderItem={this.renderCalendarListItem}
                     />
                 </View>
             </View>

@@ -85,6 +85,7 @@ const colors50 = {
 
 const Theme = {
     primary: '#009ee0',
+    lightPrimary: '#45B8E8',
 };
 
 export default {
@@ -333,9 +334,7 @@ export default {
         backgroundColor: Theme.primary,
         height: Constants.statusBarHeight,
     },
-    dayView: {
-
-    },
+    dayView: {},
     calendarList: {
         itemSize: 64,
         header: 38,
