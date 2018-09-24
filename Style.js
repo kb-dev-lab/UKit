@@ -85,7 +85,6 @@ const colors50 = {
 
 const Theme = {
     primary: '#009ee0',
-    lightPrimary: '#45B8E8',
 };
 
 export default {
