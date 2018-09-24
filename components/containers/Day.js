@@ -15,32 +15,65 @@ export default class Day extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            cancelToken: null,
             groupName: this.props.groupName,
             day: moment(this.props.day),
             error: null,
             schedule: null,
         };
-        this._source = axios.CancelToken.source();
     }
 
     componentDidMount() {
         this.fetchSchedule();
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.day !== prevState.day) {
+            this.fetchSchedule();
+        }
+    }
+
     componentWillUnmount() {
-        this._source.cancel('Operation canceled due component being unmounted.');
+        if (this.state.cancelToken) {
+            this.state.cancelToken.cancel('Operation canceled due component being unmounted.');
+        }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        const nextState = {};
+
+        if (nextProps.day !== prevState.day) {
+            nextState.day = nextProps.day;
+        }
+
+        return nextState;
     }
 
     fetchSchedule() {
-        let groupName = this.state.groupName;
-        let data = groupName.split('_');
-        let date = this.state.day.format('YYYY/MM/DD');
-        axios
-            .get(`https://hackjack.info/et/json.php?type=day&name=${data[0]}&group=${data[1]}&date=${date}`, { cancelToken: this._source.token })
-            .then((response) => {
-                this.setState({ schedule: response.data, error: null });
-            })
-            .catch(() => null);
+        if (this.state.loading) {
+            this.state.cancelToken.cancel('Another request called');
+        }
+
+        const cancelToken = axios.CancelToken.source();
+
+        this.setState({ schedule: null, loading: true, cancelToken }, () => {
+            const groupName = this.state.groupName;
+            const data = groupName.split('_');
+            const date = this.state.day.format('YYYY/MM/DD');
+
+            axios
+                .get(`https://hackjack.info/et/json.php?type=day&name=${data[0]}&group=${data[1]}&date=${date}`, {
+                    cancelToken: cancelToken.token,
+                })
+                .then((response) => {
+                    this.setState({ schedule: response.data, error: null, loading: false, cancelToken: null });
+                })
+                .catch((e) => {
+                    if (!axios.isCancel(e)) {
+                        this.setState({ error: e, loading: false, cancelToken: null });
+                    }
+                });
+        });
     }
 
     displayDate() {
@@ -56,7 +89,7 @@ export default class Day extends React.Component {
                 content = <Text style={style.schedule.error}>Erreur {this.state.error.response.status}</Text>;
             }
         } else if (this.state.schedule instanceof Array) {
-            if (this.state.schedule.length === 0) {
+            if (this.state.day.day() === 0 || this.state.schedule.length === 0) {
                 this.state.schedule = [{ schedule: 0, category: 'nocourse' }];
             }
             content = (
@@ -68,46 +101,11 @@ export default class Day extends React.Component {
                 />
             );
         }
-        const previousButton = (
-            <View
-                style={{
-                    justifyContent: 'flex-start',
-                    flexDirection: 'row',
-                }}>
-                <MaterialIcons
-                    name="navigate-before"
-                    size={32}
-                    style={{
-                        color: 'black',
-                    }}
-                />
-            </View>
-        );
-
-        const nextButton = (
-            <View
-                style={{
-                    justifyContent: 'flex-end',
-                    flexDirection: 'row',
-                }}>
-                <MaterialIcons
-                    name="navigate-next"
-                    size={32}
-                    style={{
-                        color: 'black',
-                    }}
-                />
-            </View>
-        );
 
         return (
             <View style={style.schedule.containerView}>
                 <View style={style.schedule.titleView}>
-                    {previousButton}
-                    <View style={style.schedule.titleTextView}>
-                        <Text style={[style.schedule.titleText]}>{this.displayDate()}</Text>
-                    </View>
-                    {nextButton}
+                    <Text style={[style.schedule.titleText]}>{this.displayDate()}</Text>
                 </View>
                 <View style={style.schedule.contentView}>{content}</View>
             </View>

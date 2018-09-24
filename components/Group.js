@@ -3,15 +3,12 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 import { Ionicons } from '@expo/vector-icons';
 
-import Tabs from '../navigation/ScheduleTabs';
+import DayView from './DayView';
 import style from '../Style';
 import SaveButton from './containers/buttons/SaveGroupButton';
 
 export default class Group extends React.Component {
-    static router = Tabs.router;
-
     static navigationOptions = ({ navigation }) => {
-
         let groupName = navigation.state.params.name;
         let title = groupName.replace(/_/g, ' ');
 
@@ -73,6 +70,6 @@ export default class Group extends React.Component {
     }
 
     render() {
-        return <Tabs navigation={this.props.navigation} screenProps={{ groupName: this.state.groupName }} />;
+        return <DayView screenProps={{ groupName: this.state.groupName }} />;
     }
 }
