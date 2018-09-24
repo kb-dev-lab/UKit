@@ -86,6 +86,8 @@ export default class Home extends React.Component {
             emptySearchResults: false,
             refreshing: false,
         };
+
+        this.refreshList = this.refreshList.bind(this);
     }
 
     static async _loadAssetsAsync() {
@@ -235,7 +237,7 @@ export default class Home extends React.Component {
                     initialNumToRender={20}
                     onEndReachedThreshold={0.1}
                     style={style.list.sectionList}
-                    onRefresh={() => this.refreshList()}
+                    onRefresh={this.refreshList}
                     refreshing={this.state.refreshing}
                 />
             );

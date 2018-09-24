@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, Dimensions, Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Dimensions, Platform, ScrollView, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
+
+import style from './../Style';
 
 /**
  * Default styles
@@ -70,14 +72,14 @@ const styles = {
         left: 0,
         flex: 1,
         paddingHorizontal: 10,
-        paddingVertical: 10,
+        // paddingVertical: 10,
         justifyContent: 'space-between',
-        alignItems: 'center',
+        alignItems: 'flex-start',
     },
 
     buttonText: {
         fontSize: 50,
-        color: '#007aff',
+        color: style.Theme.primary,
     },
 };
 
@@ -448,11 +450,7 @@ export default class extends Component {
             button = this.props.nextButton || <Text style={styles.buttonText}>›</Text>;
         }
 
-        return (
-            <TouchableOpacity onPress={() => button !== null && this.scrollBy(1)} disabled={this.props.disableNextButton}>
-                <View>{button}</View>
-            </TouchableOpacity>
-        );
+        return <View>{button}</View>;
     };
 
     renderPrevButton = () => {
@@ -462,11 +460,7 @@ export default class extends Component {
             button = this.props.prevButton || <Text style={styles.buttonText}>‹</Text>;
         }
 
-        return (
-            <TouchableOpacity onPress={() => button !== null && this.scrollBy(-1)}>
-                <View>{button}</View>
-            </TouchableOpacity>
-        );
+        return <View>{button}</View>;
     };
 
     renderButtons = () => {

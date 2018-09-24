@@ -8,6 +8,8 @@ import WebBrowser from '../components/WebBrowser';
 import Geolocation from '../components/Geolocation';
 import style from '../Style';
 import { StatusBar } from 'react-native';
+import DayView from '../components/DayView';
+import WeekView from '../components/WeekView';
 
 export default createStackNavigator(
     {
@@ -17,6 +19,12 @@ export default createStackNavigator(
         },
         Group: {
             screen: Group,
+        },
+        Week: {
+            screen: WeekView,
+        },
+        Day: {
+            screen: DayView,
         },
         About: {
             screen: About,

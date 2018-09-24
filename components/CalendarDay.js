@@ -23,11 +23,7 @@ class CalendarDay extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (CalendarDay.getBackgroundColor(nextProps) !== CalendarDay.getBackgroundColor(this.props)) {
-            return true;
-        }
-
-        return false;
+        return CalendarDay.getBackgroundColor(nextProps) !== CalendarDay.getBackgroundColor(this.props);
     }
 
     render() {

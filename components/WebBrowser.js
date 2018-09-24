@@ -1,7 +1,7 @@
 import React from 'react';
-import { ActivityIndicator, Linking, Platform, Text, TouchableOpacity, View, WebView } from 'react-native';
+import { ActivityIndicator, Linking, Platform, TouchableOpacity, View, WebView } from 'react-native';
 import NavigationBar from 'react-native-navbar';
-import { NavigationActions, withNavigation } from 'react-navigation';
+import { withNavigation } from 'react-navigation';
 import { Ionicons, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
@@ -88,6 +88,10 @@ class WebBrowser extends React.Component {
         };
 
         this.openURL = this.openURL.bind(this);
+        this.getUri = this.getUri.bind(this);
+        this.onBack = this.onBack.bind(this);
+        this.onRefresh = this.onRefresh.bind(this);
+        this.onForward = this.onForward.bind(this);
     }
 
     componentDidMount() {
@@ -145,7 +149,7 @@ class WebBrowser extends React.Component {
                     javaScriptEnabled={true}
                     domStorageEnabled={true}
                     startInLoadingState={true}
-                    renderLoading={() => WebBrowser.renderLoading()}
+                    renderLoading={WebBrowser.renderLoading}
                     onNavigationStateChange={(e) => {
                         if (!e.loading) {
                             this.setState({ url: e.url, title: e.title, canGoBack: e.canGoBack, loading: e.loading }, () => {
@@ -158,15 +162,27 @@ class WebBrowser extends React.Component {
                     source={{ uri: this.state.uri }}
                 />
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 5 }}>
-                    <TouchableOpacity disabled={!this.state.canGoBack} onPress={this.onBack.bind(this)}>
-                        <MaterialIcons name="navigate-before" size={30} style={{ color: this.state.canGoBack ? style.Theme.primary : 'grey', height: 30, width: 30 }} />
+                    <TouchableOpacity disabled={!this.state.canGoBack} onPress={this.onBack}>
+                        <MaterialIcons
+                            name="navigate-before"
+                            size={30}
+                            style={{ color: this.state.canGoBack ? style.Theme.primary : 'grey', height: 30, width: 30 }}
+                        />
                     </TouchableOpacity>
-                    <TouchableOpacity disabled={!this.state.canGoForward} onPress={this.onForward.bind(this)}>
-                        <MaterialIcons name="navigate-next" size={30} style={{ color: this.state.canGoForward ? style.Theme.primary : 'grey', height: 30, width: 30 }} />
+                    <TouchableOpacity disabled={!this.state.canGoForward} onPress={this.onForward}>
+                        <MaterialIcons
+                            name="navigate-next"
+                            size={30}
+                            style={{ color: this.state.canGoForward ? style.Theme.primary : 'grey', height: 30, width: 30 }}
+                        />
                     </TouchableOpacity>
 
-                    <TouchableOpacity disabled={this.state.loading} onPress={this.onRefresh.bind(this)}>
-                        <MaterialIcons name="refresh" size={30} style={{ color: this.state.loading ? 'grey' : style.Theme.primary, height: 30, width: 30 }} />
+                    <TouchableOpacity disabled={this.state.loading} onPress={this.onRefresh}>
+                        <MaterialIcons
+                            name="refresh"
+                            size={30}
+                            style={{ color: this.state.loading ? 'grey' : style.Theme.primary, height: 30, width: 30 }}
+                        />
                     </TouchableOpacity>
 
                     <TouchableOpacity
@@ -179,9 +195,17 @@ class WebBrowser extends React.Component {
                         }}>
                         <View>
                             {Platform.OS === 'ios' ? (
-                                <MaterialCommunityIcons name="apple-safari" size={30} style={{ color: style.Theme.primary, height: 30, width: 30 }} />
+                                <MaterialCommunityIcons
+                                    name="apple-safari"
+                                    size={30}
+                                    style={{ color: style.Theme.primary, height: 30, width: 30 }}
+                                />
                             ) : (
-                                <MaterialCommunityIcons name="google-chrome" size={30} style={{ color: style.Theme.primary, height: 30, width: 30 }} />
+                                <MaterialCommunityIcons
+                                    name="google-chrome"
+                                    size={30}
+                                    style={{ color: style.Theme.primary, height: 30, width: 30 }}
+                                />
                             )}
                         </View>
                     </TouchableOpacity>

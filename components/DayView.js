@@ -1,14 +1,12 @@
 import React from 'react';
-import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { FlatList, Text, TouchableOpacity, View } from 'react-native';
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import moment from 'moment';
 import 'moment/locale/fr';
 
 import CalendarDay from './CalendarDay';
 import DayComponent from './containers/Day';
 import style from '../Style';
-import Swiper from './Swiper';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 moment.locale('fr');
 
@@ -16,20 +14,25 @@ function capitalize(str) {
     return `${str.charAt(0).toUpperCase()}${str.substr(1)}`;
 }
 
-export default class DaySwiper extends React.Component {
+export default class DayView extends React.Component {
+    static navigationOptions = {
+        tabBarLabel: 'Jour',
+        tabBarIcon: ({ tintColor }) => {
+            return <MaterialCommunityIcons name="calendar" size={24} style={{ color: tintColor }} />;
+        },
+    };
+
     constructor(props) {
         super(props);
 
         const currentDay = moment();
         const groupName = this.props.screenProps.groupName;
-        const days = this.generateDays();
+        const days = DayView.generateDays();
 
         this.state = {
             groupName,
             currentDay: currentDay,
             currentDayIndex: days.findIndex((e) => e.isSame(currentDay, 'day')),
-            selectedDay: currentDay,
-            days: [],
             shownMonth: {
                 number: currentDay.month(),
                 string: capitalize(currentDay.format('MMMM')),
@@ -43,14 +46,13 @@ export default class DaySwiper extends React.Component {
         };
 
         this.checkViewableItems = this.checkViewableItems.bind(this);
-        this.extractCalendarListItemKey = this.extractCalendarListItemKey.bind(this);
-        this.getCalendarListItemLayout = this.getCalendarListItemLayout.bind(this);
         this.onTodayPress = this.onTodayPress.bind(this);
         this.onDayPress = this.onDayPress.bind(this);
         this.renderCalendarListItem = this.renderCalendarListItem.bind(this);
+        this.onWeekPress = this.onWeekPress.bind(this);
     }
 
-    getCalendarListItemLayout(data, index) {
+    static getCalendarListItemLayout(data, index) {
         return {
             length: style.calendarList.itemSize,
             offset: style.calendarList.itemSize * index,
@@ -62,7 +64,7 @@ export default class DaySwiper extends React.Component {
         return <CalendarDay item={item} selectedDay={this.state.selectedDay} currentDay={this.state.currentDay} onPressItem={this.onDayPress} />;
     }
 
-    extractCalendarListItemKey(item, index) {
+    static extractCalendarListItemKey(item) {
         return `${item.date()}-${item.month()}`;
     }
 
@@ -79,19 +81,23 @@ export default class DaySwiper extends React.Component {
         );
     }
 
+    onWeekPress() {
+        this.props.navigation.navigate('Week', { groupName: this.state.groupName });
+    }
+
     onDayPress(dayItem) {
         this.setState({
             selectedDay: dayItem,
         });
     }
 
-    generateDays() {
+    static generateDays() {
         const currentDate = moment();
         const beginningGenerationDate = moment()
             .date(1)
             .month(7);
 
-        if (currentDate.month() > 7) {
+        if (currentDate.month() > 6) {
             beginningGenerationDate.year(currentDate.year());
         } else {
             beginningGenerationDate.year(currentDate.year() - 1);
@@ -153,17 +159,24 @@ export default class DaySwiper extends React.Component {
                         <View>
                             <Text style={{ textAlign: 'center', fontSize: 18, marginVertical: 8 }} />
                         </View>
+
+                        <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={this.onWeekPress}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 16 }}>
+                                <Text style={{ textAlign: 'center', fontSize: 12, marginRight: 8 }}>Semaine</Text>
+                                <MaterialCommunityIcons name="calendar-range" size={18} />
+                            </View>
+                        </TouchableOpacity>
                     </View>
                     <FlatList
                         ref={(list) => (this.calendarList = list)}
                         showsHorizontalScrollIndicator={false}
                         data={this.state.days}
                         horizontal={true}
-                        keyExtractor={this.extractCalendarListItemKey}
+                        keyExtractor={DayView.extractCalendarListItemKey}
                         viewabilityConfig={this.viewability}
                         onViewableItemsChanged={this.checkViewableItems}
                         initialScrollIndex={this.state.currentDayIndex}
-                        getItemLayout={this.getCalendarListItemLayout}
+                        getItemLayout={DayView.getCalendarListItemLayout}
                         extraData={this.state}
                         renderItem={this.renderCalendarListItem}
                     />

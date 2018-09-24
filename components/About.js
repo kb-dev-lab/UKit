@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableHighlight, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import NavigationBar from 'react-native-navbar';
 
@@ -10,12 +10,14 @@ export default class About extends React.Component {
     static navigationOptions = ({ navigation }) => {
         let title = 'À propos';
         let leftButton = (
-            <TouchableOpacity
+            <TouchableHighlight
                 onPress={() => {
                     navigation.goBack();
                 }}
+                underlayColor={style.Theme.secondary}
                 style={{
                     paddingLeft: 16,
+                    paddingRight: 32,
                     flexDirection: 'row',
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -31,7 +33,7 @@ export default class About extends React.Component {
                         }}
                     />
                 </View>
-            </TouchableOpacity>
+            </TouchableHighlight>
         );
         return {
             title,

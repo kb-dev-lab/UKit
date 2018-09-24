@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -70,6 +70,6 @@ export default class Group extends React.Component {
     }
 
     render() {
-        return <DayView screenProps={{ groupName: this.state.groupName }} />;
+        return <DayView navigation={this.props.navigation} screenProps={{ groupName: this.state.groupName }} />;
     }
 }
