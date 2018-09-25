@@ -6,7 +6,7 @@
         "privacy": "public",
         "githubUrl": "https://github.com/Jack3113/UKit",
         "sdkVersion": "30.0.0",
-        "version": "3.2.1",
+        "version": "3.2.2",
         "orientation": "portrait",
         "primaryColor": "#006F9F",
         "icon": "./assets/icons/app_1024_alpha.png",
@@ -28,7 +28,7 @@
         "android": {
             "package": "com.bordeaux1.emplois",
             "permissions": [],
-            "versionCode": 47
+            "versionCode": 48
         },
         "androidStatusBar": {
             "barStyle": "light-content",
