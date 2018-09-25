@@ -1,12 +1,14 @@
 import React from 'react';
 import { Text, View } from 'react-native';
+import PropTypes from 'prop-types';
 
 export default class Split extends React.PureComponent {
+    static propTypes = {
+        title: PropTypes.string.isRequired,
+    };
+
     constructor(props) {
         super(props);
-        this.state = {
-            title: this.props.title,
-        };
     }
 
     render() {
@@ -28,7 +30,7 @@ export default class Split extends React.PureComponent {
                         paddingLeft: 7,
                         fontWeight: 'bold',
                     }}>
-                    {this.state.title}
+                    {this.props.title}
                 </Text>
             </View>
         );

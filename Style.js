@@ -96,6 +96,13 @@ export default {
     },
     colors,
     hintColors,
+    backButton: {
+        paddingLeft: 16,
+        paddingRight: 32,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     about: {
         title: {
             fontWeight: 'bold',

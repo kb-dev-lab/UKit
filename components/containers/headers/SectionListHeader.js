@@ -1,9 +1,14 @@
 import React from 'react';
 import { Text, View } from 'react-native';
+import PropTypes from 'prop-types';
 
 import style from '../../../Style';
 
 export default class SectionListHeader extends React.PureComponent {
+    static propTypes = {
+        sectionIndex: PropTypes.number.isRequired,
+    };
+
     constructor(props) {
         super(props);
     }

@@ -1,7 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 import axios from 'axios';
-import { MaterialIcons } from '@expo/vector-icons';
 import moment from 'moment';
 import 'moment/locale/fr';
 

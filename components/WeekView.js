@@ -1,6 +1,6 @@
 import React from 'react';
-import { FlatList, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
-import { Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { FlatList, Text, TouchableOpacity, View } from 'react-native';
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import moment from 'moment';
 import 'moment/locale/fr';
 
@@ -9,6 +9,7 @@ import WeekComponent from './containers/Week';
 import style from '../Style';
 import SaveButton from './containers/buttons/SaveGroupButton';
 import NavigationBar from 'react-native-navbar';
+import BackButton from './containers/buttons/BackButton';
 
 moment.locale('fr');
 
@@ -20,33 +21,7 @@ export default class WeekView extends React.Component {
     static navigationOptions = ({ navigation }) => {
         let groupName = navigation.state.params.groupName;
         let title = groupName.replace(/_/g, ' ');
-
-        let leftButton = (
-            <TouchableHighlight
-                onPress={() => {
-                    navigation.goBack();
-                }}
-                underlayColor={style.Theme.secondary}
-                style={{
-                    paddingLeft: 16,
-                    paddingRight: 32,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}>
-                <View>
-                    <Ionicons
-                        name="ios-arrow-back"
-                        size={32}
-                        style={{
-                            color: 'white',
-                            height: 32,
-                            width: 32,
-                        }}
-                    />
-                </View>
-            </TouchableHighlight>
-        );
+        let leftButton = <BackButton backAction={navigation.goBack} />;
 
         let rightButton = (
             <View

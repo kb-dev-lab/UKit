@@ -26,11 +26,10 @@ export default class DayView extends React.Component {
         super(props);
 
         const currentDay = moment();
-        const groupName = this.props.screenProps.groupName;
         const days = DayView.generateDays();
 
         this.state = {
-            groupName,
+            groupName: this.props.groupName,
             currentDay: currentDay,
             currentDayIndex: days.findIndex((e) => e.isSame(currentDay, 'day')),
             shownMonth: {

@@ -2,10 +2,11 @@ import React from 'react';
 import { ActivityIndicator, Linking, Platform, TouchableOpacity, View, WebView } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 import { withNavigation } from 'react-navigation';
-import { Ionicons, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 import style from '../Style';
+import BackButton from './containers/buttons/BackButton';
 
 function treatTitle(str) {
     if (str.length > 18) {
@@ -22,30 +23,7 @@ function treatTitle(str) {
 class WebBrowser extends React.Component {
     static navigationOptions = ({ navigation }) => {
         let title = treatTitle(navigation.getParam('title', 'Navigateur web'));
-        let leftButton = (
-            <TouchableOpacity
-                onPress={() => {
-                    navigation.goBack();
-                }}
-                style={{
-                    paddingLeft: 16,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}>
-                <View>
-                    <Ionicons
-                        name="ios-close-outline"
-                        size={50}
-                        style={{
-                            color: 'white',
-                            height: 50,
-                            width: 50,
-                        }}
-                    />
-                </View>
-            </TouchableOpacity>
-        );
+        let leftButton = <BackButton backAction={navigation.goBack} />;
 
         return {
             title,

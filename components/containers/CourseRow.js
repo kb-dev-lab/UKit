@@ -4,7 +4,7 @@ import { Text, TouchableHighlight, View } from 'react-native';
 import style from '../../Style';
 import OpenMapButton from './buttons/OpenMapButton';
 
-export default class CourseRow extends React.Component {
+export default class CourseRow extends React.PureComponent {
     constructor(props) {
         super(props);
         let backgroundColor = '#FFF';

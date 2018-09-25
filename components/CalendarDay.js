@@ -1,9 +1,18 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
+import PropTypes from 'prop-types';
+import moment from 'moment';
 
 import style from '../Style';
 
 class CalendarDay extends React.Component {
+    static propTypes = {
+        currentDay: PropTypes.instanceOf(moment),
+        item: PropTypes.instanceOf(moment),
+        onPressItem: PropTypes.func,
+        selectedDay: PropTypes.instanceOf(moment),
+    };
+
     _onPress = () => {
         if (this.props.onPressItem) {
             requestAnimationFrame(() => {

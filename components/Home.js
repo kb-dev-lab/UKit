@@ -88,6 +88,7 @@ export default class Home extends React.Component {
         };
 
         this.refreshList = this.refreshList.bind(this);
+        this.openGroup = this.openGroup.bind(this);
     }
 
     static async _loadAssetsAsync() {
@@ -116,6 +117,7 @@ export default class Home extends React.Component {
         let sectionIndex = -1;
         list.forEach((e) => {
             let splitName = e.name.split('_');
+            e.cleanName = `${splitName[0]} ${splitName[1]}`;
             if (splitName[0] !== previousSection) {
                 if (previousSection !== null) {
                     sections.push(sectionContent);
@@ -155,27 +157,14 @@ export default class Home extends React.Component {
     }
 
     fetchList() {
-        axios.get('https://hackjack.info/et/json.php').then((response) => {
-            let groupList = [];
-            for (let groupName in response.data) {
-                if (response.data.hasOwnProperty(groupName)) {
-                    groupList.push({
-                        name: groupName,
-                        code: response.data[groupName],
-                        cleanName: groupName.replace(/_/g, ' '),
-                    });
-                }
-            }
-            let list = groupList.sort((a, b) => {
-                return a.name.localeCompare(b.name);
-            });
-            this.generateSections(list, true);
+        axios.get('https://hackjack.info/et/json.php?clean=true').then((response) => {
+            this.generateSections(response.data, true);
         });
     }
 
-    openGroup(group) {
+    openGroup(name) {
         const { navigate } = this.props.navigation;
-        navigate('Group', { name: group.name, code: group.code });
+        navigate('Group', { name });
     }
 
     search(input) {
@@ -228,7 +217,15 @@ export default class Home extends React.Component {
         } else {
             content = (
                 <SectionList
-                    renderItem={({ item, j, index }) => <GroupRow group={item} key={index} openGroup={() => this.openGroup(item)} />}
+                    renderItem={({ item, j, index }) => (
+                        <GroupRow
+                            name={item.name}
+                            cleanName={item.cleanName}
+                            sectionStyle={item.sectionStyle}
+                            key={index}
+                            openGroup={this.openGroup}
+                        />
+                    )}
                     renderSectionHeader={({ section }) => (
                         <SectionListHeader title={section.key} key={section.key} sectionIndex={section.sectionIndex} />
                     )}

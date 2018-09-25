@@ -1,40 +1,15 @@
 import React from 'react';
-import { Text, TouchableHighlight, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Text, View } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 
 import style from '../Style';
 import URLButton from './containers/buttons/URLButton';
+import BackButton from './containers/buttons/BackButton';
 
 export default class About extends React.Component {
     static navigationOptions = ({ navigation }) => {
         let title = 'À propos';
-        let leftButton = (
-            <TouchableHighlight
-                onPress={() => {
-                    navigation.goBack();
-                }}
-                underlayColor={style.Theme.secondary}
-                style={{
-                    paddingLeft: 16,
-                    paddingRight: 32,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}>
-                <View>
-                    <Ionicons
-                        name="ios-arrow-back"
-                        size={32}
-                        style={{
-                            color: 'white',
-                            height: 32,
-                            width: 32,
-                        }}
-                    />
-                </View>
-            </TouchableHighlight>
-        );
+        let leftButton = <BackButton backAction={navigation.goBack} />;
         return {
             title,
             header: (

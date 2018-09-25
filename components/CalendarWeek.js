@@ -1,9 +1,17 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
+import PropTypes from 'prop-types';
 
 import style from '../Style';
 
 class CalendarWeek extends React.Component {
+    static propTypes = {
+        currentWeek: PropTypes.number,
+        onPressItem: PropTypes.func,
+        selectedWeek: PropTypes.number,
+        week: PropTypes.number,
+    };
+
     _onPress = () => {
         if (this.props.onPressItem) {
             requestAnimationFrame(() => {

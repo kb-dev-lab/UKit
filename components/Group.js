@@ -1,41 +1,18 @@
 import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { View } from 'react-native';
 import NavigationBar from 'react-native-navbar';
-import { Ionicons } from '@expo/vector-icons';
 
 import DayView from './DayView';
 import style from '../Style';
 import SaveButton from './containers/buttons/SaveGroupButton';
+import BackButton from './containers/buttons/BackButton';
 
 export default class Group extends React.Component {
     static navigationOptions = ({ navigation }) => {
         let groupName = navigation.state.params.name;
         let title = groupName.replace(/_/g, ' ');
 
-        let leftButton = (
-            <TouchableOpacity
-                onPress={() => {
-                    navigation.goBack();
-                }}
-                style={{
-                    paddingLeft: 16,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}>
-                <View>
-                    <Ionicons
-                        name="ios-arrow-back"
-                        size={32}
-                        style={{
-                            color: 'white',
-                            height: 32,
-                            width: 32,
-                        }}
-                    />
-                </View>
-            </TouchableOpacity>
-        );
+        let leftButton = <BackButton backAction={navigation.goBack} />;
         let rightButton = (
             <View
                 style={{
@@ -70,6 +47,6 @@ export default class Group extends React.Component {
     }
 
     render() {
-        return <DayView navigation={this.props.navigation} screenProps={{ groupName: this.state.groupName }} />;
+        return <DayView navigation={this.props.navigation} groupName={this.state.groupName} />;
     }
 }
