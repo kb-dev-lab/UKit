@@ -9,7 +9,7 @@ import store from 'react-native-simple-store';
 import moment from 'moment';
 import 'moment/locale/fr';
 
-import SectionListHeader from './containers/headers/SectionListHeader';
+import SectionListHeader from './containers/ui/SectionListHeader';
 import GroupRow from './containers/GroupRow';
 import style from '../Style';
 

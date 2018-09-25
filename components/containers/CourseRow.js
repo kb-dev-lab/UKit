@@ -49,6 +49,14 @@ export default class CourseRow extends React.PureComponent {
                 break;
         }
         this.state = { backgroundColor, borderColor, lineColor };
+
+        this._onLongPress = this._onLongPress.bind(this);
+    }
+
+    _onLongPress(e) {
+        requestAnimationFrame(() => {
+            console.log({ data: this.props.data });
+        });
     }
 
     render() {
@@ -61,7 +69,6 @@ export default class CourseRow extends React.PureComponent {
         } else {
             let annotations, staff, subject, room, group;
             let annotationsTitle, staffTitle, roomTitle, groupTitle;
-
 
             if (this.props.data.room !== 'N/C') {
                 roomTitle = <Text style={style.schedule.course.header}>Salle : </Text>;
@@ -110,7 +117,7 @@ export default class CourseRow extends React.PureComponent {
             }
 
             return (
-                <TouchableHighlight onPress={() => {}} underlayColor="white">
+                <TouchableHighlight onPress={this._onLongPress} underlayColor="white">
                     <View
                         style={[
                             style.schedule.course.row,

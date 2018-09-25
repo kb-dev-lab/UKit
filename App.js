@@ -8,7 +8,7 @@ import StackNavigator from './navigation/StackNavigator';
 import About from './components/About';
 import DrawerButton from './components/containers/buttons/DrawerButton';
 import MyGroupButton from './components/containers/buttons/MyGroupButton';
-import Split from './components/containers/headers/Split';
+import Split from './components/containers/ui/Split';
 import style from './Style';
 import WebBrowser from './components/WebBrowser';
 import Geolocation from './components/Geolocation';
@@ -84,6 +84,15 @@ const CustomDrawerContentComponent = (props) => {
                         onPress={() => navigate('WebBrowser', { entrypoint: 'apogee' })}
                     />
                     <Split title="Application" />
+                    <DrawerButton
+                        title={'Paramètres'}
+                        size={28}
+                        textSize={14}
+                        icon={'settings'}
+                        color={'#757575'}
+                        tintColor={'transparent'}
+                        onPress={() => navigate('Settings')}
+                    />
                     <DrawerButton
                         title={'À propos'}
                         size={28}
