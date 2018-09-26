@@ -162,7 +162,7 @@ const Theme = {
         },
     },
     dark: {
-        primary: '#030e3a',
+        primary: '#000030',
         secondary: '#0098c5',
         selection: '#009EE0',
         accentFont: '#f9fbe7',
@@ -171,9 +171,9 @@ const Theme = {
         lightFont: '#F0F0F0',
         icon: '#009EE0',
         border: '#666666',
-        background: '#030e3a',
-        greyBackground: '#030E3A',
-        field: '#030E3A',
+        background: '#000030',
+        greyBackground: '#000030',
+        field: '#000030',
         sections: ['#002f6c', '#003300', '#000051', '#bc5100', '#7f0000', '#00251a'],
         sectionsHeaders: ['#01579b', '#1b5e20', '#1a237e', '#f57f17', '#b71c1c', '#004d40'],
         calendar: {

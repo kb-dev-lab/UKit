@@ -142,7 +142,14 @@ class WebBrowser extends React.Component {
                     }}
                     source={{ uri: this.state.uri }}
                 />
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 5, backgroundColor: theme.background }}>
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        paddingHorizontal: 10,
+                        paddingVertical: 5,
+                        backgroundColor: theme.background,
+                    }}>
                     <TouchableOpacity disabled={!this.state.canGoBack} onPress={this.onBack}>
                         <MaterialIcons
                             name="navigate-before"
@@ -176,17 +183,9 @@ class WebBrowser extends React.Component {
                         }}>
                         <View>
                             {Platform.OS === 'ios' ? (
-                                <MaterialCommunityIcons
-                                    name="apple-safari"
-                                    size={25}
-                                    style={{ color: theme.icon, height: 25, width: 25 }}
-                                />
+                                <MaterialCommunityIcons name="apple-safari" size={25} style={{ color: theme.icon, height: 25, width: 25 }} />
                             ) : (
-                                <MaterialCommunityIcons
-                                    name="google-chrome"
-                                    size={25}
-                                    style={{ color: theme.icon, height: 25, width: 25 }}
-                                />
+                                <MaterialCommunityIcons name="google-chrome" size={25} style={{ color: theme.icon, height: 25, width: 25 }} />
                             )}
                         </View>
                     </TouchableOpacity>
