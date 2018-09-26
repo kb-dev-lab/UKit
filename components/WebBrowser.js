@@ -4,9 +4,11 @@ import NavigationBar from 'react-native-navbar';
 import { withNavigation } from 'react-navigation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { connect } from 'react-redux';
 
 import style from '../Style';
 import BackButton from './containers/buttons/BackButton';
+import NavigationBackground from './containers/headers/NavigationBackground';
 
 function treatTitle(str) {
     if (str.length > 18) {
@@ -28,10 +30,7 @@ class WebBrowser extends React.Component {
         return {
             title,
             header: (
-                <View
-                    style={{
-                        backgroundColor: style.Theme.primary,
-                    }}>
+                <NavigationBackground>
                     <NavigationBar
                         title={{ title, tintColor: 'white' }}
                         tintColor={'transparent'}
@@ -42,7 +41,7 @@ class WebBrowser extends React.Component {
                             flexDirection: 'row',
                         }}
                     />
-                </View>
+                </NavigationBackground>
             ),
         };
     };
@@ -106,18 +105,22 @@ class WebBrowser extends React.Component {
             .catch((err) => console.error('An error occurred', err));
     }
 
-    static renderLoading() {
+    renderLoading() {
+        const theme = style.Theme[this.props.themeName];
+
         return (
-            <View style={{ marginTop: 20 }}>
-                <ActivityIndicator size="large" />
+            <View style={{ flex: 1, justifyContent: 'center', backgroundColor: theme.greyBackground }}>
+                <ActivityIndicator size="large" color={theme.iconColor} />
             </View>
         );
     }
 
     render() {
         if (this.state.uri === null) {
-            return WebBrowser.renderLoading();
+            return this.renderLoading();
         }
+
+        const theme = style.Theme[this.props.themeName];
 
         return (
             <View style={{ flex: 1, flexDirection: 'column' }}>
@@ -139,19 +142,19 @@ class WebBrowser extends React.Component {
                     }}
                     source={{ uri: this.state.uri }}
                 />
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 5 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 5, backgroundColor: theme.background }}>
                     <TouchableOpacity disabled={!this.state.canGoBack} onPress={this.onBack}>
                         <MaterialIcons
                             name="navigate-before"
                             size={30}
-                            style={{ color: this.state.canGoBack ? style.Theme.primary : 'grey', height: 30, width: 30 }}
+                            style={{ color: this.state.canGoBack ? theme.icon : 'grey', height: 30, width: 30 }}
                         />
                     </TouchableOpacity>
                     <TouchableOpacity disabled={!this.state.canGoForward} onPress={this.onForward}>
                         <MaterialIcons
                             name="navigate-next"
                             size={30}
-                            style={{ color: this.state.canGoForward ? style.Theme.primary : 'grey', height: 30, width: 30 }}
+                            style={{ color: this.state.canGoForward ? theme.icon : 'grey', height: 30, width: 30 }}
                         />
                     </TouchableOpacity>
 
@@ -159,7 +162,7 @@ class WebBrowser extends React.Component {
                         <MaterialIcons
                             name="refresh"
                             size={30}
-                            style={{ color: this.state.loading ? 'grey' : style.Theme.primary, height: 30, width: 30 }}
+                            style={{ color: this.state.loading ? 'grey' : theme.icon, height: 30, width: 30 }}
                         />
                     </TouchableOpacity>
 
@@ -175,14 +178,14 @@ class WebBrowser extends React.Component {
                             {Platform.OS === 'ios' ? (
                                 <MaterialCommunityIcons
                                     name="apple-safari"
-                                    size={30}
-                                    style={{ color: style.Theme.primary, height: 30, width: 30 }}
+                                    size={25}
+                                    style={{ color: theme.icon, height: 25, width: 25 }}
                                 />
                             ) : (
                                 <MaterialCommunityIcons
                                     name="google-chrome"
-                                    size={30}
-                                    style={{ color: style.Theme.primary, height: 30, width: 30 }}
+                                    size={25}
+                                    style={{ color: theme.icon, height: 25, width: 25 }}
                                 />
                             )}
                         </View>
@@ -193,4 +196,8 @@ class WebBrowser extends React.Component {
     }
 }
 
-export default withNavigation(WebBrowser);
+const mapStateToProps = (state) => ({
+    themeName: state.darkMode.themeName,
+});
+
+export default connect(mapStateToProps)(withNavigation(WebBrowser));

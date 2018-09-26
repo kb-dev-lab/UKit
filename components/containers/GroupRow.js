@@ -7,6 +7,8 @@ import style from '../../Style';
 export default class GroupRow extends React.PureComponent {
     static propTypes = {
         cleanName: PropTypes.string.isRequired,
+        color: PropTypes.string,
+        fontColor: PropTypes.string,
         name: PropTypes.string.isRequired,
         sectionStyle: PropTypes.object,
     };
@@ -26,8 +28,8 @@ export default class GroupRow extends React.PureComponent {
     render() {
         return (
             <TouchableHighlight onPress={this._onPress} underlayColor={style.hintColors.gray}>
-                <View style={[style.list.view, this.props.sectionStyle]}>
-                    <Text>{this.props.cleanName}</Text>
+                <View style={[style.list.view, this.props.sectionStyle, { backgroundColor: this.props.color }]}>
+                    <Text style={{ color: this.props.fontColor }}>{this.props.cleanName}</Text>
                 </View>
             </TouchableHighlight>
         );

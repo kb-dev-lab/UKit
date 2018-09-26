@@ -3,7 +3,7 @@ import { Text } from 'react-native';
 import style from './../../../Style';
 import URLButton from './URLButton';
 
-``
+``;
 
 const locations = require('../../../assets/locations.json');
 
@@ -28,9 +28,12 @@ export default class OpenMapButton extends React.Component {
     }
 
     render() {
+        const { theme } = this.props;
+
         if (this.isLocationKnown()) {
-            return <URLButton title={this.props.location} url={this.getGMapsLocation()} />;
+            return <URLButton title={this.props.location} url={this.getGMapsLocation()} theme={theme} />;
         }
-        return <Text style={style.schedule.course.content}>{this.props.location}</Text>;
+
+        return <Text style={[style.schedule.course.content, { color: theme.accentFont }]}>{this.props.location}</Text>;
     }
 }

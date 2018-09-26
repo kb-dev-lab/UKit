@@ -10,6 +10,7 @@ class CalendarWeek extends React.Component {
         onPressItem: PropTypes.func,
         selectedWeek: PropTypes.number,
         week: PropTypes.number,
+        theme: PropTypes.object,
     };
 
     _onPress = () => {
@@ -21,7 +22,11 @@ class CalendarWeek extends React.Component {
     };
 
     static getBackgroundColor(props) {
-        return props.week === props.selectedWeek ? style.Theme.primary : props.week === props.currentWeek ? '#CCCCCC' : 'transparent';
+        return props.week === props.selectedWeek
+            ? props.theme.calendar.selection
+            : props.week === props.currentWeek
+                ? props.theme.calendar.currentDay
+                : 'transparent';
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -29,6 +34,7 @@ class CalendarWeek extends React.Component {
     }
 
     render() {
+        const { theme } = this.props;
         return (
             <TouchableOpacity
                 onPress={this._onPress}
@@ -49,7 +55,7 @@ class CalendarWeek extends React.Component {
                             textAlign: 'center',
                             fontSize: 24,
                             marginBottom: 4,
-                            color: this.props.week === this.props.selectedWeek ? 'white' : 'black',
+                            color: this.props.week === this.props.selectedWeek ? theme.lightFont : theme.font,
                         }}>
                         {this.props.week}
                     </Text>

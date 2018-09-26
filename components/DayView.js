@@ -1,6 +1,7 @@
 import React from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { connect } from 'react-redux';
 import moment from 'moment';
 import 'moment/locale/fr';
 
@@ -14,7 +15,7 @@ function capitalize(str) {
     return `${str.charAt(0).toUpperCase()}${str.substr(1)}`;
 }
 
-export default class DayView extends React.Component {
+class DayView extends React.Component {
     static navigationOptions = {
         tabBarLabel: 'Jour',
         tabBarIcon: ({ tintColor }) => {
@@ -60,7 +61,15 @@ export default class DayView extends React.Component {
     }
 
     renderCalendarListItem({ item }) {
-        return <CalendarDay item={item} selectedDay={this.state.selectedDay} currentDay={this.state.currentDay} onPressItem={this.onDayPress} />;
+        return (
+            <CalendarDay
+                item={item}
+                selectedDay={this.state.selectedDay}
+                currentDay={this.state.currentDay}
+                onPressItem={this.onDayPress}
+                theme={style.Theme[this.props.themeName]}
+            />
+        );
     }
 
     static extractCalendarListItemKey(item) {
@@ -129,14 +138,16 @@ export default class DayView extends React.Component {
     }
 
     render() {
+        const theme = style.Theme[this.props.themeName];
+
         return (
             <View style={{ flex: 1 }}>
-                <DayComponent key={this.state.days[0].dayOfYear()} day={this.state.selectedDay} groupName={this.state.groupName} />
+                <DayComponent key={this.state.days[0].dayOfYear()} day={this.state.selectedDay} groupName={this.state.groupName} theme={theme} />
                 <View
                     style={{
                         flexGrow: 0,
                         backgroundColor: 'white',
-                        borderTopColor: '#DDDDDD',
+                        borderTopColor: theme.border,
                         borderTopWidth: 1,
                     }}>
                     <View
@@ -145,24 +156,23 @@ export default class DayView extends React.Component {
                             justifyContent: 'space-between',
                             alignItems: 'stretch',
                             height: 38,
+                            backgroundColor: theme.background,
                         }}>
                         <View style={{ position: 'absolute', top: 0, right: 0, left: 0 }}>
-                            <Text style={{ textAlign: 'center', fontSize: 18, marginVertical: 8 }}>{this.state.shownMonth.string}</Text>
+                            <Text style={{ textAlign: 'center', fontSize: 18, marginVertical: 8, color: theme.font }}>
+                                {this.state.shownMonth.string}
+                            </Text>
                         </View>
                         <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={this.onTodayPress}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 16 }}>
-                                <MaterialIcons name="event-note" size={18} />
-                                <Text style={{ textAlign: 'center', fontSize: 12, marginLeft: 8 }}>Aujourd'hui</Text>
+                                <MaterialIcons name="event-note" size={18} style={{ color: theme.icon }} />
+                                <Text style={{ textAlign: 'center', fontSize: 12, marginLeft: 8, color: theme.font }}>Aujourd'hui</Text>
                             </View>
                         </TouchableOpacity>
-                        <View>
-                            <Text style={{ textAlign: 'center', fontSize: 18, marginVertical: 8 }} />
-                        </View>
-
                         <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={this.onWeekPress}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 16 }}>
-                                <Text style={{ textAlign: 'center', fontSize: 12, marginRight: 8 }}>Semaine</Text>
-                                <MaterialCommunityIcons name="calendar-range" size={18} />
+                                <Text style={{ textAlign: 'center', fontSize: 12, marginRight: 8, color: theme.font }}>Semaine</Text>
+                                <MaterialCommunityIcons name="calendar-range" size={18} style={{ color: theme.icon }} />
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -178,9 +188,16 @@ export default class DayView extends React.Component {
                         getItemLayout={DayView.getCalendarListItemLayout}
                         extraData={this.state}
                         renderItem={this.renderCalendarListItem}
+                        style={{ backgroundColor: theme.background }}
                     />
                 </View>
             </View>
         );
     }
 }
+
+const mapStateToProps = (state) => ({
+    themeName: state.darkMode.themeName,
+});
+
+export default connect(mapStateToProps)(DayView);

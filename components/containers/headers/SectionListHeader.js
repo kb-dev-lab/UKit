@@ -6,6 +6,8 @@ import style from '../../../Style';
 
 export default class SectionListHeader extends React.PureComponent {
     static propTypes = {
+        color: PropTypes.string,
+        headerColor: PropTypes.string,
         sectionIndex: PropTypes.number.isRequired,
     };
 
@@ -25,8 +27,8 @@ export default class SectionListHeader extends React.PureComponent {
 
     render() {
         return (
-            <View style={this.getBackgroundSectionStyle()}>
-                <View style={[style.list.sectionHeaderView, this.getSectionStyle()]}>
+            <View style={[this.getBackgroundSectionStyle(), { backgroundColor: this.props.color }]}>
+                <View style={[style.list.sectionHeaderView, this.getSectionStyle(), { backgroundColor: this.props.headerColor }]}>
                     <Text style={style.list.sectionHeaderTitle}>{this.props.title}</Text>
                 </View>
             </View>

@@ -2,6 +2,8 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
 
+import style from '../../../Style';
+
 import DrawerButton from './DrawerButton';
 
 class MyGroupButton extends React.Component {
@@ -29,10 +31,12 @@ class MyGroupButton extends React.Component {
     }
 
     render() {
+        const theme = style.Theme[this.props.themeName];
+
         if (this.state.savedGroup === null) {
             return (
-                <View style={{ paddingLeft: 15 }}>
-                    <Text>Aucun</Text>
+                <View style={{ paddingLeft: 24, paddingVertical: 4 }}>
+                    <Text style={{ color: theme.font }}>Aucun</Text>
                 </View>
             );
         } else {
@@ -42,8 +46,8 @@ class MyGroupButton extends React.Component {
                     size={28}
                     textSize={14}
                     icon={'star'}
-                    color={'#757575'}
-                    tintColor={'transparent'}
+                    color={theme.icon}
+                    fontColor={theme.font}
                     onPress={() => this.props.navigate('Group', { name: this.state.savedGroup })}
                 />
             );
@@ -54,6 +58,7 @@ class MyGroupButton extends React.Component {
 const mapStateToProps = (state) => {
     return {
         savedGroup: state.favorite.groupName,
+        themeName: state.darkMode.themeName,
     };
 };
 

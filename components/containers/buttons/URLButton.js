@@ -25,9 +25,11 @@ export default class URLButton extends React.Component {
     }
 
     render() {
+        const { theme } = this.props;
+
         return (
-            <TouchableOpacity onPress={() => this.openURL()}>
-                <Text style={{ color: style.colors.darkblue }}>{this.state.title}</Text>
+            <TouchableOpacity style={{ alignSelf: 'flex-start' }} onPress={() => this.openURL()}>
+                <Text style={{ color: theme.link }}>{this.state.title}</Text>
             </TouchableOpacity>
         );
     }
