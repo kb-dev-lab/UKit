@@ -1,13 +1,11 @@
 import React from 'react';
-import { ActivityIndicator, FlatList, Platform, Text, View } from 'react-native';
+import { ActivityIndicator, Platform, ScrollView, Text, View } from 'react-native';
 import axios from 'axios';
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
-import moment from 'moment';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import 'moment/locale/fr';
 
 import style from '../../Style';
-import CourseRow from './CourseRow';
-import { upperCaseFirstLetter } from '../../Utils';
+import DayWeek from './ui/DayWeek';
 
 export default class Week extends React.Component {
     static navigationOptions = {
@@ -27,6 +25,12 @@ export default class Week extends React.Component {
             week: this.props.week,
             error: null,
             schedule: null,
+            monday: true,
+            tuesday: true,
+            wednesday: true,
+            thursday: true,
+            friday: true,
+            saturday: true,
         };
     }
 
@@ -86,11 +90,6 @@ export default class Week extends React.Component {
         return 'Semaine ' + this.state.week;
     }
 
-    openDay(day) {
-        const { navigate } = this.props.navigation;
-
-        navigate('Day', { groupName: this.state.groupName });
-    }
 
     render() {
         const { theme } = this.props;
@@ -103,74 +102,15 @@ export default class Week extends React.Component {
                 content = <Text style={[style.schedule.noCourse, { color: theme.font }]}>Erreur {JSON.stringify(this.state.error)}</Text>;
             }
         } else if (this.state.schedule instanceof Array) {
-            let courses = this.state.schedule.reduce((allCourses, day) => {
-                let content = [
-                    {
-                        category: false,
-                        type: 'header',
-                        content: upperCaseFirstLetter(moment.unix(day.dayTimestamp).format('dddd DD/MM/YYYY')),
-                        schedule: 'header' + day.dayTimestamp,
-                    },
-                ];
-                if (day.courses.length === 0) {
-                    day.courses = [{ dayNumber: day.dayNumber, schedule: 'nocourse', category: 'nocourse' }];
-                }
-
-                return allCourses.concat(content.concat(day.courses));
-            }, []);
-
-            content = (
-                <View style={style.schedule.contentView}>
-                    <FlatList
-                        renderItem={({ item }) => {
-                            if (item.category) {
-                                return <CourseRow data={item} theme={theme} />;
-                            }
-
-                            return (
-                                <View style={{ backgroundColor: theme.greyBackground, paddingVertical: 4 }}>
-                                    <Text style={[style.weekView.dayTitle, { color: theme.font }]}>{item.content}</Text>
-                                </View>
-                            );
-                        }}
-                        data={courses}
-                        initialNumToRender={20}
-                        onEndReachedThreshold={0.5}
-                        keyExtractor={(item, index) => String(item.dayNumber) + String(index) + item.schedule}
-                    />
-                </View>
-            );
+            content = <ScrollView>
+                    <DayWeek schedule={this.state.schedule[0]} theme={theme} />
+                    <DayWeek schedule={this.state.schedule[1]} theme={theme} />
+                    <DayWeek schedule={this.state.schedule[2]} theme={theme} />
+                    <DayWeek schedule={this.state.schedule[3]} theme={theme} />
+                    <DayWeek schedule={this.state.schedule[4]} theme={theme} />
+                    <DayWeek schedule={this.state.schedule[5]} theme={theme} />
+                </ScrollView>;
         }
-        const previousButton = (
-            <View
-                style={{
-                    justifyContent: 'flex-start',
-                    flexDirection: 'row',
-                }}>
-                <MaterialIcons
-                    name="navigate-before"
-                    size={32}
-                    style={{
-                        color: 'black',
-                    }}
-                />
-            </View>
-        );
-        const nextButton = (
-            <View
-                style={{
-                    justifyContent: 'flex-end',
-                    flexDirection: 'row',
-                }}>
-                <MaterialIcons
-                    name="navigate-next"
-                    size={32}
-                    style={{
-                        color: 'black',
-                    }}
-                />
-            </View>
-        );
 
         return (
             <View style={[style.schedule.containerView, { backgroundColor: theme.greyBackground }]}>

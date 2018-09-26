@@ -415,7 +415,6 @@ export default {
                 marginLeft: 8,
             },
             row: {
-                flex: 1,
                 justifyContent: 'space-between',
                 flexDirection: 'row',
                 backgroundColor: '#EEEEEE',
@@ -425,7 +424,6 @@ export default {
                 marginHorizontal: 12,
             },
             noCourse: {
-                flex: 1,
                 paddingVertical: 10,
                 justifyContent: 'space-between',
             },
