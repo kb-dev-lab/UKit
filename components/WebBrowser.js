@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 
 import style from '../Style';
 import BackButton from './containers/buttons/BackButton';
-import NavigationBackground from './containers/headers/NavigationBackground';
+import NavigationBackground from './containers/ui/NavigationBackground';
 
 function treatTitle(str) {
     if (str.length > 18) {

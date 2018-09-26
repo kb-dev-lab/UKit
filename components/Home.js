@@ -10,9 +10,9 @@ import store from 'react-native-simple-store';
 import moment from 'moment';
 import 'moment/locale/fr';
 
-import NavigationBackground from './containers/headers/NavigationBackground';
-import SectionListHeader from './containers/headers/SectionListHeader';
-import Split from './containers/headers/Split';
+import NavigationBackground from './containers/ui/NavigationBackground';
+import SectionListHeader from './containers/ui/SectionListHeader';
+import Split from './containers/ui/Split';
 import GroupRow from './containers/GroupRow';
 import style from '../Style';
 

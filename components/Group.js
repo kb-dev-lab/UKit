@@ -4,7 +4,7 @@ import NavigationBar from 'react-native-navbar';
 
 import DayView from './DayView';
 import style from '../Style';
-import NavigationBackground from './containers/headers/NavigationBackground';
+import NavigationBackground from './containers/ui/NavigationBackground';
 import SaveButton from './containers/buttons/SaveGroupButton';
 import BackButton from './containers/buttons/BackButton';
 

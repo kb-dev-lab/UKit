@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import style from '../Style';
 import URLButton from './containers/buttons/URLButton';
 import BackButton from './containers/buttons/BackButton';
-import NavigationBackground from './containers/headers/NavigationBackground';
+import NavigationBackground from './containers/ui/NavigationBackground';
 
 class About extends React.Component {
     static navigationOptions = ({ navigation }) => {

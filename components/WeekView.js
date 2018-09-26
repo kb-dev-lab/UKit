@@ -11,7 +11,7 @@ import style from '../Style';
 import SaveButton from './containers/buttons/SaveGroupButton';
 import NavigationBar from 'react-native-navbar';
 import BackButton from './containers/buttons/BackButton';
-import NavigationBackground from './containers/headers/NavigationBackground';
+import NavigationBackground from './containers/ui/NavigationBackground';
 
 moment.locale('fr');
 
