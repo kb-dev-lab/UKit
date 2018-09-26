@@ -8,8 +8,9 @@ class MyGroupButton extends React.Component {
     constructor(props) {
         super(props);
         let savedGroup = null;
-        if (props.hasOwnProperty('savedGroup')) {
-            savedGroup = props.savedGroup;
+
+        if (this.props.savedGroup) {
+            savedGroup = this.props.savedGroup;
         }
         this.state = {
             savedGroup,

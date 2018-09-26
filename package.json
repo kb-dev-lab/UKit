@@ -21,7 +21,7 @@
     "react-navigation": "^2.13.0",
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
-    "redux-persist": "^5.9.1",
+    "redux-persist": "^5.10.0",
     "sentry-expo": "~1.9.0"
   },
   "devDependencies": {

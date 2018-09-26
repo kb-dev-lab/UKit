@@ -1,7 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import store from 'react-native-simple-store';
 import { connect } from 'react-redux';
 
 import { setFavoriteGroup } from '../../../actions/setFavoriteGroup';
@@ -21,13 +20,11 @@ class SaveGroupButton extends React.Component {
 
     saveGroup() {
         if (this.isSaved()) {
-            store.update('profile', { group: null }).then(() => {
-                this.setState({ savedGroup: null });
+            this.setState({ savedGroup: null }, () => {
                 this.props.dispatchSetFavoriteGroup(null);
             });
         } else {
-            store.update('profile', { group: this.state.displayedGroup }).then(() => {
-                this.setState({ savedGroup: this.state.displayedGroup });
+            this.setState({ savedGroup: this.state.displayedGroup }, () => {
                 this.props.dispatchSetFavoriteGroup(this.state.displayedGroup);
             });
         }
@@ -47,7 +44,7 @@ class SaveGroupButton extends React.Component {
                     alignItems: 'center',
                 }}>
                 <View>
-                    <MaterialIcons name={this.isSaved() ? 'star' : 'star-border'} size={30} style={{ color: 'white', height: 32, width: 32 }} />
+                    <MaterialIcons name={this.isSaved() ? 'star' : 'star-border'} size={30} style={{ color: '#FFFFFF', height: 32, width: 32 }} />
                 </View>
             </TouchableOpacity>
         );

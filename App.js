@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, Image, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { Image, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { createDrawerNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
@@ -138,10 +138,10 @@ const Drawer = createDrawerNavigator(
     }
 );
 
-const { pStore, store } = configureStore();
+const { store, pStore } = configureStore();
 const RNRedux = () => (
     <Provider store={store} style={style.fonts.default}>
-        <PersistGate loading={<ActivityIndicator style={style.containerView} size="large" animating={true} />} persistor={pStore}>
+        <PersistGate loading={null} persistor={pStore}>
             <StatusBar barStyle="light-content" backgroundColor={style.colors.blue} />
             <Drawer />
         </PersistGate>

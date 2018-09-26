@@ -1,7 +1,8 @@
 import React from 'react';
 import NavigationBar from 'react-native-navbar';
-import { Keyboard, Platform, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Dimensions, Keyboard, Platform, Text, TextInput, View } from 'react-native';
 import PopupDialog, { DialogButton, DialogTitle, FadeAnimation } from 'react-native-popup-dialog';
+import { connect } from 'react-redux';
 
 import style from '../Style';
 
@@ -11,12 +12,13 @@ import SettingsDividerLong from './containers/ui/settings/SettingsDividerLong';
 import SettingsEditText from './containers/ui/settings/SettingsEditText';
 import SettingsDividerShort from './containers/ui/settings/SettingsDividerShort';
 import SettingsSwitch from './containers/ui/settings/SettingsSwitch';
+import { setFilters } from '../actions/setFilters';
 
 const colors = {
     iosSettingsBackground: 'rgb(235,235,241)',
     white: '#FFFFFF',
     monza: '#C70039',
-    switchEnabled: Platform.OS === 'android' ? '#C70039' : null,
+    switchEnabled: Platform.OS === 'android' ? '#009385' : null,
     switchDisabled: Platform.OS === 'android' ? '#efeff3' : null,
     switchOnTintColor: Platform.OS === 'android' ? 'rgba(199, 0, 57, 0.6)' : null,
     blueGem: '#27139A',
@@ -24,48 +26,7 @@ const colors = {
 
 const fadeAnimation = new FadeAnimation({ animationDuration: 150 });
 
-const styles = StyleSheet.create({
-    actionsContainer: {
-        borderTopColor: '#919191',
-        borderTopWidth: 0.5,
-        flexDirection: 'row',
-        paddingVertical: 0,
-        margin: 0,
-        justifyContent: 'space-between',
-        alignItems: 'stretch',
-    },
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    dialogContentView: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        padding: 4,
-    },
-    navigationBar: {
-        borderBottomColor: '#b5b5b5',
-        borderBottomWidth: 0.5,
-        backgroundColor: '#ffffff',
-    },
-    navigationTitle: {
-        padding: 10,
-    },
-    navigationButton: {
-        padding: 10,
-    },
-    navigationLeftButton: {
-        paddingLeft: 20,
-        paddingRight: 40,
-    },
-    navigator: {
-        flex: 1,
-    },
-});
-
-export default class Settings extends React.Component {
+class Settings extends React.Component {
     static navigationOptions = ({ navigation }) => {
         let title = 'Paramètres';
         let leftButton = <BackButton backAction={navigation.goBack} />;
@@ -85,10 +46,31 @@ export default class Settings extends React.Component {
     constructor(props) {
         super(props);
 
+        let { height } = Dimensions.get('window');
+
+        let savedGroup = null;
+        let initialFilters = '';
+        let initialAdvancedFilters = '';
+        let filters = '';
+        let advancedFilters = '';
+        let openAppOnFavoriteGroup = true;
+
+        if (this.props.savedGroup) {
+            savedGroup = this.props.savedGroup;
+        }
+        if (this.props.filters) {
+            filters = Settings.unserializeFilters(this.props.filters);
+            initialFilters = filters;
+        }
+
         this.state = {
-            filters: '',
-            advancedFilters: '',
-            openAppOnFavoriteGroup: true,
+            savedGroup,
+            height,
+            initialFilters,
+            initialAdvancedFilters,
+            filters,
+            advancedFilters,
+            openAppOnFavoriteGroup,
         };
 
         this.openFiltersDialog = this.openFiltersDialog.bind(this);
@@ -97,6 +79,37 @@ export default class Settings extends React.Component {
         this.closeAdvancedFiltersDialog = this.closeAdvancedFiltersDialog.bind(this);
         this.saveFilters = this.saveFilters.bind(this);
         this.saveAdvancedFilters = this.saveAdvancedFilters.bind(this);
+        this.onDismissFilters = this.onDismissFilters.bind(this);
+        this.onDismissAdvancedFilters = this.onDismissAdvancedFilters.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.state.savedGroup !== nextProps.savedGroup) {
+            this.setState({ savedGroup: nextProps.savedGroup });
+        }
+        if (this.state.filters !== nextProps.filters) {
+            let newFilters = Settings.unserializeFilters(nextProps.filters);
+            this.setState({ initialFilters: newFilters, filters: newFilters });
+        }
+    }
+
+    /**
+     *
+     * @param filters {array}
+     */
+    static unserializeFilters(filters) {
+        return filters.join(',');
+    }
+
+    static serializeFilters(filters) {
+        let split = filters.split(',');
+        return split.map((ue) => ue.trim());
+    }
+
+    saveFiltersData() {
+        this.setState({ initialFilters: this.state.filters }, () => {
+            this.props.dispatchSetFilters(Settings.serializeFilters(this.state.filters));
+        });
     }
 
     openFiltersDialog() {
@@ -108,23 +121,30 @@ export default class Settings extends React.Component {
     }
 
     closeFiltersDialog() {
-        Keyboard.dismiss();
         this.filtersDialog.dismiss();
     }
 
     closeAdvancedFiltersDialog() {
-        Keyboard.dismiss();
         this.advancedFiltersDialog.dismiss();
     }
 
     saveFilters() {
-        Keyboard.dismiss();
+        this.saveFiltersData();
         this.closeFiltersDialog();
     }
 
     saveAdvancedFilters() {
-        Keyboard.dismiss();
         this.closeAdvancedFiltersDialog();
+    }
+
+    onDismissFilters() {
+        Keyboard.dismiss();
+        this.setState({ filters: this.state.initialFilters });
+    }
+
+    onDismissAdvancedFilters() {
+        Keyboard.dismiss();
+        this.setState({ advancedFilters: this.state.initialAdvancedFilters });
     }
 
     render() {
@@ -135,6 +155,7 @@ export default class Settings extends React.Component {
                 <SettingsEditText onPress={this.openFiltersDialog} title="Filtres" valuePlaceholder="..." value={this.state.filters} />
                 <SettingsDividerShort />
                 <SettingsEditText
+                    disabled={true}
                     onPress={this.openAdvancedFiltersDialog}
                     title="Filtres avancés"
                     valuePlaceholder="..."
@@ -160,13 +181,15 @@ export default class Settings extends React.Component {
                     ref={(dialog) => {
                         this.filtersDialog = dialog;
                     }}
+                    onDismissed={this.onDismissFilters}
                     actions={[
-                        <View style={styles.actionsContainer} key="filtersActions">
+                        <View style={style.settings.actionsContainer} key="filtersActions">
                             <DialogButton
                                 buttonStyle={{
                                     marginVertical: 0,
                                     borderRightColor: '#919191',
                                     borderRightWidth: 0.5,
+                                    flex: 1,
                                 }}
                                 textContainerStyle={{ paddingVertical: 10 }}
                                 text="Annuler"
@@ -178,6 +201,7 @@ export default class Settings extends React.Component {
                                     marginVertical: 0,
                                     borderLeftColor: '#919191',
                                     borderLeftWidth: 0.5,
+                                    flex: 1,
                                 }}
                                 textContainerStyle={{ paddingVertical: 10 }}
                                 text="Sauvegarder"
@@ -186,26 +210,14 @@ export default class Settings extends React.Component {
                             />
                         </View>,
                     ]}
-                    height={200}
+                    height={this.state.height / 2 - 55}
                     dialogTitle={<DialogTitle title="Filtres" />}>
-                    <View style={styles.dialogContentView}>
+                    <View style={style.settings.dialogContentView}>
                         <View>
                             <Text>Entrez ci-dessous les codes des UE que vous ne voulez afficher.</Text>
                             <Text>Séparer les codes des UE par des virgules et respectez la casse.</Text>
                         </View>
-                        <View
-                            style={{
-                                flex: 1,
-                                backgroundColor: '#FFFFFF',
-                                borderColor: '#000000',
-                                borderWidth: 1,
-                                marginVertical: 4,
-                                marginHorizontal: 8,
-                                padding: 4,
-                                alignItems: 'stretch',
-                                justifyContent: 'flex-start',
-                                width: '100%',
-                            }}>
+                        <View style={style.settings.textInputContainer}>
                             <TextInput
                                 autoCorrect={false}
                                 multiline={true}
@@ -222,8 +234,9 @@ export default class Settings extends React.Component {
                     ref={(dialog) => {
                         this.advancedFiltersDialog = dialog;
                     }}
+                    onDismissed={this.onDismissAdvancedFilters}
                     actions={[
-                        <View style={styles.actionsContainer} key="advancedFiltersActions">
+                        <View style={style.settings.actionsContainer} key="advancedFiltersActions">
                             <DialogButton
                                 buttonStyle={{
                                     marginVertical: 0,
@@ -247,7 +260,7 @@ export default class Settings extends React.Component {
                         </View>,
                     ]}
                     dialogTitle={<DialogTitle title="Filtres avancés" />}>
-                    <View style={styles.dialogContentView}>
+                    <View style={style.settings.dialogContentView}>
                         <Text>Pas encore disponible.</Text>
                     </View>
                 </PopupDialog>
@@ -255,3 +268,23 @@ export default class Settings extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        savedGroup: state.favorite.groupName,
+        filters: state.filters.filters,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        dispatchSetFilters: (filters) => {
+            dispatch(setFilters(filters));
+        },
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Settings);
