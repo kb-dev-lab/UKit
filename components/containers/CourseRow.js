@@ -41,6 +41,8 @@ export default class CourseRow extends React.PureComponent {
                     <Text style={[style.schedule.course.noCourseText, { color: theme.font }]}>Aucun cours ce jour</Text>
                 </View>
             );
+        } else if (this.props.data.category === 'masked') {
+            return null;
         } else {
             let annotations, staff, subject, room, group;
             let annotationsTitle, staffTitle, roomTitle, groupTitle;

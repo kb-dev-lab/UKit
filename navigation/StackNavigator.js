@@ -1,5 +1,4 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 
 import style from '../Style';
@@ -12,6 +11,7 @@ import WebBrowser from '../components/WebBrowser';
 import Geolocation from '../components/Geolocation';
 import DayView from '../components/DayView';
 import WeekView from '../components/WeekView';
+import { setStatusBar } from '../Utils';
 
 export default createStackNavigator(
     {
@@ -46,19 +46,6 @@ export default createStackNavigator(
         },
     },
     {
-        navigationOptions: ({ navigation }) => {
-            navigation.addListener('willFocus', () => {
-                StatusBar.setBarStyle('light-content');
-            });
-            navigation.addListener('didFocus', () => {
-                StatusBar.setBarStyle('light-content');
-            });
-            navigation.addListener('willBlur', () => {
-                StatusBar.setBarStyle('light-content');
-            });
-            navigation.addListener('didBlur', () => {
-                StatusBar.setBarStyle('light-content');
-            });
-        },
+        navigationOptions: ({ navigation }) => setStatusBar(navigation),
     }
 );

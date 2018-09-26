@@ -102,6 +102,9 @@ class Settings extends React.Component {
     }
 
     static serializeFilters(filters) {
+        if (filters === '') {
+            return [];
+        }
         let split = filters.split(',');
         return split.map((ue) => ue.trim());
     }
@@ -165,6 +168,7 @@ class Settings extends React.Component {
                 <SettingsCategoryHeader title={'Démarrage'} titleStyle={{ color: colors.monza }} />
                 <SettingsDividerLong />
                 <SettingsSwitch
+                    disabled={true}
                     onSaveValue={(value) => {
                         this.setState({
                             openAppOnFavoriteGroup: value,

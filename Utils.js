@@ -6,7 +6,39 @@ function upperCaseFirstLetter(string) {
 }
 
 function setStatusBar(navigation) {
-    return;
+    navigation.addListener('willFocus', () => {
+        StatusBar.setBarStyle('light-content');
+    });
+    navigation.addListener('didFocus', () => {
+        StatusBar.setBarStyle('light-content');
+    });
+    navigation.addListener('willBlur', () => {
+        StatusBar.setBarStyle('light-content');
+    });
+    navigation.addListener('didBlur', () => {
+        StatusBar.setBarStyle('light-content');
+    });
 }
 
-export { upperCaseFirstLetter, setStatusBar };
+/**
+ *
+ * @param a {array}
+ * @param b {array}
+ * @return boolean
+ */
+function isArraysEquals(a, b) {
+    if (a.length !== b.length) {
+        return false;
+    } else {
+        const iMax = a.length;
+        let i = 0;
+        for (; i < iMax; i++) {
+            if (a[i] !== b[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+export { upperCaseFirstLetter, setStatusBar, isArraysEquals };

@@ -1,16 +1,17 @@
 import React from 'react';
 import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import moment from 'moment';
 import 'moment/locale/fr';
 
 import style from '../../Style';
 import CourseRow from './CourseRow';
-import { upperCaseFirstLetter } from '../../Utils';
+import { isArraysEquals, upperCaseFirstLetter } from '../../Utils';
 
 moment.locale('fr');
 
-export default class Day extends React.Component {
+class Day extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -27,7 +28,13 @@ export default class Day extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.state.day !== prevState.day) {
+        if (this.props.savedGroup !== prevProps.savedGroup) {
+            if (this.props.filters.length > 0) {
+                this.fetchSchedule();
+            }
+        } else if (this.state.day !== prevState.day) {
+            this.fetchSchedule();
+        } else if (!isArraysEquals(this.props.filters, prevProps.filters)) {
             this.fetchSchedule();
         }
     }
@@ -65,13 +72,33 @@ export default class Day extends React.Component {
                     cancelToken: cancelToken.token,
                 })
                 .then((response) => {
-                    this.setState({ schedule: response.data, error: null, loading: false, cancelToken: null });
+                    let schedule = this.computeSchedule(response.data, this.state.groupName === this.props.savedGroup);
+                    this.setState({ schedule, error: null, loading: false, cancelToken: null });
                 })
                 .catch((e) => {
                     if (!axios.isCancel(e)) {
                         this.setState({ error: e, loading: false, cancelToken: null });
                     }
                 });
+        });
+    }
+
+    computeSchedule(schedule, isFavorite) {
+        let regexUE = RegExp('([A-Z0-9]+) (.+)', 'im');
+        return schedule.map((course) => {
+            if (course.subject && course.subject !== 'N/C') {
+                let match = regexUE.exec(course.subject);
+                if (match.length === 3) {
+                    course.UE = match[1];
+                    course.subject = `${match[2]} (${match[1]})`;
+                } else {
+                    course.UE = null;
+                }
+            }
+            if (isFavorite && course.UE !== null && this.props.filters instanceof Array && this.props.filters.includes(course.UE)) {
+                course = { schedule: 0, category: 'masked' };
+            }
+            return course;
         });
     }
 
@@ -87,7 +114,7 @@ export default class Day extends React.Component {
             if (this.state.error === null) {
                 content = <ActivityIndicator style={style.containerView} size="large" animating={true} />;
             } else {
-                content = <Text style={[style.schedule.noCourse, {color: theme.font}]}>Erreur {this.state.error.response.status}</Text>;
+                content = <Text style={[style.schedule.noCourse, { color: theme.font }]}>Erreur {JSON.stringify(this.state.error)}</Text>;
             }
         } else if (this.state.schedule instanceof Array) {
             if (this.state.day.day() === 0 || this.state.schedule.length === 0) {
@@ -114,3 +141,12 @@ export default class Day extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        savedGroup: state.favorite.groupName,
+        filters: state.filters.filters,
+    };
+};
+
+export default connect(mapStateToProps)(Day);
