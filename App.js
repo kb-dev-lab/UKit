@@ -1,9 +1,10 @@
 import React from 'react';
-import { Image, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { createDrawerNavigator } from 'react-navigation';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
 
+import { toggleDarkMode } from './actions/toggleDarkMode';
 import StackNavigator from './navigation/StackNavigator';
 import About from './components/About';
 import DrawerButton from './components/containers/buttons/DrawerButton';
@@ -14,16 +15,36 @@ import WebBrowser from './components/WebBrowser';
 import Geolocation from './components/Geolocation';
 import configureStore from './stores';
 import { setStatusBar } from './Utils';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
-const CustomDrawerContentComponent = (props) => {
+const mapDispatchToProps = (dispatch) => {
+    return {
+        dispatchToggleDarkMode: () => {
+            dispatch(toggleDarkMode());
+        },
+    };
+};
+
+const mapStateToProps = (state) => {
+    return {
+        themeName: state.darkMode.themeName,
+    };
+};
+
+const CustomDrawerContentComponent = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)((props) => {
     const { navigate } = props.navigation;
+    const theme = style.Theme[props.themeName];
 
     return (
-        <View style={styles.container}>
+        <View style={{ flex: 1 }}>
             <View style={{ flex: 1 }}>
                 <View
                     style={{
-                        backgroundColor: style.Theme.primary,
+                        backgroundColor: theme.primary,
                         flexDirection: 'row',
                         justifyContent: 'flex-start',
                         alignItems: 'center',
@@ -43,70 +64,85 @@ const CustomDrawerContentComponent = (props) => {
                         Ukit
                     </Text>
                 </View>
-                <View style={{ paddingTop: 5 }}>
-                    <DrawerButton
-                        title={'Groupes'}
-                        size={28}
-                        textSize={14}
-                        icon={'list'}
-                        color={'#757575'}
-                        tintColor={'#ededed'}
-                        onPress={() => navigate('Home')}
-                    />
-                    <Split title="Mon groupe" />
-                    <MyGroupButton navigate={navigate} />
-                    <Split title="Navigation" />
-                    <DrawerButton
-                        title={'ENT'}
-                        size={28}
-                        textSize={14}
-                        icon={'dashboard'}
-                        color={'#757575'}
-                        tintColor={'transparent'}
-                        onPress={() => navigate('WebBrowser', { entrypoint: 'ent' })}
-                    />
-                    <DrawerButton
-                        title={'Boîte email'}
-                        size={28}
-                        textSize={14}
-                        icon={'mail-outline'}
-                        color={'#757575'}
-                        tintColor={'transparent'}
-                        onPress={() => navigate('WebBrowser', { entrypoint: 'email' })}
-                    />
-                    <DrawerButton
-                        title={'Apogée'}
-                        size={28}
-                        textSize={14}
-                        icon={'school'}
-                        color={'#757575'}
-                        tintColor={'transparent'}
-                        onPress={() => navigate('WebBrowser', { entrypoint: 'apogee' })}
-                    />
-                    <Split title="Application" />
-                    <DrawerButton
-                        title={'Paramètres'}
-                        size={28}
-                        textSize={14}
-                        icon={'settings'}
-                        color={'#757575'}
-                        tintColor={'transparent'}
-                        onPress={() => navigate('Settings')}
-                    />
-                    <DrawerButton
-                        title={'À propos'}
-                        size={28}
-                        textSize={14}
-                        icon={'info'}
-                        color={'#757575'}
-                        tintColor={'transparent'}
-                        onPress={() => navigate('About')}
-                    />
+                <ScrollView style={{ backgroundColor: theme.background }}>
+                    <View>
+                        <Split lineColor={theme.border} onlyBottomMargin={true} />
+                        <DrawerButton
+                            title={'Groupes'}
+                            size={28}
+                            textSize={14}
+                            icon={'list'}
+                            color={theme.icon}
+                            fontColor={theme.font}
+                            onPress={() => props.navigation.closeDrawer()}
+                        />
+                        <Split title="Mon groupe" lineColor={theme.border} color={theme.icon} />
+                        <MyGroupButton navigate={navigate} />
+                        <Split title="Navigation" lineColor={theme.border} color={theme.icon} />
+                        <DrawerButton
+                            title={'ENT'}
+                            size={28}
+                            textSize={14}
+                            icon={'dashboard'}
+                            color={theme.icon}
+                            fontColor={theme.font}
+                            onPress={() => navigate('WebBrowser', { entrypoint: 'ent' })}
+                        />
+                        <DrawerButton
+                            title={'Boîte email'}
+                            size={28}
+                            textSize={14}
+                            icon={'mail-outline'}
+                            color={theme.icon}
+                            fontColor={theme.font}
+                            onPress={() => navigate('WebBrowser', { entrypoint: 'email' })}
+                        />
+                        <DrawerButton
+                            title={'Apogée'}
+                            size={28}
+                            textSize={14}
+                            icon={'school'}
+                            color={theme.icon}
+                            fontColor={theme.font}
+                            onPress={() => navigate('WebBrowser', { entrypoint: 'apogee' })}
+                        />
+                        <Split title="Application" lineColor={theme.border} color={theme.icon} />
+                        <DrawerButton
+                            title={'Paramètres'}
+                            size={28}
+                            textSize={14}
+                            icon={'settings'}
+                            color={theme.icon}
+                            fontColor={theme.font}
+                            onPress={() => navigate('Settings')}
+                        />
+                        <DrawerButton
+                            title={'À propos'}
+                            size={28}
+                            textSize={14}
+                            icon={'info'}
+                            color={theme.icon}
+                            fontColor={theme.font}
+                            onPress={() => navigate('About')}
+                        />
+                    </View>
+                </ScrollView>
+                <View
+                    style={{
+                        paddingVertical: 8,
+                        paddingHorizontal: 16,
+                        borderTopColor: theme.border,
+                        borderTopWidth: 1,
+                        backgroundColor: theme.background,
+                    }}>
+                    <TouchableOpacity onPress={props.dispatchToggleDarkMode}>
+                        <MaterialCommunityIcons name="theme-light-dark" size={32} style={{ width: 32, height: 32, color: theme.icon }} />
+                    </TouchableOpacity>
                 </View>
             </View>
         </View>
     );
-};
+});
 
 const styles = StyleSheet.create({
     container: {

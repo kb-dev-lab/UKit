@@ -4,6 +4,7 @@ import NavigationBar from 'react-native-navbar';
 
 import DayView from './DayView';
 import style from '../Style';
+import NavigationBackground from './containers/ui/NavigationBackground';
 import SaveButton from './containers/buttons/SaveGroupButton';
 import BackButton from './containers/buttons/BackButton';
 
@@ -26,17 +27,14 @@ export default class Group extends React.Component {
         return {
             title,
             header: (
-                <View
-                    style={{
-                        backgroundColor: style.Theme.primary,
-                    }}>
+                <NavigationBackground>
                     <NavigationBar
                         title={{ title, tintColor: 'white' }}
                         tintColor={'transparent'}
                         leftButton={leftButton}
                         rightButton={rightButton}
                     />
-                </View>
+                </NavigationBackground>
             ),
         };
     };

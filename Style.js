@@ -86,6 +86,156 @@ const colors50 = {
 const Theme = {
     primary: '#009ee0',
     secondary: '#0098c5',
+    light: {
+        primary: '#009ee0',
+        secondary: '#0098c5',
+        selection: '#ededed',
+        accentFont: 'darkred',
+        font: '#202020',
+        lightFont: '#F0F0F0',
+        link: '#1565c0',
+        icon: '#757575',
+        border: '#CCCCCC',
+        background: '#ffffff',
+        greyBackground: '#DDDDDD',
+        field: '#ffffff',
+        sections: [colors50.deepOrange, colors50.pink, colors50.lightBlue, colors50.blueGrey, colors50.green, colors50.purple],
+        sectionsHeaders: [colors200.deepOrange, colors200.pink, colors200.lightBlue, colors200.blueGrey, colors200.green, colors200.purple],
+        calendar: {
+            sunday: '#CCCCCC',
+            currentDay: '#EEEEEE',
+            selection: '#009EE0',
+        },
+        courses: {
+            '#FFFFA8': {
+                // TP
+                // Lime
+                background: '#e6ee9c',
+                border: '#E65100',
+                line: '#c0ca33',
+            },
+            '#A8FFFF': {
+                // Cours
+                // Cyan
+                background: '#4dd0e1',
+                border: '#006064',
+                line: '#00acc1',
+            },
+            '#D3A8BE': {
+                // Blue grey
+                background: '#b0bec5',
+                border: '#1A237E',
+                line: '#546e7a',
+            },
+            '#D3A8A8': {
+                // Red
+                background: '#e57373',
+                border: '#B71C1C',
+                line: '#e53935',
+            },
+            '#D3A8FF': {
+                // Oraux
+                // Orange
+                background: '#ffb74d',
+                border: '#311B92',
+                line: '#fb8c00',
+            },
+            '#A8FFA8': {
+                // TD
+                // Green
+                background: '#81c784',
+                border: '#004D40',
+                line: '#43a047',
+            },
+            '#BEA8D3': {
+                // Indigo
+                background: '#7986cb',
+                border: '#4A148C',
+                line: '#3949ab',
+            },
+            default: {
+                // Indigo
+                background: '#7986cb',
+                border: '#4A148C',
+                line: '#3949ab',
+            },
+        },
+    },
+    dark: {
+        primary: '#030e3a',
+        secondary: '#0098c5',
+        selection: '#009EE0',
+        accentFont: '#f9fbe7',
+        font: '#F0F0F0',
+        link: '#4fc3f7',
+        lightFont: '#F0F0F0',
+        icon: '#009EE0',
+        border: '#666666',
+        background: '#030e3a',
+        greyBackground: '#030E3A',
+        field: '#030E3A',
+        sections: ['#002f6c', '#003300', '#000051', '#bc5100', '#7f0000', '#00251a'],
+        sectionsHeaders: ['#01579b', '#1b5e20', '#1a237e', '#f57f17', '#b71c1c', '#004d40'],
+        calendar: {
+            sunday: '#444444',
+            currentDay: '#555577',
+            selection: '#009EE0',
+        },
+        courses: {
+            '#FFFFA8': {
+                // TP
+                // Lime
+                background: '#7c8500',
+                border: '#B71C1C',
+                line: '#b4a647',
+            },
+            '#A8FFFF': {
+                // Cours
+                // Cyan
+                background: '#006064',
+                border: '#006064',
+                line: '#428e92',
+            },
+            '#D3A8BE': {
+                // Blue grey
+                background: '#37474f',
+                border: '#1A237E',
+                line: '#4f5b62',
+            },
+            '#D3A8A8': {
+                // Red
+                background: '#b71c1c',
+                border: '#004D40',
+                line: '#f05545',
+            },
+            '#D3A8FF': {
+                // Oraux
+                // Orange
+                background: '#e65100',
+                border: '#311B92',
+                line: '#ff833a',
+            },
+            '#A8FFA8': {
+                // TD
+                // Green
+                background: '#1b5e20',
+                border: '#4A148C',
+                line: '#4c8c4a',
+            },
+            '#BEA8D3': {
+                // Indigo
+                background: '#283593',
+                border: '#E65100',
+                line: '#534bae',
+            },
+            default: {
+                // Indigo
+                background: '#283593',
+                border: '#E65100',
+                line: '#534bae',
+            },
+        },
+    },
 };
 
 export default {
@@ -248,18 +398,19 @@ export default {
                 alignItems: 'center',
                 paddingLeft: 2,
                 paddingRight: 4,
-                marginLeft: 1,
-                paddingVertical: 5,
+                marginLeft: 2,
+                paddingVertical: 6,
+                flex: 1,
+                flexShrink: 0,
             },
             hoursText: {
                 fontWeight: 'bold',
             },
             contentBlock: {
-                flex: 1,
+                flex: 6,
                 justifyContent: 'space-between',
                 flexDirection: 'column',
-                marginLeft: 5,
-                paddingVertical: 5,
+                marginLeft: 8,
             },
             row: {
                 flex: 1,
@@ -267,14 +418,13 @@ export default {
                 flexDirection: 'row',
                 backgroundColor: '#EEEEEE',
                 borderWidth: 0,
+                padding: 8,
                 borderColor: colors.darkblue,
-                paddingVertical: 5,
-                marginHorizontal: 15,
-                marginVertical: 2,
+                marginHorizontal: 12,
             },
             noCourse: {
+                flex: 1,
                 paddingVertical: 10,
-                marginVertical: 2,
                 justifyContent: 'space-between',
             },
             noCourseText: {
@@ -297,7 +447,6 @@ export default {
                 flexDirection: 'column',
             },
             content: {
-                color: colors.darkred,
                 flex: 1,
                 flexWrap: 'wrap',
             },

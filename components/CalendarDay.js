@@ -11,6 +11,7 @@ class CalendarDay extends React.Component {
         item: PropTypes.instanceOf(moment),
         onPressItem: PropTypes.func,
         selectedDay: PropTypes.instanceOf(moment),
+        theme: PropTypes.object,
     };
 
     _onPress = () => {
@@ -23,11 +24,11 @@ class CalendarDay extends React.Component {
 
     static getBackgroundColor(props) {
         return props.item.isSame(props.selectedDay, 'day')
-            ? style.Theme.primary
+            ? props.theme.calendar.selection
             : props.item.isSame(props.currentDay, 'day')
-                ? '#CCCCCC'
+                ? props.theme.calendar.currentDay
                 : props.item.day() === 0
-                    ? '#EEEEEE'
+                    ? props.theme.calendar.sunday
                     : 'transparent';
     }
 
@@ -36,6 +37,8 @@ class CalendarDay extends React.Component {
     }
 
     render() {
+        const { theme } = this.props;
+        
         return (
             <TouchableOpacity
                 onPress={this._onPress}
@@ -56,7 +59,7 @@ class CalendarDay extends React.Component {
                             textAlign: 'center',
                             fontSize: 24,
                             marginBottom: 4,
-                            color: this.props.item.isSame(this.props.selectedDay, 'day') ? 'white' : 'black',
+                            color: this.props.item.isSame(this.props.selectedDay, 'day') ? theme.lightFont : theme.font,
                         }}>
                         {this.props.item.date()}
                     </Text>
@@ -64,7 +67,7 @@ class CalendarDay extends React.Component {
                         style={{
                             textAlign: 'center',
                             fontSize: 12,
-                            color: this.props.item.isSame(this.props.selectedDay, 'day') ? 'white' : 'black',
+                            color: this.props.item.isSame(this.props.selectedDay, 'day') ? theme.lightFont : theme.font,
                         }}>
                         {this.props.item.format('ddd')}
                     </Text>

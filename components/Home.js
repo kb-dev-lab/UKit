@@ -5,11 +5,14 @@ import { Feather, FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons, 
 import axios from 'axios';
 import { Hideo } from 'react-native-textinput-effects';
 import NavigationBar from 'react-native-navbar';
+import { connect } from 'react-redux';
 import store from 'react-native-simple-store';
 import moment from 'moment';
 import 'moment/locale/fr';
 
+import NavigationBackground from './containers/ui/NavigationBackground';
 import SectionListHeader from './containers/ui/SectionListHeader';
+import Split from './containers/ui/Split';
 import GroupRow from './containers/GroupRow';
 import style from '../Style';
 
@@ -29,7 +32,7 @@ function cacheImages(images) {
     });
 }
 
-export default class Home extends React.Component {
+class Home extends React.Component {
     static navigationOptions = ({ navigation }) => {
         let title = 'Groupes';
         return {
@@ -37,10 +40,7 @@ export default class Home extends React.Component {
             drawerIcon: ({ tintColor }) => <MaterialIcons name="list" size={24} style={{ color: tintColor }} />,
             title,
             header: (
-                <View
-                    style={{
-                        backgroundColor: style.Theme.primary,
-                    }}>
+                <NavigationBackground>
                     <NavigationBar
                         title={{ title, tintColor: 'white' }}
                         tintColor={'transparent'}
@@ -71,7 +71,7 @@ export default class Home extends React.Component {
                             </TouchableOpacity>
                         }
                     />
-                </View>
+                </NavigationBackground>
             ),
         };
     };
@@ -115,20 +115,34 @@ export default class Home extends React.Component {
         let sectionContent = null;
         let previousSection = null;
         let sectionIndex = -1;
+
         list.forEach((e) => {
             let splitName = e.name.split('_');
+
             e.cleanName = `${splitName[0]} ${splitName[1]}`;
+
             if (splitName[0] !== previousSection) {
                 if (previousSection !== null) {
                     sections.push(sectionContent);
                 }
+
                 previousSection = splitName[0];
-                sectionContent = { key: previousSection, data: [], sectionIndex: ++sectionIndex };
+                sectionContent = {
+                    key: previousSection,
+                    data: [],
+                    sectionIndex: ++sectionIndex,
+                    colorIndex: sectionIndex % style.Theme[this.props.themeName].sections.length,
+                };
             }
+
+            e.colorIndex = sectionContent.colorIndex;
             e.sectionStyle = style.list.sections[sectionIndex % style.list.sections.length];
+
             sectionContent.data.push(e);
         });
+
         sections.push(sectionContent);
+
         if (save) {
             store
                 .delete('home')
@@ -185,14 +199,16 @@ export default class Home extends React.Component {
     }
 
     render() {
+        const theme = style.Theme[this.props.themeName];
+
         let content;
         let searchInput = (
             <Hideo
                 iconClass={FontAwesome}
                 iconName={'search'}
-                iconColor={style.Theme.primary}
-                iconBackgroundColor={'white'}
-                inputStyle={{ color: '#464949' }}
+                iconColor={theme.icon}
+                iconBackgroundColor={theme.field}
+                inputStyle={{ color: theme.font, backgroundColor: theme.field }}
                 onChangeText={(text) => this.search(text)}
                 style={style.list.searchInputView}
             />
@@ -208,32 +224,44 @@ export default class Home extends React.Component {
             );
         } else if (this.state.emptySearchResults) {
             content = (
-                <View style={style.schedule.course.noCourse}>
-                    <Text style={style.schedule.course.noCourseText}>Aucun groupe correspondant à cette recherche n'a été trouvé.</Text>
+                <View style={[style.schedule.course.noCourse, { backgroundColor: theme.greyBackground }]}>
+                    <Text style={[style.schedule.course.noCourseText, { color: theme.font }]}>
+                        Aucun groupe correspondant à cette recherche n'a été trouvé.
+                    </Text>
                 </View>
             );
         } else if (this.state.sections === null) {
-            content = <ActivityIndicator style={style.containerView} size="large" animating={true} />;
+            content = <ActivityIndicator style={[style.containerView, { color: theme.icon }]} size="large" animating={true} />;
         } else {
             content = (
                 <SectionList
-                    renderItem={({ item, j, index }) => (
-                        <GroupRow
-                            name={item.name}
-                            cleanName={item.cleanName}
-                            sectionStyle={item.sectionStyle}
-                            key={index}
-                            openGroup={this.openGroup}
-                        />
-                    )}
+                    renderItem={({ item, j, index }) => {
+                        return (
+                            <GroupRow
+                                name={item.name}
+                                cleanName={item.cleanName}
+                                sectionStyle={item.sectionStyle}
+                                key={index}
+                                color={theme.sections[item.colorIndex]}
+                                fontColor={theme.font}
+                                openGroup={this.openGroup}
+                            />
+                        );
+                    }}
                     renderSectionHeader={({ section }) => (
-                        <SectionListHeader title={section.key} key={section.key} sectionIndex={section.sectionIndex} />
+                        <SectionListHeader
+                            title={section.key}
+                            key={section.key}
+                            sectionIndex={section.sectionIndex}
+                            color={theme.sections[section.colorIndex]}
+                            headerColor={theme.sectionsHeaders[section.colorIndex]}
+                        />
                     )}
                     sections={this.state.sections}
                     keyExtractor={(item, index) => index}
                     initialNumToRender={20}
                     onEndReachedThreshold={0.1}
-                    style={style.list.sectionList}
+                    style={[style.list.sectionList, { backgroundColor: theme.greyBackground }]}
                     onRefresh={this.refreshList}
                     refreshing={this.state.refreshing}
                 />
@@ -242,8 +270,17 @@ export default class Home extends React.Component {
         return (
             <View style={style.list.homeView}>
                 {searchInput}
+                <Split lineColor={theme.border} noMargin={true} />
                 {content}
             </View>
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        themeName: state.darkMode.themeName,
+    };
+};
+
+export default connect(mapStateToProps)(Home);

@@ -80,12 +80,14 @@ export default class Day extends React.Component {
     }
 
     render() {
+        const { theme } = this.props;
+
         let content;
         if (this.state.schedule === null) {
             if (this.state.error === null) {
                 content = <ActivityIndicator style={style.containerView} size="large" animating={true} />;
             } else {
-                content = <Text style={style.schedule.error}>Erreur {this.state.error.response.status}</Text>;
+                content = <Text style={[style.schedule.noCourse, {color: theme.font}]}>Erreur {this.state.error.response.status}</Text>;
             }
         } else if (this.state.schedule instanceof Array) {
             if (this.state.day.day() === 0 || this.state.schedule.length === 0) {
@@ -95,16 +97,17 @@ export default class Day extends React.Component {
                 <FlatList
                     data={this.state.schedule}
                     extraData={this.state}
-                    renderItem={(item) => <CourseRow data={item.item} />}
+                    renderItem={(item) => <CourseRow data={item.item} theme={theme} />}
                     keyExtractor={(item, index) => item.schedule + String(index)}
+                    style={{ backgroundColor: theme.greyBackground }}
                 />
             );
         }
 
         return (
-            <View style={style.schedule.containerView}>
+            <View style={[style.schedule.containerView, { backgroundColor: theme.greyBackground }]}>
                 <View style={style.schedule.titleView}>
-                    <Text style={[style.schedule.titleText]}>{this.displayDate()}</Text>
+                    <Text style={[style.schedule.titleText, { color: theme.font }]}>{this.displayDate()}</Text>
                 </View>
                 <View style={style.schedule.contentView}>{content}</View>
             </View>

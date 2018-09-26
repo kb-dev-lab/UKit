@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 
 export default class Split extends React.PureComponent {
     static propTypes = {
-        title: PropTypes.string.isRequired,
+        title: PropTypes.string,
+        color: PropTypes.string,
+        lineColor: PropTypes.string,
+        noMargin: PropTypes.bool,
     };
 
     constructor(props) {
@@ -15,23 +18,25 @@ export default class Split extends React.PureComponent {
         return (
             <View
                 style={{
-                    marginVertical: 5,
+                    marginVertical: this.props.noMargin || this.props.onlyBottomMargin ? 0 : 8,
                 }}>
                 <View
                     style={{
-                        borderBottomWidth: 2,
-                        borderColor: '#d9d9d9',
-                        marginBottom: 7,
+                        borderBottomWidth: 1,
+                        borderColor: this.props.lineColor,
+                        marginBottom: this.props.noMargin ? 0 : 8,
                     }}
                 />
-                <Text
-                    style={{
-                        color: '#bebebe',
-                        paddingLeft: 7,
-                        fontWeight: 'bold',
-                    }}>
-                    {this.props.title}
-                </Text>
+                {this.props.title && (
+                    <Text
+                        style={{
+                            color: this.props.color,
+                            paddingLeft: 16,
+                            fontWeight: 'bold',
+                        }}>
+                        {this.props.title}
+                    </Text>
+                )}
             </View>
         );
     }
