@@ -143,14 +143,7 @@ class Home extends React.Component {
 
         sections.push(sectionContent);
 
-        if (save) {
-            store
-                .delete('home')
-                .then(() => store.update('home', { list, sections, unix: moment().unix() }))
-                .then(() => this.setState({ list, sections, completeList: list, refreshing: false }));
-        } else {
-            this.setState({ list, sections });
-        }
+        this.setState({ list, sections, refreshing: false });
     }
 
     refreshList() {
@@ -159,15 +152,7 @@ class Home extends React.Component {
     }
 
     getList() {
-        store.get('home').then((home) => {
-            const now = moment().unix();
-            const daysWithoutUpdate = 8;
-            if (home !== null && home.unix && now - home.unix < daysWithoutUpdate * 24 * 3600) {
-                this.setState({ list: home.list, completeList: home.list, sections: home.sections });
-            } else {
-                this.fetchList();
-            }
-        });
+        this.fetchList();
     }
 
     fetchList() {
@@ -231,7 +216,7 @@ class Home extends React.Component {
                 </View>
             );
         } else if (this.state.sections === null) {
-            content = <ActivityIndicator style={[style.containerView, { color: theme.icon }]} size="large" animating={true} />;
+            content = <ActivityIndicator style={[style.containerView]} size="large" animating={true} />;
         } else {
             content = (
                 <SectionList
