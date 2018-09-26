@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableHighlight, View } from 'react-native';
+import { Platform, TouchableHighlight, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import PropTypes from 'prop-types';
 
@@ -27,7 +27,7 @@ export default class BackButton extends React.PureComponent {
             <TouchableHighlight onPress={this._onPress} underlayColor={style.Theme.secondary} style={style.backButton}>
                 <View>
                     <Ionicons
-                        name="ios-arrow-back"
+                        name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'}
                         size={32}
                         style={{
                             color: 'white',
