@@ -1,11 +1,10 @@
 import React from 'react';
-import { Image, ScrollView, StatusBar, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
 import { AppLoading, Asset, Font, SplashScreen } from 'expo';
 import { Feather, FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
 import { createDrawerNavigator } from 'react-navigation';
 import { connect, Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 import { toggleDarkMode } from './actions/toggleDarkMode';
 import StackNavigator from './navigation/StackNavigator';
