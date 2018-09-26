@@ -1,12 +1,13 @@
 import React from 'react';
 import { ActivityIndicator, Image, SectionList, Text, TouchableOpacity, View } from 'react-native';
+import { AppLoading, Asset, Font } from 'expo';
+import { Feather, FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
 import axios from 'axios';
 import { Hideo } from 'react-native-textinput-effects';
 import NavigationBar from 'react-native-navbar';
 import { connect } from 'react-redux';
 import store from 'react-native-simple-store';
 import moment from 'moment';
-import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import 'moment/locale/fr';
 
 import NavigationBackground from './containers/ui/NavigationBackground';
@@ -16,6 +17,20 @@ import GroupRow from './containers/GroupRow';
 import style from '../Style';
 
 moment.locale('fr');
+
+function cacheFonts(fonts) {
+    return fonts.map((font) => Font.loadAsync(font));
+}
+
+function cacheImages(images) {
+    return images.map((image) => {
+        if (typeof image === 'string') {
+            return Image.prefetch(image);
+        } else {
+            return Asset.fromModule(image).downloadAsync();
+        }
+    });
+}
 
 class Home extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -74,6 +89,21 @@ class Home extends React.Component {
 
         this.refreshList = this.refreshList.bind(this);
         this.openGroup = this.openGroup.bind(this);
+    }
+
+    static async _loadAssetsAsync() {
+        const imageAssets = cacheImages([require('./../assets/icons/app.png')]);
+
+        const fontAssets = cacheFonts([
+            FontAwesome.font,
+            Feather.font,
+            Ionicons.font,
+            MaterialCommunityIcons.font,
+            MaterialIcons.font,
+            SimpleLineIcons.font,
+        ]);
+
+        await Promise.all([...imageAssets, ...fontAssets]);
     }
 
     componentDidMount() {
@@ -168,7 +198,16 @@ class Home extends React.Component {
                 style={style.list.searchInputView}
             />
         );
-        if (this.state.emptySearchResults) {
+        if (!this.state.isReady) {
+            return (
+                <AppLoading
+                    startAsync={Home._loadAssetsAsync}
+                    onFinish={() => this.setState({ isReady: true })}
+                    onError={console.warn}
+                    autoHideSplash={true}
+                />
+            );
+        } else if (this.state.emptySearchResults) {
             content = (
                 <View style={[style.schedule.course.noCourse, { backgroundColor: theme.greyBackground }]}>
                     <Text style={[style.schedule.course.noCourseText, { color: theme.font }]}>
@@ -177,11 +216,7 @@ class Home extends React.Component {
                 </View>
             );
         } else if (this.state.sections === null) {
-            content = (
-                <View style={{ flex: 1, backgroundColor: theme.background }}>
-                    <ActivityIndicator style={[style.containerView]} size="large" animating={true} />
-                </View>
-            );
+            content = <ActivityIndicator style={[style.containerView]} size="large" animating={true} />;
         } else {
             content = (
                 <SectionList
