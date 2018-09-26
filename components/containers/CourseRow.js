@@ -22,6 +22,14 @@ export default class CourseRow extends React.PureComponent {
         }
 
         this.state = { backgroundColor, borderColor, lineColor };
+
+        this._onLongPress = this._onLongPress.bind(this);
+    }
+
+    _onLongPress(e) {
+        requestAnimationFrame(() => {
+            console.log({ data: this.props.data });
+        });
     }
 
     render() {
@@ -85,7 +93,7 @@ export default class CourseRow extends React.PureComponent {
 
             return (
                 <View style={{ marginVertical: 4 }}>
-                    <TouchableHighlight onPress={() => {}} underlayColor={theme.selection}>
+                    <TouchableHighlight onPress={this._onLongPress} underlayColor={theme.selection}>
                         <View
                             style={[
                                 style.schedule.course.row,

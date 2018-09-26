@@ -1,13 +1,15 @@
 import React from 'react';
+import { StatusBar } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
+
+import style from '../Style';
 
 import Home from '../components/Home';
 import Group from '../components/Group';
 import About from '../components/About';
+import Settings from '../components/Settings';
 import WebBrowser from '../components/WebBrowser';
 import Geolocation from '../components/Geolocation';
-import style from '../Style';
-import { StatusBar } from 'react-native';
 import DayView from '../components/DayView';
 import WeekView from '../components/WeekView';
 
@@ -28,6 +30,10 @@ export default createStackNavigator(
         },
         About: {
             screen: About,
+            navigationOptions: style.stackNavigator,
+        },
+        Settings: {
+            screen: Settings,
             navigationOptions: style.stackNavigator,
         },
         WebBrowser: {
