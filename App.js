@@ -1,8 +1,9 @@
 import React from 'react';
-import { Image, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { createDrawerNavigator } from 'react-navigation';
-import { Provider, connect } from 'react-redux';
+import { connect, Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 import { toggleDarkMode } from './actions/toggleDarkMode';
 import StackNavigator from './navigation/StackNavigator';
@@ -10,13 +11,12 @@ import About from './components/About';
 import DrawerButton from './components/containers/buttons/DrawerButton';
 import MyGroupButton from './components/containers/buttons/MyGroupButton';
 import Split from './components/containers/ui/Split';
+import StatusBar from './components/containers/ui/StatusBar';
 import style from './Style';
 import WebBrowser from './components/WebBrowser';
 import Geolocation from './components/Geolocation';
 import configureStore from './stores';
 import { setStatusBar } from './Utils';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -144,12 +144,6 @@ const CustomDrawerContentComponent = connect(
     );
 });
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-});
-
 const Drawer = createDrawerNavigator(
     {
         Home: {
@@ -178,7 +172,7 @@ const { store, pStore } = configureStore();
 const RNRedux = () => (
     <Provider store={store} style={style.fonts.default}>
         <PersistGate loading={null} persistor={pStore}>
-            <StatusBar barStyle="light-content" backgroundColor={style.colors.blue} />
+            <StatusBar />
             <Drawer />
         </PersistGate>
     </Provider>
