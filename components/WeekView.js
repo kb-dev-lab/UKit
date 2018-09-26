@@ -74,6 +74,7 @@ class WeekView extends React.Component {
         this.renderCalendarListItem = this.renderCalendarListItem.bind(this);
         this.onWeekPress = this.onWeekPress.bind(this);
         this.onDayButton = this.onDayButton.bind(this);
+        this.extractCalendarListItemKey = this.extractCalendarListItemKey.bind(this);
     }
 
     static getCalendarListItemLayout(data, index) {
@@ -96,8 +97,8 @@ class WeekView extends React.Component {
         );
     }
 
-    static extractCalendarListItemKey(item) {
-        return `S${item}`;
+    extractCalendarListItemKey(item) {
+        return `S${item}-${this.props.themeName}`;
     }
 
     onTodayPress() {
@@ -160,7 +161,12 @@ class WeekView extends React.Component {
 
         return (
             <View style={{ flex: 1 }}>
-                <WeekComponent key={this.state.selectedWeek} week={this.state.selectedWeek} groupName={this.state.groupName} theme={theme} />
+                <WeekComponent
+                    key={`weekComponent-${this.props.themeName}`}
+                    week={this.state.selectedWeek}
+                    groupName={this.state.groupName}
+                    theme={theme}
+                />
                 <View
                     style={{
                         flexGrow: 0,
@@ -198,7 +204,7 @@ class WeekView extends React.Component {
                         showsHorizontalScrollIndicator={false}
                         data={this.state.weeks}
                         horizontal={true}
-                        keyExtractor={WeekView.extractCalendarListItemKey}
+                        keyExtractor={this.extractCalendarListItemKey}
                         viewabilityConfig={this.viewability}
                         initialScrollIndex={this.state.currentWeekIndex}
                         getItemLayout={WeekView.getCalendarListItemLayout}

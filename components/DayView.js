@@ -50,6 +50,7 @@ class DayView extends React.Component {
         this.onDayPress = this.onDayPress.bind(this);
         this.renderCalendarListItem = this.renderCalendarListItem.bind(this);
         this.onWeekPress = this.onWeekPress.bind(this);
+        this.extractCalendarListItemKey = this.extractCalendarListItemKey.bind(this);
     }
 
     static getCalendarListItemLayout(data, index) {
@@ -72,8 +73,8 @@ class DayView extends React.Component {
         );
     }
 
-    static extractCalendarListItemKey(item) {
-        return `${item.date()}-${item.month()}`;
+    extractCalendarListItemKey(item) {
+        return `${item.date()}-${item.month()}-${this.props.themeName}`;
     }
 
     onTodayPress() {
@@ -142,7 +143,12 @@ class DayView extends React.Component {
 
         return (
             <View style={{ flex: 1 }}>
-                <DayComponent key={this.state.days[0].dayOfYear()} day={this.state.selectedDay} groupName={this.state.groupName} theme={theme} />
+                <DayComponent
+                    key={`${this.state.days[0].dayOfYear()}-${this.props.themeName}`}
+                    day={this.state.selectedDay}
+                    groupName={this.state.groupName}
+                    theme={theme}
+                />
                 <View
                     style={{
                         flexGrow: 0,
@@ -181,7 +187,7 @@ class DayView extends React.Component {
                         showsHorizontalScrollIndicator={false}
                         data={this.state.days}
                         horizontal={true}
-                        keyExtractor={DayView.extractCalendarListItemKey}
+                        keyExtractor={this.extractCalendarListItemKey}
                         viewabilityConfig={this.viewability}
                         onViewableItemsChanged={this.checkViewableItems}
                         initialScrollIndex={this.state.currentDayIndex}

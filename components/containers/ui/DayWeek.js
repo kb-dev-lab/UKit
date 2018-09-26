@@ -25,7 +25,9 @@ export default class DayWeek extends React.Component {
     }
 
     toggleExpand() {
-        this.setState({ expand: !this.state.expand });
+        requestAnimationFrame(() => {
+            this.setState({ expand: !this.state.expand });
+        });
     }
 
     render() {
@@ -42,6 +44,7 @@ export default class DayWeek extends React.Component {
         } else if (this.state.expand) {
             content = (
                 <FlatList
+                    key={this.props.schedule.dayNumber}
                     renderItem={({ item }) => <CourseRow data={item} theme={theme} />}
                     data={this.props.schedule.courses}
                     keyExtractor={(item, index) => String(item.dayNumber) + String(index)}
