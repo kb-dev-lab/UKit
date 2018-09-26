@@ -8,6 +8,7 @@ export default class Split extends React.PureComponent {
         color: PropTypes.string,
         lineColor: PropTypes.string,
         noMargin: PropTypes.bool,
+        onlyBottomMargin: PropTypes.bool,
     };
 
     constructor(props) {

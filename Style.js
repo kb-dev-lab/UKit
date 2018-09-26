@@ -101,6 +101,7 @@ const Theme = {
         field: '#ffffff',
         sections: [colors50.deepOrange, colors50.pink, colors50.lightBlue, colors50.blueGrey, colors50.green, colors50.purple],
         sectionsHeaders: [colors200.deepOrange, colors200.pink, colors200.lightBlue, colors200.blueGrey, colors200.green, colors200.purple],
+        statusBar: '#006F9F',
         calendar: {
             sunday: '#CCCCCC',
             currentDay: '#EEEEEE',
@@ -176,6 +177,7 @@ const Theme = {
         field: '#000030',
         sections: ['#002f6c', '#003300', '#000051', '#bc5100', '#7f0000', '#00251a'],
         sectionsHeaders: ['#01579b', '#1b5e20', '#1a237e', '#f57f17', '#b71c1c', '#004d40'],
+        statusBar: '#000000',
         calendar: {
             sunday: '#444444',
             currentDay: '#555577',
