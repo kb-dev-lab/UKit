@@ -1,9 +1,10 @@
 import React from 'react';
-import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
+import { AppLoading, Asset, Font, SplashScreen } from 'expo';
+import { Feather, FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
 import { createDrawerNavigator } from 'react-navigation';
 import { connect, Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 import { toggleDarkMode } from './actions/toggleDarkMode';
 import StackNavigator from './navigation/StackNavigator';
@@ -49,20 +50,9 @@ const CustomDrawerContentComponent = connect(
                         justifyContent: 'flex-start',
                         alignItems: 'center',
                         alignContent: 'center',
-                        height: 150,
+                        height: 120,
                     }}>
-                    <Image style={{ width: 50, height: 50, marginLeft: 20 }} source={require('./assets/icons/app.png')} />
-                    <Text
-                        style={{
-                            color: '#FFF',
-                            fontWeight: 'bold',
-                            fontSize: 30,
-                            marginLeft: 20,
-                            flex: 1,
-                            flexWrap: 'wrap',
-                        }}>
-                        Ukit
-                    </Text>
+                    <Image style={{ width: 170, height: 75, marginLeft: 8, marginTop: 16 }} source={require('./assets/icons/app.png')} />
                 </View>
                 <ScrollView style={{ backgroundColor: theme.background }}>
                     <View>
@@ -178,4 +168,67 @@ const RNRedux = () => (
     </Provider>
 );
 
-export default RNRedux;
+function cacheFonts(fonts) {
+    return fonts.map((font) => Font.loadAsync(font));
+}
+
+function cacheImages(images) {
+    return images.map((image) => {
+        if (typeof image === 'string') {
+            return Image.prefetch(image);
+        } else {
+            return Asset.fromModule(image).downloadAsync();
+        }
+    });
+}
+
+export default class App extends React.Component {
+    state = {
+        isSplashReady: false,
+        isAppReady: true,
+    };
+
+    constructor(props) {
+        super(props);
+
+        this._loadAssetsAsync = this._loadAssetsAsync.bind(this);
+    }
+
+    render() {
+        if (!this.state.isSplashReady) {
+            return (
+                <AppLoading
+                    startAsync={this._loadAssetsAsync}
+                    onFinish={() => this.setState({ isSplashReady: true })}
+                    onError={console.warn}
+                    autoHideSplash={false}
+                />
+            );
+        }
+
+        if (!this.state.isAppReady) {
+            return <View style={{ flex: 1, backgroundColor: 'red' }} />;
+        }
+
+        return <RNRedux />;
+    }
+
+    _loadAssetsAsync() {
+        const imageAssets = cacheImages([require('./assets/icons/app.png')]);
+
+        const fontAssets = cacheFonts([
+            FontAwesome.font,
+            Feather.font,
+            Ionicons.font,
+            MaterialCommunityIcons.font,
+            MaterialIcons.font,
+            SimpleLineIcons.font,
+        ]);
+
+        Promise.all([...imageAssets, ...fontAssets]).then(() => {
+            this.setState({ isAppReady: true }, () => {
+                SplashScreen.hide();
+            });
+        });
+    }
+}

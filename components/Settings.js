@@ -13,6 +13,7 @@ import SettingsEditText from './containers/ui/settings/SettingsEditText';
 import SettingsDividerShort from './containers/ui/settings/SettingsDividerShort';
 import SettingsSwitch from './containers/ui/settings/SettingsSwitch';
 import { setFilters } from '../actions/setFilters';
+import NavigationBackground from './containers/ui/NavigationBackground';
 
 const colors = {
     iosSettingsBackground: 'rgb(235,235,241)',
@@ -33,12 +34,9 @@ class Settings extends React.Component {
         return {
             title,
             header: (
-                <View
-                    style={{
-                        backgroundColor: style.Theme.primary,
-                    }}>
+                <NavigationBackground>
                     <NavigationBar title={{ title, tintColor: 'white' }} tintColor={'transparent'} leftButton={leftButton} />
-                </View>
+                </NavigationBackground>
             ),
         };
     };
