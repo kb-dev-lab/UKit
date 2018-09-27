@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     defaultValueStyle: {
-        color: 'rgb(160,160,160)',
+        color: '#a0a0a0',
         fontSize: 14,
         flex: 1,
         paddingLeft: 8,

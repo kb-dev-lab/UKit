@@ -16,7 +16,6 @@ import { setFilters } from '../actions/setFilters';
 import NavigationBackground from './containers/ui/NavigationBackground';
 
 const colors = {
-    iosSettingsBackground: 'rgb(235,235,241)',
     white: '#FFFFFF',
     monza: '#C70039',
     switchEnabled: Platform.OS === 'android' ? '#009385' : null,
@@ -149,21 +148,34 @@ class Settings extends React.Component {
     }
 
     render() {
+        const theme = style.Theme[this.props.themeName];
+
         return (
-            <View style={{ flex: 1 }}>
-                <SettingsCategoryHeader title={'Affichage'} />
+            <View style={{ flex: 1, backgroundColor: theme.settings.background }}>
+                <SettingsCategoryHeader title={'Affichage'} titleStyle={{ color: theme.settings.title }} />
                 <SettingsDividerLong />
-                <SettingsEditText onPress={this.openFiltersDialog} title="Filtres" valuePlaceholder="..." value={this.state.filters} />
+                <SettingsEditText
+                    onPress={this.openFiltersDialog}
+                    title="Filtres"
+                    valuePlaceholder="..."
+                    value={this.state.filters}
+                    titleStyle={{ color: theme.settings.sectionText }}
+                    valueStyle={{ color: theme.settings.sectionText }}
+                    containerStyle={{ backgroundColor: theme.settings.section }}
+                />
                 <SettingsDividerShort />
                 <SettingsEditText
                     disabled={true}
                     onPress={this.openAdvancedFiltersDialog}
                     title="Filtres avancés"
                     valuePlaceholder="..."
+                    titleStyle={{ color: theme.settings.sectionText }}
+                    valueStyle={{ color: theme.settings.sectionText }}
+                    containerStyle={{ backgroundColor: theme.settings.section }}
                     value={this.state.advancedFilters}
                 />
                 <SettingsDividerLong />
-                <SettingsCategoryHeader title={'Démarrage'} titleStyle={{ color: colors.monza }} />
+                <SettingsCategoryHeader title={'Démarrage'} titleStyle={{ color: theme.settings.title }} />
                 <SettingsDividerLong />
                 <SettingsSwitch
                     disabled={true}
@@ -173,7 +185,11 @@ class Settings extends React.Component {
                         });
                     }}
                     title={'Ouvrir sur le groupe favori'}
+                    titleStyle={{ color: theme.settings.sectionText }}
+                    valueStyle={{ color: theme.settings.sectionText }}
+                    containerStyle={{ backgroundColor: theme.settings.section }}
                     value={this.state.openAppOnFavoriteGroup}
+                    disabledOverlayStyle={{backgroundColor: theme.settings.disabledOverlay}}
                     thumbTintColor={this.state.openAppOnFavoriteGroup ? colors.switchEnabled : colors.switchDisabled}
                 />
                 <SettingsDividerLong />
@@ -275,6 +291,7 @@ const mapStateToProps = (state) => {
     return {
         savedGroup: state.favorite.groupName,
         filters: state.filters.filters,
+        themeName: state.darkMode.themeName,
     };
 };
 

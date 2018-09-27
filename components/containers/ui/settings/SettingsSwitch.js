@@ -71,9 +71,9 @@ const styles = StyleSheet.create({
     defaultContainerStyle: {
         padding: 0,
         height: 50,
-        backgroundColor: "white",
-        alignItems: "center",
-        flexDirection: "row",
+        backgroundColor: 'white',
+        alignItems: 'center',
+        flexDirection: 'row',
     },
     defaultTitleStyle: {
         flex: 0,
@@ -83,11 +83,11 @@ const styles = StyleSheet.create({
     },
     defaultSwitchWrapperStyle: {
         flex: 0,
-        flexDirection: "row",
+        flexDirection: 'row',
         paddingLeft: 8,
         paddingRight: 16,
-    }, defaultDisabledOverlayStyle: {
-        backgroundColor: "rgba(255,255,255,0.6)",
-    }
-
+    },
+    defaultDisabledOverlayStyle: {
+        backgroundColor: 'rgba(255,255,255,0.6)',
+    },
 });

@@ -107,6 +107,13 @@ const Theme = {
             currentDay: '#EEEEEE',
             selection: '#009EE0',
         },
+        settings: {
+            title: '#282828',
+            background: '#e9e9ef',
+            section: '#FFF',
+            sectionText: '#000',
+            disabledOverlay: 'rgba(255,255,255,0.6)',
+        },
         courses: {
             '#FFFFA8': {
                 // TP
@@ -182,6 +189,13 @@ const Theme = {
             sunday: '#444444',
             currentDay: '#555577',
             selection: '#009EE0',
+        },
+        settings: {
+            title: '#FFF',
+            background: '#000030',
+            section: '#282828',
+            sectionText: '#FFF',
+            disabledOverlay: 'transparent',
         },
         courses: {
             '#FFFFA8': {
