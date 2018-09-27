@@ -44,24 +44,20 @@ export default class CourseRow extends React.PureComponent {
         } else if (this.props.data.category === 'masked') {
             return null;
         } else {
-            let annotations, staff, subject, room, group;
-            let annotationsTitle, staffTitle, roomTitle, groupTitle;
+            let annotations,
+                staff,
+                subject,
+                room,
+                group = null;
+            let annotationsTitle,
+                staffTitle,
+                roomTitle,
+                groupTitle = null;
 
             if (this.props.data.room !== 'N/C') {
                 roomTitle = <Text style={[style.schedule.course.header, { color: theme.font }]}>Salle </Text>;
                 room = this.props.data.room.split(' | ').map((room, key) => {
                     return <OpenMapButton key={key} location={room} theme={theme} />;
-                });
-            }
-            if (this.props.data.annotation.length > 0) {
-                // TODO detect location
-                annotationsTitle = <Text style={[style.schedule.course.header, { color: theme.font }]}>Notes : </Text>;
-                annotations = this.props.data.annotation.split('\n').map((annotation, key) => {
-                    return (
-                        <Text key={key} style={[style.schedule.course.content, { color: theme.accentFont }]}>
-                            {annotation}
-                        </Text>
-                    );
                 });
             }
             if (this.props.data.staff !== 'N/C') {
@@ -83,11 +79,29 @@ export default class CourseRow extends React.PureComponent {
                 );
             }
             if (this.props.data.group !== 'N/C') {
-                groupTitle = <Text style={[style.schedule.course.header, { color: theme.font }]}>Groupe : </Text>;
-                group = this.props.data.group.split(' | ').map((group, key) => {
+                let groups = this.props.data.group.split(' | ');
+
+                groupTitle = (
+                    <Text style={{ color: theme.font }}>
+                        Groupe
+                        {groups.length > 1 ? 's' : ''} :{' '}
+                    </Text>
+                );
+                group = groups.map((group, key) => {
                     return (
-                        <Text key={key} style={[style.schedule.course.content, { color: theme.accentFont }]}>
+                        <Text key={key} style={{ color: theme.accentFont }}>
                             {group}
+                        </Text>
+                    );
+                });
+            }
+            if (this.props.data.annotation.length > 0) {
+                // TODO detect location
+                annotationsTitle = <Text style={{ color: theme.font }}>Notes : </Text>;
+                annotations = this.props.data.annotation.split('\n').map((annotation, key) => {
+                    return (
+                        <Text key={key} style={{ color: theme.accentFont }}>
+                            {annotation}
                         </Text>
                     );
                 });
@@ -129,14 +143,14 @@ export default class CourseRow extends React.PureComponent {
                                     <View style={style.schedule.course.container}>{room}</View>
                                 </View>
 
-                                <View style={style.schedule.course.line}>
-                                    {groupTitle}
-                                    <View style={style.schedule.course.container}>{group}</View>
+                                <View style={style.schedule.course.groupsContainer}>
+                                    <View style={style.schedule.course.groupsHeader}>{groupTitle}</View>
+                                    <View style={style.schedule.course.groupsContent}>{group}</View>
                                 </View>
 
-                                <View style={style.schedule.course.line}>
-                                    {annotationsTitle}
-                                    <View style={style.schedule.course.container}>{annotations}</View>
+                                <View style={style.schedule.course.groupsContainer}>
+                                    <View style={style.schedule.course.groupsHeader}>{annotationsTitle}</View>
+                                    <View style={style.schedule.course.groupsContent}>{annotations}</View>
                                 </View>
                             </View>
                         </View>

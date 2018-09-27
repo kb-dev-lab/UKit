@@ -91,7 +91,7 @@ export default class DayWeek extends React.Component {
                         />
                     </View>
                 </TouchableOpacity>
-                <Collapsible collapsed={!this.state.expand} align="center">
+                <Collapsible collapsed={!this.state.expand} align="top">
                     {content}
                 </Collapsible>
             </View>

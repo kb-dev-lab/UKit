@@ -413,6 +413,7 @@ export default {
                 padding: 8,
                 borderColor: colors.darkblue,
                 marginHorizontal: 12,
+                overflow: 'scroll',
             },
             hours: {
                 borderRightWidth: 5,
@@ -465,13 +466,26 @@ export default {
                 flex: 1,
                 flexWrap: 'wrap',
             },
+            groupsContainer: {
+                flexWrap: 'wrap',
+                flexDirection: 'row',
+            },
+            groupsHeader: {
+            },
+            groupsContent: {
+                alignSelf: 'stretch',
+                flex: 1,
+                flexDirection: 'column',
+            },
             line: {
                 flexDirection: 'row',
                 justifyContent: 'flex-start',
+                flexWrap: 'wrap',
             },
             centeredLine: {
                 flexDirection: 'row',
                 justifyContent: 'center',
+                flexWrap: 'wrap',
             },
         },
         containerView: {
