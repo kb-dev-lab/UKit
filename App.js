@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
 import { AppLoading, Asset, Font, SplashScreen } from 'expo';
-import { Feather, FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
+import { Entypo, Feather, FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
 import { createDrawerNavigator } from 'react-navigation';
 import { connect, Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
@@ -223,6 +223,7 @@ export default class App extends React.Component {
             MaterialCommunityIcons.font,
             MaterialIcons.font,
             SimpleLineIcons.font,
+            Entypo.font,
         ]);
 
         Promise.all([...imageAssets, ...fontAssets]).then(() => {

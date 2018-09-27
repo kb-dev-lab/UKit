@@ -90,7 +90,7 @@ class Day extends React.Component {
                 let match = regexUE.exec(course.subject);
                 if (match.length === 3) {
                     course.UE = match[1];
-                    course.subject = `${match[2]} (${match[1]})`;
+                    course.subject = `${match[2]}`;
                 } else {
                     course.UE = null;
                 }

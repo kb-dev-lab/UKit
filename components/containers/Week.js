@@ -6,8 +6,10 @@ import 'moment/locale/fr';
 
 import style from '../../Style';
 import DayWeek from './ui/DayWeek';
+import connect from 'react-redux/es/connect/connect';
+import { isArraysEquals } from '../../Utils';
 
-export default class Week extends React.Component {
+class Week extends React.Component {
     static navigationOptions = {
         tabBarLabel: 'Semaine',
         tabBarIcon: ({ tintColor }) => {
@@ -39,7 +41,13 @@ export default class Week extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.state.week !== prevState.week) {
+        if (this.props.savedGroup !== prevProps.savedGroup) {
+            if (this.props.filters.length > 0) {
+                this.fetchSchedule();
+            }
+        } else if (this.state.week !== prevState.week) {
+            this.fetchSchedule();
+        } else if (!isArraysEquals(this.props.filters, prevProps.filters)) {
             this.fetchSchedule();
         }
     }
@@ -90,6 +98,26 @@ export default class Week extends React.Component {
         return 'Semaine ' + this.state.week;
     }
 
+    computeSchedule(schedule, isFavorite) {
+        let regexUE = RegExp('([A-Z0-9]+) (.+)', 'im');
+
+        schedule.courses = schedule.courses.map((course) => {
+            if (course.subject && course.subject !== 'N/C') {
+                let match = regexUE.exec(course.subject);
+                if (match.length === 3) {
+                    course.UE = match[1];
+                    course.subject = `${match[2]}`;
+                } else {
+                    course.UE = null;
+                }
+            }
+            if (isFavorite && course.UE !== null && this.props.filters instanceof Array && this.props.filters.includes(course.UE)) {
+                course = { schedule: 0, category: 'masked' };
+            }
+            return course;
+        });
+        return schedule;
+    }
 
     render() {
         const { theme } = this.props;
@@ -102,14 +130,34 @@ export default class Week extends React.Component {
                 content = <Text style={[style.schedule.noCourse, { color: theme.font }]}>Erreur {JSON.stringify(this.state.error)}</Text>;
             }
         } else if (this.state.schedule instanceof Array) {
-            content = <ScrollView>
-                    <DayWeek schedule={this.state.schedule[0]} theme={theme} />
-                    <DayWeek schedule={this.state.schedule[1]} theme={theme} />
-                    <DayWeek schedule={this.state.schedule[2]} theme={theme} />
-                    <DayWeek schedule={this.state.schedule[3]} theme={theme} />
-                    <DayWeek schedule={this.state.schedule[4]} theme={theme} />
-                    <DayWeek schedule={this.state.schedule[5]} theme={theme} />
-                </ScrollView>;
+            content = (
+                <ScrollView>
+                    <DayWeek
+                        schedule={this.computeSchedule(this.state.schedule[0], this.state.groupName === this.props.savedGroup)}
+                        theme={theme}
+                    />
+                    <DayWeek
+                        schedule={this.computeSchedule(this.state.schedule[1], this.state.groupName === this.props.savedGroup)}
+                        theme={theme}
+                    />
+                    <DayWeek
+                        schedule={this.computeSchedule(this.state.schedule[2], this.state.groupName === this.props.savedGroup)}
+                        theme={theme}
+                    />
+                    <DayWeek
+                        schedule={this.computeSchedule(this.state.schedule[3], this.state.groupName === this.props.savedGroup)}
+                        theme={theme}
+                    />
+                    <DayWeek
+                        schedule={this.computeSchedule(this.state.schedule[4], this.state.groupName === this.props.savedGroup)}
+                        theme={theme}
+                    />
+                    <DayWeek
+                        schedule={this.computeSchedule(this.state.schedule[5], this.state.groupName === this.props.savedGroup)}
+                        theme={theme}
+                    />
+                </ScrollView>
+            );
         }
 
         return (
@@ -124,3 +172,11 @@ export default class Week extends React.Component {
         );
     }
 }
+const mapStateToProps = (state) => {
+    return {
+        savedGroup: state.favorite.groupName,
+        filters: state.filters.filters,
+    };
+};
+
+export default connect(mapStateToProps)(Week);

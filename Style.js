@@ -431,7 +431,10 @@ export default {
                 fontWeight: 'bold',
             },
             contentType: {
+                marginBottom: 16,
                 alignSelf: 'stretch',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
             },
             contentBlock: {
                 flex: 1,
@@ -451,10 +454,10 @@ export default {
                 fontWeight: 'bold',
             },
             title: {
+                fontSize: 17,
                 paddingTop: 0,
-                paddingBottom: 5,
                 textAlign: 'center',
-                fontWeight: 'bold',
+                fontWeight: '200',
             },
             header: {
                 flexDirection: 'column',
@@ -470,8 +473,15 @@ export default {
                 flexWrap: 'wrap',
                 flexDirection: 'row',
             },
-            groupsHeader: {
+            iconHeader: {
+                width: 18,
+                height: 18,
+                marginRight: 8,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
             },
+            groupsHeader: {},
             groupsContent: {
                 alignSelf: 'stretch',
                 flex: 1,
