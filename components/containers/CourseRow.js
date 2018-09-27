@@ -114,7 +114,7 @@ export default class CourseRow extends React.PureComponent {
                             </View>
 
                             <View style={style.schedule.course.contentBlock}>
-                                <View>
+                                <View style={style.schedule.course.contentType}>
                                     <Text style={[style.schedule.course.title, { color: theme.font }]}>{this.props.data.category}</Text>
                                 </View>
                                 {subject}

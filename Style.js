@@ -422,9 +422,13 @@ export default {
             hoursText: {
                 fontWeight: 'bold',
             },
+            contentType: {
+                alignSelf: 'stretch',
+            },
             contentBlock: {
                 flex: 6,
-                justifyContent: 'space-between',
+                justifyContent: 'flex-start',
+                alignItems: 'flex-start',
                 flexDirection: 'column',
                 marginLeft: 8,
             },
@@ -457,7 +461,6 @@ export default {
                 flexDirection: 'column',
             },
             container: {
-                flex: 1,
                 flexDirection: 'column',
             },
             content: {
@@ -490,9 +493,10 @@ export default {
             alignSelf: 'stretch',
         },
         titleText: {
-            fontSize: 18,
+            fontSize: 24,
+            fontWeight: '600',
             textAlign: 'center',
-            paddingVertical: 10,
+            paddingVertical: 8,
         },
         error: {
             fontSize: 20,
