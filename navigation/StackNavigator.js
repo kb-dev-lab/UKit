@@ -1,8 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 
-import style from '../Style';
-
 import Home from '../components/Home';
 import Group from '../components/Group';
 import About from '../components/About';
@@ -17,7 +15,6 @@ export default createStackNavigator(
     {
         Home: {
             screen: Home,
-            navigationOptions: style.stackNavigator,
         },
         Group: {
             screen: Group,
@@ -30,19 +27,15 @@ export default createStackNavigator(
         },
         About: {
             screen: About,
-            navigationOptions: style.stackNavigator,
         },
         Settings: {
             screen: Settings,
-            navigationOptions: style.stackNavigator,
         },
         WebBrowser: {
             screen: WebBrowser,
-            navigationOptions: style.stackNavigator,
         },
         Geolocation: {
             screen: Geolocation,
-            navigationOptions: style.stackNavigator,
         },
     },
     {

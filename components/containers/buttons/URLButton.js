@@ -1,24 +1,14 @@
 import React from 'react';
 import { Linking, Text, TouchableOpacity } from 'react-native';
 
-import style from '../../../Style';
-
-export default class URLButton extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            url: this.props.url,
-            title: this.props.title,
-        };
-    }
-
+export default class URLButton extends React.PureComponent {
     openURL() {
-        Linking.canOpenURL(this.state.url)
+        Linking.canOpenURL(this.props.url)
             .then((supported) => {
                 if (!supported) {
-                    console.log("Can't handle url: " + this.state.url);
+                    console.log("Can't handle url: " + this.props.url);
                 } else {
-                    return Linking.openURL(this.state.url);
+                    return Linking.openURL(this.props.url);
                 }
             })
             .catch((err) => console.error('An error occurred', err));
@@ -29,7 +19,7 @@ export default class URLButton extends React.Component {
 
         return (
             <TouchableOpacity style={{ alignSelf: 'flex-start' }} onPress={() => this.openURL()}>
-                <Text style={{ color: theme.link }}>{this.state.title}</Text>
+                <Text style={{ color: theme.link }}>{this.props.title}</Text>
             </TouchableOpacity>
         );
     }

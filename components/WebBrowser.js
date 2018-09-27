@@ -22,6 +22,13 @@ function treatTitle(str) {
     return str;
 }
 
+const entrypoints = {
+    ent: 'https://ent.u-bordeaux.fr',
+    email: 'https://webmel.u-bordeaux.fr',
+    cas: 'https://cas.u-bordeaux.fr',
+    apogee: 'https://apogee.u-bordeaux.fr',
+};
+
 class WebBrowser extends React.Component {
     static navigationOptions = ({ navigation }) => {
         let title = treatTitle(navigation.getParam('title', 'Navigateur web'));
@@ -31,16 +38,7 @@ class WebBrowser extends React.Component {
             title,
             header: (
                 <NavigationBackground>
-                    <NavigationBar
-                        title={{ title, tintColor: 'white' }}
-                        tintColor={'transparent'}
-                        leftButton={leftButton}
-                        style={{
-                            alignItems: 'center',
-                            flex: 1,
-                            flexDirection: 'row',
-                        }}
-                    />
+                    <NavigationBar title={{ title, tintColor: 'white' }} tintColor={'transparent'} leftButton={leftButton} />
                 </NavigationBackground>
             ),
         };
@@ -48,49 +46,46 @@ class WebBrowser extends React.Component {
 
     constructor(props) {
         super(props);
+
+        let uri = 'https://uki-bordeaux.fr';
+        if (this.props.navigation.state.params) {
+            const { entrypoint, href } = this.props.navigation.state.params;
+            if (entrypoint) {
+                if (entrypoints[entrypoint]) {
+                    uri = entrypoints[entrypoint];
+                }
+            } else if (href) {
+                uri = href;
+            }
+        }
+
         this.state = {
             entrypoint: this.props.navigation.state.params.entrypoint,
             title: null,
             url: '',
-            uri: null,
+            uri,
             canGoBack: false,
             canGoForward: false,
             loading: true,
         };
-        this.entrypoints = {
-            ent: 'https://ent.u-bordeaux.fr',
-            email: 'https://webmel.u-bordeaux.fr',
-            cas: 'https://cas.u-bordeaux.fr',
-            apogee: 'https://apogee.u-bordeaux.fr',
-        };
 
         this.openURL = this.openURL.bind(this);
-        this.getUri = this.getUri.bind(this);
         this.onBack = this.onBack.bind(this);
         this.onRefresh = this.onRefresh.bind(this);
         this.onForward = this.onForward.bind(this);
-    }
-
-    componentDidMount() {
-        this.getUri();
-    }
-
-    getUri() {
-        if (this.entrypoints.hasOwnProperty(this.state.entrypoint)) {
-            this.setState({ uri: this.entrypoints[this.state.entrypoint] });
-        }
+        this.renderLoading = this.renderLoading.bind(this);
     }
 
     onRefresh() {
-        this.refs['WebBrowser'].reload();
+        this.webBrowser.reload();
     }
 
     onBack() {
-        this.refs['WebBrowser'].goBack();
+        this.webBrowser.goBack();
     }
 
     onForward() {
-        this.refs['WebBrowser'].goForward();
+        this.webBrowser.goForward();
     }
 
     openURL() {
@@ -122,15 +117,20 @@ class WebBrowser extends React.Component {
 
         const theme = style.Theme[this.props.themeName];
 
+        let javascript = null;
+        if (Platform.OS !== 'ios') {
+            javascript = 'window.scrollTo(0,0);';
+        }
+
         return (
             <View style={{ flex: 1, flexDirection: 'column' }}>
                 <WebView
-                    style={{}}
-                    ref={'WebBrowser'}
+                    ref={(webBrowser) => (this.webBrowser = webBrowser)}
                     javaScriptEnabled={true}
                     domStorageEnabled={true}
                     startInLoadingState={true}
-                    renderLoading={WebBrowser.renderLoading}
+                    renderLoading={this.renderLoading}
+                    injectedJavaScript={javascript}
                     onNavigationStateChange={(e) => {
                         if (!e.loading) {
                             this.setState({ url: e.url, title: e.title, canGoBack: e.canGoBack, loading: e.loading }, () => {
