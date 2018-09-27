@@ -416,7 +416,6 @@ export default {
                 paddingRight: 4,
                 marginLeft: 2,
                 paddingVertical: 6,
-                flex: 1,
                 flexShrink: 0,
             },
             hoursText: {
@@ -426,7 +425,7 @@ export default {
                 alignSelf: 'stretch',
             },
             contentBlock: {
-                flex: 6,
+                flex: 1,
                 justifyContent: 'flex-start',
                 alignItems: 'flex-start',
                 flexDirection: 'column',
