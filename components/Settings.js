@@ -113,6 +113,7 @@ class Settings extends React.Component {
     }
 
     openFiltersDialog() {
+        this.filterInput.focus();
         this.filtersDialog.show();
     }
 
@@ -189,7 +190,7 @@ class Settings extends React.Component {
                     valueStyle={{ color: theme.settings.sectionText }}
                     containerStyle={{ backgroundColor: theme.settings.section }}
                     value={this.state.openAppOnFavoriteGroup}
-                    disabledOverlayStyle={{backgroundColor: theme.settings.disabledOverlay}}
+                    disabledOverlayStyle={{ backgroundColor: theme.settings.disabledOverlay }}
                     thumbTintColor={this.state.openAppOnFavoriteGroup ? colors.switchEnabled : colors.switchDisabled}
                 />
                 <SettingsDividerLong />
@@ -237,12 +238,14 @@ class Settings extends React.Component {
                         </View>
                         <View style={style.settings.textInputContainer}>
                             <TextInput
+                                ref={(textInput) => (this.filterInput = textInput)}
                                 autoCorrect={false}
                                 multiline={true}
                                 numberOfLines={4}
                                 onChangeText={(filters) => this.setState({ filters })}
                                 value={this.state.filters}
                                 editable={true}
+                                underlineColorAndroid="transparent"
                                 style={{ textAlignVertical: 'top' }}
                             />
                         </View>
