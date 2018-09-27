@@ -405,6 +405,15 @@ export default {
     },
     schedule: {
         course: {
+            row: {
+                justifyContent: 'space-between',
+                flexDirection: 'row',
+                backgroundColor: '#EEEEEE',
+                borderWidth: 0,
+                padding: 8,
+                borderColor: colors.darkblue,
+                marginHorizontal: 12,
+            },
             hours: {
                 borderRightWidth: 5,
                 borderColor: colors.lightblue,
@@ -412,11 +421,10 @@ export default {
                 justifyContent: 'space-between',
                 alignContent: 'center',
                 alignItems: 'center',
-                paddingLeft: 2,
-                paddingRight: 4,
-                marginLeft: 2,
-                paddingVertical: 6,
+                paddingRight: 8,
+                paddingVertical: 2,
                 flexShrink: 0,
+                backgroundColor: 'transparent',
             },
             hoursText: {
                 fontWeight: 'bold',
@@ -430,15 +438,6 @@ export default {
                 alignItems: 'flex-start',
                 flexDirection: 'column',
                 marginLeft: 8,
-            },
-            row: {
-                justifyContent: 'space-between',
-                flexDirection: 'row',
-                backgroundColor: '#EEEEEE',
-                borderWidth: 0,
-                padding: 8,
-                borderColor: colors.darkblue,
-                marginHorizontal: 12,
             },
             noCourse: {
                 paddingVertical: 10,
