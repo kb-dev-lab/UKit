@@ -112,7 +112,11 @@ class Home extends React.Component {
 
         sections.push(sectionContent);
 
-        this.setState({ list, sections, refreshing: false });
+        if (save) {
+            this.setState({ list, sections, completeList: list, refreshing: false });
+        } else {
+            this.setState({ list, sections });
+        }
     }
 
     refreshList() {
