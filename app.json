@@ -9,7 +9,7 @@
         "version": "3.3.1",
         "orientation": "portrait",
         "primaryColor": "#006F9F",
-        "icon": "./assets/icons/app_1024_alpha.png",
+        "icon": "./assets/icons/app_1024_android.png",
         "splash": {
             "image": "./assets/icons/splash.png",
             "backgroundColor": "#009de0"
@@ -21,7 +21,7 @@
             ]
         },
         "ios": {
-            "icon": "./assets/icons/app_1024.png",
+            "icon": "./assets/icons/app_1024_ios.png",
             "supportsTablet": true,
             "bundleIdentifier": "com.bordeaux.ukit"
         },

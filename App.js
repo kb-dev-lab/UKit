@@ -185,7 +185,6 @@ function cacheImages(images) {
 export default class App extends React.Component {
     state = {
         isSplashReady: false,
-        isAppReady: true,
     };
 
     constructor(props) {
@@ -206,10 +205,6 @@ export default class App extends React.Component {
             );
         }
 
-        if (!this.state.isAppReady) {
-            return <View style={{ flex: 1, backgroundColor: 'red' }} />;
-        }
-
         return <RNRedux />;
     }
 
@@ -227,9 +222,7 @@ export default class App extends React.Component {
         ]);
 
         Promise.all([...imageAssets, ...fontAssets]).then(() => {
-            this.setState({ isAppReady: true }, () => {
-                SplashScreen.hide();
-            });
+            SplashScreen.hide();
         });
     }
 }
