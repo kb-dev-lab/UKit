@@ -84,11 +84,12 @@ class Day extends React.Component {
     }
 
     computeSchedule(schedule, isFavorite) {
-        let regexUE = RegExp('([A-Z0-9]+) (.+)', 'im');
+        let regexUE = RegExp('([0-9][A-Z0-9]+) (.+)', 'im');
+
         return schedule.map((course) => {
             if (course.subject && course.subject !== 'N/C') {
                 let match = regexUE.exec(course.subject);
-                if (match.length === 3) {
+                if (match && match.length === 3) {
                     course.UE = match[1];
                     course.subject = `${match[2]}`;
                 } else {
