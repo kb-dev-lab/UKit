@@ -148,6 +148,7 @@ class DayView extends React.Component {
                     day={this.state.selectedDay}
                     groupName={this.state.groupName}
                     theme={theme}
+                    navigation={this.props.navigation}
                 />
                 <View
                     style={{

@@ -92,7 +92,7 @@ class WebBrowser extends React.Component {
         Linking.canOpenURL(this.state.url)
             .then((supported) => {
                 if (!supported) {
-                    console.log("Can't handle url: " + this.state.url);
+                    console.warn("Can't handle url: " + this.state.url);
                 } else {
                     return Linking.openURL(this.state.url);
                 }

@@ -130,32 +130,19 @@ class Week extends React.Component {
                 content = <Text style={[style.schedule.noCourse, { color: theme.font }]}>Erreur {JSON.stringify(this.state.error)}</Text>;
             }
         } else if (this.state.schedule instanceof Array) {
+            let isFavorite = this.state.groupName === this.props.savedGroup;
             content = (
                 <ScrollView>
-                    <DayWeek
-                        schedule={this.computeSchedule(this.state.schedule[0], this.state.groupName === this.props.savedGroup)}
-                        theme={theme}
-                    />
-                    <DayWeek
-                        schedule={this.computeSchedule(this.state.schedule[1], this.state.groupName === this.props.savedGroup)}
-                        theme={theme}
-                    />
-                    <DayWeek
-                        schedule={this.computeSchedule(this.state.schedule[2], this.state.groupName === this.props.savedGroup)}
-                        theme={theme}
-                    />
-                    <DayWeek
-                        schedule={this.computeSchedule(this.state.schedule[3], this.state.groupName === this.props.savedGroup)}
-                        theme={theme}
-                    />
-                    <DayWeek
-                        schedule={this.computeSchedule(this.state.schedule[4], this.state.groupName === this.props.savedGroup)}
-                        theme={theme}
-                    />
-                    <DayWeek
-                        schedule={this.computeSchedule(this.state.schedule[5], this.state.groupName === this.props.savedGroup)}
-                        theme={theme}
-                    />
+                    {this.state.schedule.map((schedule, index) => {
+                        return (
+                            <DayWeek
+                                key={index}
+                                schedule={this.computeSchedule(schedule, isFavorite)}
+                                navigation={this.props.navigation}
+                                theme={theme}
+                            />
+                        );
+                    })}
                 </ScrollView>
             );
         }

@@ -166,6 +166,7 @@ class WeekView extends React.Component {
                     week={this.state.selectedWeek}
                     groupName={this.state.groupName}
                     theme={theme}
+                    navigation={this.props.navigation}
                 />
                 <View
                     style={{

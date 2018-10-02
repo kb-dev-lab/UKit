@@ -45,7 +45,7 @@ export default class DayWeek extends React.Component {
             content = (
                 <FlatList
                     key={this.props.schedule.dayNumber}
-                    renderItem={({ item }) => <CourseRow data={item} theme={theme} />}
+                    renderItem={({ item }) => <CourseRow data={item} theme={theme} navigation={this.props.navigation} />}
                     data={this.props.schedule.courses}
                     keyExtractor={(item, index) => String(item.dayNumber) + String(index)}
                 />

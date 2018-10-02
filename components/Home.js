@@ -1,11 +1,12 @@
 import React from 'react';
-import { ActivityIndicator, SectionList, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, AsyncStorage, NetInfo, SectionList, Text, TouchableOpacity, View } from 'react-native';
 import axios from 'axios';
 import { Hideo } from 'react-native-textinput-effects';
 import NavigationBar from 'react-native-navbar';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+import Toast from 'react-native-root-toast';
 import 'moment/locale/fr';
 
 import NavigationBackground from './containers/ui/NavigationBackground';
@@ -69,14 +70,15 @@ class Home extends React.Component {
             list: null,
             emptySearchResults: false,
             refreshing: false,
+            cacheDate: null,
         };
 
         this.refreshList = this.refreshList.bind(this);
         this.openGroup = this.openGroup.bind(this);
     }
 
-    componentDidMount() {
-        this.getList();
+    async componentDidMount() {
+        await this.getList();
     }
 
     generateSections(list, save = false) {
@@ -119,19 +121,80 @@ class Home extends React.Component {
         }
     }
 
-    refreshList() {
+    async refreshList() {
         this.setState({ refreshing: true });
-        this.fetchList();
+        await this.fetchList();
     }
 
-    getList() {
-        this.fetchList();
+    async getList() {
+        await this.fetchList();
     }
 
-    fetchList() {
-        axios.get('https://hackjack.info/et/json.php?clean=true').then((response) => {
-            this.generateSections(response.data, true);
-        });
+    async getCache() {
+        let cache = await AsyncStorage.getItem('groups');
+        if (cache !== null) {
+            cache = JSON.parse(cache);
+            this.setState({ cacheDate: cache.date });
+            return cache.list;
+        }
+        return null;
+    }
+
+    async fetchList() {
+        let list = null;
+
+        const isConnected = (await NetInfo.getConnectionInfo()) !== 'none';
+        if (isConnected) {
+            try {
+                const response = await axios.get('https://hackjack.info/et/json.php?clean=true');
+                this.setState({ cacheDate: null });
+                list = response.data;
+                AsyncStorage.setItem('groups', JSON.stringify({ list, date: moment() }));
+            } catch (error) {
+                if (error.response) {
+                    Toast.show(`Le serveur a répondu par une erreur ${error.response.status}`, {
+                        duration: Toast.durations.LONG,
+                        position: Toast.positions.BOTTOM,
+                        shadow: true,
+                        animation: true,
+                        hideOnPress: true,
+                        delay: 0,
+                    });
+                } else if (error.request) {
+                    Toast.show(`Pas de connexion`, {
+                        duration: Toast.durations.SHORT,
+                        position: Toast.positions.BOTTOM,
+                        shadow: true,
+                        animation: true,
+                        hideOnPress: true,
+                        delay: 0,
+                    });
+                } else {
+                    Toast.show(`Erreur : ${error.message}`, {
+                        duration: Toast.durations.LONG,
+                        position: Toast.positions.BOTTOM,
+                        shadow: true,
+                        animation: true,
+                        hideOnPress: true,
+                    });
+                }
+                list = await this.getCache();
+            }
+        } else {
+            Toast.show(`Pas de connexion`, {
+                duration: Toast.durations.SHORT,
+                position: Toast.positions.BOTTOM,
+                shadow: true,
+                animation: true,
+                hideOnPress: true,
+                delay: 0,
+            });
+            list = await this.getCache();
+        }
+
+        if (list !== null) {
+            this.generateSections(list, true);
+        }
     }
 
     openGroup(name) {
@@ -159,7 +222,8 @@ class Home extends React.Component {
     render() {
         const theme = style.Theme[this.props.themeName];
 
-        let content;
+        let content,
+            cache = null;
         let searchInput = (
             <Hideo
                 iconClass={FontAwesome}
@@ -186,6 +250,13 @@ class Home extends React.Component {
                 </View>
             );
         } else {
+            if (this.state.cacheDate !== null) {
+                cache = (
+                    <View>
+                        <Text style={style.offline.groups.text}>Affichage hors ligne datant du {moment(this.state.cacheDate).format('DD/MM/YYYY HH:MM')}</Text>
+                    </View>
+                );
+            }
             content = (
                 <SectionList
                     renderItem={({ item, j, index }) => {
@@ -224,6 +295,7 @@ class Home extends React.Component {
             <View style={style.list.homeView}>
                 {searchInput}
                 <Split lineColor={theme.border} noMargin={true} />
+                {cache}
                 {content}
             </View>
         );

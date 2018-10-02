@@ -535,6 +535,15 @@ export default {
         itemSize: 64,
         header: 38,
     },
+    offline: {
+        groups: {
+            text: {
+                textAlign: 'center',
+                fontSize: 12,
+                fontStyle: 'italic',
+            },
+        },
+    },
     settings: {
         actionsContainer: {
             borderTopColor: '#919191',

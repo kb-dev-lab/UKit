@@ -6,7 +6,7 @@ export default class URLButton extends React.PureComponent {
         Linking.canOpenURL(this.props.url)
             .then((supported) => {
                 if (!supported) {
-                    console.log("Can't handle url: " + this.props.url);
+                    console.warn("Can't handle url: " + this.props.url);
                 } else {
                     return Linking.openURL(this.props.url);
                 }

@@ -7,6 +7,7 @@ import About from '../components/About';
 import Settings from '../components/Settings';
 import WebBrowser from '../components/WebBrowser';
 import Geolocation from '../components/Geolocation';
+import Course from '../components/Course';
 import DayView from '../components/DayView';
 import WeekView from '../components/WeekView';
 import { setStatusBar } from '../Utils';
@@ -36,6 +37,9 @@ export default createStackNavigator(
         },
         Geolocation: {
             screen: Geolocation,
+        },
+        Course: {
+            screen: Course,
         },
     },
     {

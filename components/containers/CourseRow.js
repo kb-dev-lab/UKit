@@ -3,7 +3,6 @@ import { Text, TouchableHighlight, View } from 'react-native';
 import { Entypo, FontAwesome, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 
 import style from '../../Style';
-import OpenMapButton from './buttons/OpenMapButton';
 
 export default class CourseRow extends React.PureComponent {
     constructor(props) {
@@ -24,12 +23,14 @@ export default class CourseRow extends React.PureComponent {
 
         this.state = { backgroundColor, borderColor, lineColor };
 
-        this._onLongPress = this._onLongPress.bind(this);
+        this._onPress = this._onPress.bind(this);
     }
 
-    _onLongPress(e) {
+    _onPress() {
         requestAnimationFrame(() => {
-            console.log({ data: this.props.data });
+            this.props.navigation.navigate('Course', {
+                data: this.props.data,
+            });
         });
     }
 
@@ -65,17 +66,6 @@ export default class CourseRow extends React.PureComponent {
                 );
 
                 ue = <Text style={{ color: theme.font }}>{this.props.data.UE}</Text>;
-            }
-
-            if (this.props.data.room !== 'N/C') {
-                roomTitle = (
-                    <View style={style.schedule.course.iconHeader}>
-                        <Entypo name="location" size={14} style={{ width: 14, height: 14, color: theme.font }} />
-                    </View>
-                );
-                room = this.props.data.room.split(' | ').map((room, key) => {
-                    return <OpenMapButton key={key} location={room} theme={theme} />;
-                });
             }
 
             if (this.props.data.staff !== 'N/C') {
@@ -141,63 +131,85 @@ export default class CourseRow extends React.PureComponent {
                 });
             }
 
-            return (
-                <View style={{ marginVertical: 4 }}>
-                    <TouchableHighlight onPress={this._onLongPress} underlayColor={theme.selection}>
-                        <View
-                            style={[
-                                style.schedule.course.row,
-                                {
-                                    backgroundColor: this.state.backgroundColor,
-                                    borderColor: this.state.borderColor,
-                                },
-                            ]}>
-                            <View style={[style.schedule.course.hours, { borderColor: this.state.lineColor }]}>
-                                <View>
-                                    <Text style={[style.schedule.course.hoursText, { color: theme.font }]}>{this.props.data.starttime}</Text>
-                                </View>
-                                <View>
-                                    <Text style={[style.schedule.course.hoursText, { color: theme.font }]}>{this.props.data.endtime}</Text>
-                                </View>
-                            </View>
+            if (this.props.data.room !== 'N/C') {
+                roomTitle = (
+                    <View style={style.schedule.course.iconHeader}>
+                        <Entypo name="location" size={14} style={{ width: 14, height: 14, color: theme.font }} />
+                    </View>
+                );
+                room = this.props.data.room.split(' | ').map((room, key) => {
+                    return (
+                        <Text key={key} style={{ color: theme.font }}>
+                            {room}
+                        </Text>
+                    );
+                });
+            }
 
-                            <View style={style.schedule.course.contentBlock}>
-                                <View style={style.schedule.course.contentType}>
-                                    {subject}
-                                    <View>
-                                        <Text style={[style.schedule.course.title, { color: theme.font }]}>{this.props.data.category}</Text>
-                                    </View>
-                                </View>
+            const content = (
+                <View
+                    style={[
+                        style.schedule.course.row,
+                        {
+                            backgroundColor: this.state.backgroundColor,
+                            borderColor: this.state.borderColor,
+                        },
+                    ]}>
+                    <View style={[style.schedule.course.hours, { borderColor: this.state.lineColor }]}>
+                        <View>
+                            <Text style={[style.schedule.course.hoursText, { color: theme.font }]}>{this.props.data.starttime}</Text>
+                        </View>
+                        <View>
+                            <Text style={[style.schedule.course.hoursText, { color: theme.font }]}>{this.props.data.endtime}</Text>
+                        </View>
+                    </View>
 
-                                <View style={style.schedule.course.line}>
-                                    {ueTitle}
-                                    <View style={style.schedule.course.container}>{ue}</View>
-                                </View>
-
-                                <View style={style.schedule.course.line}>
-                                    {staffTitle}
-                                    <View style={style.schedule.course.container}>{staff}</View>
-                                </View>
-
-                                <View style={[style.schedule.course.groupsContainer, { alignItems: 'flex-start' }]}>
-                                    {roomTitle}
-                                    <View style={style.schedule.course.groupsContent}>{room}</View>
-                                </View>
-
-                                <View style={style.schedule.course.groupsContainer}>
-                                    {groupTitle}
-                                    <View style={style.schedule.course.groupsContent}>{group}</View>
-                                </View>
-
-                                <View style={style.schedule.course.groupsContainer}>
-                                    {annotationsTitle}
-                                    <View style={style.schedule.course.groupsContent}>{annotations}</View>
-                                </View>
+                    <View style={style.schedule.course.contentBlock}>
+                        <View style={style.schedule.course.contentType}>
+                            {subject}
+                            <View>
+                                <Text style={[style.schedule.course.title, { color: theme.font }]}>{this.props.data.category}</Text>
                             </View>
                         </View>
-                    </TouchableHighlight>
+
+                        <View style={style.schedule.course.line}>
+                            {ueTitle}
+                            <View style={style.schedule.course.container}>{ue}</View>
+                        </View>
+
+                        <View style={style.schedule.course.line}>
+                            {staffTitle}
+                            <View style={style.schedule.course.container}>{staff}</View>
+                        </View>
+
+                        <View style={[style.schedule.course.groupsContainer, { alignItems: 'flex-start' }]}>
+                            {roomTitle}
+                            <View style={style.schedule.course.groupsContent}>{room}</View>
+                        </View>
+
+                        <View style={style.schedule.course.groupsContainer}>
+                            {groupTitle}
+                            <View style={style.schedule.course.groupsContent}>{group}</View>
+                        </View>
+
+                        <View style={style.schedule.course.groupsContainer}>
+                            {annotationsTitle}
+                            <View style={style.schedule.course.groupsContent}>{annotations}</View>
+                        </View>
+                    </View>
                 </View>
             );
+
+            let body = content;
+            if (this.props.navigation) {
+                body = (
+                    <TouchableHighlight onPress={this._onPress} underlayColor={theme.selection}>
+                        {content}
+                    </TouchableHighlight>
+                );
+            }
+
+            return <View style={{ marginVertical: 4 }}>{body}</View>;
         }
     }
 }

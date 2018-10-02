@@ -1,5 +1,7 @@
 import { StatusBar } from 'react-native';
 
+const locations = require('./assets/locations.json');
+
 function upperCaseFirstLetter(string) {
     let firstLetter = string[0].toUpperCase();
     return firstLetter + string.substr(1);
@@ -41,4 +43,42 @@ function isArraysEquals(a, b) {
     }
 }
 
-export { upperCaseFirstLetter, setStatusBar, isArraysEquals };
+function getLocation(house) {
+    if (locations[house]) {
+        return { title: house, ...locations[house] };
+    }
+    return null;
+}
+
+function getLocations(str) {
+    let lines = str.split(' | ');
+
+    let locations = [];
+
+    lines.forEach((line) => {
+        let house = line.split('/')[0];
+        let cleanHouseName = house.replace(' ', '');
+        let location = getLocation(cleanHouseName);
+        if (location) {
+            locations.push(location);
+        }
+    });
+
+    return locations;
+}
+
+function getLocationsInText(str) {
+    let regexBuilding = RegExp('(Bat|Bât[a-z.]*) ([A-Z0-9]+)', 'im');
+    let match = regexBuilding.exec(str);
+
+    let location = null;
+    if (match && match.length === 3) {
+        location = getLocation(match[2]);
+    }
+    if (location === null) {
+        return [];
+    }
+    return [location];
+}
+
+export { upperCaseFirstLetter, setStatusBar, isArraysEquals, getLocations, getLocationsInText };

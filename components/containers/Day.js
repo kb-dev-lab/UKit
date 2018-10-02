@@ -125,7 +125,7 @@ class Day extends React.Component {
                 <FlatList
                     data={this.state.schedule}
                     extraData={this.state}
-                    renderItem={(item) => <CourseRow data={item.item} theme={theme} />}
+                    renderItem={(item) => <CourseRow data={item.item} theme={theme} navigation={this.props.navigation} />}
                     keyExtractor={(item, index) => item.schedule + String(index)}
                     style={{ backgroundColor: theme.greyBackground }}
                 />
