@@ -64,7 +64,6 @@ class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isReady: false,
             completeList: null,
             sections: null,
             list: null,

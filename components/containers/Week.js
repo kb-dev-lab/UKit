@@ -1,23 +1,19 @@
 import React from 'react';
-import { ActivityIndicator, Platform, ScrollView, Text, View } from 'react-native';
+import { ActivityIndicator, AsyncStorage, NetInfo, ScrollView, Text, View } from 'react-native';
 import axios from 'axios';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import moment from 'moment';
 import 'moment/locale/fr';
 
 import style from '../../Style';
 import DayWeek from './ui/DayWeek';
 import connect from 'react-redux/es/connect/connect';
 import { isArraysEquals } from '../../Utils';
+import ErrorAlert from './alerts/ErrorAlert';
+import RequestError from './alerts/RequestError';
+
+moment.locale('fr');
 
 class Week extends React.Component {
-    static navigationOptions = {
-        tabBarLabel: 'Semaine',
-        tabBarIcon: ({ tintColor }) => {
-            let size = Platform.OS === 'android' ? 16 : 24;
-            return <MaterialCommunityIcons name="calendar-multiple" size={size} style={{ color: tintColor }} />;
-        },
-    };
-
     constructor(props) {
         super(props);
 
@@ -25,7 +21,7 @@ class Week extends React.Component {
             cancelToken: null,
             groupName: this.props.groupName,
             week: this.props.week,
-            error: null,
+            cacheDate: null,
             schedule: null,
             monday: true,
             tuesday: true,
@@ -74,23 +70,46 @@ class Week extends React.Component {
         }
 
         const cancelToken = axios.CancelToken.source();
+        const groupName = this.state.groupName;
+        const data = groupName.split('_');
+        const id = `${this.state.groupName}@Week${this.state.week}`;
+        let weekData = null;
+        let cacheDate = null;
 
-        this.setState({ schedule: null, loading: true, cancelToken }, () => {
-            const groupName = this.state.groupName;
-            const data = groupName.split('_');
+        this.setState({ schedule: null, loading: true, cancelToken }, async () => {
+            const isConnected = (await NetInfo.getConnectionInfo()) !== 'none';
 
-            axios
-                .get(`https://hackjack.info/et/json.php?type=week&name=${data[0]}&group=${data[1]}&week=${this.state.week}&clean=true`, {
-                    cancelToken: cancelToken.token,
-                })
-                .then((response) => {
-                    this.setState({ schedule: response.data, error: null, loading: false, cancelToken: null });
-                })
-                .catch((e) => {
-                    if (!axios.isCancel(e)) {
-                        this.setState({ error: e, loading: false, cancelToken: null });
+            if (isConnected) {
+                try {
+                    const response = await axios.get(
+                        `https://hackjack.info/et/json.php?type=week&name=${data[0]}&group=${data[1]}&week=${this.state.week}&clean=true`,
+                        {
+                            cancelToken: cancelToken.token,
+                        }
+                    );
+                    weekData = response.data;
+                    AsyncStorage.setItem(id, JSON.stringify({ weekData, date: moment() }));
+                } catch (error) {
+                    if (!axios.isCancel(error)) {
+                        RequestError.handle(error);
+
+                        let cache = await this.getCache(id);
+                        weekData = cache.weekData;
+                        cacheDate = cache.date;
                     }
-                });
+                }
+            } else {
+                const offlineAlert = new ErrorAlert('Pas de connexion internet', ErrorAlert.durations.SHORT);
+                offlineAlert.show();
+
+                let cache = await this.getCache(id);
+                weekData = cache.weekData;
+                cacheDate = cache.date;
+            }
+
+            if (weekData != null) {
+                this.setState({ schedule: weekData, loading: false, cancelToken: null, cacheDate });
+            }
         });
     }
 
@@ -121,16 +140,24 @@ class Week extends React.Component {
 
     render() {
         const { theme } = this.props;
-        let content;
+        let content,
+            cacheMessage = null;
 
         if (this.state.schedule === null) {
-            if (this.state.error === null) {
-                content = <ActivityIndicator style={style.containerView} size="large" animating={true} />;
-            } else {
-                content = <Text style={[style.schedule.noCourse, { color: theme.font }]}>Erreur {JSON.stringify(this.state.error)}</Text>;
-            }
+            content = <ActivityIndicator style={style.containerView} size="large" animating={true} />;
         } else if (this.state.schedule instanceof Array) {
             let isFavorite = this.state.groupName === this.props.savedGroup;
+
+            if (this.state.cacheDate !== null) {
+                cacheMessage = (
+                    <View>
+                        <Text style={style.offline.groups.text}>
+                            Affichage hors ligne datant du {moment(this.state.cacheDate).format('DD/MM/YYYY HH:MM')}
+                        </Text>
+                    </View>
+                );
+            }
+
             content = (
                 <ScrollView>
                     {this.state.schedule.map((schedule, index) => {
@@ -154,6 +181,7 @@ class Week extends React.Component {
                         <Text style={[style.schedule.titleText, { color: theme.font }]}>{this.displayWeek()}</Text>
                     </View>
                 </View>
+                {cacheMessage}
                 <View style={style.schedule.contentView}>{content}</View>
             </View>
         );

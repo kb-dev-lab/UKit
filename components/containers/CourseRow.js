@@ -146,57 +146,72 @@ export default class CourseRow extends React.PureComponent {
                 });
             }
 
+            let isLargeMode = true;
+            let actions = (
+                <View>
+                    <Text>Lorem Ipsum</Text>
+                </View>
+            );
+            if (this.props.navigation) {
+                actions = null;
+                isLargeMode = false;
+            }
+
             const content = (
                 <View
                     style={[
-                        style.schedule.course.row,
+                        style.schedule.course.root,
                         {
                             backgroundColor: this.state.backgroundColor,
                             borderColor: this.state.borderColor,
+                            marginHorizontal: isLargeMode ? 0 : 12,
                         },
                     ]}>
-                    <View style={[style.schedule.course.hours, { borderColor: this.state.lineColor }]}>
-                        <View>
-                            <Text style={[style.schedule.course.hoursText, { color: theme.font }]}>{this.props.data.starttime}</Text>
-                        </View>
-                        <View>
-                            <Text style={[style.schedule.course.hoursText, { color: theme.font }]}>{this.props.data.endtime}</Text>
-                        </View>
-                    </View>
-
-                    <View style={style.schedule.course.contentBlock}>
-                        <View style={style.schedule.course.contentType}>
-                            {subject}
+                    <View style={style.schedule.course.row}>
+                        <View style={[style.schedule.course.hours, { borderColor: this.state.lineColor }]}>
                             <View>
-                                <Text style={[style.schedule.course.title, { color: theme.font }]}>{this.props.data.category}</Text>
+                                <Text style={[style.schedule.course.hoursText, { color: theme.font }]}>{this.props.data.starttime}</Text>
+                            </View>
+                            <View>
+                                <Text style={[style.schedule.course.hoursText, { color: theme.font }]}>{this.props.data.endtime}</Text>
                             </View>
                         </View>
 
-                        <View style={style.schedule.course.line}>
-                            {ueTitle}
-                            <View style={style.schedule.course.container}>{ue}</View>
-                        </View>
+                        <View style={style.schedule.course.contentBlock}>
+                            <View style={style.schedule.course.contentType}>
+                                {subject}
+                                <View>
+                                    <Text style={[style.schedule.course.title, { color: theme.font }]}>{this.props.data.category}</Text>
+                                </View>
+                            </View>
 
-                        <View style={style.schedule.course.line}>
-                            {staffTitle}
-                            <View style={style.schedule.course.container}>{staff}</View>
-                        </View>
+                            <View style={style.schedule.course.line}>
+                                {ueTitle}
+                                <View style={style.schedule.course.container}>{ue}</View>
+                            </View>
 
-                        <View style={[style.schedule.course.groupsContainer, { alignItems: 'flex-start' }]}>
-                            {roomTitle}
-                            <View style={style.schedule.course.groupsContent}>{room}</View>
-                        </View>
+                            <View style={style.schedule.course.line}>
+                                {staffTitle}
+                                <View style={style.schedule.course.container}>{staff}</View>
+                            </View>
 
-                        <View style={style.schedule.course.groupsContainer}>
-                            {groupTitle}
-                            <View style={style.schedule.course.groupsContent}>{group}</View>
-                        </View>
+                            <View style={[style.schedule.course.groupsContainer, { alignItems: 'flex-start' }]}>
+                                {roomTitle}
+                                <View style={style.schedule.course.groupsContent}>{room}</View>
+                            </View>
 
-                        <View style={style.schedule.course.groupsContainer}>
-                            {annotationsTitle}
-                            <View style={style.schedule.course.groupsContent}>{annotations}</View>
+                            <View style={style.schedule.course.groupsContainer}>
+                                {groupTitle}
+                                <View style={style.schedule.course.groupsContent}>{group}</View>
+                            </View>
+
+                            <View style={style.schedule.course.groupsContainer}>
+                                {annotationsTitle}
+                                <View style={style.schedule.course.groupsContent}>{annotations}</View>
+                            </View>
                         </View>
                     </View>
+                    {actions}
                 </View>
             );
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, FlatList, Text, View } from 'react-native';
+import { ActivityIndicator, AsyncStorage, FlatList, NetInfo, Text, View } from 'react-native';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -8,6 +8,8 @@ import 'moment/locale/fr';
 import style from '../../Style';
 import CourseRow from './CourseRow';
 import { isArraysEquals, upperCaseFirstLetter } from '../../Utils';
+import RequestError from './alerts/RequestError';
+import ErrorAlert from './alerts/ErrorAlert';
 
 moment.locale('fr');
 
@@ -18,8 +20,8 @@ class Day extends React.Component {
             cancelToken: null,
             groupName: this.props.groupName,
             day: moment(this.props.day),
-            error: null,
             schedule: null,
+            cacheDate: null,
         };
     }
 
@@ -55,31 +57,63 @@ class Day extends React.Component {
         return nextState;
     }
 
+    async getCache(id) {
+        let cache = await AsyncStorage.getItem(id);
+        if (cache !== null) {
+            cache = JSON.parse(cache);
+            return cache;
+        }
+        return null;
+    }
+
     fetchSchedule() {
         if (this.state.loading) {
             this.state.cancelToken.cancel('Another request called');
         }
 
         const cancelToken = axios.CancelToken.source();
+        const groupName = this.state.groupName;
+        const data = groupName.split('_');
+        const date = this.state.day.format('YYYY/MM/DD');
+        const id = `${this.state.groupName}@${date}`;
+        let dayData = null;
+        let cacheDate = null;
 
-        this.setState({ schedule: null, loading: true, cancelToken }, () => {
-            const groupName = this.state.groupName;
-            const data = groupName.split('_');
-            const date = this.state.day.format('YYYY/MM/DD');
+        this.setState({ schedule: null, loading: true, cancelToken }, async () => {
+            const isConnected = (await NetInfo.getConnectionInfo()) !== 'none';
+            if (isConnected) {
+                try {
+                    const response = await axios.get(
+                        `https://hackjack.info/et/json.php?type=day&name=${data[0]}&group=${data[1]}&date=${date}`,
+                        {
+                            cancelToken: cancelToken.token,
+                        }
+                    );
 
-            axios
-                .get(`https://hackjack.info/et/json.php?type=day&name=${data[0]}&group=${data[1]}&date=${date}`, {
-                    cancelToken: cancelToken.token,
-                })
-                .then((response) => {
-                    let schedule = this.computeSchedule(response.data, this.state.groupName === this.props.savedGroup);
-                    this.setState({ schedule, error: null, loading: false, cancelToken: null });
-                })
-                .catch((e) => {
-                    if (!axios.isCancel(e)) {
-                        this.setState({ error: e, loading: false, cancelToken: null });
+                    dayData = response.data;
+                    AsyncStorage.setItem(id, JSON.stringify({ dayData, date: moment() }));
+                } catch (error) {
+                    if (!axios.isCancel(error)) {
+                        RequestError.handle(error);
+
+                        let cache = await this.getCache(id);
+                        dayData = cache.dayData;
+                        cacheDate = cache.date;
                     }
-                });
+                }
+            } else {
+                const offlineAlert = new ErrorAlert('Pas de connexion internet', ErrorAlert.durations.SHORT);
+                offlineAlert.show();
+
+                let cache = await this.getCache(id);
+                dayData = cache.dayData;
+                cacheDate = cache.date;
+            }
+
+            if (dayData != null) {
+                let schedule = this.computeSchedule(dayData, this.state.groupName === this.props.savedGroup);
+                this.setState({ schedule, loading: false, cancelToken: null, cacheDate });
+            }
         });
     }
 
@@ -110,16 +144,22 @@ class Day extends React.Component {
     render() {
         const { theme } = this.props;
 
-        let content;
+        let content,
+            cacheMessage = null;
         if (this.state.schedule === null) {
-            if (this.state.error === null) {
-                content = <ActivityIndicator style={style.containerView} size="large" animating={true} />;
-            } else {
-                content = <Text style={[style.schedule.noCourse, { color: theme.font }]}>Erreur {JSON.stringify(this.state.error)}</Text>;
-            }
+            content = <ActivityIndicator style={style.containerView} size="large" animating={true} />;
         } else if (this.state.schedule instanceof Array) {
             if (this.state.day.day() === 0 || this.state.schedule.length === 0) {
                 this.state.schedule = [{ schedule: 0, category: 'nocourse' }];
+            }
+            if (this.state.cacheDate !== null) {
+                cacheMessage = (
+                    <View>
+                        <Text style={style.offline.groups.text}>
+                            Affichage hors ligne datant du {moment(this.state.cacheDate).format('DD/MM/YYYY HH:MM')}
+                        </Text>
+                    </View>
+                );
             }
             content = (
                 <FlatList
@@ -137,6 +177,7 @@ class Day extends React.Component {
                 <View style={style.schedule.titleView}>
                     <Text style={[style.schedule.titleText, { color: theme.font }]}>{this.displayDate()}</Text>
                 </View>
+                {cacheMessage}
                 <View style={style.schedule.contentView}>{content}</View>
             </View>
         );

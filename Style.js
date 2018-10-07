@@ -282,35 +282,6 @@ export default {
             marginBottom: 15,
         },
     },
-    demo: {
-        titleView: {
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-        },
-        title: {
-            fontWeight: 'bold',
-            fontSize: 32,
-            color: Theme.primary,
-        },
-        labelStyle: {
-            color: 'black',
-        },
-        rootStyle: {
-            marginVertical: 10,
-            height: 64,
-        },
-        inputStyle: {
-            color: 'black',
-        },
-        view: {
-            padding: 10,
-            backgroundColor: colors.backgroundGrey,
-            flex: 1,
-        },
-        content: {
-            marginTop: 20,
-        },
-    },
     stackNavigator: {
         headerStyle: {
             backgroundColor: Theme.primary,
@@ -405,15 +376,17 @@ export default {
     },
     schedule: {
         course: {
+            root: {
+                flexDirection: 'column',
+                borderColor: colors.darkblue,
+                padding: 8,
+                borderWidth: 0,
+                marginHorizontal: 12,
+                backgroundColor: '#EEEEEE',
+            },
             row: {
                 justifyContent: 'space-between',
                 flexDirection: 'row',
-                backgroundColor: '#EEEEEE',
-                borderWidth: 0,
-                padding: 8,
-                borderColor: colors.darkblue,
-                marginHorizontal: 12,
-                overflow: 'scroll',
             },
             hours: {
                 borderRightWidth: 5,
@@ -466,7 +439,6 @@ export default {
                 flexDirection: 'column',
             },
             content: {
-                flex: 1,
                 flexWrap: 'wrap',
             },
             groupsContainer: {

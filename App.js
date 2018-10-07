@@ -15,7 +15,6 @@ import Split from './components/containers/ui/Split';
 import StatusBar from './components/containers/ui/StatusBar';
 import style from './Style';
 import WebBrowser from './components/WebBrowser';
-import Geolocation from './components/Geolocation';
 import configureStore from './stores';
 import { setStatusBar } from './Utils';
 
@@ -138,18 +137,6 @@ const Drawer = createDrawerNavigator(
     {
         Home: {
             screen: StackNavigator,
-        },
-        About: {
-            screen: About,
-            navigationOptions: style.stackNavigator,
-        },
-        WebBrowser: {
-            screen: WebBrowser,
-            navigationOptions: style.stackNavigator,
-        },
-        Geolocation: {
-            screen: Geolocation,
-            navigationOptions: style.stackNavigator,
         },
     },
     {
