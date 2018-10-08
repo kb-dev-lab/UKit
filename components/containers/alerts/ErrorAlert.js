@@ -30,7 +30,7 @@ export default class ErrorAlert {
     }
 
     show() {
-        Toast(this._message, {
+        Toast.show(this._message, {
             duration: this._duration,
             position: this._position,
             shadow: this._shadow,

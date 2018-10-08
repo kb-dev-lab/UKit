@@ -1,15 +1,14 @@
 import React from 'react';
-import { Image, Linking, Text, TouchableOpacity, View } from 'react-native';
-import { MapView } from 'expo';
-import NavigationBar from 'react-native-navbar';
+import { Linking, Text, TouchableOpacity, View } from 'react-native';
+import { MapView, Svg } from 'expo';
 import { connect } from 'react-redux';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import style from '../Style';
 import BackButton from './containers/buttons/BackButton';
-import NavigationBackground from './containers/ui/NavigationBackground';
 import CourseRow from './containers/CourseRow';
 import { getLocations, getLocationsInText } from '../Utils';
+import NavBar from './containers/ui/NavBar';
 
 const mapStyle = [
     {
@@ -56,11 +55,7 @@ class Course extends React.Component {
         let leftButton = <BackButton backAction={navigation.goBack} />;
         return {
             title,
-            header: (
-                <NavigationBackground>
-                    <NavigationBar title={{ title, tintColor: 'white' }} tintColor={'transparent'} leftButton={leftButton} />
-                </NavigationBackground>
-            ),
+            header: <NavBar title={title} leftButton={leftButton} />,
         };
     };
 
@@ -154,7 +149,11 @@ class Course extends React.Component {
                                             }}>
                                             <Text style={{ color: 'white', fontWeight: 'bold' }}>{location.title}</Text>
                                         </View>
-                                        <Image style={{ width: 10, height: 10 }} source={require('./../assets/icons/down.png')} />
+                                        <View style={{ backgroundColor: 'transparent' }}>
+                                            <Svg height={12} width={12}>
+                                                <Svg.Polygon points="0,0 6,12 12,0" fill="#E57373" />
+                                            </Svg>
+                                        </View>
                                     </View>
                                 </MapView.Marker>
                             );

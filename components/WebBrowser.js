@@ -1,6 +1,5 @@
 import React from 'react';
 import { ActivityIndicator, Linking, Platform, TouchableOpacity, View, WebView } from 'react-native';
-import NavigationBar from 'react-native-navbar';
 import { withNavigation } from 'react-navigation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -8,7 +7,7 @@ import { connect } from 'react-redux';
 
 import style from '../Style';
 import BackButton from './containers/buttons/BackButton';
-import NavigationBackground from './containers/ui/NavigationBackground';
+import NavBar from './containers/ui/NavBar';
 
 function treatTitle(str) {
     if (str.length > 18) {
@@ -36,11 +35,7 @@ class WebBrowser extends React.Component {
 
         return {
             title,
-            header: (
-                <NavigationBackground>
-                    <NavigationBar title={{ title, tintColor: 'white' }} tintColor={'transparent'} leftButton={leftButton} />
-                </NavigationBackground>
-            ),
+            header: <NavBar title={title} leftButton={leftButton} />,
         };
     };
 

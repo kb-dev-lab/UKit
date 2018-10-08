@@ -1,12 +1,11 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import NavigationBar from 'react-native-navbar';
 import { connect } from 'react-redux';
 
 import style from '../Style';
 import URLButton from './containers/buttons/URLButton';
 import BackButton from './containers/buttons/BackButton';
-import NavigationBackground from './containers/ui/NavigationBackground';
+import NavBar from './containers/ui/NavBar';
 
 class About extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -14,11 +13,7 @@ class About extends React.Component {
         let leftButton = <BackButton backAction={navigation.goBack} />;
         return {
             title,
-            header: (
-                <NavigationBackground>
-                    <NavigationBar title={{ title, tintColor: 'white' }} tintColor={'transparent'} leftButton={leftButton} />
-                </NavigationBackground>
-            ),
+            header: <NavBar title={title} leftButton={leftButton} />,
         };
     };
 

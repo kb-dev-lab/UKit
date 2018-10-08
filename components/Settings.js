@@ -1,5 +1,4 @@
 import React from 'react';
-import NavigationBar from 'react-native-navbar';
 import { Dimensions, Keyboard, Platform, Text, TextInput, View } from 'react-native';
 import PopupDialog, { DialogButton, DialogTitle, FadeAnimation } from 'react-native-popup-dialog';
 import { connect } from 'react-redux';
@@ -13,7 +12,7 @@ import SettingsEditText from './containers/ui/settings/SettingsEditText';
 import SettingsDividerShort from './containers/ui/settings/SettingsDividerShort';
 import SettingsSwitch from './containers/ui/settings/SettingsSwitch';
 import { setFilters } from '../actions/setFilters';
-import NavigationBackground from './containers/ui/NavigationBackground';
+import NavBar from './containers/ui/NavBar';
 
 const colors = {
     white: '#FFFFFF',
@@ -32,11 +31,7 @@ class Settings extends React.Component {
         let leftButton = <BackButton backAction={navigation.goBack} />;
         return {
             title,
-            header: (
-                <NavigationBackground>
-                    <NavigationBar title={{ title, tintColor: 'white' }} tintColor={'transparent'} leftButton={leftButton} />
-                </NavigationBackground>
-            ),
+            header: <NavBar title={title} leftButton={leftButton} />,
         };
     };
 

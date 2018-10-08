@@ -46,16 +46,16 @@ export default class CourseRow extends React.PureComponent {
         } else if (this.props.data.category === 'masked') {
             return null;
         } else {
-            let annotations,
-                staff,
-                subject,
-                room,
-                ue,
-                group = null;
-            let annotationsTitle,
-                staffTitle,
-                roomTitle,
-                ueTitle,
+            let annotations = null,
+                staff = null,
+                subject = null,
+                room = null,
+                ue = null,
+                group = null,
+                annotationsTitle = null,
+                staffTitle = null,
+                roomTitle = null,
+                ueTitle = null,
                 groupTitle = null;
 
             if (this.props.data.UE) {
@@ -147,11 +147,7 @@ export default class CourseRow extends React.PureComponent {
             }
 
             let isLargeMode = true;
-            let actions = (
-                <View>
-                    <Text>Lorem Ipsum</Text>
-                </View>
-            );
+            let actions = null;
             if (this.props.navigation) {
                 actions = null;
                 isLargeMode = false;

@@ -2,62 +2,52 @@ import React from 'react';
 import { ActivityIndicator, AsyncStorage, NetInfo, SectionList, Text, TouchableOpacity, View } from 'react-native';
 import axios from 'axios';
 import { Hideo } from 'react-native-textinput-effects';
-import NavigationBar from 'react-native-navbar';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import Toast from 'react-native-root-toast';
 import 'moment/locale/fr';
-
-import NavigationBackground from './containers/ui/NavigationBackground';
 import SectionListHeader from './containers/ui/SectionListHeader';
 import Split from './containers/ui/Split';
 import GroupRow from './containers/GroupRow';
 import style from '../Style';
+import NavBar from './containers/ui/NavBar';
 
 moment.locale('fr');
 
 class Home extends React.Component {
     static navigationOptions = ({ navigation }) => {
         let title = 'Groupes';
-        return {
-            drawerLabel: title,
-            drawerIcon: ({ tintColor }) => <MaterialIcons name="list" size={24} style={{ color: tintColor }} />,
-            title,
-            header: (
-                <NavigationBackground>
-                    <NavigationBar
-                        title={{ title, tintColor: 'white' }}
-                        tintColor={'transparent'}
-                        leftButton={
-                            <TouchableOpacity
-                                onPress={() => {
-                                    navigation.openDrawer();
-                                }}
-                                style={{
-                                    justifyContent: 'space-around',
-                                    paddingLeft: 16,
-                                }}>
-                                <View
-                                    style={{
-                                        flexDirection: 'row',
-                                        justifyContent: 'space-between',
-                                    }}>
-                                    <MaterialCommunityIcons
-                                        name="menu"
-                                        size={32}
-                                        style={{
-                                            color: 'white',
-                                            height: 32,
-                                            width: 32,
-                                        }}
-                                    />
-                                </View>
-                            </TouchableOpacity>
-                        }
+        let leftButton = (
+            <TouchableOpacity
+                onPress={() => {
+                    navigation.openDrawer();
+                }}
+                style={{
+                    justifyContent: 'space-around',
+                    paddingLeft: 16,
+                }}>
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                    }}>
+                    <MaterialCommunityIcons
+                        name="menu"
+                        size={32}
+                        style={{
+                            color: 'white',
+                            height: 32,
+                            width: 32,
+                        }}
                     />
-                </NavigationBackground>
-            ),
+                </View>
+            </TouchableOpacity>
+        );
+
+        return {
+            title,
+            header: <NavBar title={title} leftButton={leftButton} />,
         };
     };
 
@@ -221,7 +211,7 @@ class Home extends React.Component {
     render() {
         const theme = style.Theme[this.props.themeName];
 
-        let content,
+        let content = null,
             cache = null;
         let searchInput = (
             <Hideo
@@ -252,7 +242,9 @@ class Home extends React.Component {
             if (this.state.cacheDate !== null) {
                 cache = (
                     <View>
-                        <Text style={style.offline.groups.text}>Affichage hors ligne datant du {moment(this.state.cacheDate).format('DD/MM/YYYY HH:MM')}</Text>
+                        <Text style={style.offline.groups.text}>
+                            Affichage hors ligne datant du {moment(this.state.cacheDate).format('DD/MM/YYYY HH:MM')}
+                        </Text>
                     </View>
                 );
             }

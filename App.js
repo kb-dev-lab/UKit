@@ -196,7 +196,7 @@ export default class App extends React.Component {
     }
 
     _loadAssetsAsync() {
-        const imageAssets = cacheImages([require('./assets/icons/app.png'), require('./assets/icons/down.png')]);
+        const imageAssets = cacheImages([require('./assets/icons/app.png')]);
 
         const fontAssets = cacheFonts([
             FontAwesome.font,

@@ -9,9 +9,8 @@ import CalendarWeek from './CalendarWeek';
 import WeekComponent from './containers/Week';
 import style from '../Style';
 import SaveButton from './containers/buttons/SaveGroupButton';
-import NavigationBar from 'react-native-navbar';
 import BackButton from './containers/buttons/BackButton';
-import NavigationBackground from './containers/ui/NavigationBackground';
+import NavBar from './containers/ui/NavBar';
 
 moment.locale('fr');
 
@@ -38,16 +37,7 @@ class WeekView extends React.Component {
 
         return {
             title,
-            header: (
-                <NavigationBackground>
-                    <NavigationBar
-                        title={{ title, tintColor: 'white' }}
-                        tintColor={'transparent'}
-                        leftButton={leftButton}
-                        rightButton={rightButton}
-                    />
-                </NavigationBackground>
-            ),
+            header: <NavBar title={title} leftButton={leftButton} rightButton={rightButton} />,
         };
     };
 

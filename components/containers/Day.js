@@ -97,8 +97,10 @@ class Day extends React.Component {
                         RequestError.handle(error);
 
                         let cache = await this.getCache(id);
-                        dayData = cache.dayData;
-                        cacheDate = cache.date;
+                        if (cache) {
+                            dayData = cache.dayData;
+                            cacheDate = cache.date;
+                        }
                     }
                 }
             } else {
@@ -106,8 +108,10 @@ class Day extends React.Component {
                 offlineAlert.show();
 
                 let cache = await this.getCache(id);
-                dayData = cache.dayData;
-                cacheDate = cache.date;
+                if (cache) {
+                    dayData = cache.dayData;
+                    cacheDate = cache.date;
+                }
             }
 
             if (dayData != null) {
@@ -144,7 +148,7 @@ class Day extends React.Component {
     render() {
         const { theme } = this.props;
 
-        let content,
+        let content = null,
             cacheMessage = null;
         if (this.state.schedule === null) {
             content = <ActivityIndicator style={style.containerView} size="large" animating={true} />;
