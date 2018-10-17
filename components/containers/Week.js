@@ -1,12 +1,12 @@
 import React from 'react';
 import { ActivityIndicator, AsyncStorage, NetInfo, ScrollView, Text, View } from 'react-native';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import moment from 'moment';
 import 'moment/locale/fr';
 
 import style from '../../Style';
 import DayWeek from './ui/DayWeek';
-import connect from 'react-redux/es/connect/connect';
 import { isArraysEquals } from '../../Utils';
 import ErrorAlert from './alerts/ErrorAlert';
 import RequestError from './alerts/RequestError';
@@ -152,7 +152,7 @@ class Week extends React.Component {
                 cacheMessage = (
                     <View>
                         <Text style={style.offline.groups.text}>
-                            Affichage hors ligne datant du {moment(this.state.cacheDate).format('DD/MM/YYYY HH:MM')}
+                            Affichage hors ligne datant du {moment(this.state.cacheDate).format('DD/MM/YYYY HH:mm')}
                         </Text>
                     </View>
                 );

@@ -243,7 +243,7 @@ class Home extends React.Component {
                 cache = (
                     <View>
                         <Text style={style.offline.groups.text}>
-                            Affichage hors ligne datant du {moment(this.state.cacheDate).format('DD/MM/YYYY HH:MM')}
+                            Affichage hors ligne datant du {moment(this.state.cacheDate).format('DD/MM/YYYY HH:mm')}
                         </Text>
                     </View>
                 );
