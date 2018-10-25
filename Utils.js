@@ -1,25 +1,8 @@
-import { StatusBar } from 'react-native';
-
 const locations = require('./assets/locations.json');
 
 function upperCaseFirstLetter(string) {
     let firstLetter = string[0].toUpperCase();
     return firstLetter + string.substr(1);
-}
-
-function setStatusBar(navigation) {
-    navigation.addListener('willFocus', () => {
-        StatusBar.setBarStyle('light-content');
-    });
-    navigation.addListener('didFocus', () => {
-        StatusBar.setBarStyle('light-content');
-    });
-    navigation.addListener('willBlur', () => {
-        StatusBar.setBarStyle('light-content');
-    });
-    navigation.addListener('didBlur', () => {
-        StatusBar.setBarStyle('light-content');
-    });
 }
 
 /**
@@ -81,4 +64,4 @@ function getLocationsInText(str) {
     return [location];
 }
 
-export { upperCaseFirstLetter, setStatusBar, isArraysEquals, getLocations, getLocationsInText };
+export { upperCaseFirstLetter, isArraysEquals, getLocations, getLocationsInText };

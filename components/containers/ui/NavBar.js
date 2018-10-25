@@ -35,6 +35,7 @@ export default class NavBar extends React.PureComponent {
                     tintColor={'transparent'}
                     leftButton={leftButton}
                     rightButton={rightButton}
+                    statusBar={{ style: 'light-content' }}
                 />
             </NavigationBackground>
         );

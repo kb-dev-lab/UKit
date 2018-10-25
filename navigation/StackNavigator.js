@@ -10,39 +10,33 @@ import Geolocation from '../components/Geolocation';
 import Course from '../components/Course';
 import DayView from '../components/DayView';
 import WeekView from '../components/WeekView';
-import { setStatusBar } from '../Utils';
 
-export default createStackNavigator(
-    {
-        Home: {
-            screen: Home,
-        },
-        Group: {
-            screen: Group,
-        },
-        Week: {
-            screen: WeekView,
-        },
-        Day: {
-            screen: DayView,
-        },
-        About: {
-            screen: About,
-        },
-        Settings: {
-            screen: Settings,
-        },
-        WebBrowser: {
-            screen: WebBrowser,
-        },
-        Geolocation: {
-            screen: Geolocation,
-        },
-        Course: {
-            screen: Course,
-        },
+export default createStackNavigator({
+    Home: {
+        screen: Home,
     },
-    {
-        navigationOptions: ({ navigation }) => setStatusBar(navigation),
-    }
-);
+    Group: {
+        screen: Group,
+    },
+    Week: {
+        screen: WeekView,
+    },
+    Day: {
+        screen: DayView,
+    },
+    About: {
+        screen: About,
+    },
+    Settings: {
+        screen: Settings,
+    },
+    WebBrowser: {
+        screen: WebBrowser,
+    },
+    Geolocation: {
+        screen: Geolocation,
+    },
+    Course: {
+        screen: Course,
+    },
+});

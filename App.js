@@ -16,7 +16,6 @@ import StatusBar from './components/containers/ui/StatusBar';
 import style from './Style';
 import WebBrowser from './components/WebBrowser';
 import configureStore from './stores';
-import { setStatusBar } from './Utils';
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -140,7 +139,6 @@ const Drawer = createDrawerNavigator(
         },
     },
     {
-        navigationOptions: ({ navigation }) => setStatusBar(navigation),
         contentComponent: CustomDrawerContentComponent,
     }
 );

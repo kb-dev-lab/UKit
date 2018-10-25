@@ -279,6 +279,7 @@ class Home extends React.Component {
                     style={[style.list.sectionList, { backgroundColor: theme.greyBackground }]}
                     onRefresh={this.refreshList}
                     refreshing={this.state.refreshing}
+                    stickySectionHeadersEnabled={true}
                 />
             );
         }
