@@ -1,6 +1,8 @@
 import React from 'react';
 import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
-import { AppLoading, Asset, Font, SplashScreen } from 'expo';
+import { AppLoading, SplashScreen } from 'expo';
+import { Asset } from 'expo-asset';
+import * as Font from 'expo-font';
 import { Entypo, Feather, FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
 import { createDrawerNavigator } from 'react-navigation';
 import { connect, Provider } from 'react-redux';

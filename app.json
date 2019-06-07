@@ -5,12 +5,12 @@
         "slug": "Ukit",
         "privacy": "public",
         "githubUrl": "https://github.com/Jack3113/UKit",
-        "sdkVersion": "30.0.0",
+        "sdkVersion": "33.0.0",
         "platforms": [
             "ios",
             "android"
         ],
-        "version": "3.4.1",
+        "version": "3.5.0",
         "orientation": "portrait",
         "primaryColor": "#006F9F",
         "icon": "./assets/icons/app_1024_android.png",
@@ -21,7 +21,10 @@
         "ios": {
             "icon": "./assets/icons/app_1024_ios.png",
             "supportsTablet": true,
-            "bundleIdentifier": "com.bordeaux.ukit"
+            "bundleIdentifier": "com.bordeaux.ukit",
+            "config": {
+                "googleMapsApiKey": "AIzaSyB5JDcHP9k40e0ozKCSA9ObjPYusnhETBI"
+            }
         },
         "android": {
             "package": "com.bordeaux1.emplois",
@@ -31,7 +34,7 @@
                 }
             },
             "permissions": [],
-            "versionCode": 52
+            "versionCode": 53
         },
         "androidStatusBar": {
             "barStyle": "light-content",
