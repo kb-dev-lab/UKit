@@ -1,6 +1,7 @@
 import React from 'react';
 import { Linking, Text, TouchableOpacity, View } from 'react-native';
-import { MapView, Svg } from 'expo';
+import MapView from 'react-native-maps';
+import { Polygon, Svg } from 'react-native-svg';
 import { connect } from 'react-redux';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -151,7 +152,7 @@ class Course extends React.Component {
                                         </View>
                                         <View style={{ backgroundColor: 'transparent' }}>
                                             <Svg height={12} width={12}>
-                                                <Svg.Polygon points="0,0 6,12 12,0" fill="#E57373" />
+                                                <Polygon points="0,0 6,12 12,0" fill="#E57373" />
                                             </Svg>
                                         </View>
                                     </View>
