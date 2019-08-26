@@ -2,9 +2,9 @@ import React from 'react';
 import { View } from 'react-native';
 
 import DayView from './DayView';
-import SaveButton from './containers/buttons/SaveGroupButton';
-import BackButton from './containers/buttons/BackButton';
-import NavBar from './containers/ui/NavBar';
+import SaveButton from '../components/buttons/SaveGroupButton';
+import BackButton from '../components/buttons/BackButton';
+import NavBar from '../components/ui/NavBar';
 
 export default class Group extends React.Component {
     static navigationOptions = ({ navigation }) => {

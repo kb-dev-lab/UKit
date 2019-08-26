@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import 'moment/locale/fr';
 
-import style from '../../Style';
+import style from '../Style';
 import CourseRow from './CourseRow';
-import { isArraysEquals, upperCaseFirstLetter } from '../../Utils';
+import { isArraysEquals, upperCaseFirstLetter } from '../Utils';
 import RequestError from './alerts/RequestError';
 import ErrorAlert from './alerts/ErrorAlert';
 

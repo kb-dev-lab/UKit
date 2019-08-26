@@ -5,8 +5,11 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import 'moment/locale/fr';
 
-import CalendarDay from './CalendarDay';
-import DayComponent from './containers/Day';
+import CalendarWeek from '../components/CalendarWeek';
+import WeekComponent from '../components/Week';
+import SaveButton from '../components/buttons/SaveGroupButton';
+import BackButton from '../components/buttons/BackButton';
+import NavBar from '../components/ui/NavBar';
 import style from '../Style';
 
 moment.locale('fr');
@@ -15,41 +18,52 @@ function capitalize(str) {
     return `${str.charAt(0).toUpperCase()}${str.substr(1)}`;
 }
 
-class DayView extends React.Component {
-    static navigationOptions = {
-        tabBarLabel: 'Jour',
-        tabBarIcon: ({ tintColor }) => {
-            return <MaterialCommunityIcons name="calendar" size={24} style={{ color: tintColor }} />;
-        },
+class WeekView extends React.Component {
+    static navigationOptions = ({ navigation }) => {
+        let groupName = navigation.state.params.groupName;
+        let title = groupName.replace(/_/g, ' ');
+        let leftButton = <BackButton backAction={navigation.goBack} />;
+
+        let rightButton = (
+            <View
+                style={{
+                    justifyContent: 'space-around',
+                    paddingRight: 16,
+                    flexDirection: 'row',
+                }}>
+                <SaveButton groupName={groupName} />
+            </View>
+        );
+
+        return {
+            title,
+            header: <NavBar title={title} leftButton={leftButton} rightButton={rightButton} />,
+        };
     };
 
     constructor(props) {
         super(props);
 
-        const currentDay = moment();
-        const days = DayView.generateDays();
+        const currentWeek = moment().isoWeek();
+        const groupName = this.props.navigation.state.params.groupName;
+        const weeks = WeekView.generateWeeks();
 
         this.state = {
-            groupName: this.props.groupName,
-            currentDay: currentDay,
-            currentDayIndex: days.findIndex((e) => e.isSame(currentDay, 'day')),
-            shownMonth: {
-                number: currentDay.month(),
-                string: capitalize(currentDay.format('MMMM')),
-            },
-            days,
-            selectedDay: currentDay,
+            groupName,
+            currentWeek: currentWeek,
+            currentWeekIndex: weeks.findIndex((e) => e === currentWeek),
+            weeks,
+            selectedWeek: currentWeek,
         };
 
         this.viewability = {
             itemVisiblePercentThreshold: 50,
         };
 
-        this.checkViewableItems = this.checkViewableItems.bind(this);
         this.onTodayPress = this.onTodayPress.bind(this);
-        this.onDayPress = this.onDayPress.bind(this);
         this.renderCalendarListItem = this.renderCalendarListItem.bind(this);
         this.onWeekPress = this.onWeekPress.bind(this);
+        this.onDayButton = this.onDayButton.bind(this);
         this.extractCalendarListItemKey = this.extractCalendarListItemKey.bind(this);
     }
 
@@ -63,44 +77,44 @@ class DayView extends React.Component {
 
     renderCalendarListItem({ item }) {
         return (
-            <CalendarDay
-                item={item}
-                selectedDay={this.state.selectedDay}
-                currentDay={this.state.currentDay}
-                onPressItem={this.onDayPress}
+            <CalendarWeek
+                week={item}
+                selectedWeek={this.state.selectedWeek}
+                currentWeek={this.state.currentWeek}
+                onPressItem={this.onWeekPress}
                 theme={style.Theme[this.props.themeName]}
             />
         );
     }
 
     extractCalendarListItemKey(item) {
-        return `${item.date()}-${item.month()}-${this.props.themeName}`;
+        return `S${item}-${this.props.themeName}`;
     }
 
     onTodayPress() {
         this.setState(
             {
-                selectedDay: this.state.currentDay,
+                selectedWeek: this.state.currentWeek,
             },
             () => {
                 if (this.calendarList) {
-                    this.calendarList.scrollToIndex({ index: this.state.currentDayIndex, animated: true });
+                    this.calendarList.scrollToIndex({ index: this.state.currentWeekIndex, animated: true });
                 }
             }
         );
     }
 
-    onWeekPress() {
-        this.props.navigation.navigate('Week', { groupName: this.state.groupName });
+    onDayButton() {
+        this.props.navigation.goBack();
     }
 
-    onDayPress(dayItem) {
+    onWeekPress(item) {
         this.setState({
-            selectedDay: dayItem,
+            selectedWeek: item,
         });
     }
 
-    static generateDays() {
+    static generateWeeks() {
         const currentDate = moment();
         const beginningGenerationDate = moment()
             .date(1)
@@ -112,30 +126,24 @@ class DayView extends React.Component {
             beginningGenerationDate.year(currentDate.year() - 1);
         }
 
-        const days = [];
+        const weeks = [];
+        let firstWeek = null;
 
-        for (let i = 0, iMax = 365; i < iMax; i++) {
-            days.push(moment(beginningGenerationDate).add(i, 'd'));
+        for (let i = 0, iMax = 365; i < iMax; i += 7) {
+            const week = moment(beginningGenerationDate)
+                .add(i, 'd')
+                .isoWeek();
+            if (week !== firstWeek) {
+                if (firstWeek === null) {
+                    firstWeek = week;
+                }
+                weeks.push(week);
+            } else {
+                break;
+            }
         }
 
-        return days;
-    }
-
-    checkViewableItems(info) {
-        if (!info.viewableItems.length) {
-            return;
-        }
-
-        const date = moment(info.viewableItems[0].item);
-
-        if (date.month() !== this.state.shownMonth.number) {
-            this.setState({
-                shownMonth: {
-                    number: date.month(),
-                    string: capitalize(date.format('MMMM')),
-                },
-            });
-        }
+        return weeks;
     }
 
     render() {
@@ -143,9 +151,9 @@ class DayView extends React.Component {
 
         return (
             <View style={{ flex: 1 }}>
-                <DayComponent
-                    key={`${this.state.days[0].dayOfYear()}-${this.props.themeName}`}
-                    day={this.state.selectedDay}
+                <WeekComponent
+                    key={`weekComponent-${this.props.themeName}`}
+                    week={this.state.selectedWeek}
                     groupName={this.state.groupName}
                     theme={theme}
                     navigation={this.props.navigation}
@@ -166,33 +174,31 @@ class DayView extends React.Component {
                             backgroundColor: theme.background,
                         }}>
                         <View style={{ position: 'absolute', top: 0, right: 0, left: 0 }}>
-                            <Text style={{ textAlign: 'center', fontSize: 18, marginVertical: 8, color: theme.font }}>
-                                {this.state.shownMonth.string}
-                            </Text>
+                            <Text style={{ textAlign: 'center', fontSize: 18, marginVertical: 8, color: theme.font }}>Semaine</Text>
                         </View>
                         <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={this.onTodayPress}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 16 }}>
                                 <MaterialIcons name="event-note" size={18} style={{ color: theme.icon }} />
-                                <Text style={{ textAlign: 'center', fontSize: 12, marginLeft: 8, color: theme.font }}>Aujourd'hui</Text>
+                                <Text style={{ textAlign: 'center', fontSize: 12, marginLeft: 8, color: theme.font }}>Cette semaine</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={this.onWeekPress}>
+
+                        <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={this.onDayButton}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 16 }}>
-                                <Text style={{ textAlign: 'center', fontSize: 12, marginRight: 8, color: theme.font }}>Semaine</Text>
-                                <MaterialCommunityIcons name="calendar-range" size={18} style={{ color: theme.icon }} />
+                                <Text style={{ textAlign: 'center', fontSize: 12, marginRight: 8, color: theme.font }}>Jour</Text>
+                                <MaterialCommunityIcons name="calendar" size={18} style={{ color: theme.icon }} />
                             </View>
                         </TouchableOpacity>
                     </View>
                     <FlatList
                         ref={(list) => (this.calendarList = list)}
                         showsHorizontalScrollIndicator={false}
-                        data={this.state.days}
+                        data={this.state.weeks}
                         horizontal={true}
                         keyExtractor={this.extractCalendarListItemKey}
                         viewabilityConfig={this.viewability}
-                        onViewableItemsChanged={this.checkViewableItems}
-                        initialScrollIndex={this.state.currentDayIndex}
-                        getItemLayout={DayView.getCalendarListItemLayout}
+                        initialScrollIndex={this.state.currentWeekIndex}
+                        getItemLayout={WeekView.getCalendarListItemLayout}
                         extraData={this.state}
                         renderItem={this.renderCalendarListItem}
                         style={{ backgroundColor: theme.background }}
@@ -207,4 +213,4 @@ const mapStateToProps = (state) => ({
     themeName: state.darkMode.themeName,
 });
 
-export default connect(mapStateToProps)(DayView);
+export default connect(mapStateToProps)(WeekView);

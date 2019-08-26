@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 import { Entypo, FontAwesome, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 
-import style from '../../Style';
+import style from '../Style';
 
 export default class CourseRow extends React.PureComponent {
     constructor(props) {

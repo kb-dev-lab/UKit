@@ -5,9 +5,9 @@ import moment from 'moment';
 import Collapsible from 'react-native-collapsible';
 import PropTypes from 'prop-types';
 
-import { upperCaseFirstLetter } from '../../../Utils';
+import { upperCaseFirstLetter } from '../../Utils';
 import CourseRow from '../CourseRow';
-import style from '../../../Style';
+import style from '../../Style';
 
 export default class DayWeek extends React.Component {
     static propTypes = {

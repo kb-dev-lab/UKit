@@ -3,7 +3,7 @@ import { TouchableOpacity, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 
-import { setFavoriteGroup } from '../../../actions/setFavoriteGroup';
+import { setFavoriteGroup } from '../../actions/setFavoriteGroup';
 
 class SaveGroupButton extends React.Component {
     constructor(props) {

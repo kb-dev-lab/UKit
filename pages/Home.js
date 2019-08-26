@@ -7,16 +7,18 @@ import moment from 'moment';
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import Toast from 'react-native-root-toast';
 import 'moment/locale/fr';
-import SectionListHeader from './containers/ui/SectionListHeader';
-import Split from './containers/ui/Split';
-import GroupRow from './containers/GroupRow';
+
+import NavBarHelper from '../components/NavBarHelper';
+import SectionListHeader from '../components/ui/SectionListHeader';
+import Split from '../components/ui/Split';
+import GroupRow from '../components/GroupRow';
 import style from '../Style';
-import NavBar from './containers/ui/NavBar';
+
 
 moment.locale('fr');
 
 class Home extends React.Component {
-    static navigationOptions = ({ navigation }) => {
+    static navigationOptions = ({ navigation, navigationOptions, screenProps }) => {
         let title = 'Groupes';
         let leftButton = (
             <TouchableOpacity
@@ -45,10 +47,11 @@ class Home extends React.Component {
             </TouchableOpacity>
         );
 
-        return {
+        return NavBarHelper({
             title,
-            header: <NavBar title={title} leftButton={leftButton} />,
-        };
+            headerLeft: leftButton,
+            themeName: screenProps.themeName,
+        });
     };
 
     constructor(props) {

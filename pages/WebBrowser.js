@@ -6,8 +6,8 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
 
 import style from '../Style';
-import BackButton from './containers/buttons/BackButton';
-import NavBar from './containers/ui/NavBar';
+import BackButton from '../components/buttons/BackButton';
+import NavBar from '../components/ui/NavBar';
 
 function treatTitle(str) {
     if (str.length > 18) {

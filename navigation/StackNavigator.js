@@ -1,17 +1,20 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
+import { connect } from 'react-redux';
 
-import Home from '../components/Home';
-import Group from '../components/Group';
-import About from '../components/About';
-import Settings from '../components/Settings';
-import WebBrowser from '../components/WebBrowser';
-import Geolocation from '../components/Geolocation';
-import Course from '../components/Course';
-import DayView from '../components/DayView';
-import WeekView from '../components/WeekView';
+import Home from '../pages/Home';
+import Group from '../pages/Group';
+import About from '../pages/About';
+import Settings from '../pages/Settings';
+import WebBrowser from '../pages/WebBrowser';
+import Geolocation from '../pages/Geolocation';
+import Course from '../pages/Course';
+import DayView from '../pages/DayView';
+import WeekView from '../pages/WeekView';
 
-export default createStackNavigator({
+const mapStateToProps = (state) => ({ themeName: state.darkMode.themeName });
+
+const StackNavigator = createStackNavigator({
     Home: {
         screen: Home,
     },
@@ -40,3 +43,13 @@ export default createStackNavigator({
         screen: Course,
     },
 });
+
+class CustomStackNavigator extends React.Component {
+    static router = StackNavigator.router;
+
+    render() {
+        return <StackNavigator navigation={this.props.navigation} screenProps={{ themeName: this.props.themeName }} />;
+    }
+}
+
+export default connect(mapStateToProps)(CustomStackNavigator);

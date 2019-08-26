@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 import PropTypes from 'prop-types';
 
-import style from '../../Style';
+import style from '../Style';
 
 export default class GroupRow extends React.PureComponent {
     static propTypes = {

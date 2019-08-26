@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import 'moment/locale/fr';
 
-import style from '../../Style';
+import style from '../Style';
 import DayWeek from './ui/DayWeek';
-import { isArraysEquals } from '../../Utils';
+import { isArraysEquals } from '../Utils';
 import ErrorAlert from './alerts/ErrorAlert';
 import RequestError from './alerts/RequestError';
 

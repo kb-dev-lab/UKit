@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 
-import style from '../../../Style';
+import style from '../../Style';
 
 const mapStateToProps = (state) => ({ themeName: state.darkMode.themeName });
 

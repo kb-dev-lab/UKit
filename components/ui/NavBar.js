@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform, SafeAreaView } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 import PropTypes from 'prop-types';
 

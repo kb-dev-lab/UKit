@@ -3,7 +3,7 @@ import { Platform, TouchableHighlight, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import PropTypes from 'prop-types';
 
-import style from '../../../Style';
+import style from '../../Style';
 
 export default class BackButton extends React.PureComponent {
     static propTypes = {

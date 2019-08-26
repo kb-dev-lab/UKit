@@ -3,9 +3,9 @@ import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import style from '../Style';
-import URLButton from './containers/buttons/URLButton';
-import BackButton from './containers/buttons/BackButton';
-import NavBar from './containers/ui/NavBar';
+import URLButton from '../components/buttons/URLButton';
+import BackButton from '../components/buttons/BackButton';
+import NavBar from '../components/ui/NavBar';
 
 class About extends React.Component {
     static navigationOptions = ({ navigation }) => {

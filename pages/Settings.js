@@ -3,16 +3,16 @@ import { Dimensions, Keyboard, Platform, Text, TextInput, View } from 'react-nat
 import PopupDialog, { DialogButton, DialogTitle, FadeAnimation } from 'react-native-popup-dialog';
 import { connect } from 'react-redux';
 
-import style from '../Style';
-
-import BackButton from './containers/buttons/BackButton';
-import SettingsCategoryHeader from './containers/ui/settings/SettingsCategoryHeader';
-import SettingsDividerLong from './containers/ui/settings/SettingsDividerLong';
-import SettingsEditText from './containers/ui/settings/SettingsEditText';
-import SettingsDividerShort from './containers/ui/settings/SettingsDividerShort';
-import SettingsSwitch from './containers/ui/settings/SettingsSwitch';
 import { setFilters } from '../actions/setFilters';
-import NavBar from './containers/ui/NavBar';
+import BackButton from '../components/buttons/BackButton';
+import SettingsCategoryHeader from '../components/ui/settings/SettingsCategoryHeader';
+import SettingsDividerLong from '../components/ui/settings/SettingsDividerLong';
+import SettingsEditText from '../components/ui/settings/SettingsEditText';
+import SettingsDividerShort from '../components/ui/settings/SettingsDividerShort';
+import SettingsSwitch from '../components/ui/settings/SettingsSwitch';
+import NavBar from '../components/ui/NavBar';
+
+import style from '../Style';
 
 const colors = {
     white: '#FFFFFF',

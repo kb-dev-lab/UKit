@@ -6,10 +6,10 @@ import { connect } from 'react-redux';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import style from '../Style';
-import BackButton from './containers/buttons/BackButton';
-import CourseRow from './containers/CourseRow';
+import BackButton from '../components/buttons/BackButton';
+import CourseRow from '../components/CourseRow';
 import { getLocations, getLocationsInText } from '../Utils';
-import NavBar from './containers/ui/NavBar';
+import NavBar from '../components/ui/NavBar';
 
 const mapStyle = [
     {
