@@ -4,12 +4,13 @@ import MapView from 'react-native-maps';
 import { Polygon, Svg } from 'react-native-svg';
 import { connect } from 'react-redux';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-navigation';
 
 import style from '../Style';
 import BackButton from '../components/buttons/BackButton';
 import CourseRow from '../components/CourseRow';
 import { getLocations, getLocationsInText } from '../Utils';
-import NavBar from '../components/ui/NavBar';
+import NavBarHelper from '../components/NavBarHelper';
 
 const mapStyle = [
     {
@@ -51,13 +52,15 @@ const mapStyle = [
 ];
 
 class Course extends React.Component {
-    static navigationOptions = ({ navigation }) => {
+    static navigationOptions = ({ navigation, screenProps }) => {
         let title = navigation.getParam('title', 'Détails');
         let leftButton = <BackButton backAction={navigation.goBack} />;
-        return {
+
+        return NavBarHelper({
+            headerLeft: leftButton,
             title,
-            header: <NavBar title={title} leftButton={leftButton} />,
-        };
+            themeName: screenProps.themeName,
+        });
     };
 
     constructor(props) {
@@ -174,12 +177,12 @@ class Course extends React.Component {
         }
 
         return (
-            <View style={{ flex: 1, backgroundColor: theme.greyBackground }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: theme.greyBackground }}>
                 <View>
                     <CourseRow data={this.state.data} theme={theme} />
                 </View>
                 {map}
-            </View>
+            </SafeAreaView>
         );
     }
 }

@@ -1,27 +1,30 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
+import { SafeAreaView } from 'react-navigation';
 
 import style from '../Style';
 import URLButton from '../components/buttons/URLButton';
 import BackButton from '../components/buttons/BackButton';
-import NavBar from '../components/ui/NavBar';
+import NavBarHelper from '../components/NavBarHelper';
 
 class About extends React.Component {
-    static navigationOptions = ({ navigation }) => {
+    static navigationOptions = ({ navigation, screenProps }) => {
         let title = 'À propos';
         let leftButton = <BackButton backAction={navigation.goBack} />;
-        return {
+
+        return NavBarHelper({
+            headerLeft: leftButton,
             title,
-            header: <NavBar title={title} leftButton={leftButton} />,
-        };
+            themeName: screenProps.themeName,
+        });
     };
 
     render() {
         const theme = style.Theme[this.props.themeName];
 
         return (
-            <View style={{ flex: 1, backgroundColor: theme.background }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
                 <View style={style.about.view}>
                     <Text style={[style.about.title, { color: theme.font }]}>Ukit Bordeaux v{Expo.Constants.manifest.version}</Text>
                     <View style={style.about.content}>
@@ -43,7 +46,7 @@ class About extends React.Component {
                         <URLButton url="https://ukit-bordeaux.fr/policies/privacy" title="Politique de confidentialité" theme={theme} />
                     </View>
                 </View>
-            </View>
+            </SafeAreaView>
         );
     }
 }

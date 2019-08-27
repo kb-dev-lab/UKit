@@ -1,13 +1,14 @@
 import React from 'react';
 import { ActivityIndicator, Linking, Platform, TouchableOpacity, View, WebView } from 'react-native';
-import { withNavigation } from 'react-navigation';
+import { withNavigation, SafeAreaView } from 'react-navigation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
+import { SafeViewArea } from 'react-navigation';
 
 import style from '../Style';
 import BackButton from '../components/buttons/BackButton';
-import NavBar from '../components/ui/NavBar';
+import NavBarHelper from '../components/NavBarHelper';
 
 function treatTitle(str) {
     if (str.length > 18) {
@@ -29,14 +30,15 @@ const entrypoints = {
 };
 
 class WebBrowser extends React.Component {
-    static navigationOptions = ({ navigation }) => {
+    static navigationOptions = ({ navigation, screenProps }) => {
         let title = treatTitle(navigation.getParam('title', 'Navigateur web'));
         let leftButton = <BackButton backAction={navigation.goBack} />;
 
-        return {
+        return NavBarHelper({
+            headerLeft: leftButton,
             title,
-            header: <NavBar title={title} leftButton={leftButton} />,
-        };
+            themeName: screenProps.themeName,
+        });
     };
 
     constructor(props) {
@@ -118,7 +120,7 @@ class WebBrowser extends React.Component {
         }
 
         return (
-            <View style={{ flex: 1, flexDirection: 'column' }}>
+            <SafeAreaView style={{ flex: 1, flexDirection: 'column', backgroundColor: theme.background }}>
                 <WebView
                     ref={(webBrowser) => (this.webBrowser = webBrowser)}
                     javaScriptEnabled={true}
@@ -185,7 +187,7 @@ class WebBrowser extends React.Component {
                         </View>
                     </TouchableOpacity>
                 </View>
-            </View>
+            </SafeAreaView>
         );
     }
 }

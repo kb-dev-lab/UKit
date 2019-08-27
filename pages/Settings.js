@@ -2,6 +2,7 @@ import React from 'react';
 import { Dimensions, Keyboard, Platform, Text, TextInput, View } from 'react-native';
 import PopupDialog, { DialogButton, DialogTitle, FadeAnimation } from 'react-native-popup-dialog';
 import { connect } from 'react-redux';
+import { SafeAreaView } from 'react-navigation';
 
 import { setFilters } from '../actions/setFilters';
 import BackButton from '../components/buttons/BackButton';
@@ -10,7 +11,7 @@ import SettingsDividerLong from '../components/ui/settings/SettingsDividerLong';
 import SettingsEditText from '../components/ui/settings/SettingsEditText';
 import SettingsDividerShort from '../components/ui/settings/SettingsDividerShort';
 import SettingsSwitch from '../components/ui/settings/SettingsSwitch';
-import NavBar from '../components/ui/NavBar';
+import NavBarHelper from '../components/NavBarHelper';
 
 import style from '../Style';
 
@@ -26,13 +27,15 @@ const colors = {
 const fadeAnimation = new FadeAnimation({ animationDuration: 150 });
 
 class Settings extends React.Component {
-    static navigationOptions = ({ navigation }) => {
+    static navigationOptions = ({ navigation, screenProps }) => {
         let title = 'Paramètres';
         let leftButton = <BackButton backAction={navigation.goBack} />;
-        return {
+
+        return NavBarHelper({
+            headerLeft: leftButton,
             title,
-            header: <NavBar title={title} leftButton={leftButton} />,
-        };
+            themeName: screenProps.themeName,
+        });
     };
 
     constructor(props) {
@@ -147,7 +150,7 @@ class Settings extends React.Component {
         const theme = style.Theme[this.props.themeName];
 
         return (
-            <View style={{ flex: 1, backgroundColor: theme.settings.background }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: theme.settings.background }}>
                 <SettingsCategoryHeader title={'Affichage'} titleStyle={{ color: theme.settings.title }} />
                 <SettingsDividerLong />
                 <SettingsEditText
@@ -191,17 +194,21 @@ class Settings extends React.Component {
                 <SettingsDividerLong />
 
                 <PopupDialog
-                    dialogStyle={{ position: 'absolute', top: 20 }}
+                    dialogStyle={{ position: 'absolute', top: 20, backgroundColor: theme.background }}
+                    width={0.9}
                     ref={(dialog) => {
                         this.filtersDialog = dialog;
                     }}
+                    titleStyle={{
+                        backgroundColor: '#000000',
+                    }}
                     onDismissed={this.onDismissFilters}
                     actions={[
-                        <View style={style.settings.actionsContainer} key="filtersActions">
+                        <View style={[style.settings.actionsContainer, { borderTopColor: theme.border }]} key="filtersActions">
                             <DialogButton
                                 buttonStyle={{
                                     marginVertical: 0,
-                                    borderRightColor: '#919191',
+                                    borderRightColor: theme.border,
                                     borderRightWidth: 0.5,
                                     flex: 1,
                                 }}
@@ -213,25 +220,38 @@ class Settings extends React.Component {
                             <DialogButton
                                 buttonStyle={{
                                     marginVertical: 0,
-                                    borderLeftColor: '#919191',
+                                    borderLeftColor: theme.border,
                                     borderLeftWidth: 0.5,
                                     flex: 1,
                                 }}
                                 textContainerStyle={{ paddingVertical: 10 }}
                                 text="Sauvegarder"
-                                textStyle={{ fontWeight: '100', color: style.colors.blue }}
+                                textStyle={{ fontWeight: '500', color: style.colors.green }}
                                 onPress={this.saveFilters}
                             />
                         </View>,
                     ]}
-                    height={this.state.height / 2 - 55}
-                    dialogTitle={<DialogTitle title="Filtres" />}>
+                    height={this.state.height / 2 - 55}>
+                    <View
+                        style={{
+                            backgroundColor: theme.collapsableBackground,
+                            padding: 16,
+                            borderTopLeftRadius: '8',
+                            borderTopRightRadius: '8',
+                            display: 'flex',
+                        }}>
+                        <Text style={{ color: theme.font }}>Filtres</Text>
+                    </View>
                     <View style={style.settings.dialogContentView}>
-                        <View>
-                            <Text>Entrez ci-dessous les codes des UE que vous ne voulez afficher.</Text>
-                            <Text>Séparer les codes des UE par des virgules et respectez la casse.</Text>
+                        <View style={{ marginVertical: 4 }}>
+                            <Text style={{ color: theme.font, fontSize: 12 }}>
+                                Entrez ci-dessous les codes des UE que vous ne voulez afficher.
+                            </Text>
+                            <Text style={{ color: theme.font, fontSize: 12 }}>
+                                Séparer les codes des UE par des virgules et respectez la casse.
+                            </Text>
                         </View>
-                        <View style={style.settings.textInputContainer}>
+                        <View style={[style.settings.textInputContainer, { borderColor: theme.secondary }]}>
                             <TextInput
                                 ref={(textInput) => (this.filterInput = textInput)}
                                 autoCorrect={false}
@@ -241,7 +261,7 @@ class Settings extends React.Component {
                                 value={this.state.filters}
                                 editable={true}
                                 underlineColorAndroid="transparent"
-                                style={{ textAlignVertical: 'top' }}
+                                style={{ textAlignVertical: 'top', color: theme.font }}
                             />
                         </View>
                     </View>
@@ -280,7 +300,7 @@ class Settings extends React.Component {
                         <Text>Pas encore disponible.</Text>
                     </View>
                 </PopupDialog>
-            </View>
+            </SafeAreaView>
         );
     }
 }

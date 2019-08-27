@@ -59,7 +59,7 @@ export default class DayWeek extends React.Component {
                         style={{
                             marginTop: 4,
                             padding: 10,
-                            backgroundColor: 'white',
+                            backgroundColor: this.props.theme.collapsableBackground,
                             flexDirection: 'row',
                             justifyContent: 'space-between',
                             alignItems: 'center',
@@ -68,7 +68,7 @@ export default class DayWeek extends React.Component {
                             name={this.state.expand ? 'ios-arrow-up' : 'ios-arrow-down'}
                             size={24}
                             style={{
-                                color: '#000',
+                                color: this.props.theme.font,
                                 height: 24,
                                 width: 24,
                             }}
@@ -76,7 +76,8 @@ export default class DayWeek extends React.Component {
                         <Text
                             style={{
                                 fontSize: 18,
-                                fontWeight: '800',
+                                fontWeight: '600',
+                                color: this.props.theme.font,
                             }}>
                             {upperCaseFirstLetter(moment.unix(schedule.dayTimestamp).format('dddd DD/MM/YYYY'))}
                         </Text>
@@ -84,7 +85,7 @@ export default class DayWeek extends React.Component {
                             name={this.state.expand ? 'ios-arrow-up' : 'ios-arrow-down'}
                             size={24}
                             style={{
-                                color: '#000',
+                                color: this.props.theme.font,
                                 height: 24,
                                 width: 24,
                             }}

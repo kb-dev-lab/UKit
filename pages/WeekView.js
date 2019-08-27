@@ -4,12 +4,13 @@ import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import 'moment/locale/fr';
+import { SafeAreaView } from 'react-navigation';
 
 import CalendarWeek from '../components/CalendarWeek';
 import WeekComponent from '../components/Week';
 import SaveButton from '../components/buttons/SaveGroupButton';
 import BackButton from '../components/buttons/BackButton';
-import NavBar from '../components/ui/NavBar';
+import NavBarHelper from '../components/NavBarHelper';
 import style from '../Style';
 
 moment.locale('fr');
@@ -19,7 +20,7 @@ function capitalize(str) {
 }
 
 class WeekView extends React.Component {
-    static navigationOptions = ({ navigation }) => {
+    static navigationOptions = ({ navigation, screenProps }) => {
         let groupName = navigation.state.params.groupName;
         let title = groupName.replace(/_/g, ' ');
         let leftButton = <BackButton backAction={navigation.goBack} />;
@@ -35,10 +36,12 @@ class WeekView extends React.Component {
             </View>
         );
 
-        return {
+        return NavBarHelper({
+            headerLeft: leftButton,
+            headerRight: rightButton,
             title,
-            header: <NavBar title={title} leftButton={leftButton} rightButton={rightButton} />,
-        };
+            themeName: screenProps.themeName,
+        });
     };
 
     constructor(props) {
@@ -150,7 +153,7 @@ class WeekView extends React.Component {
         const theme = style.Theme[this.props.themeName];
 
         return (
-            <View style={{ flex: 1 }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
                 <WeekComponent
                     key={`weekComponent-${this.props.themeName}`}
                     week={this.state.selectedWeek}
@@ -204,7 +207,7 @@ class WeekView extends React.Component {
                         style={{ backgroundColor: theme.background }}
                     />
                 </View>
-            </View>
+            </SafeAreaView>
         );
     }
 }

@@ -14,7 +14,6 @@ import Split from '../components/ui/Split';
 import GroupRow from '../components/GroupRow';
 import style from '../Style';
 
-
 moment.locale('fr');
 
 class Home extends React.Component {
@@ -38,7 +37,7 @@ class Home extends React.Component {
                         name="menu"
                         size={32}
                         style={{
-                            color: 'white',
+                            color: '#F0F0F0',
                             height: 32,
                             width: 32,
                         }}

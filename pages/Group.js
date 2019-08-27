@@ -4,10 +4,10 @@ import { View } from 'react-native';
 import DayView from './DayView';
 import SaveButton from '../components/buttons/SaveGroupButton';
 import BackButton from '../components/buttons/BackButton';
-import NavBar from '../components/ui/NavBar';
+import NavBarHelper from '../components/NavBarHelper';
 
 export default class Group extends React.Component {
-    static navigationOptions = ({ navigation }) => {
+    static navigationOptions = ({ navigation, screenProps }) => {
         let groupName = navigation.state.params.name;
         let title = groupName.replace(/_/g, ' ');
 
@@ -22,10 +22,13 @@ export default class Group extends React.Component {
                 <SaveButton groupName={groupName} />
             </View>
         );
-        return {
+
+        return NavBarHelper({
             title,
-            header: <NavBar title={title} rightButton={rightButton} leftButton={leftButton} />,
-        };
+            headerLeft: leftButton,
+            headerRight: rightButton,
+            themeName: screenProps.themeName,
+        });
     };
 
     constructor(props) {

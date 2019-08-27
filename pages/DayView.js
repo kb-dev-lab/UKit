@@ -4,6 +4,7 @@ import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import 'moment/locale/fr';
+import { SafeAreaView } from 'react-navigation';
 
 import CalendarDay from '../components/CalendarDay';
 import DayComponent from '../components/Day';
@@ -142,7 +143,7 @@ class DayView extends React.Component {
         const theme = style.Theme[this.props.themeName];
 
         return (
-            <View style={{ flex: 1 }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
                 <DayComponent
                     key={`${this.state.days[0].dayOfYear()}-${this.props.themeName}`}
                     day={this.state.selectedDay}
@@ -198,7 +199,7 @@ class DayView extends React.Component {
                         style={{ backgroundColor: theme.background }}
                     />
                 </View>
-            </View>
+            </SafeAreaView>
         );
     }
 }

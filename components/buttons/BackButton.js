@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import PropTypes from 'prop-types';
 
 import style from '../../Style';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class BackButton extends React.PureComponent {
     static propTypes = {
@@ -24,19 +25,19 @@ export default class BackButton extends React.PureComponent {
 
     render() {
         return (
-            <TouchableHighlight onPress={this._onPress} underlayColor={style.Theme.secondary} style={style.backButton}>
+            <TouchableOpacity onPress={this._onPress} style={style.backButton}>
                 <View>
                     <Ionicons
                         name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'}
                         size={32}
                         style={{
-                            color: 'white',
+                            color: '#F0F0F0',
                             height: 32,
                             width: 32,
                         }}
                     />
                 </View>
-            </TouchableHighlight>
+            </TouchableOpacity>
         );
     }
 }
