@@ -5,9 +5,10 @@ import moment from 'moment';
 import Collapsible from 'react-native-collapsible';
 import PropTypes from 'prop-types';
 
-import { upperCaseFirstLetter } from '../../Utils';
+import { upperCaseFirstLetter } from '../../utils';
 import CourseRow from '../CourseRow';
 import style from '../../Style';
+import Translator from '../../utils/translator';
 
 export default class DayWeek extends React.Component {
     static propTypes = {
@@ -38,7 +39,7 @@ export default class DayWeek extends React.Component {
         if (schedule.courses.length === 0) {
             content = (
                 <View style={style.schedule.course.noCourse}>
-                    <Text style={[style.schedule.course.noCourseText, { color: theme.font }]}>Aucun cours ce jour</Text>
+                    <Text style={[style.schedule.course.noCourseText, { color: theme.font }]}>{Translator.get('NO_CLASS_THIS_DAY')}</Text>
                 </View>
             );
         } else if (this.state.expand) {
@@ -79,7 +80,7 @@ export default class DayWeek extends React.Component {
                                 fontWeight: '600',
                                 color: this.props.theme.font,
                             }}>
-                            {upperCaseFirstLetter(moment.unix(schedule.dayTimestamp).format('dddd DD/MM/YYYY'))}
+                            {upperCaseFirstLetter(moment.unix(schedule.dayTimestamp).format('dddd L'))}
                         </Text>
                         <Ionicons
                             name={this.state.expand ? 'ios-arrow-up' : 'ios-arrow-down'}

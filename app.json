@@ -40,6 +40,7 @@
             "barStyle": "light-content",
             "backgroundColor": "#009ee0"
         },
+        "androidStatusBarColor": "#009ee0",
         "assetBundlePatterns": [
             "**/*"
         ],

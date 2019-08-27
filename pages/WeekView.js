@@ -3,7 +3,6 @@ import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import 'moment/locale/fr';
 import { SafeAreaView } from 'react-navigation';
 
 import CalendarWeek from '../components/CalendarWeek';
@@ -12,8 +11,7 @@ import SaveButton from '../components/buttons/SaveGroupButton';
 import BackButton from '../components/buttons/BackButton';
 import NavBarHelper from '../components/NavBarHelper';
 import style from '../Style';
-
-moment.locale('fr');
+import Translator from '../utils/translator';
 
 function capitalize(str) {
     return `${str.charAt(0).toUpperCase()}${str.substr(1)}`;
@@ -21,11 +19,11 @@ function capitalize(str) {
 
 class WeekView extends React.Component {
     static navigationOptions = ({ navigation, screenProps }) => {
-        let groupName = navigation.state.params.groupName;
-        let title = groupName.replace(/_/g, ' ');
-        let leftButton = <BackButton backAction={navigation.goBack} />;
+        const groupName = navigation.state.params.groupName;
+        const title = groupName.replace(/_/g, ' ');
+        const leftButton = <BackButton backAction={navigation.goBack} />;
 
-        let rightButton = (
+        const rightButton = (
             <View
                 style={{
                     justifyContent: 'space-around',
@@ -177,18 +175,18 @@ class WeekView extends React.Component {
                             backgroundColor: theme.background,
                         }}>
                         <View style={{ position: 'absolute', top: 0, right: 0, left: 0 }}>
-                            <Text style={{ textAlign: 'center', fontSize: 18, marginVertical: 8, color: theme.font }}>Semaine</Text>
+                            <Text style={{ textAlign: 'center', fontSize: 18, marginVertical: 8, color: theme.font }}>{Translator.get('WEEK')}</Text>
                         </View>
                         <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={this.onTodayPress}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 16 }}>
                                 <MaterialIcons name="event-note" size={18} style={{ color: theme.icon }} />
-                                <Text style={{ textAlign: 'center', fontSize: 12, marginLeft: 8, color: theme.font }}>Cette semaine</Text>
+                                <Text style={{ textAlign: 'center', fontSize: 12, marginLeft: 8, color: theme.font }}>{Translator.get('THIS_WEEK')}</Text>
                             </View>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={this.onDayButton}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 16 }}>
-                                <Text style={{ textAlign: 'center', fontSize: 12, marginRight: 8, color: theme.font }}>Jour</Text>
+                                <Text style={{ textAlign: 'center', fontSize: 12, marginRight: 8, color: theme.font }}>{Translator.get('DAY')}</Text>
                                 <MaterialCommunityIcons name="calendar" size={18} style={{ color: theme.icon }} />
                             </View>
                         </TouchableOpacity>

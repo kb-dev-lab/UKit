@@ -1,10 +1,11 @@
 import React from 'react';
-import { Dimensions, Keyboard, Platform, Text, TextInput, View } from 'react-native';
+import { Dimensions, Keyboard, Platform, Text, TextInput, View, Picker } from 'react-native';
 import PopupDialog, { DialogButton, DialogTitle, FadeAnimation } from 'react-native-popup-dialog';
 import { connect } from 'react-redux';
 import { SafeAreaView } from 'react-navigation';
 
 import { setFilters } from '../actions/setFilters';
+import { setLanguage } from '../actions/setLanguage';
 import BackButton from '../components/buttons/BackButton';
 import SettingsCategoryHeader from '../components/ui/settings/SettingsCategoryHeader';
 import SettingsDividerLong from '../components/ui/settings/SettingsDividerLong';
@@ -12,8 +13,8 @@ import SettingsEditText from '../components/ui/settings/SettingsEditText';
 import SettingsDividerShort from '../components/ui/settings/SettingsDividerShort';
 import SettingsSwitch from '../components/ui/settings/SettingsSwitch';
 import NavBarHelper from '../components/NavBarHelper';
-
 import style from '../Style';
+import Translator from '../utils/translator';
 
 const colors = {
     white: '#FFFFFF',
@@ -28,7 +29,7 @@ const fadeAnimation = new FadeAnimation({ animationDuration: 150 });
 
 class Settings extends React.Component {
     static navigationOptions = ({ navigation, screenProps }) => {
-        let title = 'Paramètres';
+        let title = Translator.get('SETTINGS');
         let leftButton = <BackButton backAction={navigation.goBack} />;
 
         return NavBarHelper({
@@ -66,16 +67,8 @@ class Settings extends React.Component {
             filters,
             advancedFilters,
             openAppOnFavoriteGroup,
+            language: Translator.getLanguage(),
         };
-
-        this.openFiltersDialog = this.openFiltersDialog.bind(this);
-        this.openAdvancedFiltersDialog = this.openAdvancedFiltersDialog.bind(this);
-        this.closeFiltersDialog = this.closeFiltersDialog.bind(this);
-        this.closeAdvancedFiltersDialog = this.closeAdvancedFiltersDialog.bind(this);
-        this.saveFilters = this.saveFilters.bind(this);
-        this.saveAdvancedFilters = this.saveAdvancedFilters.bind(this);
-        this.onDismissFilters = this.onDismissFilters.bind(this);
-        this.onDismissAdvancedFilters = this.onDismissAdvancedFilters.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -104,58 +97,81 @@ class Settings extends React.Component {
         return split.map((ue) => ue.trim());
     }
 
-    saveFiltersData() {
+    saveFiltersData = () => {
         this.setState({ initialFilters: this.state.filters }, () => {
             this.props.dispatchSetFilters(Settings.serializeFilters(this.state.filters));
         });
-    }
+    };
 
-    openFiltersDialog() {
+    openFiltersDialog = () => {
         this.filterInput.focus();
         this.filtersDialog.show();
-    }
+    };
 
-    openAdvancedFiltersDialog() {
+    openLanguagePicker = () => {
+        this.languageDialog.show();
+    };
+
+    openAdvancedFiltersDialog = () => {
         this.advancedFiltersDialog.show();
-    }
+    };
 
-    closeFiltersDialog() {
+    closeFiltersDialog = () => {
         this.filtersDialog.dismiss();
-    }
+    };
 
-    closeAdvancedFiltersDialog() {
+    closeAdvancedFiltersDialog = () => {
         this.advancedFiltersDialog.dismiss();
-    }
+    };
 
-    saveFilters() {
+    closeLanguageDialog = () => {
+        this.languageDialog.dismiss();
+    };
+
+    saveFilters = () => {
         this.saveFiltersData();
         this.closeFiltersDialog();
-    }
+    };
 
-    saveAdvancedFilters() {
+    saveAdvancedFilters = () => {
         this.closeAdvancedFiltersDialog();
-    }
+    };
 
-    onDismissFilters() {
+    saveLanguage = () => {
+        this.closeLanguageDialog();
+        this.props.dispatchSetLanguage(this.state.language);
+    };
+
+    onDismissFilters = () => {
         Keyboard.dismiss();
         this.setState({ filters: this.state.initialFilters });
-    }
+    };
 
-    onDismissAdvancedFilters() {
+    onDismissAdvancedFilters = () => {
         Keyboard.dismiss();
         this.setState({ advancedFilters: this.state.initialAdvancedFilters });
-    }
+    };
 
     render() {
         const theme = style.Theme[this.props.themeName];
 
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: theme.settings.background }}>
-                <SettingsCategoryHeader title={'Affichage'} titleStyle={{ color: theme.settings.title }} />
+                <SettingsCategoryHeader title={Translator.get('DISPLAY')} titleStyle={{ color: theme.settings.title }} />
                 <SettingsDividerLong />
                 <SettingsEditText
+                    onPress={this.openLanguagePicker}
+                    title={Translator.get('LANGUAGE')}
+                    valuePlaceholder="..."
+                    value={Translator.getLanguageString()}
+                    titleStyle={{ color: theme.settings.sectionText }}
+                    valueStyle={{ color: theme.settings.sectionText }}
+                    containerStyle={{ backgroundColor: theme.settings.section }}
+                />
+                <SettingsDividerShort />
+                <SettingsEditText
                     onPress={this.openFiltersDialog}
-                    title="Filtres"
+                    title={Translator.get('FILTERS')}
                     valuePlaceholder="..."
                     value={this.state.filters}
                     titleStyle={{ color: theme.settings.sectionText }}
@@ -165,8 +181,7 @@ class Settings extends React.Component {
                 <SettingsDividerShort />
                 <SettingsEditText
                     disabled={true}
-                    onPress={this.openAdvancedFiltersDialog}
-                    title="Filtres avancés"
+                    title={Translator.get('ADVANCED_FILTERS')}
                     valuePlaceholder="..."
                     titleStyle={{ color: theme.settings.sectionText }}
                     valueStyle={{ color: theme.settings.sectionText }}
@@ -174,7 +189,7 @@ class Settings extends React.Component {
                     value={this.state.advancedFilters}
                 />
                 <SettingsDividerLong />
-                <SettingsCategoryHeader title={'Démarrage'} titleStyle={{ color: theme.settings.title }} />
+                <SettingsCategoryHeader title={Translator.get('APP_LAUNCHING')} titleStyle={{ color: theme.settings.title }} />
                 <SettingsDividerLong />
                 <SettingsSwitch
                     disabled={true}
@@ -183,13 +198,13 @@ class Settings extends React.Component {
                             openAppOnFavoriteGroup: value,
                         });
                     }}
-                    title={'Ouvrir sur le groupe favori'}
+                    title={Translator.get('OPEN_ON_FAVOURITE_GROUP')}
                     titleStyle={{ color: theme.settings.sectionText }}
                     valueStyle={{ color: theme.settings.sectionText }}
                     containerStyle={{ backgroundColor: theme.settings.section }}
                     value={this.state.openAppOnFavoriteGroup}
                     disabledOverlayStyle={{ backgroundColor: theme.settings.disabledOverlay }}
-                    thumbTintColor={this.state.openAppOnFavoriteGroup ? colors.switchEnabled : colors.switchDisabled}
+                    thumbColor={this.state.openAppOnFavoriteGroup ? colors.switchEnabled : colors.switchDisabled}
                 />
                 <SettingsDividerLong />
 
@@ -198,9 +213,6 @@ class Settings extends React.Component {
                     width={0.9}
                     ref={(dialog) => {
                         this.filtersDialog = dialog;
-                    }}
-                    titleStyle={{
-                        backgroundColor: '#000000',
                     }}
                     onDismissed={this.onDismissFilters}
                     actions={[
@@ -213,7 +225,7 @@ class Settings extends React.Component {
                                     flex: 1,
                                 }}
                                 textContainerStyle={{ paddingVertical: 10 }}
-                                text="Annuler"
+                                text={Translator.get('CANCEL')}
                                 textStyle={{ color: colors.monza, fontWeight: '400' }}
                                 onPress={this.closeFiltersDialog}
                             />
@@ -225,7 +237,7 @@ class Settings extends React.Component {
                                     flex: 1,
                                 }}
                                 textContainerStyle={{ paddingVertical: 10 }}
-                                text="Sauvegarder"
+                                text={Translator.get('SAVE')}
                                 textStyle={{ fontWeight: '500', color: style.colors.green }}
                                 onPress={this.saveFilters}
                             />
@@ -236,20 +248,16 @@ class Settings extends React.Component {
                         style={{
                             backgroundColor: theme.collapsableBackground,
                             padding: 16,
-                            borderTopLeftRadius: '8',
-                            borderTopRightRadius: '8',
+                            borderTopLeftRadius: 8,
+                            borderTopRightRadius: 8,
                             display: 'flex',
                         }}>
-                        <Text style={{ color: theme.font }}>Filtres</Text>
+                        <Text style={{ color: theme.font }}>{Translator.get('FILTERS')}</Text>
                     </View>
                     <View style={style.settings.dialogContentView}>
                         <View style={{ marginVertical: 4 }}>
-                            <Text style={{ color: theme.font, fontSize: 12 }}>
-                                Entrez ci-dessous les codes des UE que vous ne voulez afficher.
-                            </Text>
-                            <Text style={{ color: theme.font, fontSize: 12 }}>
-                                Séparer les codes des UE par des virgules et respectez la casse.
-                            </Text>
+                            <Text style={{ color: theme.font, fontSize: 12 }}>{Translator.get('FILTERS_ENTER_CODE')}</Text>
+                            <Text style={{ color: theme.font, fontSize: 12 }}>{Translator.get('FILTERS_SEPARATE_CODE')}</Text>
                         </View>
                         <View style={[style.settings.textInputContainer, { borderColor: theme.secondary }]}>
                             <TextInput
@@ -267,37 +275,59 @@ class Settings extends React.Component {
                     </View>
                 </PopupDialog>
                 <PopupDialog
+                    dialogStyle={{ position: 'absolute', top: 20, backgroundColor: theme.background }}
+                    width={0.9}
                     ref={(dialog) => {
-                        this.advancedFiltersDialog = dialog;
+                        this.languageDialog = dialog;
                     }}
-                    onDismissed={this.onDismissAdvancedFilters}
+                    onDismissed={this.closeLanguageDialog}
                     actions={[
-                        <View style={style.settings.actionsContainer} key="advancedFiltersActions">
+                        <View style={[style.settings.actionsContainer, { borderTopColor: theme.border }]} key="filtersActions">
                             <DialogButton
                                 buttonStyle={{
                                     marginVertical: 0,
-                                    borderRightColor: '#919191',
+                                    borderRightColor: theme.border,
                                     borderRightWidth: 0.5,
-                                    backgroundColor: 'orange',
+                                    flex: 1,
                                 }}
                                 textContainerStyle={{ paddingVertical: 10 }}
-                                text="Sauvegarder"
-                                onPress={this.saveAdvancedFilters}
+                                text={Translator.get('CANCEL')}
+                                textStyle={{ color: colors.monza, fontWeight: '400' }}
+                                onPress={this.closeLanguageDialog}
                             />
                             <DialogButton
                                 buttonStyle={{
                                     marginVertical: 0,
-                                    backgroundColor: 'grey',
+                                    borderLeftColor: theme.border,
+                                    borderLeftWidth: 0.5,
+                                    flex: 1,
                                 }}
                                 textContainerStyle={{ paddingVertical: 10 }}
-                                text="Annuler"
-                                onPress={this.closeAdvancedFiltersDialog}
+                                text={Translator.get('SAVE')}
+                                textStyle={{ fontWeight: '500', color: style.colors.green }}
+                                onPress={this.saveLanguage}
                             />
                         </View>,
-                    ]}
-                    dialogTitle={<DialogTitle title="Filtres avancés" />}>
+                    ]}>
+                    <View
+                        style={{
+                            backgroundColor: theme.collapsableBackground,
+                            padding: 16,
+                            borderTopLeftRadius: 8,
+                            borderTopRightRadius: 8,
+                            display: 'flex',
+                        }}>
+                        <Text style={{ color: theme.font }}>{Translator.get('LANGUAGE')}</Text>
+                    </View>
                     <View style={style.settings.dialogContentView}>
-                        <Text>Pas encore disponible.</Text>
+                        <Picker
+                            selectedValue={this.state.language}
+                            itemStyle={{ color: theme.font }}
+                            style={{ color: theme.font, width: '100%', height: '100%' }}
+                            onValueChange={(itemValue, itemIndex) => this.setState({ language: itemValue })}>
+                            <Picker.Item label="Français" value="fr" />
+                            <Picker.Item label="English" value="en" />
+                        </Picker>
                     </View>
                 </PopupDialog>
             </SafeAreaView>
@@ -309,6 +339,7 @@ const mapStateToProps = (state) => {
     return {
         savedGroup: state.favorite.groupName,
         filters: state.filters.filters,
+        language: state.language,
         themeName: state.darkMode.themeName,
     };
 };
@@ -317,6 +348,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         dispatchSetFilters: (filters) => {
             dispatch(setFilters(filters));
+        },
+        dispatchSetLanguage: (language) => {
+            dispatch(setLanguage(language));
         },
     };
 };

@@ -10,6 +10,7 @@ import MyGroupButton from '../components/buttons/MyGroupButton';
 import Split from '../components/ui/Split';
 import StackNavigator from './StackNavigator';
 import style from '../Style';
+import Translator from '../utils/translator';
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -50,7 +51,7 @@ const CustomDrawerContentComponent = connect(
                     <View>
                         <Split lineColor={theme.border} onlyBottomMargin={true} />
                         <DrawerButton
-                            title={'Groupes'}
+                            title={Translator.get('GROUPS')}
                             size={28}
                             textSize={14}
                             icon={'list'}
@@ -58,9 +59,9 @@ const CustomDrawerContentComponent = connect(
                             fontColor={theme.font}
                             onPress={() => props.navigation.closeDrawer()}
                         />
-                        <Split title="Mon groupe" lineColor={theme.border} color={theme.icon} />
+                        <Split title={Translator.get('MY_GROUP')} lineColor={theme.border} color={theme.icon} />
                         <MyGroupButton navigate={navigate} />
-                        <Split title="Navigation" lineColor={theme.border} color={theme.icon} />
+                        <Split title={Translator.get('NAVIGATION')} lineColor={theme.border} color={theme.icon} />
                         <DrawerButton
                             title={'ENT'}
                             size={28}
@@ -71,7 +72,7 @@ const CustomDrawerContentComponent = connect(
                             onPress={() => navigate('WebBrowser', { entrypoint: 'ent' })}
                         />
                         <DrawerButton
-                            title={'Boîte email'}
+                            title={Translator.get('MAILBOX')}
                             size={28}
                             textSize={14}
                             icon={'mail-outline'}
@@ -90,7 +91,7 @@ const CustomDrawerContentComponent = connect(
                         />
                         <Split title="Application" lineColor={theme.border} color={theme.icon} />
                         <DrawerButton
-                            title={'Paramètres'}
+                            title={Translator.get('SETTINGS')}
                             size={28}
                             textSize={14}
                             icon={'settings'}
@@ -99,7 +100,7 @@ const CustomDrawerContentComponent = connect(
                             onPress={() => navigate('Settings')}
                         />
                         <DrawerButton
-                            title={'À propos'}
+                            title={Translator.get('ABOUT')}
                             size={28}
                             textSize={14}
                             icon={'info'}

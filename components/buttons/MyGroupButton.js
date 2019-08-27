@@ -2,9 +2,9 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
 
-import style from '../../Style';
-
 import DrawerButton from './DrawerButton';
+import style from '../../Style';
+import Translator from '../../utils/translator';
 
 class MyGroupButton extends React.PureComponent {
     constructor(props) {
@@ -28,7 +28,7 @@ class MyGroupButton extends React.PureComponent {
         if (this.props.savedGroup === null) {
             return (
                 <View style={{ paddingLeft: 24, paddingVertical: 4 }}>
-                    <Text style={{ color: theme.font }}>Aucun</Text>
+                    <Text style={{ color: theme.font }}>{Translator.get('NONE')}</Text>
                 </View>
             );
         } else {

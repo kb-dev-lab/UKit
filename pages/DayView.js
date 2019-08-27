@@ -3,14 +3,12 @@ import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import 'moment/locale/fr';
 import { SafeAreaView } from 'react-navigation';
 
 import CalendarDay from '../components/CalendarDay';
 import DayComponent from '../components/Day';
 import style from '../Style';
-
-moment.locale('fr');
+import Translator from '../utils/translator';
 
 function capitalize(str) {
     return `${str.charAt(0).toUpperCase()}${str.substr(1)}`;
@@ -18,7 +16,7 @@ function capitalize(str) {
 
 class DayView extends React.Component {
     static navigationOptions = {
-        tabBarLabel: 'Jour',
+        tabBarLabel: Translator.get('DAY'),
         tabBarIcon: ({ tintColor }) => {
             return <MaterialCommunityIcons name="calendar" size={24} style={{ color: tintColor }} />;
         },
@@ -46,12 +44,6 @@ class DayView extends React.Component {
             itemVisiblePercentThreshold: 50,
         };
 
-        this.checkViewableItems = this.checkViewableItems.bind(this);
-        this.onTodayPress = this.onTodayPress.bind(this);
-        this.onDayPress = this.onDayPress.bind(this);
-        this.renderCalendarListItem = this.renderCalendarListItem.bind(this);
-        this.onWeekPress = this.onWeekPress.bind(this);
-        this.extractCalendarListItemKey = this.extractCalendarListItemKey.bind(this);
     }
 
     static getCalendarListItemLayout(data, index) {
@@ -62,7 +54,7 @@ class DayView extends React.Component {
         };
     }
 
-    renderCalendarListItem({ item }) {
+    renderCalendarListItem = ({ item }) => {
         return (
             <CalendarDay
                 item={item}
@@ -72,13 +64,13 @@ class DayView extends React.Component {
                 theme={style.Theme[this.props.themeName]}
             />
         );
-    }
+    };
 
-    extractCalendarListItemKey(item) {
+    extractCalendarListItemKey = (item) => {
         return `${item.date()}-${item.month()}-${this.props.themeName}`;
-    }
+    };
 
-    onTodayPress() {
+    onTodayPress = () => {
         this.setState(
             {
                 selectedDay: this.state.currentDay,
@@ -89,17 +81,17 @@ class DayView extends React.Component {
                 }
             }
         );
-    }
+    };
 
-    onWeekPress() {
+    onWeekPress = () => {
         this.props.navigation.navigate('Week', { groupName: this.state.groupName });
-    }
+    };
 
-    onDayPress(dayItem) {
+    onDayPress = (dayItem) => {
         this.setState({
             selectedDay: dayItem,
         });
-    }
+    };
 
     static generateDays() {
         const currentDate = moment();
@@ -122,7 +114,7 @@ class DayView extends React.Component {
         return days;
     }
 
-    checkViewableItems(info) {
+    checkViewableItems = (info) => {
         if (!info.viewableItems.length) {
             return;
         }
@@ -137,7 +129,7 @@ class DayView extends React.Component {
                 },
             });
         }
-    }
+    };
 
     render() {
         const theme = style.Theme[this.props.themeName];
@@ -174,12 +166,16 @@ class DayView extends React.Component {
                         <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={this.onTodayPress}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 16 }}>
                                 <MaterialIcons name="event-note" size={18} style={{ color: theme.icon }} />
-                                <Text style={{ textAlign: 'center', fontSize: 12, marginLeft: 8, color: theme.font }}>Aujourd'hui</Text>
+                                <Text style={{ textAlign: 'center', fontSize: 12, marginLeft: 8, color: theme.font }}>
+                                    {Translator.get('TODAY')}
+                                </Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={this.onWeekPress}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 16 }}>
-                                <Text style={{ textAlign: 'center', fontSize: 12, marginRight: 8, color: theme.font }}>Semaine</Text>
+                                <Text style={{ textAlign: 'center', fontSize: 12, marginRight: 8, color: theme.font }}>
+                                    {Translator.get('WEEK')}
+                                </Text>
                                 <MaterialCommunityIcons name="calendar-range" size={18} style={{ color: theme.icon }} />
                             </View>
                         </TouchableOpacity>

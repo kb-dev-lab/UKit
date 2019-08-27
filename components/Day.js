@@ -3,15 +3,13 @@ import { ActivityIndicator, AsyncStorage, FlatList, NetInfo, Text, View } from '
 import axios from 'axios';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import 'moment/locale/fr';
 
 import style from '../Style';
 import CourseRow from './CourseRow';
-import { isArraysEquals, upperCaseFirstLetter } from '../Utils';
+import { isArraysEquals, upperCaseFirstLetter } from '../utils';
 import RequestError from './alerts/RequestError';
 import ErrorAlert from './alerts/ErrorAlert';
-
-moment.locale('fr');
+import Translator from '../utils/translator';
 
 class Day extends React.Component {
     constructor(props) {
@@ -104,7 +102,7 @@ class Day extends React.Component {
                     }
                 }
             } else {
-                const offlineAlert = new ErrorAlert('Pas de connexion internet', ErrorAlert.durations.SHORT);
+                const offlineAlert = new ErrorAlert(Translator.get('NO_CONNECTION'), ErrorAlert.durations.SHORT);
                 offlineAlert.show();
 
                 let cache = await this.getCache(id);
@@ -142,7 +140,7 @@ class Day extends React.Component {
     }
 
     displayDate() {
-        return upperCaseFirstLetter(this.state.day.format('dddd DD/MM/YYYY'));
+        return upperCaseFirstLetter(this.state.day.format('dddd L'));
     }
 
     render() {
@@ -160,7 +158,7 @@ class Day extends React.Component {
                 cacheMessage = (
                     <View>
                         <Text style={style.offline.groups.text}>
-                            Affichage hors ligne datant du {moment(this.state.cacheDate).format('DD/MM/YYYY HH:mm')}
+                            {Translator.get('OFFLINE_DISPLAY_FROM_DATE', moment(this.state.cacheDate).format('lll'))}
                         </Text>
                     </View>
                 );

@@ -6,7 +6,8 @@ export default ({ title, headerLeft, headerRight, themeName }) => ({
     headerRight,
     headerStyle: {
         backgroundColor: style.Theme[themeName].primary,
-				borderBottomColor: 'transparent',
+        borderBottomColor: 'transparent',
+        paddingTop: 0,
     },
     headerTintColor: style.Theme[themeName].lightFont,
 });

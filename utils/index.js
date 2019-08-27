@@ -1,4 +1,4 @@
-const locations = require('./assets/locations.json');
+const locations = require('../assets/locations.json');
 
 function upperCaseFirstLetter(string) {
     let firstLetter = string[0].toUpperCase();

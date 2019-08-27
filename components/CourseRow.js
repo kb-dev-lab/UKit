@@ -3,6 +3,7 @@ import { Text, TouchableHighlight, View } from 'react-native';
 import { Entypo, FontAwesome, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 
 import style from '../Style';
+import Translator from '../utils/translator';
 
 export default class CourseRow extends React.PureComponent {
     constructor(props) {
@@ -40,7 +41,7 @@ export default class CourseRow extends React.PureComponent {
         if (this.props.data.category === 'nocourse') {
             return (
                 <View style={style.schedule.course.noCourse}>
-                    <Text style={[style.schedule.course.noCourseText, { color: theme.font }]}>Aucun cours ce jour</Text>
+                    <Text style={[style.schedule.course.noCourseText, { color: theme.font }]}>{Translator.get('NO_CLASS_THIS_DAY')}</Text>
                 </View>
             );
         } else if (this.props.data.category === 'masked') {

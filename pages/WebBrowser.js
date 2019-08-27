@@ -6,9 +6,10 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
 import { SafeViewArea } from 'react-navigation';
 
-import style from '../Style';
 import BackButton from '../components/buttons/BackButton';
 import NavBarHelper from '../components/NavBarHelper';
+import style from '../Style';
+import Translator from '../utils/translator';
 
 function treatTitle(str) {
     if (str.length > 18) {
@@ -31,7 +32,7 @@ const entrypoints = {
 
 class WebBrowser extends React.Component {
     static navigationOptions = ({ navigation, screenProps }) => {
-        let title = treatTitle(navigation.getParam('title', 'Navigateur web'));
+        let title = treatTitle(navigation.getParam('title', Translator.get('WEB_BROWSER')));
         let leftButton = <BackButton backAction={navigation.goBack} />;
 
         return NavBarHelper({
@@ -44,7 +45,7 @@ class WebBrowser extends React.Component {
     constructor(props) {
         super(props);
 
-        let uri = 'https://uki-bordeaux.fr';
+        let uri = 'https://ukit-bordeaux.fr';
         if (this.props.navigation.state.params) {
             const { entrypoint, href } = this.props.navigation.state.params;
             if (entrypoint) {

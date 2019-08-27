@@ -6,20 +6,18 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import Toast from 'react-native-root-toast';
-import 'moment/locale/fr';
 
 import NavBarHelper from '../components/NavBarHelper';
 import SectionListHeader from '../components/ui/SectionListHeader';
 import Split from '../components/ui/Split';
 import GroupRow from '../components/GroupRow';
 import style from '../Style';
-
-moment.locale('fr');
+import Translator from '../utils/translator';
 
 class Home extends React.Component {
     static navigationOptions = ({ navigation, navigationOptions, screenProps }) => {
-        let title = 'Groupes';
-        let leftButton = (
+        const title = Translator.get('GROUPS');
+        const leftButton = (
             <TouchableOpacity
                 onPress={() => {
                     navigation.openDrawer();
@@ -143,7 +141,7 @@ class Home extends React.Component {
                 AsyncStorage.setItem('groups', JSON.stringify({ list, date: moment() }));
             } catch (error) {
                 if (error.response) {
-                    Toast.show(`Le serveur a répondu par une erreur ${error.response.status}`, {
+                    Toast.show(Trnaslator.get('ERROR_WITH_CODE'), {
                         duration: Toast.durations.LONG,
                         position: Toast.positions.BOTTOM,
                         shadow: true,
@@ -152,7 +150,7 @@ class Home extends React.Component {
                         delay: 0,
                     });
                 } else if (error.request) {
-                    Toast.show(`Pas de connexion`, {
+                    Toast.show(Translator.get('NO_CONNECTION'), {
                         duration: Toast.durations.SHORT,
                         position: Toast.positions.BOTTOM,
                         shadow: true,
@@ -161,7 +159,7 @@ class Home extends React.Component {
                         delay: 0,
                     });
                 } else {
-                    Toast.show(`Erreur : ${error.message}`, {
+                    Toast.show(Translator.get('ERROR_WITH_MESSAGE', error.message), {
                         duration: Toast.durations.LONG,
                         position: Toast.positions.BOTTOM,
                         shadow: true,
@@ -172,7 +170,7 @@ class Home extends React.Component {
                 list = await this.getCache();
             }
         } else {
-            Toast.show(`Pas de connexion`, {
+            Toast.show(Translator.get('NO_CONNECTION'), {
                 duration: Toast.durations.SHORT,
                 position: Toast.positions.BOTTOM,
                 shadow: true,
@@ -230,7 +228,7 @@ class Home extends React.Component {
             content = (
                 <View style={[style.schedule.course.noCourse, { backgroundColor: theme.greyBackground }]}>
                     <Text style={[style.schedule.course.noCourseText, { color: theme.font }]}>
-                        Aucun groupe correspondant à cette recherche n'a été trouvé.
+                        {Translator.get('NO_GROUP_FOUND_WITH_THIS_SEARCH')}
                     </Text>
                 </View>
             );
@@ -245,7 +243,7 @@ class Home extends React.Component {
                 cache = (
                     <View>
                         <Text style={style.offline.groups.text}>
-                            Affichage hors ligne datant du {moment(this.state.cacheDate).format('DD/MM/YYYY HH:mm')}
+                            {Translator.get('OFFLINE_DISPLAY_FROM_DATE', moment(this.state.cacheDate).format('DD/MM/YYYY HH:mm'))}
                         </Text>
                     </View>
                 );

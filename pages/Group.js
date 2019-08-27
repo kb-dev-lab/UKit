@@ -5,14 +5,15 @@ import DayView from './DayView';
 import SaveButton from '../components/buttons/SaveGroupButton';
 import BackButton from '../components/buttons/BackButton';
 import NavBarHelper from '../components/NavBarHelper';
+import Translator from '../utils/translator';
 
 export default class Group extends React.Component {
     static navigationOptions = ({ navigation, screenProps }) => {
-        let groupName = navigation.state.params.name;
-        let title = groupName.replace(/_/g, ' ');
+        const groupName = navigation.state.params.name;
+        const title = groupName.replace(/_/g, ' ');
 
-        let leftButton = <BackButton backAction={navigation.goBack} />;
-        let rightButton = (
+        const leftButton = <BackButton backAction={navigation.goBack} />;
+        const rightButton = (
             <View
                 style={{
                     justifyContent: 'space-around',

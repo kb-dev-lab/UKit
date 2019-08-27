@@ -9,7 +9,7 @@ import { SafeAreaView } from 'react-navigation';
 import style from '../Style';
 import BackButton from '../components/buttons/BackButton';
 import CourseRow from '../components/CourseRow';
-import { getLocations, getLocationsInText } from '../Utils';
+import { getLocations, getLocationsInText } from '../utils';
 import NavBarHelper from '../components/NavBarHelper';
 
 const mapStyle = [
