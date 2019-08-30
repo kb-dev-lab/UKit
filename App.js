@@ -1,12 +1,11 @@
 import React from 'react';
-import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
+import { Image } from 'react-native';
 import { AppLoading, SplashScreen } from 'expo';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import { Entypo, Feather, FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
 
 import RootContainer from './containers/rootContainer';
-import { createAppContainer } from 'react-navigation';
 
 function cacheFonts(fonts) {
     return fonts.map((font) => Font.loadAsync(font));
@@ -48,7 +47,7 @@ export default class App extends React.Component {
         return <RootContainer />;
     }
 
-    _loadAssetsAsync() {
+    async _loadAssetsAsync() {
         const imageAssets = cacheImages([require('./assets/icons/app.png')]);
 
         const fontAssets = cacheFonts([
@@ -61,8 +60,7 @@ export default class App extends React.Component {
             Entypo.font,
         ]);
 
-        Promise.all([...imageAssets, ...fontAssets]).then(() => {
-            SplashScreen.hide();
-        });
+        await Promise.all([...imageAssets, ...fontAssets]);
+        SplashScreen.hide();
     }
 }

@@ -5,18 +5,19 @@
         "slug": "Ukit",
         "privacy": "public",
         "githubUrl": "https://github.com/Jack3113/UKit",
-        "sdkVersion": "33.0.0",
+        "sdkVersion": "34.0.0",
         "platforms": [
             "ios",
             "android"
         ],
-        "version": "3.5.0",
+        "version": "3.5.1",
         "orientation": "portrait",
         "primaryColor": "#006F9F",
         "icon": "./assets/icons/app_1024_android.png",
         "splash": {
             "image": "./assets/icons/splash.png",
-            "backgroundColor": "#009de0"
+            "backgroundColor": "#009de0",
+            "resizeMode": "contain"
         },
         "ios": {
             "icon": "./assets/icons/app_1024_ios.png",
@@ -34,7 +35,7 @@
                 }
             },
             "permissions": [],
-            "versionCode": 53
+            "versionCode": 54
         },
         "androidStatusBar": {
             "barStyle": "light-content",
