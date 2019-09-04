@@ -10,7 +10,7 @@
             "ios",
             "android"
         ],
-        "version": "3.5.1",
+        "version": "3.6.0",
         "orientation": "portrait",
         "primaryColor": "#006F9F",
         "icon": "./assets/icons/app_1024_android.png",
@@ -35,7 +35,7 @@
                 }
             },
             "permissions": [],
-            "versionCode": 54
+            "versionCode": 55
         },
         "androidStatusBar": {
             "barStyle": "light-content",

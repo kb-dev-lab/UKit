@@ -21,7 +21,7 @@ export default {
     MAILBOX: 'Boîte mail',
     MY_GROUP: 'Mon groupe',
     NAVIGATION: 'Navigation',
-    NONE: 'None',
+    NONE: 'Aucun',
     NO_CLASS_THIS_DAY: 'Aucun cours pendant ce jour',
     NO_CONNECTION: 'Pas de connexion',
     NO_GROUP_FOUND_WITH_THIS_SEARCH: "Aucun groupe correspondant à cette recherche n'a été trouvé.",
