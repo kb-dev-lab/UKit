@@ -5,6 +5,7 @@
     "slug": "Ukit",
     "privacy": "public",
     "githubUrl": "https://github.com/Jack3113/UKit",
+    "sdkVersion": "35.0.0",
     "platforms": [
       "ios",
       "android"
