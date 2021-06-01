@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image } from 'react-native';
-import { AppLoading, SplashScreen } from 'expo';
+import * as SplashScreen from 'expo-splash-screen';
+import AppLoading from 'expo-app-loading';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import { Entypo, Feather, FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
@@ -61,6 +62,6 @@ export default class App extends React.Component {
         ]);
 
         await Promise.all([...imageAssets, ...fontAssets]);
-        SplashScreen.hide();
+        SplashScreen.hideAsync();
     }
 }

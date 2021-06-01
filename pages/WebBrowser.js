@@ -1,10 +1,10 @@
 import React from 'react';
-import { ActivityIndicator, Linking, Platform, TouchableOpacity, View, WebView } from 'react-native';
+import { ActivityIndicator, Linking, Platform, TouchableOpacity, View } from 'react-native';
+import { WebView } from 'react-native-webview';
 import { withNavigation, SafeAreaView } from 'react-navigation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
-import { SafeViewArea } from 'react-navigation';
 
 import BackButton from '../components/buttons/BackButton';
 import NavBarHelper from '../components/NavBarHelper';

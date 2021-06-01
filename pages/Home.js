@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, AsyncStorage, NetInfo, SectionList, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, AsyncStorage, SectionList, Text, TouchableOpacity, View } from 'react-native';
 import axios from 'axios';
 import { Hideo } from 'react-native-textinput-effects';
 import { connect } from 'react-redux';
@@ -13,6 +13,7 @@ import Split from '../components/ui/Split';
 import GroupRow from '../components/GroupRow';
 import style from '../Style';
 import Translator from '../utils/translator';
+import DeviceUtils from '../utils/DeviceUtils';
 
 class Home extends React.Component {
     static navigationOptions = ({ navigation, navigationOptions, screenProps }) => {
@@ -132,8 +133,7 @@ class Home extends React.Component {
     async fetchList() {
         let list = null;
 
-        const isConnected = (await NetInfo.getConnectionInfo()) !== 'none';
-        if (isConnected) {
+        if (await DeviceUtils.isConnected()) {
             try {
                 const response = await axios.get('https://hackjack.info/et/json.php?clean=true');
                 this.setState({ cacheDate: null });

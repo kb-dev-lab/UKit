@@ -71,14 +71,21 @@ class Settings extends React.Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
+    static getDerivedStateFromProps(nextProps) {
+        const nextState = {};
+
         if (this.state.savedGroup !== nextProps.savedGroup) {
-            this.setState({ savedGroup: nextProps.savedGroup });
+            nextState.savedGroup = nextProps.savedGroup;
         }
+        
         if (this.state.filters !== nextProps.filters) {
             let newFilters = Settings.unserializeFilters(nextProps.filters);
-            this.setState({ initialFilters: newFilters, filters: newFilters });
+
+            nextState.initialFilters = newFilters;
+            nextState.filters = newFilters;
         }
+
+        return nextState;
     }
 
     /**

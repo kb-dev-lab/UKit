@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, AsyncStorage, FlatList, NetInfo, Text, View } from 'react-native';
+import { ActivityIndicator, AsyncStorage, FlatList, Text, View } from 'react-native';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -10,6 +10,7 @@ import { isArraysEquals, upperCaseFirstLetter } from '../utils';
 import RequestError from './alerts/RequestError';
 import ErrorAlert from './alerts/ErrorAlert';
 import Translator from '../utils/translator';
+import DeviceUtils from '../utils/DeviceUtils';
 
 class Day extends React.Component {
     constructor(props) {
@@ -78,8 +79,7 @@ class Day extends React.Component {
         let cacheDate = null;
 
         this.setState({ schedule: null, loading: true, cancelToken }, async () => {
-            const isConnected = (await NetInfo.getConnectionInfo()) !== 'none';
-            if (isConnected) {
+            if (await DeviceUtils.isConnected()) {
                 try {
                     const response = await axios.get(
                         `https://hackjack.info/et/json.php?type=day&name=${data[0]}&group=${data[1]}&date=${date}`,
