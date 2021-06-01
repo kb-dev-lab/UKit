@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, AsyncStorage, NetInfo, ScrollView, Text, View } from 'react-native';
+import { ActivityIndicator, AsyncStorage, ScrollView, Text, View } from 'react-native';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -9,6 +9,7 @@ import DayWeek from './ui/DayWeek';
 import { isArraysEquals } from '../utils';
 import ErrorAlert from './alerts/ErrorAlert';
 import RequestError from './alerts/RequestError';
+import DeviceUtils from '../utils/DeviceUtils';
 
 class Week extends React.Component {
     constructor(props) {
@@ -74,9 +75,7 @@ class Week extends React.Component {
         let cacheDate = null;
 
         this.setState({ schedule: null, loading: true, cancelToken }, async () => {
-            const isConnected = (await NetInfo.getConnectionInfo()) !== 'none';
-
-            if (isConnected) {
+            if (await DeviceUtils.isConnected()) {
                 try {
                     const response = await axios.get(
                         `https://hackjack.info/et/json.php?type=week&name=${data[0]}&group=${data[1]}&week=${this.state.week}&clean=true`,
