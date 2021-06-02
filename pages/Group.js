@@ -9,7 +9,7 @@ import Translator from '../utils/translator';
 
 export default class Group extends React.Component {
     static navigationOptions = ({ navigation, screenProps }) => {
-        const groupName = navigation.state.params.name;
+        const groupName = route.params.name;
         const title = groupName.replace(/_/g, ' ');
 
         const leftButton = <BackButton backAction={navigation.goBack} />;
@@ -34,7 +34,7 @@ export default class Group extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { groupName: this.props.navigation.state.params.name };
+        this.state = { groupName: this.props.route.params.name };
     }
 
     render() {

@@ -4,7 +4,7 @@ import MapView from 'react-native-maps';
 import { Polygon, Svg } from 'react-native-svg';
 import { connect } from 'react-redux';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { SafeAreaView } from 'react-navigation';
+import SafeAreaView from 'react-native-safe-area-view';
 
 import style from '../Style';
 import BackButton from '../components/buttons/BackButton';
@@ -52,8 +52,8 @@ const mapStyle = [
 ];
 
 class Course extends React.Component {
-    static navigationOptions = ({ navigation, screenProps }) => {
-        let title = navigation.getParam('title', 'Détails');
+    static navigationOptions = ({ navigation , route ,screenProps }) => {
+        let title = route.params?.title ?? 'Détails'
         let leftButton = <BackButton backAction={navigation.goBack} />;
 
         return NavBarHelper({
@@ -65,7 +65,7 @@ class Course extends React.Component {
 
     constructor(props) {
         super(props);
-        const { data } = this.props.navigation.state.params;
+        const { data } = this.props.route.params;
 
         this.state = {
             data,

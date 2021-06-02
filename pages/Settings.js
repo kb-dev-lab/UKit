@@ -2,7 +2,7 @@ import React from 'react';
 import { Dimensions, Keyboard, Platform, Text, TextInput, View, Picker } from 'react-native';
 import PopupDialog, { DialogButton, DialogTitle, FadeAnimation } from 'react-native-popup-dialog';
 import { connect } from 'react-redux';
-import { SafeAreaView } from 'react-navigation';
+import SafeAreaView from 'react-native-safe-area-view';
 
 import { setFilters } from '../actions/setFilters';
 import { setLanguage } from '../actions/setLanguage';

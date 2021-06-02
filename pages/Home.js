@@ -16,7 +16,7 @@ import Translator from '../utils/translator';
 import DeviceUtils from '../utils/DeviceUtils';
 
 class Home extends React.Component {
-    static navigationOptions = ({ navigation, navigationOptions, screenProps }) => {
+    static navigationOptions = ({ navigation, screenProps }) => {
         const title = Translator.get('GROUPS');
         const leftButton = (
             <TouchableOpacity

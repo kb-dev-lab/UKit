@@ -1,7 +1,8 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Platform, View } from 'react-native';
-import { SafeAreaView, createAppContainer } from 'react-navigation';
+import SafeAreaView from 'react-native-safe-area-view';
+import { NavigationContainer } from '@react-navigation/native';
 import { PersistGate } from 'redux-persist/es/integration/react';
 
 import StatusBar from '../components/ui/StatusBar';
@@ -15,14 +16,14 @@ if (Platform.OS === 'android') {
 }
 
 const { store, pStore } = configureStore();
-const DrawerContainer = createAppContainer(Drawer);
+// const DrawerContainer = createAppContainer(Drawer);
 
 export default () => (
     <View style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
         <Provider store={store} style={style.fonts.default}>
             <PersistGate loading={null} persistor={pStore}>
                 <StatusBar />
-                <DrawerContainer />
+                <Drawer />
             </PersistGate>
         </Provider>
     </View>

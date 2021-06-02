@@ -3,7 +3,7 @@ import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { SafeAreaView } from 'react-navigation';
+import SafeAreaView from 'react-native-safe-area-view';
 
 import CalendarWeek from '../components/CalendarWeek';
 import WeekComponent from '../components/Week';
@@ -19,7 +19,7 @@ function capitalize(str) {
 
 class WeekView extends React.Component {
     static navigationOptions = ({ navigation, screenProps }) => {
-        const groupName = navigation.state.params.groupName;
+        const groupName = route.params.groupName;
         const title = groupName.replace(/_/g, ' ');
         const leftButton = <BackButton backAction={navigation.goBack} />;
 
@@ -46,7 +46,7 @@ class WeekView extends React.Component {
         super(props);
 
         const currentWeek = moment().isoWeek();
-        const groupName = this.props.navigation.state.params.groupName;
+        const groupName = this.props.route.params.groupName;
         const weeks = WeekView.generateWeeks();
 
         this.state = {

@@ -1,7 +1,8 @@
 import React from 'react';
 import { ActivityIndicator, Linking, Platform, TouchableOpacity, View } from 'react-native';
 import { WebView } from 'react-native-webview';
-import { withNavigation, SafeAreaView } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
+import SafeAreaView from 'react-native-safe-area-view';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
@@ -31,8 +32,8 @@ const entrypoints = {
 };
 
 class WebBrowser extends React.Component {
-    static navigationOptions = ({ navigation, screenProps }) => {
-        let title = treatTitle(navigation.getParam('title', Translator.get('WEB_BROWSER')));
+    static navigationOptions = ({ navigation, route, screenProps }) => {
+        let title = treatTitle(route.params?.title ?? Translator.get('WEB_BROWSER'));
         let leftButton = <BackButton backAction={navigation.goBack} />;
 
         return NavBarHelper({
@@ -46,8 +47,8 @@ class WebBrowser extends React.Component {
         super(props);
 
         let uri = 'https://ukit-bordeaux.fr';
-        if (this.props.navigation.state.params) {
-            const { entrypoint, href } = this.props.navigation.state.params;
+        if (this.props.route.params) {
+            const { entrypoint, href } = this.props.route.params;
             if (entrypoint) {
                 if (entrypoints[entrypoint]) {
                     uri = entrypoints[entrypoint];
@@ -58,7 +59,7 @@ class WebBrowser extends React.Component {
         }
 
         this.state = {
-            entrypoint: this.props.navigation.state.params.entrypoint,
+            entrypoint: this.props.route.params.entrypoint,
             title: null,
             url: '',
             uri,
