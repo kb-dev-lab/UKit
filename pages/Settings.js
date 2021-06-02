@@ -71,14 +71,14 @@ class Settings extends React.Component {
         };
     }
 
-    static getDerivedStateFromProps(nextProps) {
+    static getDerivedStateFromProps(nextProps, prevState) {
         const nextState = {};
 
-        if (this.state.savedGroup !== nextProps.savedGroup) {
+        if (prevState.savedGroup !== nextProps.savedGroup) {
             nextState.savedGroup = nextProps.savedGroup;
         }
         
-        if (this.state.filters !== nextProps.filters) {
+        if (prevState.filters !== nextProps.filters) {
             let newFilters = Settings.unserializeFilters(nextProps.filters);
 
             nextState.initialFilters = newFilters;
