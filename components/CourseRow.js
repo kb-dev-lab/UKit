@@ -72,7 +72,7 @@ export default class CourseRow extends React.PureComponent {
             if (this.props.data.staff !== 'N/C') {
                 staffTitle = (
                     <View style={style.schedule.course.iconHeader}>
-                        <MaterialCommunityIcons name="voice" size={18} style={{ width: 18, height: 18, color: theme.font }} />
+                        <MaterialCommunityIcons name="account-voice" size={18} style={{ width: 18, height: 18, color: theme.font }} />
                     </View>
                 );
                 staff = this.props.data.staff.split(' | ').map((staff, key) => {
