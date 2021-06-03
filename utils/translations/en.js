@@ -8,6 +8,7 @@ export default {
 		CONFIDENTIALITY_POLITIC: 'Confidentiality politic',
 		CONTACT_US: 'Contact us',		
     DAY: 'Day',
+    DETAILS: 'Details',
     DISPLAY: 'Display',
     ERROR_WITH_CODE: 'Server send an error $-',
     ERROR_WITH_MESSAGE: 'Error : $-',

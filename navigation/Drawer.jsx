@@ -144,7 +144,7 @@ const Drawer = createDrawerNavigator();
 
 export default () => (
     <NavigationContainer>
-        <Drawer.Navigator screenOptions={{headerShown: true}} drawerContent={(props) => <CustomDrawerContentComponent {...props} />}>
+        <Drawer.Navigator drawerContent={(props) => <CustomDrawerContentComponent {...props} />}>
             <Drawer.Screen name="Home" component={StackNavigator} />
         </Drawer.Navigator>
     </NavigationContainer>

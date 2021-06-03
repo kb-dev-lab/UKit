@@ -10,6 +10,7 @@ import { isArraysEquals } from '../utils';
 import ErrorAlert from './alerts/ErrorAlert';
 import RequestError from './alerts/RequestError';
 import DeviceUtils from '../utils/DeviceUtils';
+import Translator from '../utils/translator';
 
 class Week extends React.Component {
     constructor(props) {
@@ -110,7 +111,7 @@ class Week extends React.Component {
     }
 
     displayWeek() {
-        return 'Semaine ' + this.state.week;
+        return Translator.get('WEEK') + ' ' + this.state.week;
     }
 
     computeSchedule(schedule, isFavorite) {

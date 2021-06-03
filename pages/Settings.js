@@ -6,13 +6,11 @@ import SafeAreaView from 'react-native-safe-area-view';
 
 import { setFilters } from '../actions/setFilters';
 import { setLanguage } from '../actions/setLanguage';
-import BackButton from '../components/buttons/BackButton';
 import SettingsCategoryHeader from '../components/ui/settings/SettingsCategoryHeader';
 import SettingsDividerLong from '../components/ui/settings/SettingsDividerLong';
 import SettingsEditText from '../components/ui/settings/SettingsEditText';
 import SettingsDividerShort from '../components/ui/settings/SettingsDividerShort';
 import SettingsSwitch from '../components/ui/settings/SettingsSwitch';
-import NavBarHelper from '../components/NavBarHelper';
 import style from '../Style';
 import Translator from '../utils/translator';
 
@@ -28,17 +26,6 @@ const colors = {
 const fadeAnimation = new FadeAnimation({ animationDuration: 150 });
 
 class Settings extends React.Component {
-    static navigationOptions = ({ navigation, screenProps }) => {
-        let title = Translator.get('SETTINGS');
-        let leftButton = <BackButton backAction={navigation.goBack} />;
-
-        return NavBarHelper({
-            headerLeft: leftButton,
-            title,
-            themeName: screenProps.themeName,
-        });
-    };
-
     constructor(props) {
         super(props);
 

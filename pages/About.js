@@ -6,22 +6,9 @@ import Constants from 'expo-constants';
 
 import style from '../Style';
 import URLButton from '../components/buttons/URLButton';
-import BackButton from '../components/buttons/BackButton';
-import NavBarHelper from '../components/NavBarHelper';
 import Translator from '../utils/translator';
 
 class About extends React.Component {
-    static navigationOptions = ({ navigation, screenProps }) => {
-        let title = 'À propos';
-        let leftButton = <BackButton backAction={navigation.goBack} />;
-
-        return NavBarHelper({
-            headerLeft: leftButton,
-            title,
-            themeName: screenProps.themeName,
-        });
-    };
-
     render() {
         const theme = style.Theme[this.props.themeName];
 

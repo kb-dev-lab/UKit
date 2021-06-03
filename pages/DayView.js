@@ -15,13 +15,6 @@ function capitalize(str) {
 }
 
 class DayView extends React.Component {
-    static navigationOptions = {
-        tabBarLabel: Translator.get('DAY'),
-        tabBarIcon: ({ tintColor }) => {
-            return <MaterialCommunityIcons name="calendar" size={24} style={{ color: tintColor }} />;
-        },
-    };
-
     constructor(props) {
         super(props);
 

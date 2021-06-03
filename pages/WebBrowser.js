@@ -7,10 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
 
-import BackButton from '../components/buttons/BackButton';
-import NavBarHelper from '../components/NavBarHelper';
 import style from '../Style';
-import Translator from '../utils/translator';
 
 function treatTitle(str) {
     if (str.length > 18) {
@@ -32,17 +29,6 @@ const entrypoints = {
 };
 
 class WebBrowser extends React.Component {
-    static navigationOptions = ({ navigation, route, screenProps }) => {
-        let title = treatTitle(route.params?.title ?? Translator.get('WEB_BROWSER'));
-        let leftButton = <BackButton backAction={navigation.goBack} />;
-
-        return NavBarHelper({
-            headerLeft: leftButton,
-            title,
-            themeName: screenProps.themeName,
-        });
-    };
-
     constructor(props) {
         super(props);
 

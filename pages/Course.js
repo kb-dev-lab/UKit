@@ -7,10 +7,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import SafeAreaView from 'react-native-safe-area-view';
 
 import style from '../Style';
-import BackButton from '../components/buttons/BackButton';
 import CourseRow from '../components/CourseRow';
 import { getLocations, getLocationsInText } from '../utils';
-import NavBarHelper from '../components/NavBarHelper';
 
 const mapStyle = [
     {
@@ -52,17 +50,6 @@ const mapStyle = [
 ];
 
 class Course extends React.Component {
-    static navigationOptions = ({ navigation , route ,screenProps }) => {
-        let title = route.params?.title ?? 'Détails'
-        let leftButton = <BackButton backAction={navigation.goBack} />;
-
-        return NavBarHelper({
-            headerLeft: leftButton,
-            title,
-            themeName: screenProps.themeName,
-        });
-    };
-
     constructor(props) {
         super(props);
         const { data } = this.props.route.params;

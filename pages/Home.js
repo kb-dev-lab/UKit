@@ -7,51 +7,16 @@ import moment from 'moment';
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import Toast from 'react-native-root-toast';
 
-import NavBarHelper from '../components/NavBarHelper';
 import SectionListHeader from '../components/ui/SectionListHeader';
 import Split from '../components/ui/Split';
 import GroupRow from '../components/GroupRow';
 import style from '../Style';
 import Translator from '../utils/translator';
-import DeviceUtils from '../utils/DeviceUtils';
+import DeviceUtils, { AppContext } from '../utils/DeviceUtils';
 
 class Home extends React.Component {
-    static navigationOptions = ({ navigation, screenProps }) => {
-        const title = Translator.get('GROUPS');
-        const leftButton = (
-            <TouchableOpacity
-                onPress={() => {
-                    navigation.openDrawer();
-                }}
-                style={{
-                    justifyContent: 'space-around',
-                    paddingLeft: 16,
-                }}>
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                    }}>
-                    <MaterialCommunityIcons
-                        name="menu"
-                        size={32}
-                        style={{
-                            color: '#F0F0F0',
-                            height: 32,
-                            width: 32,
-                        }}
-                    />
-                </View>
-            </TouchableOpacity>
-        );
-
-        return NavBarHelper({
-            title,
-            headerLeft: leftButton,
-            themeName: screenProps.themeName,
-        });
-    };
-
+    static contextType = AppContext;
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -92,7 +57,7 @@ class Home extends React.Component {
                     key: previousSection,
                     data: [],
                     sectionIndex: ++sectionIndex,
-                    colorIndex: sectionIndex % style.Theme[this.props.themeName].sections.length,
+                    colorIndex: sectionIndex % style.Theme[this.context.themeName].sections.length,
                 };
             }
 
@@ -209,7 +174,7 @@ class Home extends React.Component {
     }
 
     render() {
-        const theme = style.Theme[this.props.themeName];
+        const theme = style.Theme[this.context.themeName];
 
         let content = null,
             cache = null;

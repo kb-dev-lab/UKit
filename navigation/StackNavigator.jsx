@@ -15,8 +15,10 @@ import DayView from '../pages/DayView';
 import WeekView from '../pages/WeekView';
 
 import NavBarHelper from '../components/NavBarHelper';
-import Translator from '../utils/translator';
 import BackButton from '../components/buttons/BackButton';
+import SaveButton from '../components/buttons/SaveGroupButton';
+import { AppContext, AppContextProvider, treatTitle } from '../utils/DeviceUtils';
+import Translator from '../utils/translator';
 
 const mapStateToProps = (state) => ({ themeName: state.darkMode.themeName });
 
@@ -53,96 +55,172 @@ const mapStateToProps = (state) => ({ themeName: state.darkMode.themeName });
 const Stack = createStackNavigator();
 
 const StackNavigator = () => (
-    <Stack.Navigator>
-        <Stack.Screen
-            name="Home"
-            component={Home}
-            // options={({ navigation, screenProps }) => {
-            //     const title = Translator.get('GROUPS');
-            //     const leftButton = (
-            //         <TouchableOpacity
-            //             onPress={() => {
-            //                 navigation.openDrawer();
-            //             }}
-            //             style={{
-            //                 justifyContent: 'space-around',
-            //                 paddingLeft: 16,
-            //             }}>
-            //             <View
-            //                 style={{
-            //                     flexDirection: 'row',
-            //                     justifyContent: 'space-between',
-            //                 }}>
-            //                 <MaterialCommunityIcons
-            //                     name="menu"
-            //                     size={32}
-            //                     style={{
-            //                         color: '#F0F0F0',
-            //                         height: 32,
-            //                         width: 32,
-            //                     }}
-            //                 />
-            //             </View>
-            //         </TouchableOpacity>
-            //     );
+    <AppContext.Consumer>
+        {({ themeName }) => (
+            <Stack.Navigator
+                screenOptions={({ navigation, route }) => {
+                    let leftButton = <BackButton backAction={navigation.goBack} />;
+                    let title = route.name
 
-            //     return NavBarHelper({
-            //         title,
-            //         headerLeft: leftButton,
-            //         themeName: screenProps.themeName,
-            //     });
-            // }}
-        />
-        <Stack.Screen
-            name="Group"
-            component={Group}
-        />
-        <Stack.Screen
-            name="Week"
-            component={WeekView}
-        />
-        <Stack.Screen
-            name="Day"
-            component={DayView}
-        />
-        <Stack.Screen
-            name="About"
-            component={About}
-            options={({ navigation, screenProps }) => {
-                let title = 'À propos';
-                let leftButton = <BackButton backAction={navigation.goBack} />;
+                    return NavBarHelper({
+                        headerLeft: () => leftButton,
+                        title,
+                        themeName,
+                    });
+                }}
+            >
+                <Stack.Screen
+                    name="Home"
+                    component={Home}
+                    options={({ navigation }) => {
+                        const title = Translator.get('GROUPS');
+                        const leftButton = (
+                            <TouchableOpacity
+                                onPress={() => {
+                                    navigation.openDrawer();
+                                }}
+                                style={{
+                                    justifyContent: 'space-around',
+                                    paddingLeft: 16,
+                                }}>
+                                <View
+                                    style={{
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                    }}>
+                                    <MaterialCommunityIcons
+                                        name="menu"
+                                        size={32}
+                                        style={{
+                                            color: '#F0F0F0',
+                                            height: 32,
+                                            width: 32,
+                                        }}
+                                    />
+                                </View>
+                            </TouchableOpacity>
+                        );
+                        return NavBarHelper({
+                            headerLeft: () => leftButton,
+                            title,
+                            themeName,
+                        });
+                    }}
+                />
+                <Stack.Screen
+                    name="Group"
+                    component={Group}
+                    options={({ route }) => {
+                        const groupName = route.params.name;
+                        const title = groupName.replace(/_/g, ' ');
+                        const rightButton = (
+                            <View
+                                style={{
+                                    justifyContent: 'space-around',
+                                    paddingRight: 16,
+                                    flexDirection: 'row',
+                                }}>
+                                <SaveButton groupName={groupName} />
+                            </View>
+                        );
 
-                return NavBarHelper({
-                    headerLeft: leftButton,
-                    title,
-                    themeName: screenProps.themeName,
-                });
-            }}
-        />
-        <Stack.Screen
-            name="Settings"
-            component={Settings}
-        />
-        <Stack.Screen
-            name="WebBrowser"
-            component={WebBrowser}
-        />
-        <Stack.Screen
-            name="Geolocation"
-            component={Geolocation}
-        />
-        <Stack.Screen
-            name="Course"
-            component={Course}
-        />
-    </Stack.Navigator>
+                        return NavBarHelper({
+                            title,
+                            headerRight: () => rightButton,
+                            themeName,
+                        });
+                    }}
+                />
+                <Stack.Screen
+                    name="Week"
+                    component={WeekView}
+                    options={({ route }) => {
+                        const groupName = route.params.groupName;
+                        const title = groupName.replace(/_/g, ' ');
+                        const rightButton = (
+                            <View
+                                style={{
+                                    justifyContent: 'space-around',
+                                    paddingRight: 16,
+                                    flexDirection: 'row',
+                                }}>
+                                <SaveButton groupName={groupName} />
+                            </View>
+                        );
+
+                        return NavBarHelper({
+                            headerRight: () => rightButton,
+                            title,
+                            themeName,
+                        });
+                    }}
+                />
+                <Stack.Screen
+                    name="Day"
+                    component={DayView}
+                    options={{
+                        tabBarLabel: Translator.get('DAY'),
+                        tabBarIcon: ({ tintColor }) => {
+                            return <MaterialCommunityIcons name="calendar" size={24} style={{ color: tintColor }} />;
+                        },
+                    }}
+                />
+                <Stack.Screen
+                    name="About"
+                    component={About}
+                    options={{
+                        title: Translator.get('ABOUT'),
+                    }}
+                />
+                <Stack.Screen
+                    name="Settings"
+                    component={Settings}
+                    options={{
+                        title: Translator.get('SETTINGS'),
+                    }}
+                />
+                <Stack.Screen
+                    name="WebBrowser"
+                    component={WebBrowser}
+                    options={({ route }) => {
+                        let title = treatTitle(route.params?.title ?? Translator.get('WEB_BROWSER'));
+                        
+                        return NavBarHelper({
+                            title,
+                            themeName,
+                        });
+                    }}
+                />
+                <Stack.Screen
+                    name="Geolocation"
+                    component={Geolocation}
+                />
+                <Stack.Screen
+                    name="Course"
+                    component={Course}
+                    options={({ route }) => {
+                        let title = route.params?.title ?? Translator.get('DETAILS')
+
+                        return NavBarHelper({
+                            title,
+                            themeName,
+                        });
+                    }}
+                />
+            </Stack.Navigator>
+        )}
+    </AppContext.Consumer>
 );
 
 class CustomStackNavigator extends React.Component {
     static router = StackNavigator.router;
 
     render() {
-        return <StackNavigator navigation={this.props.navigation} screenProps={{ themeName: this.props.themeName }} />;
+        return (
+            <AppContextProvider value={{ themeName: this.props.themeName }}>
+                <StackNavigator navigation={this.props.navigation} />
+            </AppContextProvider>
+        );
     }
 }
 
