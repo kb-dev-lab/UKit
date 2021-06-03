@@ -2,7 +2,7 @@ import React from 'react';
 import { ActivityIndicator, Linking, Platform, TouchableOpacity, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { withNavigation } from '@react-navigation/compat';
-import SafeAreaView from 'react-native-safe-area-view';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { connect } from 'react-redux';

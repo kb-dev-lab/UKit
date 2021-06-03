@@ -22,36 +22,6 @@ import Translator from '../utils/translator';
 
 const mapStateToProps = (state) => ({ themeName: state.darkMode.themeName });
 
-// const StackNavigator = createStackNavigator({
-//     Home: {
-//         screen: Home,
-//     },
-//     Group: {
-//         screen: Group,
-//     },
-//     Week: {
-//         screen: WeekView,
-//     },
-//     Day: {
-//         screen: DayView,
-//     },
-//     About: {
-//         screen: About,
-//     },
-//     Settings: {
-//         screen: Settings,
-//     },
-//     WebBrowser: {
-//         screen: WebBrowser,
-//     },
-//     Geolocation: {
-//         screen: Geolocation,
-//     },
-//     Course: {
-//         screen: Course,
-//     },
-// });
-
 const Stack = createStackNavigator();
 
 const StackNavigator = () => (

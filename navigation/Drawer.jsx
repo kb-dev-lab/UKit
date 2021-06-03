@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, ScrollView, Image, TouchableOpacity } from 'react-native';
-import SafeAreaView from 'react-native-safe-area-view';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { connect } from 'react-redux';

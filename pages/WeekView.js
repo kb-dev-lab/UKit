@@ -3,7 +3,7 @@ import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import SafeAreaView from 'react-native-safe-area-view';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import CalendarWeek from '../components/CalendarWeek';
 import WeekComponent from '../components/Week';

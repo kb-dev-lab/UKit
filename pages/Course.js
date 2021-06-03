@@ -4,7 +4,7 @@ import MapView from 'react-native-maps';
 import { Polygon, Svg } from 'react-native-svg';
 import { connect } from 'react-redux';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import SafeAreaView from 'react-native-safe-area-view';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import style from '../Style';
 import CourseRow from '../components/CourseRow';
