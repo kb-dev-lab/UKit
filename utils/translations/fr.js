@@ -9,6 +9,7 @@ export default {
     CONFIDENTIALITY_POLITIC: 'Politique de confidentialité',
     CONTACT_US: 'Nous contacter',
     DAY: 'Jour',
+    DETAILS: 'Détails',
     DISPLAY: 'Affichage',
     ERROR_WITH_CODE: 'Le serveur a renvoyé une erreur $-',
     ERROR_WITH_MESSAGE: 'Erreur : $-',

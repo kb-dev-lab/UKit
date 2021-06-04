@@ -3,50 +3,19 @@ import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { SafeAreaView } from 'react-navigation';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import CalendarWeek from '../components/CalendarWeek';
 import WeekComponent from '../components/Week';
-import SaveButton from '../components/buttons/SaveGroupButton';
-import BackButton from '../components/buttons/BackButton';
-import NavBarHelper from '../components/NavBarHelper';
 import style from '../Style';
 import Translator from '../utils/translator';
 
-function capitalize(str) {
-    return `${str.charAt(0).toUpperCase()}${str.substr(1)}`;
-}
-
 class WeekView extends React.Component {
-    static navigationOptions = ({ navigation, screenProps }) => {
-        const groupName = navigation.state.params.groupName;
-        const title = groupName.replace(/_/g, ' ');
-        const leftButton = <BackButton backAction={navigation.goBack} />;
-
-        const rightButton = (
-            <View
-                style={{
-                    justifyContent: 'space-around',
-                    paddingRight: 16,
-                    flexDirection: 'row',
-                }}>
-                <SaveButton groupName={groupName} />
-            </View>
-        );
-
-        return NavBarHelper({
-            headerLeft: leftButton,
-            headerRight: rightButton,
-            title,
-            themeName: screenProps.themeName,
-        });
-    };
-
     constructor(props) {
         super(props);
 
         const currentWeek = moment().isoWeek();
-        const groupName = this.props.navigation.state.params.groupName;
+        const groupName = this.props.route.params.groupName;
         const weeks = WeekView.generateWeeks();
 
         this.state = {

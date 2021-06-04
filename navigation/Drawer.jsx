@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, ScrollView, Image, TouchableOpacity } from 'react-native';
-import { createDrawerNavigator, SafeAreaView } from 'react-navigation';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { connect } from 'react-redux';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -127,13 +129,23 @@ const CustomDrawerContentComponent = connect(
     );
 });
 
-export default createDrawerNavigator(
-    {
-        Home: {
-            screen: StackNavigator,
-        },
-    },
-    {
-        contentComponent: CustomDrawerContentComponent,
-    }
+// export default createDrawerNavigator(
+//     {
+//         Home: {
+//             screen: StackNavigator,
+//         },
+//     },
+//     {
+//         contentComponent: CustomDrawerContentComponent,
+//     }
+// );
+
+const Drawer = createDrawerNavigator();
+
+export default () => (
+    <NavigationContainer>
+        <Drawer.Navigator drawerContent={(props) => <CustomDrawerContentComponent {...props} />}>
+            <Drawer.Screen name="Home" component={StackNavigator} />
+        </Drawer.Navigator>
+    </NavigationContainer>
 );

@@ -1,15 +1,13 @@
 import React from 'react';
-import { ActivityIndicator, Linking, Platform, TouchableOpacity, View, WebView } from 'react-native';
-import { withNavigation, SafeAreaView } from 'react-navigation';
+import { ActivityIndicator, Linking, Platform, TouchableOpacity, View } from 'react-native';
+import { WebView } from 'react-native-webview';
+import { withNavigation } from '@react-navigation/compat';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
-import { SafeViewArea } from 'react-navigation';
 
-import BackButton from '../components/buttons/BackButton';
-import NavBarHelper from '../components/NavBarHelper';
 import style from '../Style';
-import Translator from '../utils/translator';
 
 function treatTitle(str) {
     if (str.length > 18) {
@@ -31,23 +29,12 @@ const entrypoints = {
 };
 
 class WebBrowser extends React.Component {
-    static navigationOptions = ({ navigation, screenProps }) => {
-        let title = treatTitle(navigation.getParam('title', Translator.get('WEB_BROWSER')));
-        let leftButton = <BackButton backAction={navigation.goBack} />;
-
-        return NavBarHelper({
-            headerLeft: leftButton,
-            title,
-            themeName: screenProps.themeName,
-        });
-    };
-
     constructor(props) {
         super(props);
 
         let uri = 'https://ukit-bordeaux.fr';
-        if (this.props.navigation.state.params) {
-            const { entrypoint, href } = this.props.navigation.state.params;
+        if (this.props.route.params) {
+            const { entrypoint, href } = this.props.route.params;
             if (entrypoint) {
                 if (entrypoints[entrypoint]) {
                     uri = entrypoints[entrypoint];
@@ -58,7 +45,7 @@ class WebBrowser extends React.Component {
         }
 
         this.state = {
-            entrypoint: this.props.navigation.state.params.entrypoint,
+            entrypoint: this.props.route.params.entrypoint,
             title: null,
             url: '',
             uri,

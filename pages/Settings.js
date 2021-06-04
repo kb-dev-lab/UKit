@@ -1,18 +1,17 @@
 import React from 'react';
-import { Dimensions, Keyboard, Platform, Text, TextInput, View, Picker } from 'react-native';
-import PopupDialog, { DialogButton, DialogTitle, FadeAnimation } from 'react-native-popup-dialog';
+import { Dimensions, Keyboard, Platform, Text, TextInput, View } from 'react-native';
+import {Picker} from '@react-native-picker/picker';
+import PopupDialog, { DialogButton, FadeAnimation } from 'react-native-popup-dialog';
 import { connect } from 'react-redux';
-import { SafeAreaView } from 'react-navigation';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { setFilters } from '../actions/setFilters';
 import { setLanguage } from '../actions/setLanguage';
-import BackButton from '../components/buttons/BackButton';
 import SettingsCategoryHeader from '../components/ui/settings/SettingsCategoryHeader';
 import SettingsDividerLong from '../components/ui/settings/SettingsDividerLong';
 import SettingsEditText from '../components/ui/settings/SettingsEditText';
 import SettingsDividerShort from '../components/ui/settings/SettingsDividerShort';
 import SettingsSwitch from '../components/ui/settings/SettingsSwitch';
-import NavBarHelper from '../components/NavBarHelper';
 import style from '../Style';
 import Translator from '../utils/translator';
 
@@ -28,17 +27,6 @@ const colors = {
 const fadeAnimation = new FadeAnimation({ animationDuration: 150 });
 
 class Settings extends React.Component {
-    static navigationOptions = ({ navigation, screenProps }) => {
-        let title = Translator.get('SETTINGS');
-        let leftButton = <BackButton backAction={navigation.goBack} />;
-
-        return NavBarHelper({
-            headerLeft: leftButton,
-            title,
-            themeName: screenProps.themeName,
-        });
-    };
-
     constructor(props) {
         super(props);
 
@@ -71,14 +59,21 @@ class Settings extends React.Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.state.savedGroup !== nextProps.savedGroup) {
-            this.setState({ savedGroup: nextProps.savedGroup });
+    static getDerivedStateFromProps(nextProps, prevState) {
+        const nextState = {};
+
+        if (prevState.savedGroup !== nextProps.savedGroup) {
+            nextState.savedGroup = nextProps.savedGroup;
         }
-        if (this.state.filters !== nextProps.filters) {
+
+        if (prevState.filters !== nextProps.filters) {
             let newFilters = Settings.unserializeFilters(nextProps.filters);
-            this.setState({ initialFilters: newFilters, filters: newFilters });
+
+            nextState.initialFilters = newFilters;
+            nextState.filters = newFilters;
         }
+
+        return nextState;
     }
 
     /**
@@ -209,6 +204,7 @@ class Settings extends React.Component {
                 <SettingsDividerLong />
 
                 <PopupDialog
+                    visible={true}
                     dialogStyle={{ position: 'absolute', top: 20, backgroundColor: theme.background }}
                     width={0.9}
                     ref={(dialog) => {
@@ -275,6 +271,7 @@ class Settings extends React.Component {
                     </View>
                 </PopupDialog>
                 <PopupDialog
+                    visible={true}
                     dialogStyle={{ position: 'absolute', top: 20, backgroundColor: theme.background }}
                     width={0.9}
                     ref={(dialog) => {

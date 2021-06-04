@@ -12,7 +12,7 @@ class MyGroupButton extends React.PureComponent {
         this._onPress = this._onPress.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         if (this.props.savedGroup !== null) {
             this.props.navigate('Group', { name: this.props.savedGroup });
         }

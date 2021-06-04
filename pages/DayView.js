@@ -3,7 +3,7 @@ import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { SafeAreaView } from 'react-navigation';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import CalendarDay from '../components/CalendarDay';
 import DayComponent from '../components/Day';
@@ -15,13 +15,6 @@ function capitalize(str) {
 }
 
 class DayView extends React.Component {
-    static navigationOptions = {
-        tabBarLabel: Translator.get('DAY'),
-        tabBarIcon: ({ tintColor }) => {
-            return <MaterialCommunityIcons name="calendar" size={24} style={{ color: tintColor }} />;
-        },
-    };
-
     constructor(props) {
         super(props);
 

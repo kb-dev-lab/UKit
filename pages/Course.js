@@ -4,13 +4,11 @@ import MapView from 'react-native-maps';
 import { Polygon, Svg } from 'react-native-svg';
 import { connect } from 'react-redux';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { SafeAreaView } from 'react-navigation';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import style from '../Style';
-import BackButton from '../components/buttons/BackButton';
 import CourseRow from '../components/CourseRow';
 import { getLocations, getLocationsInText } from '../utils';
-import NavBarHelper from '../components/NavBarHelper';
 
 const mapStyle = [
     {
@@ -52,20 +50,9 @@ const mapStyle = [
 ];
 
 class Course extends React.Component {
-    static navigationOptions = ({ navigation, screenProps }) => {
-        let title = navigation.getParam('title', 'Détails');
-        let leftButton = <BackButton backAction={navigation.goBack} />;
-
-        return NavBarHelper({
-            headerLeft: leftButton,
-            title,
-            themeName: screenProps.themeName,
-        });
-    };
-
     constructor(props) {
         super(props);
-        const { data } = this.props.navigation.state.params;
+        const { data } = this.props.route.params;
 
         this.state = {
             data,
