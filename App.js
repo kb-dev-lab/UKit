@@ -7,6 +7,7 @@ import * as Font from 'expo-font';
 import { Entypo, Feather, FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
 
 import RootContainer from './containers/rootContainer';
+import SettingsManager from './utils/SettingsManager';
 
 function cacheFonts(fonts) {
     return fonts.map((font) => Font.loadAsync(font));
@@ -29,8 +30,6 @@ export default class App extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this._loadAssetsAsync = this._loadAssetsAsync.bind(this);
     }
 
     render() {
@@ -48,7 +47,7 @@ export default class App extends React.Component {
         return <RootContainer />;
     }
 
-    async _loadAssetsAsync() {
+    _loadAssetsAsync = async () => {
         const imageAssets = cacheImages([require('./assets/icons/app.png')]);
 
         const fontAssets = cacheFonts([
@@ -62,6 +61,9 @@ export default class App extends React.Component {
         ]);
 
         await Promise.all([...imageAssets, ...fontAssets]);
+
+        await SettingsManager.loadSettings();
+
         SplashScreen.hideAsync();
     }
 }

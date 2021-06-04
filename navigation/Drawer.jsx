@@ -1,39 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { connect } from 'react-redux';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import { toggleDarkMode } from '../actions/toggleDarkMode';
 import DrawerButton from '../components/buttons/DrawerButton';
 import MyGroupButton from '../components/buttons/MyGroupButton';
 import Split from '../components/ui/Split';
 import StackNavigator from './StackNavigator';
 import style from '../Style';
 import Translator from '../utils/translator';
+import SettingsManager from '../utils/SettingsManager';
+import { AppContext } from '../utils/DeviceUtils';
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        dispatchToggleDarkMode: () => {
-            dispatch(toggleDarkMode());
-        },
-    };
-};
-
-const mapStateToProps = (state) => {
-    return {
-        themeName: state.darkMode.themeName,
-    };
-};
-
-const CustomDrawerContentComponent = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)((props) => {
+const CustomDrawerContentComponent = (props) => {
+    const AppContextValues = useContext(AppContext);
     const { navigate } = props.navigation;
-    const theme = style.Theme[props.themeName];
+    const theme = style.Theme[AppContextValues.themeName];
 
     return (
         <View style={{ flex: 1, backgroundColor: theme.primary }}>
@@ -120,14 +104,14 @@ const CustomDrawerContentComponent = connect(
                         borderTopWidth: 1,
                         backgroundColor: theme.background,
                     }}>
-                    <TouchableOpacity onPress={props.dispatchToggleDarkMode}>
+                    <TouchableOpacity onPress={SettingsManager.switchTheme}>
                         <MaterialCommunityIcons name="theme-light-dark" size={32} style={{ width: 32, height: 32, color: theme.icon }} />
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
         </View>
     );
-});
+};
 
 // export default createDrawerNavigator(
 //     {

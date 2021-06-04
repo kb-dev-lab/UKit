@@ -154,7 +154,7 @@ const StackNavigator = () => (
                     component={WebBrowser}
                     options={({ route }) => {
                         let title = treatTitle(route.params?.title ?? Translator.get('WEB_BROWSER'));
-                        
+
                         return NavBarHelper({
                             title,
                             themeName,
@@ -187,9 +187,7 @@ class CustomStackNavigator extends React.Component {
 
     render() {
         return (
-            <AppContextProvider value={{ themeName: this.props.themeName }}>
-                <StackNavigator navigation={this.props.navigation} />
-            </AppContextProvider>
+            <StackNavigator navigation={this.props.navigation} />
         );
     }
 }
