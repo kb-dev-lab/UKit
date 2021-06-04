@@ -1,5 +1,6 @@
 import React from 'react';
-import { ActivityIndicator, AsyncStorage, FlatList, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, Text, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios';
 import { connect } from 'react-redux';
 import moment from 'moment';

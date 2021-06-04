@@ -1,5 +1,6 @@
 import React from 'react';
-import { ActivityIndicator, AsyncStorage, SectionList, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, SectionList, Text, TouchableOpacity, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios';
 import { Hideo } from 'react-native-textinput-effects';
 import { connect } from 'react-redux';

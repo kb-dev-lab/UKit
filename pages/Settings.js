@@ -64,7 +64,7 @@ class Settings extends React.Component {
         if (prevState.savedGroup !== nextProps.savedGroup) {
             nextState.savedGroup = nextProps.savedGroup;
         }
-        
+
         if (prevState.filters !== nextProps.filters) {
             let newFilters = Settings.unserializeFilters(nextProps.filters);
 
@@ -203,6 +203,7 @@ class Settings extends React.Component {
                 <SettingsDividerLong />
 
                 <PopupDialog
+                    visible={true}
                     dialogStyle={{ position: 'absolute', top: 20, backgroundColor: theme.background }}
                     width={0.9}
                     ref={(dialog) => {
@@ -269,6 +270,7 @@ class Settings extends React.Component {
                     </View>
                 </PopupDialog>
                 <PopupDialog
+                    visible={true}
                     dialogStyle={{ position: 'absolute', top: 20, backgroundColor: theme.background }}
                     width={0.9}
                     ref={(dialog) => {
