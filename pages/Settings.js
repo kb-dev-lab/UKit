@@ -1,6 +1,7 @@
 import React from 'react';
-import { Dimensions, Keyboard, Platform, Text, TextInput, View, Picker } from 'react-native';
-import PopupDialog, { DialogButton, DialogTitle, FadeAnimation } from 'react-native-popup-dialog';
+import { Dimensions, Keyboard, Platform, Text, TextInput, View } from 'react-native';
+import {Picker} from '@react-native-picker/picker';
+import PopupDialog, { DialogButton, FadeAnimation } from 'react-native-popup-dialog';
 import { connect } from 'react-redux';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
