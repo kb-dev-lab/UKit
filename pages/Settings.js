@@ -14,6 +14,8 @@ import SettingsDividerShort from '../components/ui/settings/SettingsDividerShort
 import SettingsSwitch from '../components/ui/settings/SettingsSwitch';
 import style from '../Style';
 import Translator from '../utils/translator';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import SettingsManager from '../utils/SettingsManager';
 
 const colors = {
     white: '#FFFFFF',
@@ -201,6 +203,18 @@ class Settings extends React.Component {
                     disabledOverlayStyle={{ backgroundColor: theme.settings.disabledOverlay }}
                     thumbColor={this.state.openAppOnFavoriteGroup ? colors.switchEnabled : colors.switchDisabled}
                 />
+                <SettingsDividerLong />
+                <TouchableOpacity
+                    style={{ 
+                        backgroundColor: theme.settings.section,
+                        padding: 16
+                     }}
+                    onPress={() => {SettingsManager.setFirstLoad(true)}}
+                    >
+                    <Text>
+                        RESET FIRSTLOAD
+                    </Text>
+                </TouchableOpacity>
                 <SettingsDividerLong />
 
                 <PopupDialog
