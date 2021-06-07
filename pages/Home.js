@@ -107,7 +107,7 @@ class Home extends React.Component {
                 AsyncStorage.setItem('groups', JSON.stringify({ list, date: moment() }));
             } catch (error) {
                 if (error.response) {
-                    Toast.show(Trnaslator.get('ERROR_WITH_CODE'), {
+                    Toast.show(Translator.get('ERROR_WITH_CODE'), {
                         duration: Toast.durations.LONG,
                         position: Toast.positions.BOTTOM,
                         shadow: true,

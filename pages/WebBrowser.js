@@ -8,18 +8,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
 
 import style from '../Style';
-
-function treatTitle(str) {
-    if (str.length > 18) {
-        if (str.charAt(18) === ' ') {
-            return `${str.substr(0, 18)}…`;
-        }
-
-        return `${str.substr(0, 18)} …`;
-    }
-
-    return str;
-}
+import { AppContext } from '../utils/DeviceUtils';
 
 const entrypoints = {
     ent: 'https://ent.u-bordeaux.fr',
@@ -29,6 +18,8 @@ const entrypoints = {
 };
 
 class WebBrowser extends React.Component {
+    static contextType = AppContext;
+
     constructor(props) {
         super(props);
 
@@ -86,7 +77,7 @@ class WebBrowser extends React.Component {
     }
 
     renderLoading() {
-        const theme = style.Theme[this.props.themeName];
+        const theme = style.Theme[this.context.themeName];
 
         return (
             <View style={{ flex: 1, justifyContent: 'center', backgroundColor: theme.greyBackground }}>
@@ -100,7 +91,7 @@ class WebBrowser extends React.Component {
             return this.renderLoading();
         }
 
-        const theme = style.Theme[this.props.themeName];
+        const theme = style.Theme[this.context.themeName];
 
         let javascript = null;
         if (Platform.OS !== 'ios') {

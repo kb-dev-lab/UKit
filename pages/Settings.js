@@ -16,6 +16,7 @@ import style from '../Style';
 import Translator from '../utils/translator';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import SettingsManager from '../utils/SettingsManager';
+import { AppContext } from '../utils/DeviceUtils';
 
 const colors = {
     white: '#FFFFFF',
@@ -29,6 +30,8 @@ const colors = {
 const fadeAnimation = new FadeAnimation({ animationDuration: 150 });
 
 class Settings extends React.Component {
+    static contextType = AppContext;
+
     constructor(props) {
         super(props);
 
@@ -150,7 +153,7 @@ class Settings extends React.Component {
     };
 
     render() {
-        const theme = style.Theme[this.props.themeName];
+        const theme = style.Theme[this.context.themeName];
 
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: theme.settings.background }}>

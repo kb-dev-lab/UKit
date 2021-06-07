@@ -9,8 +9,11 @@ import CalendarWeek from '../components/CalendarWeek';
 import WeekComponent from '../components/Week';
 import style from '../Style';
 import Translator from '../utils/translator';
+import { AppContext } from '../utils/DeviceUtils';
 
 class WeekView extends React.Component {
+    static contextType = AppContext;
+    
     constructor(props) {
         super(props);
 
@@ -52,13 +55,13 @@ class WeekView extends React.Component {
                 selectedWeek={this.state.selectedWeek}
                 currentWeek={this.state.currentWeek}
                 onPressItem={this.onWeekPress}
-                theme={style.Theme[this.props.themeName]}
+                theme={style.Theme[this.context.themeName]}
             />
         );
     }
 
     extractCalendarListItemKey(item) {
-        return `S${item}-${this.props.themeName}`;
+        return `S${item}-${this.context.themeName}`;
     }
 
     onTodayPress() {
@@ -117,12 +120,12 @@ class WeekView extends React.Component {
     }
 
     render() {
-        const theme = style.Theme[this.props.themeName];
+        const theme = style.Theme[this.context.themeName];
 
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
                 <WeekComponent
-                    key={`weekComponent-${this.props.themeName}`}
+                    key={`weekComponent-${this.context.themeName}`}
                     week={this.state.selectedWeek}
                     groupName={this.state.groupName}
                     theme={theme}

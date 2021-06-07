@@ -1,5 +1,13 @@
 import React from 'react';
 import NetInfo from "@react-native-community/netinfo";
+import { NativeModules, Platform } from 'react-native';
+
+export function deviceLanguage() {
+    return Platform.OS === 'ios' 
+    ? NativeModules.SettingsManager.settings.AppleLocale 
+    || NativeModules.SettingsManager.settings.AppleLanguages[0]
+    : NativeModules.I18nManager.localeIdentifier;
+}
 
 export function treatTitle(str) {
     if (str.length > 18) {

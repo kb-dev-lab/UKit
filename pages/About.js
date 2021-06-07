@@ -7,10 +7,12 @@ import Constants from 'expo-constants';
 import style from '../Style';
 import URLButton from '../components/buttons/URLButton';
 import Translator from '../utils/translator';
+import { AppContext } from '../utils/DeviceUtils';
 
 class About extends React.Component {
+    static contextType = AppContext;
     render() {
-        const theme = style.Theme[this.props.themeName];
+        const theme = style.Theme[this.context.themeName];
 
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>

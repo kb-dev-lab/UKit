@@ -113,17 +113,6 @@ const CustomDrawerContentComponent = (props) => {
     );
 };
 
-// export default createDrawerNavigator(
-//     {
-//         Home: {
-//             screen: StackNavigator,
-//         },
-//     },
-//     {
-//         contentComponent: CustomDrawerContentComponent,
-//     }
-// );
-
 const Drawer = createDrawerNavigator();
 
 export default () => (

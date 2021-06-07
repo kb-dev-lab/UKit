@@ -1,9 +1,12 @@
 import React from 'react';
 import { View, WebView } from 'react-native';
+import { AppContext } from '../utils/DeviceUtils';
 
 const locations = require('../assets/locations.json');
 
 export default class Geolocation extends React.Component {
+    static contextType = AppContext;
+
     constructor(props) {
         super(props);
         this.state = {

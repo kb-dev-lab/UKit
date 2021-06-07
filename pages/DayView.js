@@ -9,12 +9,15 @@ import CalendarDay from '../components/CalendarDay';
 import DayComponent from '../components/Day';
 import style from '../Style';
 import Translator from '../utils/translator';
+import { AppContext } from '../utils/DeviceUtils';
 
 function capitalize(str) {
     return `${str.charAt(0).toUpperCase()}${str.substr(1)}`;
 }
 
 class DayView extends React.Component {
+    static contextType = AppContext;
+    
     constructor(props) {
         super(props);
 
@@ -54,13 +57,13 @@ class DayView extends React.Component {
                 selectedDay={this.state.selectedDay}
                 currentDay={this.state.currentDay}
                 onPressItem={this.onDayPress}
-                theme={style.Theme[this.props.themeName]}
+                theme={style.Theme[this.context.themeName]}
             />
         );
     };
 
     extractCalendarListItemKey = (item) => {
-        return `${item.date()}-${item.month()}-${this.props.themeName}`;
+        return `${item.date()}-${item.month()}-${this.context.themeName}`;
     };
 
     onTodayPress = () => {
@@ -125,12 +128,12 @@ class DayView extends React.Component {
     };
 
     render() {
-        const theme = style.Theme[this.props.themeName];
+        const theme = style.Theme[this.context.themeName];
 
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
                 <DayComponent
-                    key={`${this.state.days[0].dayOfYear()}-${this.props.themeName}`}
+                    key={`${this.state.days[0].dayOfYear()}-${this.context.themeName}`}
                     day={this.state.selectedDay}
                     groupName={this.state.groupName}
                     theme={theme}

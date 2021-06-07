@@ -22,12 +22,17 @@ const { store, pStore } = configureStore();
 export default () => {
     const [isFirstLoad, setFirstLoad] = useState(SettingsManager.isFirstLoad());
     const [themeName, setThemeName] = useState(SettingsManager.getTheme());
-
-    // not saving permanently firstload
+    const [groupName, setGroupName] = useState(SettingsManager.getGroup());
 
     useEffect(() => {
         SettingsManager.on('theme', (newTheme) => {
             setThemeName(newTheme);
+        });
+    }, []);
+
+    useEffect(() => {
+        SettingsManager.on('group', (newGroup) => {
+            setGroupName(newGroup);
         });
     }, []);
 
@@ -40,7 +45,7 @@ export default () => {
     return (
         <View style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
             <Provider store={store} style={style.fonts.default}>
-                <AppContextProvider value={{ themeName }}>
+                <AppContextProvider value={{ themeName, groupName }}>
                     <PersistGate loading={null} persistor={pStore}>
                         <StatusBar />
                         {isFirstLoad ? (

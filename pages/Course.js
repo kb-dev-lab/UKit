@@ -9,6 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import style from '../Style';
 import CourseRow from '../components/CourseRow';
 import { getLocations, getLocationsInText } from '../utils';
+import { AppContext } from '../utils/DeviceUtils';
 
 const mapStyle = [
     {
@@ -50,6 +51,8 @@ const mapStyle = [
 ];
 
 class Course extends React.Component {
+    static contextType = AppContext;
+
     constructor(props) {
         super(props);
         const { data } = this.props.route.params;
@@ -99,7 +102,7 @@ class Course extends React.Component {
     }
 
     render() {
-        const theme = style.Theme[this.props.themeName];
+        const theme = style.Theme[this.context.themeName];
 
         let map = null;
         if (this.state.locations.length > 0) {
