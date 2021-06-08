@@ -139,7 +139,8 @@ class Settings extends React.Component {
 
     saveLanguage = () => {
         this.closeLanguageDialog();
-        this.props.dispatchSetLanguage(this.state.language);
+        // this.props.dispatchSetLanguage(this.state.language);
+        SettingsManager.setLanguage(this.state.language);
     };
 
     onDismissFilters = () => {

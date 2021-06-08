@@ -20,13 +20,11 @@ import SaveButton from '../components/buttons/SaveGroupButton';
 import { AppContext, AppContextProvider, treatTitle } from '../utils/DeviceUtils';
 import Translator from '../utils/translator';
 
-const mapStateToProps = (state) => ({ themeName: state.darkMode.themeName });
-
 const Stack = createStackNavigator();
 
 const StackNavigator = () => (
     <AppContext.Consumer>
-        {({ themeName }) => (
+        {({ themeName, groupName }) => (
             <Stack.Navigator
                 screenOptions={({ navigation, route }) => {
                     let leftButton = <BackButton backAction={navigation.goBack} />;
@@ -192,4 +190,4 @@ class CustomStackNavigator extends React.Component {
     }
 }
 
-export default connect(mapStateToProps)(CustomStackNavigator);
+export default CustomStackNavigator;

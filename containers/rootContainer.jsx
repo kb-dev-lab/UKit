@@ -23,23 +23,22 @@ export default () => {
     const [isFirstLoad, setFirstLoad] = useState(SettingsManager.isFirstLoad());
     const [themeName, setThemeName] = useState(SettingsManager.getTheme());
     const [groupName, setGroupName] = useState(SettingsManager.getGroup());
+    const [language, setLanguage] = useState(SettingsManager.getLanguage());
+
 
     useEffect(() => {
         SettingsManager.on('theme', (newTheme) => {
             setThemeName(newTheme);
         });
-    }, []);
-
-    useEffect(() => {
         SettingsManager.on('group', (newGroup) => {
             setGroupName(newGroup);
         });
-    }, []);
-
-    useEffect(() => {
         SettingsManager.on('firstload', (newFistLoad) => {
             setFirstLoad(newFistLoad);
         });
+        SettingsManager.on('language', (newLang) => {
+            setLanguage(newLang);
+        })
     }, []);
 
     return (

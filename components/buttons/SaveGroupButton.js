@@ -4,17 +4,14 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 
 import { setFavoriteGroup } from '../../actions/setFavoriteGroup';
+import SettingsManager from '../../utils/SettingsManager';
 
 class SaveGroupButton extends React.Component {
     constructor(props) {
         super(props);
-        let savedGroup = null;
-        if (props.hasOwnProperty('savedGroup')) {
-            savedGroup = props.savedGroup;
-        }
         this.state = {
             displayedGroup: this.props.groupName,
-            savedGroup,
+            savedGroup: SettingsManager.getGroup(),
         };
     }
 
@@ -22,10 +19,12 @@ class SaveGroupButton extends React.Component {
         if (this.isSaved()) {
             this.setState({ savedGroup: null }, () => {
                 this.props.dispatchSetFavoriteGroup(null);
+                SettingsManager.setGroup(null);
             });
         } else {
             this.setState({ savedGroup: this.state.displayedGroup }, () => {
                 this.props.dispatchSetFavoriteGroup(this.state.displayedGroup);
+                SettingsManager.setGroup(this.state.displayedGroup);
             });
         }
     }

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import DrawerButton from './DrawerButton';
 import style from '../../Style';
+import SettingsManager from '../../utils/SettingsManager';
 import Translator from '../../utils/translator';
 
 class MyGroupButton extends React.PureComponent {
@@ -13,8 +14,13 @@ class MyGroupButton extends React.PureComponent {
     }
 
     componentDidMount() {
-        if (this.props.savedGroup !== null) {
-            this.props.navigate('Group', { name: this.props.savedGroup });
+        if (SettingsManager.getGroup() !== null) {
+            this.props.navigate('Home', {
+                screen: 'Group',
+                params: {
+                    name: SettingsManager.getGroup()
+                }
+            })
         }
     }
 
@@ -24,8 +30,9 @@ class MyGroupButton extends React.PureComponent {
 
     render() {
         const theme = style.Theme[this.props.themeName];
+        const favoriteGroup = SettingsManager.getGroup();
 
-        if (this.props.savedGroup === null) {
+        if (!favoriteGroup) {
             return (
                 <View style={{ paddingLeft: 24, paddingVertical: 4 }}>
                     <Text style={{ color: theme.font }}>{Translator.get('NONE')}</Text>
@@ -34,7 +41,7 @@ class MyGroupButton extends React.PureComponent {
         } else {
             return (
                 <DrawerButton
-                    title={this.props.savedGroup.replace('_', ' ')}
+                    title={favoriteGroup.replace('_', ' ')}
                     size={28}
                     textSize={14}
                     icon={'star'}

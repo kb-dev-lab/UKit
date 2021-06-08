@@ -1,9 +1,10 @@
 import { Picker } from "@react-native-picker/picker";
 import React from "react";
-import { Text, View, TouchableOpacity, StyleSheet, Switch, ActivityIndicator } from 'react-native'
+import { Text, View, TouchableOpacity, StyleSheet, Switch, ActivityIndicator, Button } from 'react-native'
 import axios from 'axios';
 
 import SettingsManager from '../utils/SettingsManager';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // some code from: https://reactnative.dev/docs/switch to test out features
 
@@ -106,12 +107,15 @@ class WelcomePage extends React.Component {
     async fetchList() {
         const response = await axios.get('https://hackjack.info/et/json.php?clean=true');
         const list = response.data;
-        this.setState({ groupList: list });
-        this.setState({ groupListFiltered: list });
-        this.setState({ pageIsReady: true });
+
+        this.setState({ groupList: list, groupListFiltered: list, pageIsReady: true });
     }
 
-
+    // MAIN COLOR SHADE
+    // #009DE0
+    // #45B7E8
+    //
+    //
 
     render() {
 
@@ -128,20 +132,17 @@ class WelcomePage extends React.Component {
         }
         return (
             <View style={style.bg}>
-                <Text>
-                    Welcome to UKit !
-                </Text>
-                <TouchableOpacity
-                    style={style.button}
-                    onPress={() => {
-                        SettingsManager.setFirstLoad(false);
-                        SettingsManager.setTheme(
-                            this.state.isEnabled ? 'dark' : 'light'
-                        )
+                <Text
+                    style={{
+                        color: '#FFFFFF',
+                        textAlign: 'center',
+                        fontSize: 36,
+                        padding: 40,
                     }}
                 >
-                    <Text>Press Here to save your settings</Text>
-                </TouchableOpacity>
+                    Welcome to UKit !
+                </Text>
+
 
                 <View style={style.container}>
                     <Text>Choose the App's Theme</Text>
@@ -173,6 +174,29 @@ class WelcomePage extends React.Component {
                         {PicketItems}
                     </Picker>
                 </View>
+
+                <Button
+                    title='button'
+                    onPress={() => SettingsManager.setLanguage('en')}
+                />
+                <TouchableOpacity
+                    style={{
+                        position: 'absolute',
+                        bottom: 10,
+                        right: 0,
+                    }}
+                    onPress={() => {
+                        SettingsManager.setFirstLoad(false);
+                        SettingsManager.setTheme(
+                            this.state.isEnabled ? 'dark' : 'light'
+                        )
+                        SettingsManager.setGroup(this.state.selectedGroup);
+                        console.log("new group:", this.state.selectedGroup);
+                    }}
+                >
+                    <MaterialCommunityIcons name="chevron-right" size={96} style={{ width: 96, height: 96, color: 'white' }} />
+                </TouchableOpacity>
+
             </View>
 
         )

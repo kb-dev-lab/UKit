@@ -6,6 +6,7 @@ class SettingsManager {
         this._theme = 'light';
         this._firstload = true;
         this._groupName = null;
+        this._language = 'fr';
         this._subscribers = {};
     }
 
@@ -68,11 +69,26 @@ class SettingsManager {
         this.notify('group', this._groupName);
     }
 
+    getLanguage = () => {
+        return this._language;
+    }
+
+    setLanguage = (newLang) => {
+        this._language = newLang;
+        this.notify('language', this._language);
+    }
+
     saveSettings = () => {
         AsyncStorage.setItem('firstload', JSON.stringify(this._firstload));
         AsyncStorage.setItem('settings', JSON.stringify({
             theme: this._theme,
             groupName: this._groupName,
+            language: this._language,
+        }));
+        console.log("save settings", JSON.stringify({
+            theme: this._theme,
+            groupName: this._groupName,
+            language: this._language,
         }));
     }
 
@@ -102,6 +118,10 @@ class SettingsManager {
             if (settings?.groupName) {
                 this._groupName = settings.groupName;
             }
+            if (settings?.language) {
+                this.setLanguage(settings.language);
+            }
+            console.log("load settings", settings);
         } catch (error) {
             // TODO: add error notification when settings can't be recoverd
             const settingsError = new ErrorAlert(Translator.get('ERROR_WITH_MESSAGE', "Settings couldn't be loaded"), ErrorAlert.durations.SHORT);
