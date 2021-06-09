@@ -2,9 +2,10 @@ import { Picker } from "@react-native-picker/picker";
 import React from "react";
 import { Text, View, TouchableOpacity, StyleSheet, Switch, ActivityIndicator, Button } from 'react-native'
 import axios from 'axios';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import Welcome from '../pages/Welcome'
 
 import SettingsManager from '../utils/SettingsManager';
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // some code from: https://reactnative.dev/docs/switch to test out features
 
@@ -107,14 +108,14 @@ class WelcomePage extends React.Component {
     async fetchList() {
         const response = await axios.get('https://hackjack.info/et/json.php?clean=true');
         const list = response.data;
-
+        
         this.setState({ groupList: list, groupListFiltered: list, pageIsReady: true });
     }
 
     // MAIN COLOR SHADE
     // #009DE0
-    // #45B7E8
-    //
+    // #45D7E8
+    // 
     //
 
     render() {
@@ -130,6 +131,9 @@ class WelcomePage extends React.Component {
                 </View>
             )
         }
+        return (
+            <Welcome />
+        )
         return (
             <View style={style.bg}>
                 <Text
