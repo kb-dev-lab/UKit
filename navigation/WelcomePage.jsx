@@ -3,9 +3,9 @@ import React from "react";
 import { Text, View, TouchableOpacity, StyleSheet, Switch, ActivityIndicator, Button } from 'react-native'
 import axios from 'axios';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import Welcome from '../pages/Welcome'
 
 import SettingsManager from '../utils/SettingsManager';
+import Welcome from '../pages/Welcome';
 
 // some code from: https://reactnative.dev/docs/switch to test out features
 
@@ -132,9 +132,6 @@ class WelcomePage extends React.Component {
             )
         }
         return (
-            <Welcome />
-        )
-        return (
             <View style={style.bg}>
                 <Text
                     style={{
@@ -208,4 +205,8 @@ class WelcomePage extends React.Component {
 
 }
 
-export default WelcomePage;
+export default () => {
+    return (
+        <Welcome />
+    )
+}

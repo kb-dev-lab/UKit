@@ -38,6 +38,7 @@
     "react": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
     "react-native-collapsible": "^1.0.0",
+    "react-native-dialog": "^8.0.1",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-maps": "0.27.1",
     "react-native-popup-dialog": "0.15.0",
