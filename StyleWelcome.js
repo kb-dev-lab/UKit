@@ -7,7 +7,7 @@ export default StyleSheet.create({
 		paddingVertical: 10,
 		marginHorizontal: 32,
 		marginVertical: 16,
-		elevation: 2,
+		elevation: 8,
 	},
 	buttonText: {
 		fontFamily: 'Montserrat_500Medium',
@@ -39,18 +39,16 @@ export default StyleSheet.create({
 		marginVertical: 16,
 	},
 	circleFill: {
-		elevation: 2,
 		width: 15,
 		height: 15,
 		borderRadius: 10,
 		backgroundColor: '#FFFFFF',
 	},
 	circleEmpty: {
-		elevation: 2,
 		width: 15,
 		height: 15,
 		borderRadius: 10,
-		backgroundColor: '#41D4E8',
+		backgroundColor: 'transparent',
 		borderColor: '#FFFFFF',
 		borderWidth: 2,
 	},
@@ -64,6 +62,7 @@ export default StyleSheet.create({
 		padding: 16,
 		marginHorizontal: 16,
 		marginVertical: 16,
+		elevation: 8,
 	},
 	whiteCardText: {
 		fontFamily: 'Montserrat_500Medium',
@@ -105,20 +104,13 @@ export default StyleSheet.create({
 		borderRadius: 14,
 		borderColor: '#04A0E1',
 		borderWidth: 3,
-		marginVertical: 50,
-		padding: 5,
-		marginHorizontal: 20,
+		padding: 6,
+		marginRight: 8,
+		marginBottom: 8,
+		flex: 1
 	},
 	whiteCardGroupText: {
 		fontFamily: 'Montserrat_500Medium',
 		fontSize: 16,
-		color: '#00000044',
-	},
-	whiteCardGroupIcon: {
-		color: '#00000044',
-		position: 'absolute',
-		right: 6,
-		top: 4,
-		bottom: 0,
 	},
 });
