@@ -5,6 +5,7 @@ import AppLoading from 'expo-app-loading';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import { Entypo, Feather, FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
+import { useFonts, Montserrat_500Medium } from '@expo-google-fonts/montserrat';
 
 import RootContainer from './containers/rootContainer';
 import SettingsManager from './utils/SettingsManager';
@@ -64,6 +65,6 @@ export default class App extends React.Component {
 
         await SettingsManager.loadSettings();
 
-        SplashScreen.hideAsync();
+        await SplashScreen.hideAsync();
     }
 }

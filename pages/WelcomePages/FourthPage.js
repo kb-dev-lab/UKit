@@ -9,17 +9,15 @@ import Translator from '../../utils/translator';
 class FourthWelcomePage extends React.Component {
 	render() {
 		return (
-			<SafeAreaView style={{ flex: 1 }}>
-				<LinearGradient
-					style={{ flex: 1 }}
-					colors={['#009DE0', '#45D7E8']}
-					start={{ x: 0.05, y: 0.05 }}
-					end={{ x: 0.95, y: 0.95 }}>
+			<LinearGradient
+				style={{ flex: 1 }}
+				colors={['#009DE0', '#45D7E8']}
+				start={{ x: 0.05, y: 0.05 }}
+				end={{ x: 0.95, y: 0.95 }}>
+				<SafeAreaView style={{ flex: 1 }}>
 					<View style={{ flexGrow: 1 }}>
 						<Text style={styles.mainText}>{Translator.get('WELL_DONE')}</Text>
-						<Text style={styles.secondaryText}>
-							{Translator.get('APP_READY')}
-						</Text>
+						<Text style={styles.secondaryText}>{Translator.get('APP_READY')}</Text>
 					</View>
 					<TouchableOpacity
 						onPress={this.props.incrementPage}
@@ -32,8 +30,8 @@ class FourthWelcomePage extends React.Component {
 						<View style={styles.circleFill} />
 						<View style={styles.circleFill} />
 					</View>
-				</LinearGradient>
-			</SafeAreaView>
+				</SafeAreaView>
+			</LinearGradient>
 		);
 	}
 }

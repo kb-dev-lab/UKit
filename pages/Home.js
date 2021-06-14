@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Hideo } from 'react-native-textinput-effects';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import Toast from 'react-native-root-toast';
 
 import SectionListHeader from '../components/ui/SectionListHeader';

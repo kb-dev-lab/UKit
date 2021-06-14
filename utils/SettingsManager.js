@@ -61,7 +61,6 @@ class SettingsManager {
 	};
 
 	getGroup = () => {
-		console.log('GETTING GROUP: ', this._groupName);
 		return this._groupName;
 	};
 
@@ -90,14 +89,6 @@ class SettingsManager {
 		AsyncStorage.setItem('firstload', JSON.stringify(this._firstload));
 		AsyncStorage.setItem(
 			'settings',
-			JSON.stringify({
-				theme: this._theme,
-				groupName: this._groupName,
-				language: this._language,
-			}),
-		);
-		console.log(
-			'save settings',
 			JSON.stringify({
 				theme: this._theme,
 				groupName: this._groupName,
@@ -135,7 +126,6 @@ class SettingsManager {
 			if (settings?.language) {
 				this.setLanguage(settings.language);
 			}
-			console.log('load settings', settings);
 		} catch (error) {
 			const settingsError = new ErrorAlert(
 				Translator.get('ERROR_WITH_MESSAGE', "Settings couldn't be loaded"),

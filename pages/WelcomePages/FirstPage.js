@@ -4,17 +4,17 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Translator from '../../utils/translator';
-import styles from '../../StyleWelcome'
+import styles from '../../StyleWelcome';
 
 class FirstWelcomePage extends React.Component {
 	render() {
 		return (
-			<SafeAreaView style={{ flex: 1 }}>
-				<LinearGradient
-					style={{ flex: 1, display: 'flex' }}
-					colors={['#009DE0', '#45D7E8']}
-					start={{ x: 0.05, y: 0.05 }}
-					end={{ x: 0.95, y: 0.95 }}>
+			<LinearGradient
+				style={{ flex: 1, display: 'flex' }}
+				colors={['#009DE0', '#45D7E8']}
+				start={{ x: 0.05, y: 0.05 }}
+				end={{ x: 0.95, y: 0.95 }}>
+				<SafeAreaView style={{ flex: 1 }}>
 					<View style={{ flexGrow: 1 }}>
 						<Text style={styles.mainText}>{Translator.get('WELCOME')}</Text>
 						<Text style={styles.secondaryText}>
@@ -33,11 +33,10 @@ class FirstWelcomePage extends React.Component {
 						<View style={styles.circleEmpty} />
 						<View style={styles.circleEmpty} />
 					</View>
-				</LinearGradient>
-			</SafeAreaView>
+				</SafeAreaView>
+			</LinearGradient>
 		);
 	}
 }
-
 
 export default FirstWelcomePage;

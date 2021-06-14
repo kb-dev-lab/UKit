@@ -5,15 +5,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import styles from '../../StyleWelcome';
 import Translator from '../../utils/translator';
+import SettingsManager from '../../utils/SettingsManager';
 
 const THEME_LIST = [
-	{ id: 'light', title: Translator.get('LIGHT_THEME') },
-	{ id: 'dark', title: Translator.get('DARK_THEME') },
+	{ id: 'light', title: 'LIGHT_THEME' },
+	{ id: 'dark', title: 'DARK_THEME' },
 ];
 
 const LANGUAGE_LIST = [
-	{ id: 'fr', title: Translator.get('FRENCH') },
-	{ id: 'en', title: Translator.get('ENGLISH') },
+	{ id: 'fr', title: 'FRENCH' },
+	{ id: 'en', title: 'ENGLISH' },
 ];
 
 class ThirdWelcomePage extends React.Component {
@@ -29,6 +30,7 @@ class ThirdWelcomePage extends React.Component {
 
 	selectLanguage = (newLang) => {
 		this.setState({ selectedLanguage: newLang });
+		SettingsManager.setLanguage(newLang.id)
 	};
 
 	selectTheme = (newTheme) => {
@@ -45,12 +47,12 @@ class ThirdWelcomePage extends React.Component {
 
 	render() {
 		return (
-			<SafeAreaView style={{ flex: 1 }}>
-				<LinearGradient
-					style={{ flex: 1 }}
-					colors={['#009DE0', '#45D7E8']}
-					start={{ x: 0.05, y: 0.05 }}
-					end={{ x: 0.95, y: 0.95 }}>
+			<LinearGradient
+				style={{ flex: 1 }}
+				colors={['#009DE0', '#45D7E8']}
+				start={{ x: 0.05, y: 0.05 }}
+				end={{ x: 0.95, y: 0.95 }}>
+				<SafeAreaView style={{ flex: 1 }}>
 					<View style={styles.whiteCardContainer} style={{ flexGrow: 1 }}>
 						<View style={styles.whiteCard}>
 							<Text style={styles.whiteCardText}>{Translator.get('YOUR_THEME')}</Text>
@@ -69,7 +71,7 @@ class ThirdWelcomePage extends React.Component {
 												? styles.whiteCardButtonTextSelected
 												: styles.whiteCardButtonText
 										}>
-										{themeEntry.title}
+										{Translator.get(themeEntry.title)}
 									</Text>
 								</TouchableOpacity>
 							))}
@@ -94,7 +96,7 @@ class ThirdWelcomePage extends React.Component {
 												? styles.whiteCardButtonTextSelected
 												: styles.whiteCardButtonText
 										}>
-										{languageEntry.title}
+										{Translator.get(languageEntry.title)}
 									</Text>
 								</TouchableOpacity>
 							))}
@@ -110,8 +112,8 @@ class ThirdWelcomePage extends React.Component {
 						<View style={styles.circleFill} />
 						<View style={styles.circleEmpty} />
 					</View>
-				</LinearGradient>
-			</SafeAreaView>
+				</SafeAreaView>
+			</LinearGradient>
 		);
 	}
 }

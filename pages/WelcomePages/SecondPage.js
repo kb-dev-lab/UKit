@@ -14,6 +14,8 @@ import { FlatList, TextInput } from 'react-native-gesture-handler';
 import Translator from '../../utils/translator';
 import styles from '../../StyleWelcome';
 
+const MAXIMUM_NUMBER_ITEMS_GROUPLIST = 10;
+
 const UNIVERSITY_YEARS_LIST = [
 	{
 		id: 'L1',
@@ -131,10 +133,14 @@ class SecondWelcomePage extends React.Component {
 		this.setState({ groupSelected: this.state.groupSelected === group ? null : group });
 	};
 
-	renderGroupListItem = ({ item }) => {
+	renderGroupListItem = ({ item, index }) => {
+		if (index > MAXIMUM_NUMBER_ITEMS_GROUPLIST) {
+			return;
+		}
 		return (
 			<GroupItem
 				item={item}
+				index={index}
 				selected={this.state.groupSelected === item}
 				onPress={() => this.selectGroup(item)}
 			/>
@@ -160,12 +166,12 @@ class SecondWelcomePage extends React.Component {
 
 	render() {
 		return (
-			<SafeAreaView style={{ flex: 1 }}>
-				<LinearGradient
-					style={{ flex: 1, display: 'flex' }}
-					colors={['#009DE0', '#45D7E8']}
-					start={{ x: 0.05, y: 0.05 }}
-					end={{ x: 0.95, y: 0.95 }}>
+			<LinearGradient
+				style={{ flex: 1, display: 'flex' }}
+				colors={['#009DE0', '#45D7E8']}
+				start={{ x: 0.05, y: 0.05 }}
+				end={{ x: 0.95, y: 0.95 }}>
+				<SafeAreaView style={{ flex: 1 }}>
 					<KeyboardAvoidingView
 						style={{ flex: 1 }}
 						behavior={Platform.OS === 'ios' ? 'height' : ''}>
@@ -250,6 +256,16 @@ class SecondWelcomePage extends React.Component {
 										itemVisiblePercentThreshold: 0,
 									}}
 								/>
+								{this.state.textFilter &&
+								this.state.groupListFiltered.length === 0 ? (
+									<Text style={styles.greyBottomText}>
+										{Translator.get('NO_GROUP_FOUND_WITH_THIS_SEARCH')}
+									</Text>
+								) : (
+									<Text style={styles.greyBottomText}>
+										{Translator.get('USE_SEARCH_BAR')}
+									</Text>
+								)}
 							</View>
 						</ScrollView>
 
@@ -263,8 +279,8 @@ class SecondWelcomePage extends React.Component {
 							<View style={styles.circleEmpty} />
 						</View>
 					</KeyboardAvoidingView>
-				</LinearGradient>
-			</SafeAreaView>
+				</SafeAreaView>
+			</LinearGradient>
 		);
 	}
 }
