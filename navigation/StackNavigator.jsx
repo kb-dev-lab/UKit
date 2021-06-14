@@ -2,7 +2,6 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { TouchableOpacity, View } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { connect } from 'react-redux';
 
 import Home from '../pages/Home';
 import Group from '../pages/Group';
@@ -17,7 +16,7 @@ import WeekView from '../pages/WeekView';
 import NavBarHelper from '../components/NavBarHelper';
 import BackButton from '../components/buttons/BackButton';
 import SaveButton from '../components/buttons/SaveGroupButton';
-import { AppContext, AppContextProvider, treatTitle } from '../utils/DeviceUtils';
+import { AppContext, treatTitle } from '../utils/DeviceUtils';
 import Translator from '../utils/translator';
 
 const Stack = createStackNavigator();

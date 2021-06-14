@@ -34,6 +34,7 @@ export const AppContextProvider = AppContextCreator.Provider;
 
 export default {
     isConnected,
+    deviceLanguage,
 
     AppContext: AppContextCreator,
     AppContextProvider: AppContextCreator.Provider,

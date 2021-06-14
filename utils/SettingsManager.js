@@ -3,8 +3,8 @@ import ErrorAlert from '../components/alerts/ErrorAlert';
 
 class SettingsManager {
     constructor() {
-        this._theme = 'light';
         this._firstload = true;
+        this._theme = 'light';
         this._groupName = null;
         this._language = 'fr';
         this._subscribers = {};
@@ -78,6 +78,13 @@ class SettingsManager {
         this.notify('language', this._language);
     }
 
+    resetSettings = () => {
+        this.setTheme('light');
+        this.setLanguage('fr');
+        this.setGroup(null);
+        this.setFirstLoad(true);
+    }
+
     saveSettings = () => {
         AsyncStorage.setItem('firstload', JSON.stringify(this._firstload));
         AsyncStorage.setItem('settings', JSON.stringify({
@@ -104,7 +111,6 @@ class SettingsManager {
             }
 
         } catch (error) {
-            // TODO: add error notification when firstload can't be recoverd
             const settingsError = new ErrorAlert(Translator.get('ERROR_WITH_MESSAGE', "Settings couldn't be loaded"), ErrorAlert.durations.SHORT);
             settingsError.show();
         }
@@ -123,7 +129,6 @@ class SettingsManager {
             }
             console.log("load settings", settings);
         } catch (error) {
-            // TODO: add error notification when settings can't be recoverd
             const settingsError = new ErrorAlert(Translator.get('ERROR_WITH_MESSAGE', "Settings couldn't be loaded"), ErrorAlert.durations.SHORT);
             settingsError.show();
         }

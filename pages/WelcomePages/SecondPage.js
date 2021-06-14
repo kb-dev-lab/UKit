@@ -9,9 +9,10 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-import styles from '../../StyleWelcome';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
+
+import Translator from '../../utils/translator';
+import styles from '../../StyleWelcome';
 
 const UNIVERSITY_YEARS_LIST = [
 	{
@@ -37,8 +38,8 @@ const UNIVERSITY_YEARS_LIST = [
 ];
 
 const UNIVERSITY_SEASON_LIST = [
-	{ id: 'autumn', title: 'Automne' },
-	{ id: 'spring', title: 'Printemps' },
+	{ id: 'autumn', title: Translator.get('AUTUMN') },
+	{ id: 'spring', title: Translator.get('SPRING') },
 ];
 
 const filterCaseAutumn = {
@@ -152,6 +153,11 @@ class SecondWelcomePage extends React.Component {
 		};
 	}
 
+	changePage = () => {
+		this.props.setSettings(this.state.groupSelected || null);
+		this.props.incrementPage();
+	};
+
 	render() {
 		return (
 			<SafeAreaView style={{ flex: 1 }}>
@@ -160,10 +166,14 @@ class SecondWelcomePage extends React.Component {
 					colors={['#009DE0', '#45D7E8']}
 					start={{ x: 0.05, y: 0.05 }}
 					end={{ x: 0.95, y: 0.95 }}>
-					<KeyboardAvoidingView style={{flex: 1}} behavior={Platform.OS === 'ios' ? 'height' : ''}>
+					<KeyboardAvoidingView
+						style={{ flex: 1 }}
+						behavior={Platform.OS === 'ios' ? 'height' : ''}>
 						<ScrollView style={styles.whiteCardContainer}>
 							<View style={styles.whiteCard}>
-								<Text style={styles.whiteCardText}>Quel est ton année ?</Text>
+								<Text style={styles.whiteCardText}>
+									{Translator.get('YOUR_YEAR')}
+								</Text>
 
 								<View
 									style={{
@@ -195,7 +205,9 @@ class SecondWelcomePage extends React.Component {
 							</View>
 
 							<View style={styles.whiteCard}>
-								<Text style={styles.whiteCardText}>À quel semestre es-tu ?</Text>
+								<Text style={styles.whiteCardText}>
+									{Translator.get('YOUR_SEMESTER')}
+								</Text>
 								{UNIVERSITY_SEASON_LIST.map((seasonEntry) => (
 									<TouchableOpacity
 										key={seasonEntry.id}
@@ -217,11 +229,13 @@ class SecondWelcomePage extends React.Component {
 								))}
 							</View>
 							<View style={styles.whiteCard}>
-								<Text style={styles.whiteCardText}>Quel est ton groupe ?</Text>
+								<Text style={styles.whiteCardText}>
+									{Translator.get('YOUR_GROUP')}
+								</Text>
 								<TextInput
 									autoCorrect={false}
 									style={[styles.whiteCardGroupButton, styles.whiteCardGroupText]}
-									placeholder="Nom du groupe..."
+									placeholder={Translator.get('GROUP_NAME')}
 									onChangeText={this.onChangeText}
 								/>
 
@@ -239,10 +253,8 @@ class SecondWelcomePage extends React.Component {
 							</View>
 						</ScrollView>
 
-						<TouchableOpacity
-							onPress={this.props.incrementPage}
-							style={styles.buttonContainer}>
-							<Text style={styles.buttonText}>Suivant</Text>
+						<TouchableOpacity onPress={this.changePage} style={styles.buttonContainer}>
+							<Text style={styles.buttonText}>{Translator.get('NEXT')}</Text>
 						</TouchableOpacity>
 						<View style={styles.pageDots}>
 							<View style={styles.circleFill} />

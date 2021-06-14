@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import Translator from '../../utils/translator';
 import styles from '../../StyleWelcome'
 
 class FirstWelcomePage extends React.Component {
@@ -15,16 +16,16 @@ class FirstWelcomePage extends React.Component {
 					start={{ x: 0.05, y: 0.05 }}
 					end={{ x: 0.95, y: 0.95 }}>
 					<View style={{ flexGrow: 1 }}>
-						<Text style={styles.mainText}>Bienvenue !</Text>
+						<Text style={styles.mainText}>{Translator.get('WELCOME')}</Text>
 						<Text style={styles.secondaryText}>
-							Avant d’utiliser l’application, nous avons quelques réglages à faire.
+							{Translator.get('SETTINGS_TO_MAKE')}
 						</Text>
 					</View>
 
 					<TouchableOpacity
 						onPress={this.props.incrementPage}
 						style={styles.buttonContainer}>
-						<Text style={styles.buttonText}>Commencer</Text>
+						<Text style={styles.buttonText}>{Translator.get('START')}</Text>
 					</TouchableOpacity>
 					<View style={styles.pageDots}>
 						<View style={styles.circleFill} />

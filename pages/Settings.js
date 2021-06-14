@@ -208,17 +208,14 @@ class Settings extends React.Component {
                     thumbColor={this.state.openAppOnFavoriteGroup ? colors.switchEnabled : colors.switchDisabled}
                 />
                 <SettingsDividerLong />
-                <TouchableOpacity
-                    style={{ 
-                        backgroundColor: theme.settings.section,
-                        padding: 16
-                     }}
-                    onPress={() => {SettingsManager.setFirstLoad(true)}}
-                    >
-                    <Text>
-                        RESET FIRSTLOAD
-                    </Text>
-                </TouchableOpacity>
+                <SettingsEditText
+                    onPress={SettingsManager.resetSettings}
+                    valuePlaceholder=""
+                    title={Translator.get('RESET_APP')}
+                    titleStyle={{ color: theme.settings.sectionText }}
+                    valueStyle={{ color: theme.settings.sectionText }}
+                    containerStyle={{ backgroundColor: theme.settings.section }}
+                />
                 <SettingsDividerLong />
 
                 <PopupDialog

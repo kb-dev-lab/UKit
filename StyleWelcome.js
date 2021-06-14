@@ -113,4 +113,24 @@ export default StyleSheet.create({
 		fontFamily: 'Montserrat_500Medium',
 		fontSize: 16,
 	},
+	switchContainter: {
+		// flex: 1,
+		justifyContent: 'space-between',  
+		flexDirection: 'row',
+	},
+	switchTextLeft: {
+		fontFamily: 'Montserrat_500Medium',
+		fontSize: 18,
+		color: '#000000', 
+		flexGrow: 1,
+		flexBasis: 0,
+	},
+	switchTextRight: {
+		fontFamily: 'Montserrat_500Medium',
+		fontSize: 18,
+		color: '#000000', 
+		flexGrow: 1,
+		flexBasis: 0,
+		textAlign: 'right',
+	},
 });

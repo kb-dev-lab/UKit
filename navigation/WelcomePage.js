@@ -4,6 +4,9 @@ import AppLoading from 'expo-app-loading';
 import { useFonts, Montserrat_500Medium } from '@expo-google-fonts/montserrat';
 import axios from 'axios';
 
+import SettingsManager from '../utils/SettingsManager';
+import DeviceUtils from '../utils/DeviceUtils';
+
 import FirstWelcomePage from '../pages/WelcomePages/FirstPage';
 import SecondWelcomePage from '../pages/WelcomePages/SecondPage';
 import ThirdWelcomePage from '../pages/WelcomePages/ThirdPage';
@@ -22,15 +25,34 @@ export default () => {
 	const [page, setPage] = useState(1);
 	const [groupList, setGroupList] = useState(null);
 
+	const [settings, setSettings] = useState({
+		theme: null,
+		language: null,
+	});
+
+	const [group, setGroup] = useState(null);
+
 	useEffect(() => {
 		(async () => {
 			data = await fetchGroupList();
 			setGroupList(data);
 		})();
+		if (DeviceUtils.deviceLanguage() === 'fr_FR') {
+			SettingsManager.setLanguage('fr');
+		} else {
+			SettingsManager.setLanguage('en');
+		}
 	}, []);
 
 	const incrementPage = () => {
 		setPage(page + 1);
+	};
+
+	const finishWelcome = () => {
+		SettingsManager.setTheme(settings.theme);
+		SettingsManager.setLanguage(settings.language);
+		SettingsManager.setGroup(group);
+		SettingsManager.setFirstLoad(false);
 	};
 
 	if (!fontsLoaded || !groupList) {
@@ -40,11 +62,17 @@ export default () => {
 			case 1:
 				return <FirstWelcomePage incrementPage={incrementPage} />;
 			case 2:
-				return <SecondWelcomePage incrementPage={incrementPage} groupList={groupList} />;
+				return (
+					<SecondWelcomePage
+						incrementPage={incrementPage}
+						groupList={groupList}
+						setSettings={setGroup}
+					/>
+				);
 			case 3:
-				return <ThirdWelcomePage incrementPage={incrementPage} />;
+				return <ThirdWelcomePage incrementPage={incrementPage} setSettings={setSettings} />;
 			case 4:
-				return <FourthWelcomePage />;
+				return <FourthWelcomePage incrementPage={finishWelcome} />;
 			default:
 				return <View />;
 		}

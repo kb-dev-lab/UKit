@@ -3,7 +3,8 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import styles from '../../StyleWelcome'
+import styles from '../../StyleWelcome';
+import Translator from '../../utils/translator';
 
 class FourthWelcomePage extends React.Component {
 	render() {
@@ -15,16 +16,15 @@ class FourthWelcomePage extends React.Component {
 					start={{ x: 0.05, y: 0.05 }}
 					end={{ x: 0.95, y: 0.95 }}>
 					<View style={{ flexGrow: 1 }}>
-						<Text style={styles.mainText}>Bravo !</Text>
+						<Text style={styles.mainText}>{Translator.get('WELL_DONE')}</Text>
 						<Text style={styles.secondaryText}>
-							L'application est maintenant prête, vous pouvez dès à présent consulter
-							votre emploi du temps !
+							{Translator.get('APP_READY')}
 						</Text>
 					</View>
 					<TouchableOpacity
-						onPress={() => console.log('FINISHED')}
+						onPress={this.props.incrementPage}
 						style={styles.buttonContainer}>
-						<Text style={styles.buttonText}>Terminer</Text>
+						<Text style={styles.buttonText}>{Translator.get('FINISH')}</Text>
 					</TouchableOpacity>
 					<View style={styles.pageDots}>
 						<View style={styles.circleFill} />
