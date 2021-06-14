@@ -166,7 +166,7 @@ const StackNavigator = () => (
                     name="Course"
                     component={Course}
                     options={({ route }) => {
-                        let title = route.params?.title ?? Translator.get('DETAILS')
+                        let title = route.params?.title ?? Translator.get('DETAILS');
 
                         return NavBarHelper({
                             title,
