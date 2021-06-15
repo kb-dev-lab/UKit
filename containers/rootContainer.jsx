@@ -9,7 +9,7 @@ import style from '../Style';
 import configureStore from '../stores';
 import { AppContextProvider } from '../utils/DeviceUtils';
 import SettingsManager from '../utils/SettingsManager';
-import Welcome from '../navigation/WelcomePage';
+import Welcome from '../navigation/WelcomePageStack';
 
 // See : https://github.com/react-navigation/react-navigation/issues/5568
 // if (Platform.OS === 'android') {

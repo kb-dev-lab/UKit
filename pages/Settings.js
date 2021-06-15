@@ -229,7 +229,8 @@ class Settings extends React.Component {
 				<SettingsDividerLong />
 				<SettingsEditText
 					onPress={this.openResetDialog}
-					valuePlaceholder="..."
+					valuePlaceholder=""
+					value=""
 					title={Translator.get('RESET_APP')}
 					titleStyle={{ color: theme.settings.sectionText }}
 					valueStyle={{ color: theme.settings.sectionText }}
