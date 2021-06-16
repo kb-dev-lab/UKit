@@ -10,13 +10,13 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
-import axios from 'axios';
 
 import SettingsManager from '../../utils/SettingsManager';
 import Translator from '../../utils/translator';
 import styles, { GradientColor, PlaceholderTextColor } from '../../StyleWelcome';
 import WelcomeButton from '../../components/buttons/WelcomeButton';
 import WelcomePagination from '../../components/ui/WelcomePagination';
+import WelcomeBackButton from '../../components/buttons/WelcomeBackButton';
 
 const MAXIMUM_NUMBER_ITEMS_GROUPLIST = 10;
 
@@ -85,32 +85,14 @@ const GroupItem = ({ item, index, selected, onPress }) => {
 class ThirdWelcomePage extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			yearSelected: null,
-			seasonSelected: null,
-			groupSelected: null,
-			groupList: [],
-			groupListFiltered: [],
-			textFilter: '',
-		};
 	}
-
-	componentDidMount = async () => {
-		const groupList = await this.fetchGroupList();
-		this.setState({ groupList: Array.from(new Set(groupList.map((e) => e.name))) });
-	};
-
-	fetchGroupList = async () => {
-		const response = await axios.get('https://hackjack.info/et/json.php?clean=true');
-		return response.data;
-	};
 
 	filterList = (year, season, textFilter) => {
 		const newList = [];
 
 		if (year && season) {
-			const list = this.state.groupList;
-
+			const list = this.props.getState('groupList');
+			
 			list.forEach((e) => {
 				const groupName = e.toLowerCase();
 
@@ -125,29 +107,29 @@ class ThirdWelcomePage extends React.Component {
 			});
 		}
 
-		this.setState({
-			groupListFiltered: newList,
-			yearSelected: year,
-			seasonSelected: season,
-			textFilter: textFilter,
-		});
+		this.props.changeState('groupListFiltered', newList);
+		this.props.changeState('year', year);
+		this.props.changeState('season', season);
+		this.props.changeState('textFilter', textFilter);
 	};
 
 	onChangeText = (text) => {
-		this.filterList(this.state.yearSelected, this.state.seasonSelected, text);
+		this.filterList(this.props.getState('year'), this.props.getState('season'), text);
 	};
 
 	selectYear = (year) => {
-		this.filterList(year, this.state.seasonSelected, this.state.textFilter);
+		this.filterList(year, this.props.getState('season'), this.props.getState('textFilter'));
 	};
 
 	selectSeason = (season) => {
-		this.filterList(this.state.yearSelected, season, this.state.textFilter);
+		this.filterList(this.props.getState('year'), season, this.props.getState('textFilter'));
 	};
 
 	selectGroup = (group) => {
-		this.setState({ groupSelected: this.state.groupSelected === group ? null : group });
-		SettingsManager.setGroup(this.state.groupSelected === group ? null : group);
+		const newGroup = this.props.getState('group') === group ? null : group;
+
+		SettingsManager.setGroup(newGroup);
+		this.props.changeState('group', newGroup);
 	};
 
 	renderGroupListItem = ({ item, index }) => {
@@ -158,7 +140,7 @@ class ThirdWelcomePage extends React.Component {
 			<GroupItem
 				item={item}
 				index={index}
-				selected={this.state.groupSelected === item}
+				selected={this.props.getState('group') === item}
 				onPress={() => this.selectGroup(item)}
 			/>
 		);
@@ -188,6 +170,7 @@ class ThirdWelcomePage extends React.Component {
 					<KeyboardAvoidingView
 						style={{ flex: 1 }}
 						behavior={Platform.OS === 'ios' ? 'height' : ''}>
+						<WelcomeBackButton onPress={navigation.goBack} />
 						<ScrollView style={styles('whiteCardContainer')}>
 							<View style={styles('whiteCard')}>
 								<Text style={styles('whiteCardText')}>
@@ -205,13 +188,13 @@ class ThirdWelcomePage extends React.Component {
 											key={yearEntry.id}
 											onPress={() => this.selectYear(yearEntry)}
 											style={
-												this.state.yearSelected === yearEntry
+												this.props.getState('year') === yearEntry
 													? styles('whiteCardButtonSelected')
 													: styles('whiteCardButton')
 											}>
 											<Text
 												style={
-													this.state.yearSelected === yearEntry
+													this.props.getState('year') === yearEntry
 														? styles('whiteCardButtonTextSelected')
 														: styles('whiteCardButtonText')
 												}>
@@ -231,13 +214,13 @@ class ThirdWelcomePage extends React.Component {
 										key={seasonEntry.id}
 										onPress={() => this.selectSeason(seasonEntry)}
 										style={
-											this.state.seasonSelected === seasonEntry
+											this.props.getState('season') === seasonEntry
 												? styles('whiteCardButtonSelected')
 												: styles('whiteCardButton')
 										}>
 										<Text
 											style={
-												this.state.seasonSelected === seasonEntry
+												this.props.getState('season') === seasonEntry
 													? styles('whiteCardButtonTextSelected')
 													: styles('whiteCardButtonText')
 											}>
@@ -262,7 +245,7 @@ class ThirdWelcomePage extends React.Component {
 								/>
 
 								<FlatList
-									data={this.state.groupListFiltered}
+									data={this.props.getState('groupListFiltered')}
 									renderItem={this.renderGroupListItem}
 									keyExtractor={this.extractGroupListItemId}
 									extraData={this.groupSelected}
@@ -272,8 +255,8 @@ class ThirdWelcomePage extends React.Component {
 										itemVisiblePercentThreshold: 0,
 									}}
 								/>
-								{this.state.textFilter &&
-								this.state.groupListFiltered.length === 0 ? (
+								{this.props.getState('textFilter') &&
+								this.props.getState('groupListFiltered').length === 0 ? (
 									<Text style={styles('greyBottomText')}>
 										{Translator.get('NO_GROUP_FOUND_WITH_THIS_SEARCH')}
 									</Text>
@@ -291,7 +274,6 @@ class ThirdWelcomePage extends React.Component {
 						/>
 
 						<WelcomePagination pageNumber={3} maxPage={4} />
-
 					</KeyboardAvoidingView>
 				</SafeAreaView>
 			</LinearGradient>

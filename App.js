@@ -5,7 +5,7 @@ import AppLoading from 'expo-app-loading';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import { Entypo, Feather, FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
-import { useFonts, Montserrat_500Medium } from '@expo-google-fonts/montserrat';
+import { Montserrat_500Medium } from '@expo-google-fonts/montserrat';
 
 import RootContainer from './containers/rootContainer';
 import SettingsManager from './utils/SettingsManager';
@@ -40,7 +40,6 @@ export default class App extends React.Component {
                     startAsync={this._loadAssetsAsync}
                     onFinish={() => this.setState({ isSplashReady: true })}
                     onError={console.warn}
-                    autoHideSplash={false}
                 />
             );
         }
@@ -60,6 +59,8 @@ export default class App extends React.Component {
             SimpleLineIcons.font,
             Entypo.font,
         ]);
+
+        await Font.loadAsync({Montserrat_500Medium});
 
         await Promise.all([...imageAssets, ...fontAssets]);
 

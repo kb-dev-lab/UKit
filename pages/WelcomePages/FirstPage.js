@@ -12,6 +12,7 @@ class FirstWelcomePage extends React.Component {
 	constructor(props) {
 		super(props);
 	}
+
 	render() {
 		const { navigation } = this.props;
 		return (
@@ -34,7 +35,6 @@ class FirstWelcomePage extends React.Component {
 					/>
 
 					<WelcomePagination pageNumber={1} maxPage={4} />
-					
 				</SafeAreaView>
 			</LinearGradient>
 		);

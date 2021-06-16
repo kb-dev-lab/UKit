@@ -8,7 +8,7 @@ import WelcomeButton from '../../components/buttons/WelcomeButton';
 import styles, { GradientColor } from '../../StyleWelcome';
 import Translator from '../../utils/translator';
 import SettingsManager from '../../utils/SettingsManager';
-import BackButton from '../../components/buttons/BackButton';
+import WelcomeBackButton from '../../components/buttons/WelcomeBackButton';
 
 const THEME_LIST = [
 	{ id: 'light', title: 'LIGHT_THEME' },
@@ -23,23 +23,27 @@ const LANGUAGE_LIST = [
 class SecondWelcomePage extends React.Component {
 	constructor(props) {
 		super(props);
+	}
 
-		this.state = {
-			switchEnabled: false,
-			selectedLanguage: null,
-			selectedTheme: null,
-		};
+	getLanguage = () => {
+		return this.props.getState('lang');
 	}
 
 	selectLanguage = (newLang) => {
-		this.setState({ selectedLanguage: newLang });
+		this.props.changeState('lang', newLang.id)
 		SettingsManager.setLanguage(newLang.id);
 	};
 
+	getTheme = () => {
+		return this.props.getState('theme');
+	}
+
 	selectTheme = (newTheme) => {
-		this.setState({ selectedTheme: newTheme });
+		this.props.changeState('theme', newTheme.id)
 		SettingsManager.setTheme(newTheme.id);
 	};
+
+
 
 	render() {
 		const { navigation } = this.props;
@@ -50,8 +54,8 @@ class SecondWelcomePage extends React.Component {
 				start={{ x: 0.05, y: 0.05 }}
 				end={{ x: 0.95, y: 0.95 }}>
 				<SafeAreaView style={{ flex: 1 }}>
+					{/* <WelcomeBackButton onPress={navigation.goBack} /> */}
 					<View style={styles('whiteCardContainer')} style={{ flexGrow: 1 }}>
-						{/* <BackButton backAction={navigation.goBack} /> */}
 						<View style={styles('whiteCard')}>
 							<Text style={styles('whiteCardText')}>
 								{Translator.get('YOUR_THEME')}
@@ -61,13 +65,13 @@ class SecondWelcomePage extends React.Component {
 									key={themeEntry.id}
 									onPress={() => this.selectTheme(themeEntry)}
 									style={
-										this.state.selectedTheme === themeEntry
+										this.getTheme() === themeEntry.id
 											? styles('whiteCardButtonSelected')
 											: styles('whiteCardButton')
 									}>
 									<Text
 										style={
-											this.state.selectedTheme === themeEntry
+											this.getTheme() === themeEntry.id
 												? styles('whiteCardButtonTextSelected')
 												: styles('whiteCardButtonText')
 										}>
@@ -85,13 +89,13 @@ class SecondWelcomePage extends React.Component {
 									key={languageEntry.id}
 									onPress={() => this.selectLanguage(languageEntry)}
 									style={
-										this.state.selectedLanguage === languageEntry
+										this.getLanguage() === languageEntry.id
 											? styles('whiteCardButtonSelected')
 											: styles('whiteCardButton')
 									}>
 									<Text
 										style={
-											this.state.selectedLanguage === languageEntry
+											this.getLanguage() === languageEntry.id
 												? styles('whiteCardButtonTextSelected')
 												: styles('whiteCardButtonText')
 										}>

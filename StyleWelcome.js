@@ -9,6 +9,7 @@ const lightTheme = StyleSheet.create({
 		marginHorizontal: 32,
 		marginVertical: 16,
 		elevation: 8,
+		justifyContent: 'center'
 	},
 	buttonText: {
 		fontFamily: 'Montserrat_500Medium',
@@ -132,6 +133,7 @@ const darkTheme = StyleSheet.create({
 		marginHorizontal: 32,
 		marginVertical: 16,
 		elevation: 8,
+		justifyContent: 'center',
 	},
 	buttonText: {
 		fontFamily: 'Montserrat_500Medium',
@@ -257,3 +259,4 @@ export default (styleArg) => {
 
 export const GradientColor = () => SettingsManager.getTheme() === 'dark' ? ['#200F21', '#713775'] : ['#009DE0', '#45D7E8'];
 export const PlaceholderTextColor = () => SettingsManager.getTheme() === 'dark' ? '#FFFFFF88' : '#00000088';
+export const WelcomeButtonIconColor = () => SettingsManager.getTheme() === 'dark' ? '#FFFFFF' : '#31C7E6';

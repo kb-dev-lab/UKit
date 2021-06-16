@@ -1,20 +1,20 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
 import { connect } from 'react-redux';
+import { AppContext } from '../../utils/DeviceUtils';
 
 import style from '../../Style';
 
 class CustomStatusBar extends React.PureComponent {
-    render() {
-        const theme = style.Theme[this.props.themeName];
-        return <StatusBar barStyle="light-content" backgroundColor={theme.statusBar} />;
-    }
+	render() {
+		return (
+			<AppContext.Consumer>
+				{({ themeName }) => (
+					<StatusBar barStyle="light-content" backgroundColor={style.Theme[themeName].statusBar} />
+				)}
+			</AppContext.Consumer>
+		);
+	}
 }
 
-const mapStateToProps = (state) => {
-    return {
-        themeName: state.darkMode.themeName,
-    };
-};
-
-export default connect(mapStateToProps)(CustomStatusBar);
+export default CustomStatusBar;

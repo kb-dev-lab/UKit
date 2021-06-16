@@ -8,6 +8,7 @@ import styles, { GradientColor } from '../../StyleWelcome';
 import Translator from '../../utils/translator';
 import SettingsManager from '../../utils/SettingsManager';
 import WelcomePagination from '../../components/ui/WelcomePagination';
+import WelcomeBackButton from '../../components/buttons/WelcomeBackButton';
 
 class FourthWelcomePage extends React.Component {
 	finishWelcome = () => {
@@ -15,6 +16,7 @@ class FourthWelcomePage extends React.Component {
 	};
 
 	render() {
+		const { navigation } = this.props;
 		return (
 			<LinearGradient
 				style={{ flex: 1 }}
@@ -23,6 +25,7 @@ class FourthWelcomePage extends React.Component {
 				end={{ x: 0.95, y: 0.95 }}>
 				<SafeAreaView style={{ flex: 1 }}>
 					<View style={{ flexGrow: 1 }}>
+						<WelcomeBackButton onPress={navigation.goBack} />
 						<Text style={styles('mainText')}>{Translator.get('WELL_DONE')}</Text>
 						<Text style={styles('secondaryText')}>{Translator.get('APP_READY')}</Text>
 					</View>
@@ -33,7 +36,6 @@ class FourthWelcomePage extends React.Component {
 					/>
 
 					<WelcomePagination pageNumber={4} maxPage={4} />
-
 				</SafeAreaView>
 			</LinearGradient>
 		);

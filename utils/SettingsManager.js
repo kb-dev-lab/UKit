@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Appearance, AppearanceProvider, useColorScheme } from 'react-native-appearance';
+import { Appearance } from 'react-native-appearance';
 import ErrorAlert from '../components/alerts/ErrorAlert';
 
 class SettingsManager {
@@ -48,13 +48,17 @@ class SettingsManager {
 		}
 	};
 
-	automaticTheme = () => {
+	setAutomaticTheme = () => {
 		let colorScheme = Appearance.getColorScheme();
 		if (colorScheme === 'dark') {
 			this.setTheme('dark');
 		} else {
 			this.setTheme('light');
 		}
+	};
+
+	getAutomaticTheme = () => {
+		return Appearance.getColorScheme();
 	}
 
 	isFirstLoad = () => {
