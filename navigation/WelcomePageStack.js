@@ -20,13 +20,16 @@ const Stack = createStackNavigator();
 
 const WelcomeNavigator = ({ changeState, getState }) => {
 	return (
-		<Stack.Navigator initialRouteName="FirstWelcomePage" headerMode="none">
+		<Stack.Navigator initialRouteName="FirstWelcomePage" headerMode="none" screenOptions={{gestureEnabled: false}}>
 			<Stack.Screen
 				name="FirstWelcomePage"
-				component={FirstWelcomePage}
 				options={{
 					cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-				}}></Stack.Screen>
+				}}>
+				{(props) => (
+					<FirstWelcomePage {...props} changeState={changeState} getState={getState} />
+				)}
+			</Stack.Screen>
 			<Stack.Screen
 				name="SecondWelcomePage"
 				options={{
@@ -48,18 +51,20 @@ const WelcomeNavigator = ({ changeState, getState }) => {
 			</Stack.Screen>
 			<Stack.Screen
 				name="FourthWelcomePage"
-				component={FourthWelcomePage}
 				options={{
 					cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-				}}
-			/>
+				}}>
+				{(props) => (
+					<FourthWelcomePage {...props} changeState={changeState} getState={getState} />
+				)}
+			</Stack.Screen>
 		</Stack.Navigator>
 	);
 };
 
 export default () => {
 	let [selectedLanguage, selectLanguage] = useState(null);
-	let [selectedTheme, selectTheme] = useState(null);
+	let [selectedTheme, selectTheme] = useState('light');
 	let [selectedYear, selectYear] = useState(null);
 	let [selectedSeason, selectSeason] = useState(null);
 	let [selectedGroup, selectGroup] = useState(null);

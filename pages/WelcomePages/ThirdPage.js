@@ -69,11 +69,11 @@ const filterSeason = {
 	spring: filterCaseSpring,
 };
 
-const GroupItem = ({ item, index, selected, onPress }) => {
-	const styleButton = selected ? styles('whiteCardButtonSelected') : styles('whiteCardButton');
+const GroupItem = ({ item, index, selected, onPress, theme }) => {
+	const styleButton = selected ? styles[theme].whiteCardButtonSelected : styles[theme].whiteCardButton;
 	const styleText = selected
-		? styles('whiteCardButtonTextSelected')
-		: styles('whiteCardButtonText');
+		? styles[theme].whiteCardButtonTextSelected
+		: styles[theme].whiteCardButtonText;
 
 	return (
 		<TouchableOpacity onPress={onPress} key={index} style={styleButton}>
@@ -142,6 +142,7 @@ class ThirdWelcomePage extends React.Component {
 				index={index}
 				selected={this.props.getState('group') === item}
 				onPress={() => this.selectGroup(item)}
+				theme={this.props.getState('theme')}
 			/>
 		);
 	};
@@ -160,6 +161,7 @@ class ThirdWelcomePage extends React.Component {
 
 	render() {
 		const { navigation } = this.props;
+		const theme = this.props.getState('theme');
 		return (
 			<LinearGradient
 				style={{ flex: 1, display: 'flex' }}
@@ -170,10 +172,10 @@ class ThirdWelcomePage extends React.Component {
 					<KeyboardAvoidingView
 						style={{ flex: 1 }}
 						behavior={Platform.OS === 'ios' ? 'height' : ''}>
-						<WelcomeBackButton onPress={navigation.goBack} />
-						<ScrollView style={styles('whiteCardContainer')}>
-							<View style={styles('whiteCard')}>
-								<Text style={styles('whiteCardText')}>
+						<WelcomeBackButton onPress={navigation.goBack} visible={true}/>
+						<ScrollView style={styles[theme].whiteCardContainer}>
+							<View style={styles[theme].whiteCard}>
+								<Text style={styles[theme].whiteCardText}>
 									{Translator.get('YOUR_YEAR')}
 								</Text>
 								<View
@@ -189,14 +191,14 @@ class ThirdWelcomePage extends React.Component {
 											onPress={() => this.selectYear(yearEntry)}
 											style={
 												this.props.getState('year') === yearEntry
-													? styles('whiteCardButtonSelected')
-													: styles('whiteCardButton')
+													? styles[theme].whiteCardButtonSelected
+													: styles[theme].whiteCardButton
 											}>
 											<Text
 												style={
 													this.props.getState('year') === yearEntry
-														? styles('whiteCardButtonTextSelected')
-														: styles('whiteCardButtonText')
+														? styles[theme].whiteCardButtonTextSelected
+														: styles[theme].whiteCardButtonText
 												}>
 												{yearEntry.title}
 											</Text>
@@ -205,8 +207,8 @@ class ThirdWelcomePage extends React.Component {
 								</View>
 							</View>
 
-							<View style={styles('whiteCard')}>
-								<Text style={styles('whiteCardText')}>
+							<View style={styles[theme].whiteCard}>
+								<Text style={styles[theme].whiteCardText}>
 									{Translator.get('YOUR_SEMESTER')}
 								</Text>
 								{UNIVERSITY_SEASON_LIST.map((seasonEntry) => (
@@ -215,29 +217,29 @@ class ThirdWelcomePage extends React.Component {
 										onPress={() => this.selectSeason(seasonEntry)}
 										style={
 											this.props.getState('season') === seasonEntry
-												? styles('whiteCardButtonSelected')
-												: styles('whiteCardButton')
+												? styles[theme].whiteCardButtonSelected
+												: styles[theme].whiteCardButton
 										}>
 										<Text
 											style={
 												this.props.getState('season') === seasonEntry
-													? styles('whiteCardButtonTextSelected')
-													: styles('whiteCardButtonText')
+													? styles[theme].whiteCardButtonTextSelected
+													: styles[theme].whiteCardButtonText
 											}>
 											{seasonEntry.title}
 										</Text>
 									</TouchableOpacity>
 								))}
 							</View>
-							<View style={styles('whiteCard')}>
-								<Text style={styles('whiteCardText')}>
+							<View style={styles[theme].whiteCard}>
+								<Text style={styles[theme].whiteCardText}>
 									{Translator.get('YOUR_GROUP')}
 								</Text>
 								<TextInput
 									autoCorrect={false}
 									style={[
-										styles('whiteCardGroupButton'),
-										styles('whiteCardGroupText'),
+										styles[theme].whiteCardGroupButton,
+										styles[theme].whiteCardGroupText,
 									]}
 									placeholder={Translator.get('GROUP_NAME')}
 									placeholderTextColor={PlaceholderTextColor()}
@@ -257,11 +259,11 @@ class ThirdWelcomePage extends React.Component {
 								/>
 								{this.props.getState('textFilter') &&
 								this.props.getState('groupListFiltered').length === 0 ? (
-									<Text style={styles('greyBottomText')}>
+									<Text style={styles[theme].greyBottomText}>
 										{Translator.get('NO_GROUP_FOUND_WITH_THIS_SEARCH')}
 									</Text>
 								) : (
-									<Text style={styles('greyBottomText')}>
+									<Text style={styles[theme].greyBottomText}>
 										{Translator.get('USE_SEARCH_BAR')}
 									</Text>
 								)}
@@ -271,9 +273,10 @@ class ThirdWelcomePage extends React.Component {
 						<WelcomeButton
 							onPress={() => navigation.navigate('FourthWelcomePage')}
 							buttonText={Translator.get('NEXT')}
+							theme={theme}
 						/>
 
-						<WelcomePagination pageNumber={3} maxPage={4} />
+						<WelcomePagination pageNumber={3} maxPage={4} theme={theme}/>
 					</KeyboardAvoidingView>
 				</SafeAreaView>
 			</LinearGradient>

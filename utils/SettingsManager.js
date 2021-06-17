@@ -49,16 +49,13 @@ class SettingsManager {
 	};
 
 	setAutomaticTheme = () => {
-		let colorScheme = Appearance.getColorScheme();
-		if (colorScheme === 'dark') {
-			this.setTheme('dark');
-		} else {
-			this.setTheme('light');
-		}
+		if (Appearance.getColorScheme() === 'dark') this.setTheme('dark');
+		else return 'light';
 	};
 
 	getAutomaticTheme = () => {
-		return Appearance.getColorScheme();
+		if (Appearance.getColorScheme() === 'dark') return 'dark';
+		else return 'light';
 	}
 
 	isFirstLoad = () => {

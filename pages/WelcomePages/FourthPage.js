@@ -17,6 +17,7 @@ class FourthWelcomePage extends React.Component {
 
 	render() {
 		const { navigation } = this.props;
+		const theme = this.props.getState('theme');
 		return (
 			<LinearGradient
 				style={{ flex: 1 }}
@@ -24,18 +25,20 @@ class FourthWelcomePage extends React.Component {
 				start={{ x: 0.05, y: 0.05 }}
 				end={{ x: 0.95, y: 0.95 }}>
 				<SafeAreaView style={{ flex: 1 }}>
+					<WelcomeBackButton onPress={navigation.goBack} visible={true}/>
 					<View style={{ flexGrow: 1 }}>
-						<WelcomeBackButton onPress={navigation.goBack} />
-						<Text style={styles('mainText')}>{Translator.get('WELL_DONE')}</Text>
-						<Text style={styles('secondaryText')}>{Translator.get('APP_READY')}</Text>
+
+						<Text style={styles[theme].mainText}>{Translator.get('WELL_DONE')}</Text>
+						<Text style={styles[theme].secondaryText}>{Translator.get('APP_READY')}</Text>
 					</View>
 
 					<WelcomeButton
 						onPress={this.finishWelcome}
 						buttonText={Translator.get('FINISH')}
+						theme={theme}
 					/>
 
-					<WelcomePagination pageNumber={4} maxPage={4} />
+					<WelcomePagination pageNumber={4} maxPage={4} theme={theme}/>
 				</SafeAreaView>
 			</LinearGradient>
 		);

@@ -27,26 +27,25 @@ class SecondWelcomePage extends React.Component {
 
 	getLanguage = () => {
 		return this.props.getState('lang');
-	}
+	};
 
 	selectLanguage = (newLang) => {
-		this.props.changeState('lang', newLang.id)
+		this.props.changeState('lang', newLang.id);
 		SettingsManager.setLanguage(newLang.id);
 	};
 
 	getTheme = () => {
 		return this.props.getState('theme');
-	}
+	};
 
 	selectTheme = (newTheme) => {
-		this.props.changeState('theme', newTheme.id)
+		this.props.changeState('theme', newTheme.id);
 		SettingsManager.setTheme(newTheme.id);
 	};
 
-
-
 	render() {
 		const { navigation } = this.props;
+		const theme = this.props.getState('theme');
 		return (
 			<LinearGradient
 				style={{ flex: 1 }}
@@ -54,10 +53,10 @@ class SecondWelcomePage extends React.Component {
 				start={{ x: 0.05, y: 0.05 }}
 				end={{ x: 0.95, y: 0.95 }}>
 				<SafeAreaView style={{ flex: 1 }}>
-					{/* <WelcomeBackButton onPress={navigation.goBack} /> */}
-					<View style={styles('whiteCardContainer')} style={{ flexGrow: 1 }}>
-						<View style={styles('whiteCard')}>
-							<Text style={styles('whiteCardText')}>
+					<WelcomeBackButton onPress={navigation.goBack} visible={true} />
+					<View style={styles[theme].whiteCardContainer} style={{ flexGrow: 1 }}>
+						<View style={styles[theme].whiteCard}>
+							<Text style={styles[theme].whiteCardText}>
 								{Translator.get('YOUR_THEME')}
 							</Text>
 							{THEME_LIST.map((themeEntry) => (
@@ -66,22 +65,22 @@ class SecondWelcomePage extends React.Component {
 									onPress={() => this.selectTheme(themeEntry)}
 									style={
 										this.getTheme() === themeEntry.id
-											? styles('whiteCardButtonSelected')
-											: styles('whiteCardButton')
+											? styles[theme].whiteCardButtonSelected
+											: styles[theme].whiteCardButton
 									}>
 									<Text
 										style={
 											this.getTheme() === themeEntry.id
-												? styles('whiteCardButtonTextSelected')
-												: styles('whiteCardButtonText')
+												? styles[theme].whiteCardButtonTextSelected
+												: styles[theme].whiteCardButtonText
 										}>
 										{Translator.get(themeEntry.title)}
 									</Text>
 								</TouchableOpacity>
 							))}
 						</View>
-						<View style={styles('whiteCard')}>
-							<Text style={styles('whiteCardText')}>
+						<View style={styles[theme].whiteCard}>
+							<Text style={styles[theme].whiteCardText}>
 								{Translator.get('YOUR_LANGUAGE')}
 							</Text>
 							{LANGUAGE_LIST.map((languageEntry) => (
@@ -90,14 +89,14 @@ class SecondWelcomePage extends React.Component {
 									onPress={() => this.selectLanguage(languageEntry)}
 									style={
 										this.getLanguage() === languageEntry.id
-											? styles('whiteCardButtonSelected')
-											: styles('whiteCardButton')
+											? styles[theme].whiteCardButtonSelected
+											: styles[theme].whiteCardButton
 									}>
 									<Text
 										style={
 											this.getLanguage() === languageEntry.id
-												? styles('whiteCardButtonTextSelected')
-												: styles('whiteCardButtonText')
+												? styles[theme].whiteCardButtonTextSelected
+												: styles[theme].whiteCardButtonText
 										}>
 										{Translator.get(languageEntry.title)}
 									</Text>
@@ -109,9 +108,10 @@ class SecondWelcomePage extends React.Component {
 					<WelcomeButton
 						onPress={() => navigation.navigate('ThirdWelcomePage')}
 						buttonText={Translator.get('NEXT')}
+						theme={theme}
 					/>
 
-					<WelcomePagination pageNumber={2} maxPage={4} />
+					<WelcomePagination pageNumber={2} maxPage={4} theme={theme} />
 				</SafeAreaView>
 			</LinearGradient>
 		);

@@ -3,11 +3,11 @@ import styles from '../../StyleWelcome';
 import { Text, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-export default ({ onPress }) => {
+export default ({ onPress, visible }) => {
 	return (
-		<TouchableOpacity onPress={onPress}>
+		<TouchableOpacity onPress={onPress} disabled={!visible} style={{opacity: visible ? 1 : 0}}>
 			<MaterialIcons style={{
-				paddingTop: 5,
+				paddingTop: 10,
 				paddingLeft: 5,
 			}} name={'arrow-back'} size={32} color={'white'} />
 		</TouchableOpacity>
