@@ -44,8 +44,8 @@ const UNIVERSITY_YEARS_LIST = [
 ];
 
 const UNIVERSITY_SEASON_LIST = [
-	{ id: 'autumn', title: Translator.get('AUTUMN') },
-	{ id: 'spring', title: Translator.get('SPRING') },
+	{ id: 'autumn', title: 'AUTUMN' },
+	{ id: 'spring', title: 'SPRING' },
 ];
 
 const filterCaseAutumn = {
@@ -70,7 +70,9 @@ const filterSeason = {
 };
 
 const GroupItem = ({ item, index, selected, onPress, theme }) => {
-	const styleButton = selected ? styles[theme].whiteCardButtonSelected : styles[theme].whiteCardButton;
+	const styleButton = selected
+		? styles[theme].whiteCardButtonSelected
+		: styles[theme].whiteCardButton;
 	const styleText = selected
 		? styles[theme].whiteCardButtonTextSelected
 		: styles[theme].whiteCardButtonText;
@@ -92,7 +94,7 @@ class ThirdWelcomePage extends React.Component {
 
 		if (year && season) {
 			const list = this.props.getState('groupList');
-			
+
 			list.forEach((e) => {
 				const groupName = e.toLowerCase();
 
@@ -172,7 +174,7 @@ class ThirdWelcomePage extends React.Component {
 					<KeyboardAvoidingView
 						style={{ flex: 1 }}
 						behavior={Platform.OS === 'ios' ? 'height' : ''}>
-						<WelcomeBackButton onPress={navigation.goBack} visible={true}/>
+						<WelcomeBackButton onPress={navigation.goBack} visible={true} />
 						<ScrollView style={styles[theme].whiteCardContainer}>
 							<View style={styles[theme].whiteCard}>
 								<Text style={styles[theme].whiteCardText}>
@@ -226,7 +228,7 @@ class ThirdWelcomePage extends React.Component {
 													? styles[theme].whiteCardButtonTextSelected
 													: styles[theme].whiteCardButtonText
 											}>
-											{seasonEntry.title}
+											{Translator.get(seasonEntry.title)}
 										</Text>
 									</TouchableOpacity>
 								))}
@@ -245,7 +247,6 @@ class ThirdWelcomePage extends React.Component {
 									placeholderTextColor={PlaceholderTextColor()}
 									onChangeText={this.onChangeText}
 								/>
-
 								<FlatList
 									data={this.props.getState('groupListFiltered')}
 									renderItem={this.renderGroupListItem}
@@ -257,6 +258,19 @@ class ThirdWelcomePage extends React.Component {
 										itemVisiblePercentThreshold: 0,
 									}}
 								/>
+								{this.props.getState('textFilter') &&
+								this.props.getState('groupListFiltered').length >
+									MAXIMUM_NUMBER_ITEMS_GROUPLIST ? (
+									<Text style={styles[theme].greyBottomText}>
+										{Translator.get(
+											'HIDDEN_RESULT',
+											this.props.getState('groupListFiltered').length -
+												MAXIMUM_NUMBER_ITEMS_GROUPLIST,
+										)}
+									</Text>
+								) : (
+									<></>
+								)}
 								{this.props.getState('textFilter') &&
 								this.props.getState('groupListFiltered').length === 0 ? (
 									<Text style={styles[theme].greyBottomText}>
@@ -276,7 +290,7 @@ class ThirdWelcomePage extends React.Component {
 							theme={theme}
 						/>
 
-						<WelcomePagination pageNumber={3} maxPage={4} theme={theme}/>
+						<WelcomePagination pageNumber={3} maxPage={4} theme={theme} />
 					</KeyboardAvoidingView>
 				</SafeAreaView>
 			</LinearGradient>
