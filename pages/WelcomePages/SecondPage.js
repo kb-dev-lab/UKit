@@ -26,11 +26,11 @@ class SecondWelcomePage extends React.Component {
 	}
 
 	getLanguage = () => {
-		return this.props.getState('lang');
+		return this.props.getState('language');
 	};
 
 	selectLanguage = (newLang) => {
-		this.props.changeState('lang', newLang.id);
+		this.props.changeState({'language': newLang.id});
 		SettingsManager.setLanguage(newLang.id);
 	};
 
@@ -39,7 +39,7 @@ class SecondWelcomePage extends React.Component {
 	};
 
 	selectTheme = (newTheme) => {
-		this.props.changeState('theme', newTheme.id);
+		this.props.changeState({'theme': newTheme.id});
 		SettingsManager.setTheme(newTheme.id);
 	};
 

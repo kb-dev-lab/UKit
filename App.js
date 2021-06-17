@@ -40,6 +40,7 @@ export default class App extends React.Component {
                     startAsync={this._loadAssetsAsync}
                     onFinish={() => this.setState({ isSplashReady: true })}
                     onError={console.warn}
+                    autoHideSplash={false}
                 />
             );
         }
@@ -66,6 +67,6 @@ export default class App extends React.Component {
 
         await SettingsManager.loadSettings();
 
-        await SplashScreen.hideAsync();
+        SplashScreen.hideAsync();
     }
 }

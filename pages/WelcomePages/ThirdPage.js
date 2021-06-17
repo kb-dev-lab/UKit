@@ -107,12 +107,14 @@ class ThirdWelcomePage extends React.Component {
 					}
 				});
 			});
-		}
+		};
 
-		this.props.changeState('groupListFiltered', newList);
-		this.props.changeState('year', year);
-		this.props.changeState('season', season);
-		this.props.changeState('textFilter', textFilter);
+		this.props.changeState({
+			'groupListFiltered': newList,
+			'year': year,
+			'season': season,
+			'textFilter': textFilter,
+		});
 	};
 
 	onChangeText = (text) => {
@@ -131,7 +133,7 @@ class ThirdWelcomePage extends React.Component {
 		const newGroup = this.props.getState('group') === group ? null : group;
 
 		SettingsManager.setGroup(newGroup);
-		this.props.changeState('group', newGroup);
+		this.props.changeState({'group': newGroup});
 	};
 
 	renderGroupListItem = ({ item, index }) => {

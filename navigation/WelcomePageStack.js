@@ -53,67 +53,27 @@ const WelcomeNavigator = ({ changeState, getState }) => {
 };
 
 export default () => {
-	let [selectedLanguage, selectLanguage] = useState(null);
-	let [selectedTheme, selectTheme] = useState('light');
-	let [selectedYear, selectYear] = useState(null);
-	let [selectedSeason, selectSeason] = useState(null);
-	let [selectedGroup, selectGroup] = useState(null);
-	let [groupList, setGroupList] = useState([]);
-	let [groupListFiltered, setGroupListFiltered] = useState([]);
-	let [textFilter, setTextFilter] = useState('');
 
-	const changeState = (param, value) => {
-		switch (param) {
-			case 'lang':
-				selectLanguage(value);
-				break;
-			case 'theme':
-				selectTheme(value);
-				break;
-			case 'year':
-				selectYear(value);
-				break;
-			case 'season':
-				selectSeason(value);
-				break;
-			case 'group':
-				selectGroup(value);
-				break;
-			case 'groupList':
-				setGroupList(value);
-				break;
-			case 'groupListFiltered':
-				setGroupListFiltered(value);
-				break;
-			case 'textFilter':
-				setTextFilter(value);
-				break;
-			default:
-				break;
-		}
-	};
+	const [WelcomeSettings, setWelcomeSettings] = useState({
+		language: 'fr',
+		theme: 'light',
+		year: null,
+		season: null,
+		group: null,
+		groupList: [],
+		groupListFiltered: [],
+		textFilter: '',
+	});
 
 	const getState = (param) => {
-		switch (param) {
-			case 'lang':
-				return selectedLanguage;
-			case 'theme':
-				return selectedTheme;
-			case 'year':
-				return selectedYear;
-			case 'season':
-				return selectedSeason;
-			case 'group':
-				return selectedGroup;
-			case 'groupList':
-				return groupList;
-			case 'groupListFiltered':
-				return groupListFiltered;
-			case 'textFilter':
-				return textFilter;
-			default:
-				break;
-		}
+		return WelcomeSettings[param];
+	};
+
+	const changeState = (newState) => {
+		setWelcomeSettings(prevState => ({
+			...prevState,
+			...newState,
+		})); 
 	};
 
 	useEffect(() => {
@@ -123,12 +83,12 @@ export default () => {
 		SettingsManager.setLanguage(langSystem);
 		SettingsManager.setTheme(themeSystem);
 
-		changeState('lang', langSystem);
-		changeState('theme', themeSystem);
+		changeState({'language': langSystem});
+		changeState({'theme': themeSystem});
 
 		(async () => {
 			const groupList = await fetchGroupList();
-			changeState('groupList', Array.from(new Set(groupList.map((e) => e.name))));
+			changeState({'groupList': Array.from(new Set(groupList.map((e) => e.name)))});
 		})();
 	}, []);
 
