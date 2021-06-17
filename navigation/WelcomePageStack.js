@@ -20,40 +20,30 @@ const Stack = createStackNavigator();
 
 const WelcomeNavigator = ({ changeState, getState }) => {
 	return (
-		<Stack.Navigator initialRouteName="FirstWelcomePage" headerMode="none" screenOptions={{gestureEnabled: false}}>
-			<Stack.Screen
-				name="FirstWelcomePage"
-				options={{
-					cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-				}}>
+		<Stack.Navigator
+			initialRouteName="FirstWelcomePage"
+			headerMode="none"
+			screenOptions={{
+				gestureEnabled: false,
+				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+			}}>
+			<Stack.Screen name="FirstWelcomePage">
 				{(props) => (
 					<FirstWelcomePage {...props} changeState={changeState} getState={getState} />
 				)}
 			</Stack.Screen>
-			<Stack.Screen
-				name="SecondWelcomePage"
-				options={{
-					cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-				}}>
+			<Stack.Screen name="SecondWelcomePage">
 				{(props) => (
 					<SecondWelcomePage {...props} changeState={changeState} getState={getState} />
 				)}
 			</Stack.Screen>
 
-			<Stack.Screen
-				name="ThirdWelcomePage"
-				options={{
-					cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-				}}>
+			<Stack.Screen name="ThirdWelcomePage">
 				{(props) => (
 					<ThirdWelcomePage {...props} changeState={changeState} getState={getState} />
 				)}
 			</Stack.Screen>
-			<Stack.Screen
-				name="FourthWelcomePage"
-				options={{
-					cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-				}}>
+			<Stack.Screen name="FourthWelcomePage">
 				{(props) => (
 					<FourthWelcomePage {...props} changeState={changeState} getState={getState} />
 				)}

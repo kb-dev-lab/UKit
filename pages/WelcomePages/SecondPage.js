@@ -53,8 +53,9 @@ class SecondWelcomePage extends React.Component {
 				start={{ x: 0.05, y: 0.05 }}
 				end={{ x: 0.95, y: 0.95 }}>
 				<SafeAreaView style={{ flex: 1 }}>
-					<WelcomeBackButton onPress={navigation.goBack} visible={true} />
+					<WelcomeBackButton onPress={() => navigation.navigate('FirstWelcomePage')} visible={true} />
 					<View style={styles[theme].whiteCardContainer} style={{ flexGrow: 1 }}>
+
 						<View style={styles[theme].whiteCard}>
 							<Text style={styles[theme].whiteCardText}>
 								{Translator.get('YOUR_THEME')}
@@ -79,6 +80,7 @@ class SecondWelcomePage extends React.Component {
 								</TouchableOpacity>
 							))}
 						</View>
+
 						<View style={styles[theme].whiteCard}>
 							<Text style={styles[theme].whiteCardText}>
 								{Translator.get('YOUR_LANGUAGE')}
