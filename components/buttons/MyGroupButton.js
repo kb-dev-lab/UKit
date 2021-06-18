@@ -56,7 +56,6 @@ class MyGroupButton extends React.PureComponent {
 const mapStateToProps = (state) => {
 	return {
 		savedGroup: state.favorite.groupName,
-		themeName: state.darkMode.themeName,
 	};
 };
 

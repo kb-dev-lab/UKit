@@ -46,7 +46,7 @@ const CustomDrawerContentComponent = (props) => {
                             onPress={() => props.navigation.closeDrawer()}
                         />
                         <Split title={Translator.get('MY_GROUP')} lineColor={theme.border} color={theme.icon} />
-                        <MyGroupButton navigate={navigate} />
+                        <MyGroupButton navigate={navigate} themeName={AppContextValues.themeName}/>
                         <Split title={Translator.get('NAVIGATION')} lineColor={theme.border} color={theme.icon} />
                         <DrawerButton
                             title={'ENT'}
