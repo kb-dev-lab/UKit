@@ -107,13 +107,13 @@ class ThirdWelcomePage extends React.Component {
 					}
 				});
 			});
-		};
+		}
 
 		this.props.changeState({
-			'groupListFiltered': newList,
-			'year': year,
-			'season': season,
-			'textFilter': textFilter,
+			groupListFiltered: newList,
+			year: year,
+			season: season,
+			textFilter: textFilter,
 		});
 	};
 
@@ -133,7 +133,7 @@ class ThirdWelcomePage extends React.Component {
 		const newGroup = this.props.getState('group') === group ? null : group;
 
 		SettingsManager.setGroup(newGroup);
-		this.props.changeState({'group': newGroup});
+		this.props.changeState({ group: newGroup });
 	};
 
 	renderGroupListItem = ({ item, index }) => {
@@ -245,6 +245,7 @@ class ThirdWelcomePage extends React.Component {
 										styles[theme].whiteCardGroupButton,
 										styles[theme].whiteCardGroupText,
 									]}
+									defaultValue={this.props.getState('textFilter')}
 									placeholder={Translator.get('GROUP_NAME')}
 									placeholderTextColor={PlaceholderTextColor()}
 									onChangeText={this.onChangeText}
@@ -259,30 +260,38 @@ class ThirdWelcomePage extends React.Component {
 									viewabilityConfig={{
 										itemVisiblePercentThreshold: 0,
 									}}
+									ListFooterComponent={
+										<>
+											{this.props.getState('textFilter') &&
+											this.props.getState('groupListFiltered').length >
+												MAXIMUM_NUMBER_ITEMS_GROUPLIST ? (
+												<Text style={styles[theme].greyBottomText}>
+													{Translator.get(
+														'HIDDEN_RESULT',
+														this.props.getState('groupListFiltered')
+															.length -
+															MAXIMUM_NUMBER_ITEMS_GROUPLIST,
+													)}
+												</Text>
+											) : (
+												<></>
+											)}
+											{this.props.getState('textFilter') &&
+											this.props.getState('groupListFiltered').length ===
+												0 ? (
+												<Text style={styles[theme].greyBottomText}>
+													{Translator.get(
+														'NO_GROUP_FOUND_WITH_THIS_SEARCH',
+													)}
+												</Text>
+											) : (
+												<Text style={styles[theme].greyBottomText}>
+													{Translator.get('USE_SEARCH_BAR')}
+												</Text>
+											)}
+										</>
+									}
 								/>
-								{this.props.getState('textFilter') &&
-								this.props.getState('groupListFiltered').length >
-									MAXIMUM_NUMBER_ITEMS_GROUPLIST ? (
-									<Text style={styles[theme].greyBottomText}>
-										{Translator.get(
-											'HIDDEN_RESULT',
-											this.props.getState('groupListFiltered').length -
-												MAXIMUM_NUMBER_ITEMS_GROUPLIST,
-										)}
-									</Text>
-								) : (
-									<></>
-								)}
-								{this.props.getState('textFilter') &&
-								this.props.getState('groupListFiltered').length === 0 ? (
-									<Text style={styles[theme].greyBottomText}>
-										{Translator.get('NO_GROUP_FOUND_WITH_THIS_SEARCH')}
-									</Text>
-								) : (
-									<Text style={styles[theme].greyBottomText}>
-										{Translator.get('USE_SEARCH_BAR')}
-									</Text>
-								)}
 							</View>
 						</ScrollView>
 

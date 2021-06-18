@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { PersistGate } from 'redux-persist/es/integration/react';
 
 import StatusBar from '../components/ui/StatusBar';

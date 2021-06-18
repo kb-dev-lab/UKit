@@ -86,10 +86,12 @@ export default () => {
 		changeState({'language': langSystem});
 		changeState({'theme': themeSystem});
 
-		(async () => {
+		const fetch = async () => {
 			const groupList = await fetchGroupList();
 			changeState({'groupList': Array.from(new Set(groupList.map((e) => e.name)))});
-		})();
+		};
+
+		fetch();
 	}, []);
 
 	return (
