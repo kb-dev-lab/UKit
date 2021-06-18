@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import { View } from 'react-native';
 import { PersistGate } from 'redux-persist/es/integration/react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import StatusBar from '../components/ui/StatusBar';
 import Drawer from '../navigation/Drawer';
@@ -20,41 +21,38 @@ const { store, pStore } = configureStore();
 // const DrawerContainer = createAppContainer(Drawer);
 
 export default () => {
-    const [isFirstLoad, setFirstLoad] = useState(SettingsManager.isFirstLoad());
-    const [themeName, setThemeName] = useState(SettingsManager.getTheme());
-    const [groupName, setGroupName] = useState(SettingsManager.getGroup());
-    const [language, setLanguage] = useState(SettingsManager.getLanguage());
+	const [isFirstLoad, setFirstLoad] = useState(SettingsManager.isFirstLoad());
+	const [themeName, setThemeName] = useState(SettingsManager.getTheme());
+	const [groupName, setGroupName] = useState(SettingsManager.getGroup());
+	const [language, setLanguage] = useState(SettingsManager.getLanguage());
 
+	useEffect(() => {
+		SettingsManager.on('theme', (newTheme) => {
+			setThemeName(newTheme);
+		});
+		SettingsManager.on('group', (newGroup) => {
+			setGroupName(newGroup);
+		});
+		SettingsManager.on('firstload', (newFistLoad) => {
+			setFirstLoad(newFistLoad);
+		});
+		SettingsManager.on('language', (newLang) => {
+			setLanguage(newLang);
+		});
+	}, []);
 
-    useEffect(() => {
-        SettingsManager.on('theme', (newTheme) => {
-            setThemeName(newTheme);
-        });
-        SettingsManager.on('group', (newGroup) => {
-            setGroupName(newGroup);
-        });
-        SettingsManager.on('firstload', (newFistLoad) => {
-            setFirstLoad(newFistLoad);
-        });
-        SettingsManager.on('language', (newLang) => {
-            setLanguage(newLang);
-        })
-    }, []);
-
-    return (
-        <View style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
-            <Provider store={store} style={style.fonts.default}>
-                <AppContextProvider value={{ themeName, groupName }}>
-                    <PersistGate loading={null} persistor={pStore}>
-                        <StatusBar />
-                        {isFirstLoad ? (
-                            <Welcome />
-                        ) : (
-                            <Drawer />
-                        )}
-                    </PersistGate>
-                </AppContextProvider>
-            </Provider>
-        </View>
-    );
+	return (
+		<SafeAreaProvider>
+			<View style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
+				<Provider store={store} style={style.fonts.default}>
+					<AppContextProvider value={{ themeName, groupName }}>
+						<PersistGate loading={null} persistor={pStore}>
+							<StatusBar />
+							{isFirstLoad ? <Welcome /> : <Drawer />}
+						</PersistGate>
+					</AppContextProvider>
+				</Provider>
+			</View>
+		</SafeAreaProvider>
+	);
 };

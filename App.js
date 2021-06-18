@@ -40,7 +40,6 @@ export default class App extends React.Component {
                     startAsync={this._loadAssetsAsync}
                     onFinish={() => this.setState({ isSplashReady: true })}
                     onError={console.warn}
-                    autoHideSplash={false}
                 />
             );
         }
@@ -60,13 +59,11 @@ export default class App extends React.Component {
             SimpleLineIcons.font,
             Entypo.font,
         ]);
+        
+        await SettingsManager.loadSettings();
 
         await Font.loadAsync({Montserrat_500Medium});
 
         await Promise.all([...imageAssets, ...fontAssets]);
-
-        await SettingsManager.loadSettings();
-
-        SplashScreen.hideAsync();
     }
 }

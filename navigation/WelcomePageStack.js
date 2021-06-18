@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
+import { CardStyleInterpolators } from '@react-navigation/stack';
+import { createNativeStackNavigator } from "react-native-screens/native-stack";
 import { NavigationContainer } from '@react-navigation/native';
 import axios from 'axios';
 
@@ -16,16 +17,17 @@ const fetchGroupList = async () => {
 	return response.data;
 };
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const WelcomeNavigator = ({ changeState, getState }) => {
 	return (
 		<Stack.Navigator
 			initialRouteName="FirstWelcomePage"
-			headerMode="none"
 			screenOptions={{
-				gestureEnabled: false,
+				stackAnimation: 'slide_from_right',
+				headerShown: false,
 				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+				cardStyle: {opacity: 1},
 			}}>
 			<Stack.Screen name="FirstWelcomePage">
 				{(props) => (
