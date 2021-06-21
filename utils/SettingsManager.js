@@ -8,6 +8,7 @@ class SettingsManager {
 		this._theme = 'light';
 		this._groupName = null;
 		this._language = 'fr';
+		this._openAppOnFavoriteGroup = true;
 		this._subscribers = {};
 	}
 
@@ -56,7 +57,7 @@ class SettingsManager {
 	getAutomaticTheme = () => {
 		if (Appearance.getColorScheme() === 'dark') return 'dark';
 		else return 'light';
-	}
+	};
 
 	isFirstLoad = () => {
 		return this._firstload;
@@ -89,10 +90,20 @@ class SettingsManager {
 		this.notify('language', this._language);
 	};
 
+	getOpenAppOnFavoriteGroup = () => {
+		return this._openAppOnFavoriteGroup;
+	};
+
+	setOpenAppOnFavoriteGroup = (newOpenAppBool) => {
+		this._openAppOnFavoriteGroup = newOpenAppBool;
+		this.saveSettings();
+	};
+
 	resetSettings = () => {
 		this.setTheme('light');
 		this.setLanguage('fr');
 		this.setGroup(null);
+		this.setOpenAppOnFavoriteGroup(true);
 		this.setFirstLoad(true);
 	};
 
@@ -104,6 +115,7 @@ class SettingsManager {
 				theme: this._theme,
 				groupName: this._groupName,
 				language: this._language,
+				openAppOnFavoriteGroup: this._openAppOnFavoriteGroup,
 			}),
 		);
 	};
@@ -135,8 +147,9 @@ class SettingsManager {
 				this._groupName = settings.groupName;
 			}
 			if (settings?.language) {
-				this.setLanguage(settings.language);
+				this._language = settings.language;
 			}
+			this._openAppOnFavoriteGroup = settings.openAppOnFavoriteGroup;
 		} catch (error) {
 			const settingsError = new ErrorAlert(
 				Translator.get('ERROR_WITH_MESSAGE', "Settings couldn't be loaded"),

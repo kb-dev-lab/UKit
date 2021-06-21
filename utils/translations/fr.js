@@ -39,6 +39,7 @@ export default {
 	NO_GROUP_FOUND_WITH_THIS_SEARCH: "Aucun groupe correspondant à cette recherche n'a été trouvé.",
 	OFFLINE_DISPLAY_FROM_DATE: 'Affichage hors ligne datant du $-',
 	OPEN_ON_FAVOURITE_GROUP: 'Ouvrir sur le groupe favori',
+	RESET: "Réinitialiser",
     RESET_APP: "Réinitialiser l'application",
 	RESET_APP_CONFIRMATION: "Voulez vous réinitialiser l'application? Vous ne pourrez pas revenir en arrière.",
 	SAVE: 'Sauvegarder',

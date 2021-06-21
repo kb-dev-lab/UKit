@@ -38,6 +38,7 @@ export default {
 	NO_GROUP_FOUND_WITH_THIS_SEARCH: 'No group found with this search.',
 	OFFLINE_DISPLAY_FROM_DATE: 'Offline display from $-',
 	OPEN_ON_FAVOURITE_GROUP: 'Open on favourite group',
+	RESET: "Reset",
 	RESET_APP: 'Reset application',
 	RESET_APP_CONFIRMATION: "Do you want to reset the application? You cannot undo this action.",
 	SAVE: 'Save',

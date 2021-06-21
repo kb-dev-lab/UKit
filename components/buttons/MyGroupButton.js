@@ -13,7 +13,7 @@ class MyGroupButton extends React.PureComponent {
 	}
 
 	componentDidMount() {
-		if (SettingsManager.getGroup() !== null) {
+		if (SettingsManager.getGroup() !== null && SettingsManager.getOpenAppOnFavoriteGroup()) {
 			this.props.navigate('Home', {
 				screen: 'Group',
 				params: {
