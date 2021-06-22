@@ -55,6 +55,66 @@ const style = {
 			color: '#4C5464',
 			marginHorizontal: 5,
 		},
+		popup: {
+			background: {
+				flex: 1,
+				justifyContent: 'center',
+				backgroundColor: '#000000B3',
+			},
+			container: {
+				backgroundColor: '#FFFFFF',
+				borderRadius: 20,
+				padding: 15,
+				marginHorizontal: 35,
+			},
+			header: {
+				flexDirection: 'row',
+				justifyContent: 'space-between',
+				alignItems: 'center',
+			},
+			textHeader: {
+				fontWeight: 'bold',
+				fontSize: 18,
+				color: '#4C5464',
+			},
+			textDescription: {
+				marginTop: 15,
+				fontSize: 16,
+				color: '#4C5464C0',
+			},
+			buttonContainer: {
+				flexDirection: 'row',
+				justifyContent: 'space-around',
+				marginTop: 50,
+			},
+			buttonSecondary: {
+				flex: 1,
+				backgroundColor: '#D2D4D8',
+				borderRadius: 10,
+				paddingVertical: 10,
+				marginHorizontal: 5,
+				alignItems: 'center',
+			},
+			buttonMain: {
+				flex: 1,
+				backgroundColor: '#4C5464',
+				borderRadius: 10,
+				paddingVertical: 10,
+				marginHorizontal: 5,
+				alignItems: 'center',
+			},
+			buttonTextSecondary: {
+				fontSize: 18,
+				color: '#777474',
+			},
+			buttonTextMain: {
+				fontSize: 18,
+				color: '#FFFFFF',
+			},
+			closeIcon: {
+				color: '#D2D4D8'
+			}
+		},
 	},
 	dark: {
 		background: {
@@ -100,6 +160,66 @@ const style = {
 			alignSelf: 'center',
 			color: '#D9D9D9',
 			marginHorizontal: 5,
+		},
+		popup: {
+			background: {
+				flex: 1,
+				justifyContent: 'center',
+				backgroundColor: '#000000B3',
+			},
+			container: {
+				backgroundColor: '#674669',
+				borderRadius: 20,
+				padding: 15,
+				marginHorizontal: 35,
+			},
+			header: {
+				flexDirection: 'row',
+				justifyContent: 'space-between',
+				alignItems: 'center',
+			},
+			textHeader: {
+				fontWeight: 'bold',
+				fontSize: 18,
+				color: '#FFFFFF',
+			},
+			textDescription: {
+				marginTop: 15,
+				fontSize: 16,
+				color: '#D9D1D9',
+			},
+			buttonContainer: {
+				flexDirection: 'row',
+				justifyContent: 'space-around',
+				marginTop: 50,
+			},
+			buttonSecondary: {
+				flex: 1,
+				backgroundColor: '#B3A3B4',
+				borderRadius: 10,
+				paddingVertical: 10,
+				marginHorizontal: 5,
+				alignItems: 'center',
+			},
+			buttonMain: {
+				flex: 1,
+				backgroundColor: '#FFFFFF',
+				borderRadius: 10,
+				paddingVertical: 10,
+				marginHorizontal: 5,
+				alignItems: 'center',
+			},
+			buttonTextSecondary: {
+				fontSize: 18,
+				color: '#484148',
+			},
+			buttonTextMain: {
+				fontSize: 18,
+				color: '#404040',
+			},
+			closeIcon: {
+				color: '#8D748E'
+			}
 		},
 	},
 };
@@ -241,63 +361,41 @@ class Settings extends React.Component {
 					/>
 				</TouchableOpacity>
 
-				{/* <Dialog.Container
-					visible={this.state.resetDialogVisible}
-					onBackdropPress={this.closeResetDialog}>
-					<Dialog.Title>{Translator.get('RESET_APP')}</Dialog.Title>
-					<Dialog.Description>
-						{Translator.get('RESET_APP_CONFIRMATION')}
-					</Dialog.Description>
-					<Dialog.Button
-						onPress={this.closeResetDialog}
-						label={Translator.get('CANCEL')}
-					/>
-					<Dialog.Button onPress={this.resetApp} label={Translator.get('RESET')} />
-				</Dialog.Container> */}
-
 				<Modal
 					animationType="fade"
 					transparent={true}
 					visible={this.state.resetDialogVisible}
 					onRequestClose={this.closeResetDialog}>
-					<View
-						style={{
-							flex: 1,
-							justifyContent: 'center',
-							backgroundColor: '#000000B3',
-						}}>
-						<View
-							style={{
-								backgroundColor: 'white',
-								borderRadius: 20,
-								flex: 1,
-								padding: 15,
-								marginHorizontal: 35,
-								marginVertical: 250,
-								// alignItems: 'center',
-							}}>
-							<TouchableOpacity
-								onPress={this.closeResetDialog}
-								style={{ position: 'absolute', top: 10, right: 10 }}>
-								<MaterialIcons name="close" size={24} color="#4C546440" />
-							</TouchableOpacity>
+					<View style={style[theme].popup.background}>
+						<View style={style[theme].popup.container}>
+							<View style={style[theme].popup.header}>
+								<Text style={style[theme].popup.textHeader}>
+									{Translator.get('RESET_APP').toUpperCase()}
+								</Text>
+								<TouchableOpacity onPress={this.closeResetDialog}>
+									<MaterialIcons name="close" size={32} style={style[theme].popup.closeIcon} />
+								</TouchableOpacity>
+							</View>
 
-							<Text
-								style={{
-									fontWeight: 'bold',
-									fontSize: 18,
-									color: '#4C5464',
-								}}>
-								{Translator.get('RESET_APP').toUpperCase()}
-							</Text>
-							<Text
-							style={{
-								marginTop: 15,
-								fontSize: 16,
-								color: '#4C5464C0',
-							}}>
+							<Text style={style[theme].popup.textDescription}>
 								{Translator.get('RESET_APP_CONFIRMATION')}
 							</Text>
+							<View style={style[theme].popup.buttonContainer}>
+								<TouchableOpacity
+									style={style[theme].popup.buttonSecondary}
+									onPress={this.closeResetDialog}>
+									<Text style={style[theme].popup.buttonTextSecondary}>
+										{Translator.get('CANCEL')}
+									</Text>
+								</TouchableOpacity>
+								<TouchableOpacity
+									style={style[theme].popup.buttonMain}
+									onPress={this.resetApp}>
+									<Text style={style[theme].popup.buttonTextMain}>
+										{Translator.get('RESET')}
+									</Text>
+								</TouchableOpacity>
+							</View>
 						</View>
 					</View>
 				</Modal>
