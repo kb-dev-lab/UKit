@@ -1,12 +1,10 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { AppContext } from '../utils/DeviceUtils';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text, TouchableOpacity, View, Switch } from 'react-native';
+import { Text, TouchableOpacity, View, Switch, Modal } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Dialog from 'react-native-dialog';
-
-import { Picker } from '@react-native-picker/picker';
 
 import SettingsManager from '../utils/SettingsManager';
 import Translator from '../utils/translator';
@@ -162,7 +160,7 @@ class Settings extends React.Component {
 	};
 
 	resetApp = () => {
-		this.closeResetDialog()
+		this.closeResetDialog();
 		SettingsManager.resetSettings();
 	};
 
@@ -171,11 +169,11 @@ class Settings extends React.Component {
 
 		return (
 			<SafeAreaView style={style[theme].background}>
-				<Text style={style[theme].separationText}>{Translator.get('DISPLAY').toUpperCase()}</Text>
+				<Text style={style[theme].separationText}>
+					{Translator.get('DISPLAY').toUpperCase()}
+				</Text>
 
-				<TouchableOpacity
-					style={style[theme].button}
-					onPress={this.openLanguageDialog}>
+				<TouchableOpacity style={style[theme].button} onPress={this.openLanguageDialog}>
 					<MaterialIcons name="language" size={24} style={style[theme].leftIcon} />
 					<Text style={style[theme].buttonMainText}>{Translator.get('LANGUAGE')}</Text>
 					<Text style={style[theme].buttonSecondaryText}>
@@ -243,22 +241,80 @@ class Settings extends React.Component {
 					/>
 				</TouchableOpacity>
 
-				<Dialog.Container visible={this.state.resetDialogVisible} onBackdropPress={this.closeResetDialog}>
+				{/* <Dialog.Container
+					visible={this.state.resetDialogVisible}
+					onBackdropPress={this.closeResetDialog}>
 					<Dialog.Title>{Translator.get('RESET_APP')}</Dialog.Title>
 					<Dialog.Description>
 						{Translator.get('RESET_APP_CONFIRMATION')}
 					</Dialog.Description>
-					<Dialog.Button onPress={this.closeResetDialog} label={Translator.get('CANCEL')} />
+					<Dialog.Button
+						onPress={this.closeResetDialog}
+						label={Translator.get('CANCEL')}
+					/>
 					<Dialog.Button onPress={this.resetApp} label={Translator.get('RESET')} />
-				</Dialog.Container>
+				</Dialog.Container> */}
 
-				<Dialog.Container visible={this.state.languageDialogVisible} onBackdropPress={this.closeLanguageDialog}>
+				<Modal
+					animationType="fade"
+					transparent={true}
+					visible={this.state.resetDialogVisible}
+					onRequestClose={this.closeResetDialog}>
+					<View
+						style={{
+							flex: 1,
+							justifyContent: 'center',
+							backgroundColor: '#000000B3',
+						}}>
+						<View
+							style={{
+								backgroundColor: 'white',
+								borderRadius: 20,
+								flex: 1,
+								padding: 15,
+								marginHorizontal: 35,
+								marginVertical: 250,
+								// alignItems: 'center',
+							}}>
+							<TouchableOpacity
+								onPress={this.closeResetDialog}
+								style={{ position: 'absolute', top: 10, right: 10 }}>
+								<MaterialIcons name="close" size={24} color="#4C546440" />
+							</TouchableOpacity>
+
+							<Text
+								style={{
+									fontWeight: 'bold',
+									fontSize: 18,
+									color: '#4C5464',
+								}}>
+								{Translator.get('RESET_APP').toUpperCase()}
+							</Text>
+							<Text
+							style={{
+								marginTop: 15,
+								fontSize: 16,
+								color: '#4C5464C0',
+							}}>
+								{Translator.get('RESET_APP_CONFIRMATION')}
+							</Text>
+						</View>
+					</View>
+				</Modal>
+
+				<Dialog.Container
+					visible={this.state.languageDialogVisible}
+					onBackdropPress={this.closeLanguageDialog}>
 					<Dialog.Title>{Translator.get('LANGUAGE')}</Dialog.Title>
-					<Dialog.Description>
-						{Translator.get('YOUR_LANGUAGE')}
-					</Dialog.Description>
-					<Dialog.Button onPress={() => console.log("pressed")} label={Translator.get('FRENCH')}/>
-					<Dialog.Button onPress={() => console.log("pressed")} label={Translator.get('ENGLISH')}/>
+					<Dialog.Description>{Translator.get('YOUR_LANGUAGE')}</Dialog.Description>
+					<Dialog.Button
+						onPress={() => console.log('pressed')}
+						label={Translator.get('FRENCH')}
+					/>
+					<Dialog.Button
+						onPress={() => console.log('pressed')}
+						label={Translator.get('ENGLISH')}
+					/>
 				</Dialog.Container>
 			</SafeAreaView>
 		);
