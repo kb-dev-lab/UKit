@@ -1,37 +1,52 @@
 import React from 'react';
 import { Text } from 'react-native';
+
+import URL from '../../utils/URL';
 import style from './../../../Style';
 import URLButton from './URLButton';
 
 const locations = require('../../assets/locations.json');
 
 export default class OpenMapButton extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            location: this.props.location.split('/')[0],
-        };
-    }
+	constructor(props) {
+		super(props);
+		this.state = {
+			location: this.props.location.split('/')[0],
+		};
+	}
 
-    isLocationKnown() {
-        return locations.hasOwnProperty(this.state.location);
-    }
+	isLocationKnown() {
+		return locations.hasOwnProperty(this.state.location);
+	}
 
-    getGMapsLocation() {
-        let location = locations[this.state.location];
-        if (location.hasOwnProperty('placeID')) {
-            return `https://www.google.com/maps/search/?api=1&query=${location.lat},${location.lng}&query_place_id=${location.placeID}`;
-        }
-        return `https://www.google.com/maps/search/?api=1&query=${location.lat},${location.lng}`;
-    }
+	getGMapsLocation() {
+		let location = locations[this.state.location];
+		if (location.hasOwnProperty('placeID')) {
+			return (
+				URL['MAP'] +
+				`search/?api=1&query=${location.lat},${location.lng}&query_place_id=${location.placeID}`
+			);
+		}
+		return URL['MAP'] + `search/?api=1&query=${location.lat},${location.lng}`;
+	}
 
-    render() {
-        const { theme } = this.props;
+	render() {
+		const { theme } = this.props;
 
-        if (this.isLocationKnown()) {
-            return <URLButton title={this.props.location} url={this.getGMapsLocation()} theme={theme} />;
-        }
+		if (this.isLocationKnown()) {
+			return (
+				<URLButton
+					title={this.props.location}
+					url={this.getGMapsLocation()}
+					theme={theme}
+				/>
+			);
+		}
 
-        return <Text style={[style.schedule.course.content, { color: theme.accentFont }]}>{this.props.location}</Text>;
-    }
+		return (
+			<Text style={[style.schedule.course.content, { color: theme.accentFont }]}>
+				{this.props.location}
+			</Text>
+		);
+	}
 }

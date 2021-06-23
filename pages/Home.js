@@ -14,6 +14,7 @@ import GroupRow from '../components/GroupRow';
 import style from '../Style';
 import Translator from '../utils/translator';
 import DeviceUtils, { AppContext } from '../utils/DeviceUtils';
+import URL from '../utils/URL';
 
 class Home extends React.Component {
 	static contextType = AppContext;
@@ -98,7 +99,7 @@ class Home extends React.Component {
 
 		if (await DeviceUtils.isConnected()) {
 			try {
-				const response = await axios.get('https://hackjack.info/et/json.php?clean=true');
+				const response = await axios.get(URL['API'] + '?clean=true');
 				this.setState({ cacheDate: null });
 				list = response.data;
 				AsyncStorage.setItem('groups', JSON.stringify({ list, date: moment() }));

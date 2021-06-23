@@ -18,7 +18,6 @@ import Welcome from '../navigation/WelcomePageStack';
 // }
 
 const { store, pStore } = configureStore();
-// const DrawerContainer = createAppContainer(Drawer);
 
 export default () => {
 	const [isFirstLoad, setFirstLoad] = useState(SettingsManager.isFirstLoad());

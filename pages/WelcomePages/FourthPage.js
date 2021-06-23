@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import WelcomeButton from '../../components/buttons/WelcomeButton';
-import styles, { GradientColor } from '../../StyleWelcome';
+import styles from '../../StyleWelcome';
 import Translator from '../../utils/translator';
 import SettingsManager from '../../utils/SettingsManager';
 import WelcomePagination from '../../components/ui/WelcomePagination';
@@ -17,11 +17,11 @@ class FourthWelcomePage extends React.Component {
 
 	render() {
 		const { navigation } = this.props;
-		const theme = this.props.getState('theme');
+		const theme = this.props.navigatorState.theme;
 		return (
 			<LinearGradient
 				style={{ flex: 1 }}
-				colors={GradientColor()}
+				colors={styles[theme].gradientColor}
 				start={{ x: 0.05, y: 0.05 }}
 				end={{ x: 0.95, y: 0.95 }}>
 				<SafeAreaView style={{ flex: 1 }}>

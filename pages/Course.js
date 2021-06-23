@@ -10,6 +10,7 @@ import style from '../Style';
 import CourseRow from '../components/CourseRow';
 import { getLocations, getLocationsInText } from '../utils';
 import { AppContext } from '../utils/DeviceUtils';
+import URL from '../utils/URL';
 
 const mapStyle = [
 	{
@@ -64,9 +65,13 @@ class Course extends React.Component {
 	}
 
 	onPressGoogleMaps = () => {
-		let link = `https://www.google.com/maps/search/?api=1&query=${this.state.locations[0].lat},${this.state.locations[0].lng}`;
+		let link =
+			URL['MAP'] +
+			`search/?api=1&query=${this.state.locations[0].lat},${this.state.locations[0].lng}`;
 		if (this.state.locations[0].placeID) {
-			link = `https://www.google.com/maps/search/?api=1&query=${this.state.locations[0].lat},${this.state.locations[0].lng}&query_place_id=${this.state.locations[0].placeID}`;
+			link =
+				URL['MAP'] +
+				`search/?api=1&query=${this.state.locations[0].lat},${this.state.locations[0].lng}&query_place_id=${this.state.locations[0].placeID}`;
 		}
 
 		Linking.canOpenURL(link)

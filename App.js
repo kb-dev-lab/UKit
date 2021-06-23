@@ -1,6 +1,5 @@
 import React from 'react';
 import { Image } from 'react-native';
-import * as SplashScreen from 'expo-splash-screen';
 import AppLoading from 'expo-app-loading';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
@@ -17,6 +16,7 @@ import { Montserrat_500Medium } from '@expo-google-fonts/montserrat';
 
 import RootContainer from './containers/rootContainer';
 import SettingsManager from './utils/SettingsManager';
+import DataManager from './utils/DataManager';
 
 function cacheFonts(fonts) {
 	return fonts.map((font) => Font.loadAsync(font));
@@ -67,6 +67,8 @@ export default class App extends React.Component {
 			SimpleLineIcons.font,
 			Entypo.font,
 		]);
+
+		await DataManager.loadData();
 
 		await SettingsManager.loadSettings();
 

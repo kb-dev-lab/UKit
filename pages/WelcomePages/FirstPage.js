@@ -7,24 +7,29 @@ import WelcomePagination from '../../components/ui/WelcomePagination';
 import WelcomeButton from '../../components/buttons/WelcomeButton';
 import WelcomeBackButton from '../../components/buttons/WelcomeBackButton';
 import Translator from '../../utils/translator';
-import styles, { GradientColor } from '../../StyleWelcome';
+import styles from '../../StyleWelcome';
 
 class FirstWelcomePage extends React.Component {
 	constructor(props) {
 		super(props);
 	}
 
+	navigateToNextPage = () => {
+		const { navigation } = this.props;
+		navigation.navigate('SecondWelcomePage');
+	};
+
 	render() {
 		const { navigation } = this.props;
-		const theme = this.props.getState('theme');
+		const theme = this.props.navigatorState.theme;
 		return (
 			<LinearGradient
 				style={{ flex: 1, display: 'flex' }}
-				colors={GradientColor()}
+				colors={styles[theme].gradientColor}
 				start={{ x: 0.05, y: 0.05 }}
 				end={{ x: 0.95, y: 0.95 }}>
 				<SafeAreaView style={{ flex: 1 }}>
-					<WelcomeBackButton onPress={{}} visible={false}/>
+					<WelcomeBackButton onPress={() => {}} visible={false} />
 					<View style={{ flexGrow: 1 }}>
 						<Text style={styles[theme].mainText}>{Translator.get('WELCOME')}</Text>
 						<Text style={styles[theme].secondaryText}>
@@ -33,12 +38,12 @@ class FirstWelcomePage extends React.Component {
 					</View>
 
 					<WelcomeButton
-						onPress={() => navigation.navigate('SecondWelcomePage')}
+						onPress={this.navigateToNextPage}
 						buttonText={Translator.get('START')}
 						theme={theme}
 					/>
 
-					<WelcomePagination pageNumber={1} maxPage={4} theme={theme}/>
+					<WelcomePagination pageNumber={1} maxPage={4} theme={theme} />
 				</SafeAreaView>
 			</LinearGradient>
 		);
