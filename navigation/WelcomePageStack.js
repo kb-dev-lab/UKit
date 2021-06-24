@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { CardStyleInterpolators } from '@react-navigation/stack';
 import { createNativeStackNavigator } from 'react-native-screens/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-import axios from 'axios';
 
 import SettingsManager from '../utils/SettingsManager';
 import DeviceUtils from '../utils/DeviceUtils';
@@ -11,13 +10,7 @@ import FirstWelcomePage from '../pages/WelcomePages/FirstPage';
 import SecondWelcomePage from '../pages/WelcomePages/SecondPage';
 import ThirdWelcomePage from '../pages/WelcomePages/ThirdPage';
 import FourthWelcomePage from '../pages/WelcomePages/FourthPage';
-import URL from '../utils/URL';
 import DataManager from '../utils/DataManager';
-
-const fetchGroupList = async () => {
-	const response = await axios.get(URL['API'] + '?clean=true');
-	return response.data;
-};
 
 const Stack = createNativeStackNavigator();
 
