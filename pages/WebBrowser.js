@@ -5,7 +5,6 @@ import { withNavigation } from '@react-navigation/compat';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { connect } from 'react-redux';
 import URL from '../utils/URL';
 
 import style from '../Style';
@@ -202,8 +201,4 @@ class WebBrowser extends React.Component {
 	}
 }
 
-const mapStateToProps = (state) => ({
-	themeName: state.darkMode.themeName,
-});
-
-export default connect(mapStateToProps)(withNavigation(WebBrowser));
+export default withNavigation(WebBrowser);

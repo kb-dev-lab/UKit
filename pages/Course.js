@@ -2,7 +2,6 @@ import React from 'react';
 import { Linking, Text, TouchableOpacity, View } from 'react-native';
 import MapView from 'react-native-maps';
 import { Polygon, Svg } from 'react-native-svg';
-import { connect } from 'react-redux';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -189,8 +188,4 @@ class Course extends React.Component {
 	}
 }
 
-const mapStateToProps = (state) => ({
-	themeName: state.darkMode.themeName,
-});
-
-export default connect(mapStateToProps)(Course);
+export default Course;

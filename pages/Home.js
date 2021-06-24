@@ -3,7 +3,6 @@ import { ActivityIndicator, SectionList, Text, TouchableOpacity, View } from 're
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { Hideo } from 'react-native-textinput-effects';
-import { connect } from 'react-redux';
 import moment from 'moment';
 import { FontAwesome } from '@expo/vector-icons';
 import Toast from 'react-native-root-toast';
@@ -269,10 +268,4 @@ class Home extends React.Component {
 	}
 }
 
-const mapStateToProps = (state) => {
-	return {
-		themeName: state.darkMode.themeName,
-	};
-};
-
-export default connect(mapStateToProps)(Home);
+export default Home;
