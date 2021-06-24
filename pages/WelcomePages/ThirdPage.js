@@ -174,12 +174,15 @@ class ThirdWelcomePage extends React.Component {
 		if (this.getTextFilter()) {
 			if (this.getGroupListFiltered().length > MAXIMUM_NUMBER_ITEMS_GROUPLIST) {
 				return (
+					<>
 					<Text style={styles[theme].greyBottomText}>
 						{Translator.get(
 							'HIDDEN_RESULT',
 							this.getGroupListFiltered().length - MAXIMUM_NUMBER_ITEMS_GROUPLIST,
 						)}
 					</Text>
+					<Text style={styles[theme].greyBottomText}>{Translator.get('USE_SEARCH_BAR')}</Text>
+					</>
 				);
 			} else if (!this.getGroupListFiltered.length) {
 				return (

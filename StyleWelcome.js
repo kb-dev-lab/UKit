@@ -1,5 +1,3 @@
-import SettingsManager from './utils/SettingsManager';
-
 export default Theme = {
 	light: {
 		buttonContainer: {
@@ -36,13 +34,14 @@ export default Theme = {
 		},
 		pageDots: {
 			flexDirection: 'row',
-			justifyContent: 'space-between',
+			justifyContent: 'space-evenly',
 			marginHorizontal: 150,
 			marginVertical: 16,
 		},
 		circleFill: {
 			width: 15,
 			height: 15,
+			marginHorizontal: 16,
 			borderRadius: 10,
 			backgroundColor: '#FFFFFF',
 		},
@@ -50,6 +49,7 @@ export default Theme = {
 			width: 15,
 			height: 15,
 			borderRadius: 10,
+			marginHorizontal: 16,
 			backgroundColor: 'transparent',
 			borderColor: '#FFFFFF',
 			borderWidth: 2,
@@ -162,13 +162,14 @@ export default Theme = {
 		},
 		pageDots: {
 			flexDirection: 'row',
-			justifyContent: 'space-between',
+			justifyContent: 'space-evenly',
 			marginHorizontal: 150,
 			marginVertical: 16,
 		},
 		circleFill: {
 			width: 15,
 			height: 15,
+			marginHorizontal: 16,
 			borderRadius: 10,
 			backgroundColor: '#FFFFFF',
 		},
@@ -176,6 +177,7 @@ export default Theme = {
 			width: 15,
 			height: 15,
 			borderRadius: 10,
+			marginHorizontal: 16,
 			backgroundColor: 'transparent',
 			borderColor: '#FFFFFF',
 			borderWidth: 2,
