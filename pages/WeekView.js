@@ -119,7 +119,7 @@ class WeekView extends React.Component {
 		const theme = style.Theme[this.context.themeName];
 
 		return (
-			<SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
+			<SafeAreaView style={{ flex: 1, backgroundColor: theme.greyBackground }}>
 				<WeekComponent
 					key={`weekComponent-${this.context.themeName}`}
 					week={this.state.selectedWeek}
