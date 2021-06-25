@@ -1,10 +1,18 @@
 import React from 'react';
 import { AppContext } from '../utils/DeviceUtils';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text, TouchableOpacity, View, Switch, Modal } from 'react-native';
+import {
+	Text,
+	TouchableOpacity,
+	View,
+	Switch,
+	Modal,
+	FlatList,
+	TextInput,
+	Platform,
+} from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import Dialog from 'react-native-dialog';
 
 import SettingsManager from '../utils/SettingsManager';
 import Translator from '../utils/translator';
@@ -125,6 +133,29 @@ const style = {
 				marginLeft: 16,
 				color: '#4C5464',
 			},
+			filterListContainer: {
+				display: 'flex',
+				flexDirection: 'row',
+				flexWrap: 'wrap',
+				justifyContent: 'flex-start',
+			},
+			textInputContainer: {
+				flexDirection: 'row',
+				alignItems: 'center',
+				marginHorizontal: 5,
+				marginTop: 15,
+				justifyContent: 'flex-end',
+			},
+			textInput: {
+				borderWidth: 2,
+				borderColor: '#4C5464',
+				borderRadius: 15,
+				padding: 5,
+				flex: 1,
+				marginRight: 5,
+				color: '#4C5464',
+			},
+			textInputIconColor: '#4C5464',
 		},
 	},
 	dark: {
@@ -183,6 +214,7 @@ const style = {
 				borderRadius: 20,
 				padding: 15,
 				marginHorizontal: 35,
+				marginVertical: 100,
 			},
 			header: {
 				flexDirection: 'row',
@@ -242,6 +274,29 @@ const style = {
 				marginLeft: 16,
 				color: '#D9D9D9',
 			},
+			filterListContainer: {
+				display: 'flex',
+				flexDirection: 'row',
+				flexWrap: 'wrap',
+				justifyContent: 'flex-start',
+			},
+			textInputContainer: {
+				flexDirection: 'row',
+				alignItems: 'center',
+				marginHorizontal: 5,
+				marginTop: 15,
+				justifyContent: 'flex-end',
+			},
+			textInput: {
+				borderWidth: 2,
+				borderColor: '#D9D9D9',
+				borderRadius: 15,
+				padding: 5,
+				flex: 1,
+				marginRight: 5,
+				color: '#D9D9D9',
+			},
+			textInputIconColor: '#D9D9D9',
 		},
 	},
 };
@@ -271,8 +326,15 @@ class Settings extends React.Component {
 			openFavSwitchValue: SettingsManager.getOpenAppOnFavoriteGroup(),
 			language: SettingsManager.getLanguage(),
 			languageDialogVisible: false,
+			filtersDialogVisible: false,
 			resetDialogVisible: false,
+			filterList: SettingsManager.getFilters(),
+			filterTextInput: null,
 		};
+
+		SettingsManager.on('filter', () => {
+			this.refreshFiltersList();
+		});
 	}
 
 	setSelectedLanguage = (newLang) => {
@@ -288,10 +350,30 @@ class Settings extends React.Component {
 		if (this.state.language !== 'en') this.setSelectedLanguage('en');
 	};
 
+	refreshFiltersList = () => {
+		this.setState({ filterList: SettingsManager.getFilters() });
+	};
+
+	removeFilters = (filter) => {
+		SettingsManager.removeFilters(filter);
+	};
+
+	addFilters = (filter) => {
+		SettingsManager.addFilters(filter.toUpperCase());
+	};
+
 	toggleOpenFavSwitchValue = () => {
 		this.setState({ openFavSwitchValue: !this.state.openFavSwitchValue }, () => {
 			SettingsManager.setOpenAppOnFavoriteGroup(this.state.openFavSwitchValue);
 		});
+	};
+
+	setFilterTextInput = (input) => {
+		this.setState({ filterTextInput: input.toUpperCase() });
+	};
+
+	submitFilterTextInput = () => {
+		if (this.state.filterTextInput) this.addFilters(this.state.filterTextInput);
 	};
 
 	openLanguageDialog = () => {
@@ -300,6 +382,14 @@ class Settings extends React.Component {
 
 	closeLanguageDialog = () => {
 		this.setState({ languageDialogVisible: false });
+	};
+
+	openFiltersDialog = () => {
+		this.setState({ filtersDialogVisible: true });
+	};
+
+	closeFiltersDialog = () => {
+		this.setState({ filtersDialogVisible: false });
 	};
 
 	openResetDialog = () => {
@@ -313,6 +403,32 @@ class Settings extends React.Component {
 	resetApp = () => {
 		this.closeResetDialog();
 		SettingsManager.resetSettings();
+	};
+
+	renderFilterItem = ({ item }) => {
+		return (
+			<TouchableOpacity
+				key={item}
+				onLongPress={() => this.removeFilters(item)}
+				style={{
+					backgroundColor: '#EAEAEC',
+					padding: 8,
+					borderRadius: 15,
+					margin: 8,
+					flexDirection: 'row',
+					alignItems: 'center',
+				}}>
+				<Text
+					style={{
+						fontSize: 18,
+						fontWeight: 'bold',
+						color: '#4C5464',
+					}}>
+					{item}
+				</Text>
+				<MaterialIcons name="close" size={22} color="#4C546455" />
+			</TouchableOpacity>
+		);
 	};
 
 	render() {
@@ -337,9 +453,7 @@ class Settings extends React.Component {
 					/>
 				</TouchableOpacity>
 
-				<TouchableOpacity
-					style={style[theme].button}
-					onPress={() => console.log('pressed')}>
+				<TouchableOpacity style={style[theme].button} onPress={this.openFiltersDialog}>
 					<MaterialIcons name="filter-list" size={24} style={style[theme].leftIcon} />
 					<Text style={style[theme].buttonMainText}>{Translator.get('FILTERS')}</Text>
 					<Text style={style[theme].buttonSecondaryText}>...</Text>
@@ -357,9 +471,9 @@ class Settings extends React.Component {
 				</Text>
 
 				<TouchableOpacity
+					onPress={this.toggleOpenFavSwitchValue}
 					style={style[theme].button}
-					onPress={() => console.log('pressed')}
-					disabled={true}>
+					disabled={false}>
 					<MaterialIcons name="star" size={24} style={style[theme].leftIcon} />
 					<Text style={style[theme].buttonMainText}>
 						{Translator.get('OPEN_ON_FAVOURITE_GROUP')}
@@ -395,6 +509,127 @@ class Settings extends React.Component {
 						style={[style[theme].rightIcon, { marginLeft: 'auto' }]}
 					/>
 				</TouchableOpacity>
+
+				<Modal
+					animationType="fade"
+					transparent={true}
+					visible={this.state.languageDialogVisible}
+					onRequestClose={this.closeLanguageDialog}>
+					<View style={style[theme].popup.background}>
+						<View style={style[theme].popup.container}>
+							<View style={style[theme].popup.header}>
+								<Text style={style[theme].popup.textHeader}>
+									{Translator.get('LANGUAGE').toUpperCase()}
+								</Text>
+								<TouchableOpacity onPress={this.closeLanguageDialog}>
+									<MaterialIcons
+										name="close"
+										size={32}
+										style={style[theme].popup.closeIcon}
+									/>
+								</TouchableOpacity>
+							</View>
+
+							<Text style={style[theme].popup.textDescription}>
+								{Translator.get('YOUR_LANGUAGE')}
+							</Text>
+
+							<View style={{ marginVertical: 8 }}>
+								<TouchableOpacity
+									onPress={this.setLanguageToFrench}
+									style={style[theme].popup.radioContainer}>
+									<MaterialIcons
+										name={
+											this.state.language === 'fr'
+												? 'radio-button-on'
+												: 'radio-button-off'
+										}
+										size={24}
+										color={style[theme].popup.radioIconColor}
+									/>
+									<Text style={style[theme].popup.radioText}>
+										{Translator.get('FRENCH')}
+									</Text>
+								</TouchableOpacity>
+
+								<TouchableOpacity
+									onPress={this.setLanguageToEnglish}
+									style={style[theme].popup.radioContainer}>
+									<MaterialIcons
+										name={
+											this.state.language === 'en'
+												? 'radio-button-on'
+												: 'radio-button-off'
+										}
+										size={24}
+										color={style[theme].popup.radioIconColor}
+									/>
+									<Text style={style[theme].popup.radioText}>
+										{Translator.get('ENGLISH')}
+									</Text>
+								</TouchableOpacity>
+							</View>
+						</View>
+					</View>
+				</Modal>
+
+				<Modal
+					animationType="fade"
+					transparent={true}
+					visible={this.state.filtersDialogVisible}
+					onRequestClose={this.closeFiltersDialog}>
+					<View style={style[theme].popup.background}>
+						<View style={style[theme].popup.container}>
+							<View style={style[theme].popup.header}>
+								<Text style={style[theme].popup.textHeader}>
+									{Translator.get('FILTERS').toUpperCase()}
+								</Text>
+								<TouchableOpacity onPress={this.closeFiltersDialog}>
+									<MaterialIcons
+										name="close"
+										size={32}
+										style={style[theme].popup.closeIcon}
+									/>
+								</TouchableOpacity>
+							</View>
+
+							<Text style={style[theme].popup.textDescription}>
+								Maintenez une UE pour le supprimer de la liste des filters
+							</Text>
+							<View style={{ marginTop: 16 }}></View>
+							<View style={style[theme].popup.filterListContainer}>
+								<FlatList
+									keyExtractor={(item) => item}
+									data={SettingsManager.getFilters()}
+									renderItem={this.renderFilterItem}
+									extraData={SettingsManager.getFilters()}
+									// numColumns={2}
+									horizontal={true}
+									ListEmptyComponent={
+										<Text style={style[theme].popup.textDescription}>
+											Aucun filtre actuellement
+										</Text>
+									}
+								/>
+							</View>
+							<View style={style[theme].popup.textInputContainer}>
+								<TextInput
+									style={style[theme].popup.textInput}
+									onChangeText={this.setFilterTextInput}
+									value={this.state.filterTextInput}
+									placeholder="Entrez ci-dessous les codes des UE que vous ne voulez afficher."
+									autoCorrect={false}
+									keyboardType={
+										Platform.OS === 'ios' ? 'default' : 'visible-password'
+									}
+								/>
+								<TouchableOpacity onPress={this.submitFilterTextInput}>
+									<MaterialIcons name="add" size={32} color={style[theme].popup.textInputIconColor}/>
+								</TouchableOpacity>
+							</View>
+						</View>
+					</View>
+				</Modal>
 
 				<Modal
 					animationType="fade"
@@ -435,70 +670,6 @@ class Settings extends React.Component {
 									</Text>
 								</TouchableOpacity>
 							</View>
-						</View>
-					</View>
-				</Modal>
-
-				<Modal
-					animationType="fade"
-					transparent={true}
-					visible={this.state.languageDialogVisible}
-					onRequestClose={this.closeLanguageDialog}>
-					<View style={style[theme].popup.background}>
-						<View style={style[theme].popup.container}>
-							<View style={style[theme].popup.header}>
-								<Text style={style[theme].popup.textHeader}>
-									{Translator.get('LANGUAGE').toUpperCase()}
-								</Text>
-								<TouchableOpacity onPress={this.closeLanguageDialog}>
-									<MaterialIcons
-										name="close"
-										size={32}
-										style={style[theme].popup.closeIcon}
-									/>
-								</TouchableOpacity>
-							</View>
-
-							<Text style={style[theme].popup.textDescription}>
-								{Translator.get('YOUR_LANGUAGE')}
-							</Text>
-
-							<View style={{marginTop: 16}}>
-								<TouchableOpacity
-								onPress={this.setLanguageToFrench}
-								style={style[theme].popup.radioContainer}>
-								<MaterialIcons
-									name={
-										this.state.language === 'fr'
-											? 'radio-button-on'
-											: 'radio-button-off'
-									}
-									size={24}
-									color={style[theme].popup.radioIconColor}
-								/>
-								<Text style={style[theme].popup.radioText}>
-									{Translator.get('FRENCH')}
-								</Text>
-							</TouchableOpacity>
-
-							<TouchableOpacity
-								onPress={this.setLanguageToEnglish}
-								style={style[theme].popup.radioContainer}>
-								<MaterialIcons
-									name={
-										this.state.language === 'en'
-											? 'radio-button-on'
-											: 'radio-button-off'
-									}
-									size={24}
-									color={style[theme].popup.radioIconColor}
-								/>
-								<Text style={style[theme].popup.radioText}>
-									{Translator.get('ENGLISH')}
-								</Text>
-							</TouchableOpacity>
-							</View>
-							
 						</View>
 					</View>
 				</Modal>

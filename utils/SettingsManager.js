@@ -9,6 +9,7 @@ class SettingsManager {
 		this._groupName = null;
 		this._language = 'fr';
 		this._openAppOnFavoriteGroup = true;
+		this._filters = [];
 		this._subscribers = {};
 	}
 
@@ -101,11 +102,38 @@ class SettingsManager {
 		this.saveSettings();
 	};
 
+	getFilters = () => {
+		return this._filters;
+	};
+
+	resetFilter = () => {
+		this._filters = [];
+	};
+
+	addFilters = (filter) => {
+		if (filter && !this._filters.includes(filter)) {
+			this._filters.push(filter);
+		}
+		this.notify('filter', this._filters);
+	};
+
+	removeFilters = (filter) => {
+		if (filter) {
+			const index = this._filters.indexOf(filter);
+			if (index > -1) {
+				const newFilterList = this._filters.filter((e) => e !== filter);
+				this._filters = [...newFilterList];
+				this.notify('filter', this._filters);
+			}
+		}
+	};
+
 	resetSettings = () => {
 		this.setTheme('light');
 		this.setLanguage('fr');
 		this.setGroup(null);
 		this.setOpenAppOnFavoriteGroup(true);
+		this.resetFilter();
 		this.setFirstLoad(true);
 	};
 
@@ -118,6 +146,7 @@ class SettingsManager {
 				groupName: this._groupName,
 				language: this._language,
 				openAppOnFavoriteGroup: this._openAppOnFavoriteGroup,
+				filters: this._filters,
 			}),
 		);
 	};
@@ -152,6 +181,10 @@ class SettingsManager {
 				this.setLanguage(settings.language);
 			}
 			this._openAppOnFavoriteGroup = settings.openAppOnFavoriteGroup;
+
+			if (settings?.filters) {
+				this._filters = [...settings.filters];
+			}
 		} catch (error) {
 			const settingsError = new ErrorAlert(
 				Translator.get('ERROR_WITH_MESSAGE', "Settings couldn't be loaded"),
