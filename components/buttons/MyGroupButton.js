@@ -1,10 +1,8 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { connect } from 'react-redux';
 
 import DrawerButton from './DrawerButton';
 import style from '../../Style';
-import SettingsManager from '../../utils/SettingsManager';
 import Translator from '../../utils/translator';
 
 class MyGroupButton extends React.PureComponent {
@@ -13,23 +11,23 @@ class MyGroupButton extends React.PureComponent {
 	}
 
 	componentDidMount() {
-		if (SettingsManager.getGroup() !== null && SettingsManager.getOpenAppOnFavoriteGroup()) {
+		if (this.props.groupName !== null && SettingsManager.getOpenAppOnFavoriteGroup()) {
 			this.props.navigate('Home', {
 				screen: 'Group',
 				params: {
-					name: SettingsManager.getGroup(),
+					name: this.props.groupName,
 				},
 			});
 		}
 	}
 
 	_onPress = () => {
-		this.props.navigate('Group', { name: SettingsManager.getGroup() });
+		this.props.navigate('Group', { name: this.props.groupName });
 	};
 
 	render() {
 		const theme = style.Theme[this.props.themeName];
-		const favoriteGroup = SettingsManager.getGroup();
+		const favoriteGroup = this.props.groupName;
 
 		if (!favoriteGroup) {
 			return (
@@ -53,10 +51,4 @@ class MyGroupButton extends React.PureComponent {
 	}
 }
 
-const mapStateToProps = (state) => {
-	return {
-		savedGroup: state.favorite.groupName,
-	};
-};
-
-export default connect(mapStateToProps)(MyGroupButton);
+export default MyGroupButton;

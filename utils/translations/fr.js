@@ -49,7 +49,7 @@ export default {
 	START: 'Commencer',
 	THIS_WEEK: 'Cette semaine',
 	TODAY: "Aujourd'hui",
-	USE_SEARCH_BAR: "Utilisez la barre de recherche pour affiner votre recherche.",
+	USE_SEARCH_BAR: "Utilisez la barre de recherche pour affiner les résultats.",
 	YOUR_GROUP: 'Quel est ton groupe ?',
 	YOUR_LANGUAGE: 'Quelle est ta langue ?',
 	YOUR_SEMESTER: 'À quel semestre es-tu ?',

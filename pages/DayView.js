@@ -1,7 +1,6 @@
 import React from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
-import { connect } from 'react-redux';
 import moment from 'moment';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -131,7 +130,7 @@ class DayView extends React.Component {
         const theme = style.Theme[this.context.themeName];
 
         return (
-            <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: theme.greyBackground }}>
                 <DayComponent
                     key={`${this.state.days[0].dayOfYear()}-${this.context.themeName}`}
                     day={this.state.selectedDay}
@@ -196,8 +195,4 @@ class DayView extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    themeName: state.darkMode.themeName,
-});
-
-export default connect(mapStateToProps)(DayView);
+export default DayView;

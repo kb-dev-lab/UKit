@@ -5,10 +5,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import WelcomePagination from '../../components/ui/WelcomePagination';
 import WelcomeButton from '../../components/buttons/WelcomeButton';
-import styles, { GradientColor } from '../../StyleWelcome';
+import WelcomeBackButton from '../../components/buttons/WelcomeBackButton';
+import WelcomeThemeButton from '../../components/WelcomeThemeButton';
+import WelcomeLanguageButton from '../../components/WelcomeLanguageButton';
+import styles from '../../StyleWelcome';
 import Translator from '../../utils/translator';
 import SettingsManager from '../../utils/SettingsManager';
-import WelcomeBackButton from '../../components/buttons/WelcomeBackButton';
 
 const THEME_LIST = [
 	{ id: 'light', title: 'LIGHT_THEME' },
@@ -26,58 +28,50 @@ class SecondWelcomePage extends React.Component {
 	}
 
 	getLanguage = () => {
-		return this.props.getState('language');
+		return this.props.navigatorState.language;
 	};
 
 	selectLanguage = (newLang) => {
-		this.props.changeState({'language': newLang.id});
 		SettingsManager.setLanguage(newLang.id);
 	};
 
 	getTheme = () => {
-		return this.props.getState('theme');
+		return this.props.navigatorState.theme;
 	};
 
 	selectTheme = (newTheme) => {
-		this.props.changeState({'theme': newTheme.id});
 		SettingsManager.setTheme(newTheme.id);
+	};
+
+	navigateToNextPage = () => {
+		const { navigation } = this.props;
+		navigation.navigate('ThirdWelcomePage');
 	};
 
 	render() {
 		const { navigation } = this.props;
-		const theme = this.props.getState('theme');
+		const theme = this.props.navigatorState.theme;
 		return (
 			<LinearGradient
 				style={{ flex: 1 }}
-				colors={GradientColor()}
+				colors={styles[theme].gradientColor}
 				start={{ x: 0.05, y: 0.05 }}
 				end={{ x: 0.95, y: 0.95 }}>
 				<SafeAreaView style={{ flex: 1 }}>
-					<WelcomeBackButton onPress={() => navigation.navigate('FirstWelcomePage')} visible={true} />
+					<WelcomeBackButton onPress={navigation.goBack} visible={true} />
 					<View style={styles[theme].whiteCardContainer} style={{ flexGrow: 1 }}>
-
 						<View style={styles[theme].whiteCard}>
 							<Text style={styles[theme].whiteCardText}>
 								{Translator.get('YOUR_THEME')}
 							</Text>
 							{THEME_LIST.map((themeEntry) => (
-								<TouchableOpacity
+								<WelcomeThemeButton
 									key={themeEntry.id}
-									onPress={() => this.selectTheme(themeEntry)}
-									style={
-										this.getTheme() === themeEntry.id
-											? styles[theme].whiteCardButtonSelected
-											: styles[theme].whiteCardButton
-									}>
-									<Text
-										style={
-											this.getTheme() === themeEntry.id
-												? styles[theme].whiteCardButtonTextSelected
-												: styles[theme].whiteCardButtonText
-										}>
-										{Translator.get(themeEntry.title)}
-									</Text>
-								</TouchableOpacity>
+									themeEntry={themeEntry}
+									selectTheme={this.selectTheme}
+									getCurrentTheme={this.getTheme}
+									theme={theme}
+								/>
 							))}
 						</View>
 
@@ -86,29 +80,19 @@ class SecondWelcomePage extends React.Component {
 								{Translator.get('YOUR_LANGUAGE')}
 							</Text>
 							{LANGUAGE_LIST.map((languageEntry) => (
-								<TouchableOpacity
+								<WelcomeLanguageButton
 									key={languageEntry.id}
-									onPress={() => this.selectLanguage(languageEntry)}
-									style={
-										this.getLanguage() === languageEntry.id
-											? styles[theme].whiteCardButtonSelected
-											: styles[theme].whiteCardButton
-									}>
-									<Text
-										style={
-											this.getLanguage() === languageEntry.id
-												? styles[theme].whiteCardButtonTextSelected
-												: styles[theme].whiteCardButtonText
-										}>
-										{Translator.get(languageEntry.title)}
-									</Text>
-								</TouchableOpacity>
+									languageEntry={languageEntry}
+									selectLanguage={this.selectLanguage}
+									getCurrentLanguage={this.getLanguage}
+									theme={theme}
+								/>
 							))}
 						</View>
 					</View>
 
 					<WelcomeButton
-						onPress={() => navigation.navigate('ThirdWelcomePage')}
+						onPress={this.navigateToNextPage}
 						buttonText={Translator.get('NEXT')}
 						theme={theme}
 					/>

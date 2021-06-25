@@ -5,7 +5,7 @@ import { withNavigation } from '@react-navigation/compat';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { connect } from 'react-redux';
+import URL from '../utils/URL';
 
 import style from '../Style';
 import { AppContext } from '../utils/DeviceUtils';
@@ -23,7 +23,7 @@ class WebBrowser extends React.Component {
 	constructor(props) {
 		super(props);
 
-		let uri = 'https://ukit-bordeaux.fr';
+		let uri = URL['UKIT_WEBSITE'];
 		if (this.props.route.params) {
 			const { entrypoint, href } = this.props.route.params;
 			if (entrypoint) {
@@ -201,8 +201,4 @@ class WebBrowser extends React.Component {
 	}
 }
 
-const mapStateToProps = (state) => ({
-	themeName: state.darkMode.themeName,
-});
-
-export default connect(mapStateToProps)(withNavigation(WebBrowser));
+export default withNavigation(WebBrowser);

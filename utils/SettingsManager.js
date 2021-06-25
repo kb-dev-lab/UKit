@@ -25,9 +25,11 @@ class SettingsManager {
 			return;
 		}
 
-		this._subscribers[event].forEach((fn) => {
-			fn(...args);
-		});
+		this._subscribers[event]
+			.filter((e) => e !== null)
+			.forEach((fn) => {
+				fn(...args);
+			});
 
 		this.saveSettings();
 	};

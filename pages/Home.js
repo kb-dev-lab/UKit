@@ -3,7 +3,6 @@ import { ActivityIndicator, SectionList, Text, TouchableOpacity, View } from 're
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { Hideo } from 'react-native-textinput-effects';
-import { connect } from 'react-redux';
 import moment from 'moment';
 import { FontAwesome } from '@expo/vector-icons';
 import Toast from 'react-native-root-toast';
@@ -14,6 +13,7 @@ import GroupRow from '../components/GroupRow';
 import style from '../Style';
 import Translator from '../utils/translator';
 import DeviceUtils, { AppContext } from '../utils/DeviceUtils';
+import URL from '../utils/URL';
 
 class Home extends React.Component {
 	static contextType = AppContext;
@@ -98,7 +98,7 @@ class Home extends React.Component {
 
 		if (await DeviceUtils.isConnected()) {
 			try {
-				const response = await axios.get('https://hackjack.info/et/json.php?clean=true');
+				const response = await axios.get(URL['API'] + '?clean=true');
 				this.setState({ cacheDate: null });
 				list = response.data;
 				AsyncStorage.setItem('groups', JSON.stringify({ list, date: moment() }));
@@ -268,10 +268,4 @@ class Home extends React.Component {
 	}
 }
 
-const mapStateToProps = (state) => {
-	return {
-		themeName: state.darkMode.themeName,
-	};
-};
-
-export default connect(mapStateToProps)(Home);
+export default Home;

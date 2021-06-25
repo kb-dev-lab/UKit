@@ -1,5 +1,3 @@
-import SettingsManager from './utils/SettingsManager';
-
 export default Theme = {
 	light: {
 		buttonContainer: {
@@ -36,13 +34,14 @@ export default Theme = {
 		},
 		pageDots: {
 			flexDirection: 'row',
-			justifyContent: 'space-between',
+			justifyContent: 'space-evenly',
 			marginHorizontal: 150,
 			marginVertical: 16,
 		},
 		circleFill: {
 			width: 15,
 			height: 15,
+			marginHorizontal: 16,
 			borderRadius: 10,
 			backgroundColor: '#FFFFFF',
 		},
@@ -50,6 +49,7 @@ export default Theme = {
 			width: 15,
 			height: 15,
 			borderRadius: 10,
+			marginHorizontal: 16,
 			backgroundColor: 'transparent',
 			borderColor: '#FFFFFF',
 			borderWidth: 2,
@@ -123,6 +123,9 @@ export default Theme = {
 			marginHorizontal: 10,
 			color: '#00000088',
 		},
+		gradientColor: ['#009DE0', '#45D7E8'],
+		placeholderTextColor: '#00000088',
+		welcomeButtonIconColor: '#31C7E6',
 	},
 	dark: {
 		buttonContainer: {
@@ -159,13 +162,14 @@ export default Theme = {
 		},
 		pageDots: {
 			flexDirection: 'row',
-			justifyContent: 'space-between',
+			justifyContent: 'space-evenly',
 			marginHorizontal: 150,
 			marginVertical: 16,
 		},
 		circleFill: {
 			width: 15,
 			height: 15,
+			marginHorizontal: 16,
 			borderRadius: 10,
 			backgroundColor: '#FFFFFF',
 		},
@@ -173,6 +177,7 @@ export default Theme = {
 			width: 15,
 			height: 15,
 			borderRadius: 10,
+			marginHorizontal: 16,
 			backgroundColor: 'transparent',
 			borderColor: '#FFFFFF',
 			borderWidth: 2,
@@ -247,12 +252,8 @@ export default Theme = {
 			marginHorizontal: 10,
 			color: '#FFFFFF88',
 		},
+		gradientColor: ['#200F21', '#713775'],
+		placeholderTextColor: '#FFFFFF88',
+		welcomeButtonIconColor: '#FFFFFF',
 	},
 };
-
-export const GradientColor = () =>
-	SettingsManager.getTheme() === 'dark' ? ['#200F21', '#713775'] : ['#009DE0', '#45D7E8'];
-export const PlaceholderTextColor = () =>
-	SettingsManager.getTheme() === 'dark' ? '#FFFFFF88' : '#00000088';
-export const WelcomeButtonIconColor = () =>
-	SettingsManager.getTheme() === 'dark' ? '#FFFFFF' : '#31C7E6';

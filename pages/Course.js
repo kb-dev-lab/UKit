@@ -2,7 +2,6 @@ import React from 'react';
 import { Linking, Text, TouchableOpacity, View } from 'react-native';
 import MapView from 'react-native-maps';
 import { Polygon, Svg } from 'react-native-svg';
-import { connect } from 'react-redux';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -10,6 +9,7 @@ import style from '../Style';
 import CourseRow from '../components/CourseRow';
 import { getLocations, getLocationsInText } from '../utils';
 import { AppContext } from '../utils/DeviceUtils';
+import URL from '../utils/URL';
 
 const mapStyle = [
 	{
@@ -64,9 +64,13 @@ class Course extends React.Component {
 	}
 
 	onPressGoogleMaps = () => {
-		let link = `https://www.google.com/maps/search/?api=1&query=${this.state.locations[0].lat},${this.state.locations[0].lng}`;
+		let link =
+			URL['MAP'] +
+			`search/?api=1&query=${this.state.locations[0].lat},${this.state.locations[0].lng}`;
 		if (this.state.locations[0].placeID) {
-			link = `https://www.google.com/maps/search/?api=1&query=${this.state.locations[0].lat},${this.state.locations[0].lng}&query_place_id=${this.state.locations[0].placeID}`;
+			link =
+				URL['MAP'] +
+				`search/?api=1&query=${this.state.locations[0].lat},${this.state.locations[0].lng}&query_place_id=${this.state.locations[0].placeID}`;
 		}
 
 		Linking.canOpenURL(link)
@@ -184,8 +188,4 @@ class Course extends React.Component {
 	}
 }
 
-const mapStateToProps = (state) => ({
-	themeName: state.darkMode.themeName,
-});
-
-export default connect(mapStateToProps)(Course);
+export default Course;
