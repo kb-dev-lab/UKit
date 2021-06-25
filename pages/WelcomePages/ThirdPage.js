@@ -107,7 +107,7 @@ class ThirdWelcomePage extends React.Component {
 			const list = this.props.navigatorState.groupList;
 
 			newList = list.filter((e) => {
-				const groupName = e.toLowerCase();
+				const groupName = e.toLowerCase().replace('_',' ');
 				return filterSeason[season.id][year.id].some(
 					(filter) =>
 						groupName.includes(filter.toLowerCase()) &&
