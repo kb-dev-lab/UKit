@@ -112,8 +112,19 @@ const style = {
 				color: '#FFFFFF',
 			},
 			closeIcon: {
-				color: '#D2D4D8'
-			}
+				color: '#D2D4D8',
+			},
+			radioContainer: {
+				flexDirection: 'row',
+				alignContent: 'center',
+				marginTop: 16,
+			},
+			radioIconColor: '#4C5464',
+			radioText: {
+				fontSize: 18,
+				marginLeft: 16,
+				color: '#4C5464',
+			},
 		},
 	},
 	dark: {
@@ -218,8 +229,19 @@ const style = {
 				color: '#404040',
 			},
 			closeIcon: {
-				color: '#8D748E'
-			}
+				color: '#8D748E',
+			},
+			radioContainer: {
+				flexDirection: 'row',
+				alignContent: 'center',
+				marginVertical: 8,
+			},
+			radioIconColor: '#D9D9D9',
+			radioText: {
+				fontSize: 18,
+				marginLeft: 16,
+				color: '#D9D9D9',
+			},
 		},
 	},
 };
@@ -255,6 +277,15 @@ class Settings extends React.Component {
 
 	setSelectedLanguage = (newLang) => {
 		this.setState({ language: newLang });
+		SettingsManager.setLanguage(newLang);
+	};
+
+	setLanguageToFrench = () => {
+		if (this.state.language !== 'fr') this.setSelectedLanguage('fr');
+	};
+
+	setLanguageToEnglish = () => {
+		if (this.state.language !== 'en') this.setSelectedLanguage('en');
 	};
 
 	toggleOpenFavSwitchValue = () => {
@@ -285,7 +316,7 @@ class Settings extends React.Component {
 	};
 
 	render() {
-		const theme = SettingsManager.getTheme();
+		const theme = this.context.themeName;
 
 		return (
 			<SafeAreaView style={style[theme].background}>
@@ -310,7 +341,7 @@ class Settings extends React.Component {
 					style={style[theme].button}
 					onPress={() => console.log('pressed')}>
 					<MaterialIcons name="filter-list" size={24} style={style[theme].leftIcon} />
-					<Text style={style[theme].buttonMainText}>Filtre</Text>
+					<Text style={style[theme].buttonMainText}>{Translator.get('FILTERS')}</Text>
 					<Text style={style[theme].buttonSecondaryText}>...</Text>
 					<MaterialIcons
 						name="keyboard-arrow-right"
@@ -321,14 +352,18 @@ class Settings extends React.Component {
 
 				<View style={{ marginTop: 20 }}></View>
 
-				<Text style={style[theme].separationText}>DEMARRAGE</Text>
+				<Text style={style[theme].separationText}>
+					{Translator.get('APP_LAUNCHING').toUpperCase()}
+				</Text>
 
 				<TouchableOpacity
 					style={style[theme].button}
 					onPress={() => console.log('pressed')}
 					disabled={true}>
 					<MaterialIcons name="star" size={24} style={style[theme].leftIcon} />
-					<Text style={style[theme].buttonMainText}>Ouvrir sur le groupe favori</Text>
+					<Text style={style[theme].buttonMainText}>
+						{Translator.get('OPEN_ON_FAVOURITE_GROUP')}
+					</Text>
 					<Switch
 						onValueChange={this.toggleOpenFavSwitchValue}
 						value={this.state.openFavSwitchValue}
@@ -353,7 +388,7 @@ class Settings extends React.Component {
 						size={24}
 						style={style[theme].leftIcon}
 					/>
-					<Text style={style[theme].buttonMainText}>Réinitialiser l'application</Text>
+					<Text style={style[theme].buttonMainText}>{Translator.get('RESET_APP')}</Text>
 					<MaterialIcons
 						name="keyboard-arrow-right"
 						size={24}
@@ -373,7 +408,11 @@ class Settings extends React.Component {
 									{Translator.get('RESET_APP').toUpperCase()}
 								</Text>
 								<TouchableOpacity onPress={this.closeResetDialog}>
-									<MaterialIcons name="close" size={32} style={style[theme].popup.closeIcon} />
+									<MaterialIcons
+										name="close"
+										size={32}
+										style={style[theme].popup.closeIcon}
+									/>
 								</TouchableOpacity>
 							</View>
 
@@ -400,20 +439,69 @@ class Settings extends React.Component {
 					</View>
 				</Modal>
 
-				<Dialog.Container
+				<Modal
+					animationType="fade"
+					transparent={true}
 					visible={this.state.languageDialogVisible}
-					onBackdropPress={this.closeLanguageDialog}>
-					<Dialog.Title>{Translator.get('LANGUAGE')}</Dialog.Title>
-					<Dialog.Description>{Translator.get('YOUR_LANGUAGE')}</Dialog.Description>
-					<Dialog.Button
-						onPress={() => console.log('pressed')}
-						label={Translator.get('FRENCH')}
-					/>
-					<Dialog.Button
-						onPress={() => console.log('pressed')}
-						label={Translator.get('ENGLISH')}
-					/>
-				</Dialog.Container>
+					onRequestClose={this.closeLanguageDialog}>
+					<View style={style[theme].popup.background}>
+						<View style={style[theme].popup.container}>
+							<View style={style[theme].popup.header}>
+								<Text style={style[theme].popup.textHeader}>
+									{Translator.get('LANGUAGE').toUpperCase()}
+								</Text>
+								<TouchableOpacity onPress={this.closeLanguageDialog}>
+									<MaterialIcons
+										name="close"
+										size={32}
+										style={style[theme].popup.closeIcon}
+									/>
+								</TouchableOpacity>
+							</View>
+
+							<Text style={style[theme].popup.textDescription}>
+								{Translator.get('YOUR_LANGUAGE')}
+							</Text>
+
+							<View style={{marginTop: 16}}>
+								<TouchableOpacity
+								onPress={this.setLanguageToFrench}
+								style={style[theme].popup.radioContainer}>
+								<MaterialIcons
+									name={
+										this.state.language === 'fr'
+											? 'radio-button-on'
+											: 'radio-button-off'
+									}
+									size={24}
+									color={style[theme].popup.radioIconColor}
+								/>
+								<Text style={style[theme].popup.radioText}>
+									{Translator.get('FRENCH')}
+								</Text>
+							</TouchableOpacity>
+
+							<TouchableOpacity
+								onPress={this.setLanguageToEnglish}
+								style={style[theme].popup.radioContainer}>
+								<MaterialIcons
+									name={
+										this.state.language === 'en'
+											? 'radio-button-on'
+											: 'radio-button-off'
+									}
+									size={24}
+									color={style[theme].popup.radioIconColor}
+								/>
+								<Text style={style[theme].popup.radioText}>
+									{Translator.get('ENGLISH')}
+								</Text>
+							</TouchableOpacity>
+							</View>
+							
+						</View>
+					</View>
+				</Modal>
 			</SafeAreaView>
 		);
 	}

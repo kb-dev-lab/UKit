@@ -149,7 +149,7 @@ class SettingsManager {
 				this._groupName = settings.groupName;
 			}
 			if (settings?.language) {
-				this._language = settings.language;
+				this.setLanguage(settings.language);
 			}
 			this._openAppOnFavoriteGroup = settings.openAppOnFavoriteGroup;
 		} catch (error) {

@@ -1,7 +1,7 @@
 export default {
 	ABOUT: 'À propos',
 	ADVANCED_FILTERS: 'Filtres avancés',
-	APP_LAUNCHING: "Lancement de l'application",
+	APP_LAUNCHING: "Démarrage",
 	APP_READY:
 		"L'application est maintenant prête, vous pouvez dès à présent consulter votre emploi du temps !",
 	APPLICATION_HISTORY:

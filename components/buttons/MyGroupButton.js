@@ -4,6 +4,7 @@ import { Text, View } from 'react-native';
 import DrawerButton from './DrawerButton';
 import style from '../../Style';
 import Translator from '../../utils/translator';
+import SettingsManager from '../../utils/SettingsManager';
 
 class MyGroupButton extends React.PureComponent {
 	constructor(props) {

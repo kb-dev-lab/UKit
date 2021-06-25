@@ -1,7 +1,7 @@
 export default {
 	ABOUT: 'About',
 	ADVANCED_FILTERS: 'Advanced filters',
-	APP_LAUNCHING: 'App launching',
+	APP_LAUNCHING: 'Start-up',
 	APP_READY: 'The app is now ready, you can now check your class schedule!',
 	APPLICATION_HISTORY:
 		'This application has been developed by Jean B. for the HackeTaFac contest. App is now maintained by KBDev SARL.',
