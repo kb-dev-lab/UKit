@@ -1,9 +1,13 @@
 import React from 'react';
 import { View, WebView } from 'react-native';
+import { AppContext } from '../utils/DeviceUtils';
 
+import URL from '../utils/URL';
 const locations = require('../assets/locations.json');
 
 export default class Geolocation extends React.Component {
+    static contextType = AppContext;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -28,7 +32,7 @@ export default class Geolocation extends React.Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
-                <WebView source={{ uri: 'https://www.google.com/maps/?q=' + this.state.lat + ',' + this.state.lng }} />
+                <WebView source={{ uri: URL['MAP'] + '?q=' + this.state.lat + ',' + this.state.lng }} />
             </View>
         );
     }

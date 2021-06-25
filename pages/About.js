@@ -1,16 +1,18 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { connect } from 'react-redux';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Constants from 'expo-constants';
 
 import style from '../Style';
 import URLButton from '../components/buttons/URLButton';
 import Translator from '../utils/translator';
+import { AppContext } from '../utils/DeviceUtils';
+import URL from '../utils/URL';
 
 class About extends React.Component {
+    static contextType = AppContext;
     render() {
-        const theme = style.Theme[this.props.themeName];
+        const theme = style.Theme[this.context.themeName];
 
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
@@ -22,15 +24,15 @@ class About extends React.Component {
 
                     <Text style={[style.about.title, { color: theme.font }]}>{Translator.get('CONTACT_US')}</Text>
                     <View style={style.about.content}>
-                        <URLButton url="https://twitter.com/HackJack_" title="Twitter" theme={theme} />
-                        <URLButton url="https://ukit-bordeaux.fr" title={Translator.get('WEBSITE')} theme={theme} />
-                        <URLButton url="https://kbdev.io" title={Translator.get('COMPANY_WEBSITE')} theme={theme} />
+                        <URLButton url={URL['TWITTER']} title="Twitter" theme={theme} />
+                        <URLButton url={URL['UKIT_WEBSITE']} title={Translator.get('WEBSITE')} theme={theme} />
+                        <URLButton url={URL['KBDEV_WEBSITE']} title={Translator.get('COMPANY_WEBSITE')} theme={theme} />
                     </View>
 
                     <Text style={[style.about.title, { color: theme.font }]}>{Translator.get('LEGAL_NOTICE')}</Text>
                     <View style={style.about.content}>
                         <URLButton
-                            url="https://ukit-bordeaux.fr/policies/privacy"
+                            url={URL['LEGAL_NOTICE']}
                             title={Translator.get('CONFIDENTIALITY_POLITIC')}
                             theme={theme}
                         />
@@ -41,8 +43,4 @@ class About extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    themeName: state.darkMode.themeName,
-});
-
-export default connect(mapStateToProps)(About);
+export default About;

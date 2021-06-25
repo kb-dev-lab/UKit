@@ -1,31 +1,26 @@
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { connect } from 'react-redux';
 
-import { setFavoriteGroup } from '../../actions/setFavoriteGroup';
+import SettingsManager from '../../utils/SettingsManager';
 
 class SaveGroupButton extends React.Component {
     constructor(props) {
         super(props);
-        let savedGroup = null;
-        if (props.hasOwnProperty('savedGroup')) {
-            savedGroup = props.savedGroup;
-        }
         this.state = {
             displayedGroup: this.props.groupName,
-            savedGroup,
+            savedGroup: SettingsManager.getGroup(),
         };
     }
 
     saveGroup() {
         if (this.isSaved()) {
             this.setState({ savedGroup: null }, () => {
-                this.props.dispatchSetFavoriteGroup(null);
+                SettingsManager.setGroup(null);
             });
         } else {
             this.setState({ savedGroup: this.state.displayedGroup }, () => {
-                this.props.dispatchSetFavoriteGroup(this.state.displayedGroup);
+                SettingsManager.setGroup(this.state.displayedGroup);
             });
         }
     }
@@ -51,21 +46,5 @@ class SaveGroupButton extends React.Component {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        dispatchSetFavoriteGroup: (groupName) => {
-            dispatch(setFavoriteGroup(groupName));
-        },
-    };
-};
 
-const mapStateToProps = (state) => {
-    return {
-        savedGroup: state.favorite.groupName,
-    };
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(SaveGroupButton);
+export default SaveGroupButton;

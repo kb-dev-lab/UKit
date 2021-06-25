@@ -1,6 +1,7 @@
 import * as moment from 'moment';
 import 'moment/locale/fr';
 
+import SettingsManager from '../utils/SettingsManager';
 import EN from './translations/en';
 import FR from './translations/fr';
 
@@ -58,5 +59,10 @@ class Translator {
 }
 
 const translator = new Translator();
+
+
+SettingsManager.on('language', (newLang) => {
+    translator.setLanguage(newLang);
+})
 
 export default translator;

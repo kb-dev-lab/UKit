@@ -1,9 +1,10 @@
 import React from 'react';
 import { Dimensions, Keyboard, Platform, Text, TextInput, View } from 'react-native';
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
 import PopupDialog, { DialogButton, FadeAnimation } from 'react-native-popup-dialog';
 import { connect } from 'react-redux';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Dialog from 'react-native-dialog';
 
 import { setFilters } from '../actions/setFilters';
 import { setLanguage } from '../actions/setLanguage';
@@ -14,345 +15,412 @@ import SettingsDividerShort from '../components/ui/settings/SettingsDividerShort
 import SettingsSwitch from '../components/ui/settings/SettingsSwitch';
 import style from '../Style';
 import Translator from '../utils/translator';
+import SettingsManager from '../utils/SettingsManager';
+import { AppContext } from '../utils/DeviceUtils';
 
 const colors = {
-    white: '#FFFFFF',
-    monza: '#C70039',
-    switchEnabled: Platform.OS === 'android' ? '#009385' : null,
-    switchDisabled: Platform.OS === 'android' ? '#efeff3' : null,
-    switchOnTintColor: Platform.OS === 'android' ? 'rgba(199, 0, 57, 0.6)' : null,
-    blueGem: '#27139A',
+	white: '#FFFFFF',
+	monza: '#C70039',
+	switchEnabled: Platform.OS === 'android' ? '#009385' : null,
+	switchDisabled: Platform.OS === 'android' ? '#efeff3' : null,
+	switchOnTintColor: Platform.OS === 'android' ? 'rgba(199, 0, 57, 0.6)' : null,
+	blueGem: '#27139A',
 };
 
 const fadeAnimation = new FadeAnimation({ animationDuration: 150 });
 
 class Settings extends React.Component {
-    constructor(props) {
-        super(props);
+	static contextType = AppContext;
 
-        let { height } = Dimensions.get('window');
+	constructor(props) {
+		super(props);
 
-        let savedGroup = null;
-        let initialFilters = '';
-        let initialAdvancedFilters = '';
-        let filters = '';
-        let advancedFilters = '';
-        let openAppOnFavoriteGroup = true;
+		let { height } = Dimensions.get('window');
 
-        if (this.props.savedGroup) {
-            savedGroup = this.props.savedGroup;
-        }
-        if (this.props.filters) {
-            filters = Settings.unserializeFilters(this.props.filters);
-            initialFilters = filters;
-        }
+		let savedGroup = null;
+		let initialFilters = '';
+		let initialAdvancedFilters = '';
+		let filters = '';
+		let advancedFilters = '';
+		let openAppOnFavoriteGroup = true;
 
-        this.state = {
-            savedGroup,
-            height,
-            initialFilters,
-            initialAdvancedFilters,
-            filters,
-            advancedFilters,
-            openAppOnFavoriteGroup,
-            language: Translator.getLanguage(),
-        };
-    }
+		if (this.props.savedGroup) {
+			savedGroup = this.props.savedGroup;
+		}
+		if (this.props.filters) {
+			filters = Settings.unserializeFilters(this.props.filters);
+			initialFilters = filters;
+		}
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-        const nextState = {};
+		this.state = {
+			savedGroup,
+			height,
+			initialFilters,
+			initialAdvancedFilters,
+			filters,
+			advancedFilters,
+			openAppOnFavoriteGroup,
+			language: Translator.getLanguage(),
+			resetDialogVisible: false,
+		};
+	}
 
-        if (prevState.savedGroup !== nextProps.savedGroup) {
-            nextState.savedGroup = nextProps.savedGroup;
-        }
+	static getDerivedStateFromProps(nextProps, prevState) {
+		const nextState = {};
 
-        if (prevState.filters !== nextProps.filters) {
-            let newFilters = Settings.unserializeFilters(nextProps.filters);
+		if (prevState.savedGroup !== nextProps.savedGroup) {
+			nextState.savedGroup = nextProps.savedGroup;
+		}
 
-            nextState.initialFilters = newFilters;
-            nextState.filters = newFilters;
-        }
+		if (prevState.filters !== nextProps.filters) {
+			let newFilters = Settings.unserializeFilters(nextProps.filters);
 
-        return nextState;
-    }
+			nextState.initialFilters = newFilters;
+			nextState.filters = newFilters;
+		}
 
-    /**
-     *
-     * @param filters {array}
-     */
-    static unserializeFilters(filters) {
-        return filters.join(',');
-    }
+		return nextState;
+	}
 
-    static serializeFilters(filters) {
-        if (filters === '') {
-            return [];
-        }
-        let split = filters.split(',');
-        return split.map((ue) => ue.trim());
-    }
+	/**
+	 *
+	 * @param filters {array}
+	 */
+	static unserializeFilters(filters) {
+		return filters.join(',');
+	}
 
-    saveFiltersData = () => {
-        this.setState({ initialFilters: this.state.filters }, () => {
-            this.props.dispatchSetFilters(Settings.serializeFilters(this.state.filters));
-        });
-    };
+	static serializeFilters(filters) {
+		if (filters === '') {
+			return [];
+		}
+		let split = filters.split(',');
+		return split.map((ue) => ue.trim());
+	}
 
-    openFiltersDialog = () => {
-        this.filterInput.focus();
-        this.filtersDialog.show();
-    };
+	saveFiltersData = () => {
+		this.setState({ initialFilters: this.state.filters }, () => {
+			this.props.dispatchSetFilters(Settings.serializeFilters(this.state.filters));
+		});
+	};
 
-    openLanguagePicker = () => {
-        this.languageDialog.show();
-    };
+	openFiltersDialog = () => {
+		this.filterInput.focus();
+		this.filtersDialog.show();
+	};
 
-    openAdvancedFiltersDialog = () => {
-        this.advancedFiltersDialog.show();
-    };
+	openLanguagePicker = () => {
+		this.languageDialog.show();
+	};
 
-    closeFiltersDialog = () => {
-        this.filtersDialog.dismiss();
-    };
+	openAdvancedFiltersDialog = () => {
+		this.advancedFiltersDialog.show();
+	};
 
-    closeAdvancedFiltersDialog = () => {
-        this.advancedFiltersDialog.dismiss();
-    };
+	closeFiltersDialog = () => {
+		this.filtersDialog.dismiss();
+	};
 
-    closeLanguageDialog = () => {
-        this.languageDialog.dismiss();
-    };
+	closeAdvancedFiltersDialog = () => {
+		this.advancedFiltersDialog.dismiss();
+	};
 
-    saveFilters = () => {
-        this.saveFiltersData();
-        this.closeFiltersDialog();
-    };
+	closeLanguageDialog = () => {
+		this.languageDialog.dismiss();
+	};
 
-    saveAdvancedFilters = () => {
-        this.closeAdvancedFiltersDialog();
-    };
+	saveFilters = () => {
+		this.saveFiltersData();
+		this.closeFiltersDialog();
+	};
 
-    saveLanguage = () => {
-        this.closeLanguageDialog();
-        this.props.dispatchSetLanguage(this.state.language);
-    };
+	saveAdvancedFilters = () => {
+		this.closeAdvancedFiltersDialog();
+	};
 
-    onDismissFilters = () => {
-        Keyboard.dismiss();
-        this.setState({ filters: this.state.initialFilters });
-    };
+	saveLanguage = () => {
+		this.closeLanguageDialog();
+		// this.props.dispatchSetLanguage(this.state.language);
+		SettingsManager.setLanguage(this.state.language);
+	};
 
-    onDismissAdvancedFilters = () => {
-        Keyboard.dismiss();
-        this.setState({ advancedFilters: this.state.initialAdvancedFilters });
-    };
+	onDismissFilters = () => {
+		Keyboard.dismiss();
+		this.setState({ filters: this.state.initialFilters });
+	};
 
-    render() {
-        const theme = style.Theme[this.props.themeName];
+	onDismissAdvancedFilters = () => {
+		Keyboard.dismiss();
+		this.setState({ advancedFilters: this.state.initialAdvancedFilters });
+	};
 
-        return (
-            <SafeAreaView style={{ flex: 1, backgroundColor: theme.settings.background }}>
-                <SettingsCategoryHeader title={Translator.get('DISPLAY')} titleStyle={{ color: theme.settings.title }} />
-                <SettingsDividerLong />
-                <SettingsEditText
-                    onPress={this.openLanguagePicker}
-                    title={Translator.get('LANGUAGE')}
-                    valuePlaceholder="..."
-                    value={Translator.getLanguageString()}
-                    titleStyle={{ color: theme.settings.sectionText }}
-                    valueStyle={{ color: theme.settings.sectionText }}
-                    containerStyle={{ backgroundColor: theme.settings.section }}
-                />
-                <SettingsDividerShort />
-                <SettingsEditText
-                    onPress={this.openFiltersDialog}
-                    title={Translator.get('FILTERS')}
-                    valuePlaceholder="..."
-                    value={this.state.filters}
-                    titleStyle={{ color: theme.settings.sectionText }}
-                    valueStyle={{ color: theme.settings.sectionText }}
-                    containerStyle={{ backgroundColor: theme.settings.section }}
-                />
-                <SettingsDividerShort />
-                <SettingsEditText
-                    disabled={true}
-                    title={Translator.get('ADVANCED_FILTERS')}
-                    valuePlaceholder="..."
-                    titleStyle={{ color: theme.settings.sectionText }}
-                    valueStyle={{ color: theme.settings.sectionText }}
-                    containerStyle={{ backgroundColor: theme.settings.section }}
-                    value={this.state.advancedFilters}
-                />
-                <SettingsDividerLong />
-                <SettingsCategoryHeader title={Translator.get('APP_LAUNCHING')} titleStyle={{ color: theme.settings.title }} />
-                <SettingsDividerLong />
-                <SettingsSwitch
-                    disabled={true}
-                    onSaveValue={(value) => {
-                        this.setState({
-                            openAppOnFavoriteGroup: value,
-                        });
-                    }}
-                    title={Translator.get('OPEN_ON_FAVOURITE_GROUP')}
-                    titleStyle={{ color: theme.settings.sectionText }}
-                    valueStyle={{ color: theme.settings.sectionText }}
-                    containerStyle={{ backgroundColor: theme.settings.section }}
-                    value={this.state.openAppOnFavoriteGroup}
-                    disabledOverlayStyle={{ backgroundColor: theme.settings.disabledOverlay }}
-                    thumbColor={this.state.openAppOnFavoriteGroup ? colors.switchEnabled : colors.switchDisabled}
-                />
-                <SettingsDividerLong />
+	openResetDialog = () => {
+		this.setState({ resetDialogVisible: true });
+	};
 
-                <PopupDialog
-                    visible={true}
-                    dialogStyle={{ position: 'absolute', top: 20, backgroundColor: theme.background }}
-                    width={0.9}
-                    ref={(dialog) => {
-                        this.filtersDialog = dialog;
-                    }}
-                    onDismissed={this.onDismissFilters}
-                    actions={[
-                        <View style={[style.settings.actionsContainer, { borderTopColor: theme.border }]} key="filtersActions">
-                            <DialogButton
-                                buttonStyle={{
-                                    marginVertical: 0,
-                                    borderRightColor: theme.border,
-                                    borderRightWidth: 0.5,
-                                    flex: 1,
-                                }}
-                                textContainerStyle={{ paddingVertical: 10 }}
-                                text={Translator.get('CANCEL')}
-                                textStyle={{ color: colors.monza, fontWeight: '400' }}
-                                onPress={this.closeFiltersDialog}
-                            />
-                            <DialogButton
-                                buttonStyle={{
-                                    marginVertical: 0,
-                                    borderLeftColor: theme.border,
-                                    borderLeftWidth: 0.5,
-                                    flex: 1,
-                                }}
-                                textContainerStyle={{ paddingVertical: 10 }}
-                                text={Translator.get('SAVE')}
-                                textStyle={{ fontWeight: '500', color: style.colors.green }}
-                                onPress={this.saveFilters}
-                            />
-                        </View>,
-                    ]}
-                    height={this.state.height / 2 - 55}>
-                    <View
-                        style={{
-                            backgroundColor: theme.collapsableBackground,
-                            padding: 16,
-                            borderTopLeftRadius: 8,
-                            borderTopRightRadius: 8,
-                            display: 'flex',
-                        }}>
-                        <Text style={{ color: theme.font }}>{Translator.get('FILTERS')}</Text>
-                    </View>
-                    <View style={style.settings.dialogContentView}>
-                        <View style={{ marginVertical: 4 }}>
-                            <Text style={{ color: theme.font, fontSize: 12 }}>{Translator.get('FILTERS_ENTER_CODE')}</Text>
-                            <Text style={{ color: theme.font, fontSize: 12 }}>{Translator.get('FILTERS_SEPARATE_CODE')}</Text>
-                        </View>
-                        <View style={[style.settings.textInputContainer, { borderColor: theme.secondary }]}>
-                            <TextInput
-                                ref={(textInput) => (this.filterInput = textInput)}
-                                autoCorrect={false}
-                                multiline={true}
-                                numberOfLines={4}
-                                onChangeText={(filters) => this.setState({ filters })}
-                                value={this.state.filters}
-                                editable={true}
-                                underlineColorAndroid="transparent"
-                                style={{ textAlignVertical: 'top', color: theme.font }}
-                            />
-                        </View>
-                    </View>
-                </PopupDialog>
-                <PopupDialog
-                    visible={true}
-                    dialogStyle={{ position: 'absolute', top: 20, backgroundColor: theme.background }}
-                    width={0.9}
-                    ref={(dialog) => {
-                        this.languageDialog = dialog;
-                    }}
-                    onDismissed={this.closeLanguageDialog}
-                    actions={[
-                        <View style={[style.settings.actionsContainer, { borderTopColor: theme.border }]} key="filtersActions">
-                            <DialogButton
-                                buttonStyle={{
-                                    marginVertical: 0,
-                                    borderRightColor: theme.border,
-                                    borderRightWidth: 0.5,
-                                    flex: 1,
-                                }}
-                                textContainerStyle={{ paddingVertical: 10 }}
-                                text={Translator.get('CANCEL')}
-                                textStyle={{ color: colors.monza, fontWeight: '400' }}
-                                onPress={this.closeLanguageDialog}
-                            />
-                            <DialogButton
-                                buttonStyle={{
-                                    marginVertical: 0,
-                                    borderLeftColor: theme.border,
-                                    borderLeftWidth: 0.5,
-                                    flex: 1,
-                                }}
-                                textContainerStyle={{ paddingVertical: 10 }}
-                                text={Translator.get('SAVE')}
-                                textStyle={{ fontWeight: '500', color: style.colors.green }}
-                                onPress={this.saveLanguage}
-                            />
-                        </View>,
-                    ]}>
-                    <View
-                        style={{
-                            backgroundColor: theme.collapsableBackground,
-                            padding: 16,
-                            borderTopLeftRadius: 8,
-                            borderTopRightRadius: 8,
-                            display: 'flex',
-                        }}>
-                        <Text style={{ color: theme.font }}>{Translator.get('LANGUAGE')}</Text>
-                    </View>
-                    <View style={style.settings.dialogContentView}>
-                        <Picker
-                            selectedValue={this.state.language}
-                            itemStyle={{ color: theme.font }}
-                            style={{ color: theme.font, width: '100%', height: '100%' }}
-                            onValueChange={(itemValue, itemIndex) => this.setState({ language: itemValue })}>
-                            <Picker.Item label="Français" value="fr" />
-                            <Picker.Item label="English" value="en" />
-                        </Picker>
-                    </View>
-                </PopupDialog>
-            </SafeAreaView>
-        );
-    }
+	closeResetDialog = () => {
+		this.setState({ resetDialogVisible: false });
+	};
+
+	render() {
+		const theme = style.Theme[this.context.themeName];
+
+		return (
+			<SafeAreaView style={{ flex: 1, backgroundColor: theme.settings.background }}>
+				<SettingsCategoryHeader
+					title={Translator.get('DISPLAY')}
+					titleStyle={{ color: theme.settings.title }}
+				/>
+				<SettingsDividerLong />
+				<SettingsEditText
+					onPress={this.openLanguagePicker}
+					title={Translator.get('LANGUAGE')}
+					valuePlaceholder="..."
+					value={Translator.getLanguageString()}
+					titleStyle={{ color: theme.settings.sectionText }}
+					valueStyle={{ color: theme.settings.sectionText }}
+					containerStyle={{ backgroundColor: theme.settings.section }}
+				/>
+				<SettingsDividerShort />
+				<SettingsEditText
+					onPress={this.openFiltersDialog}
+					title={Translator.get('FILTERS')}
+					valuePlaceholder="..."
+					value={this.state.filters}
+					titleStyle={{ color: theme.settings.sectionText }}
+					valueStyle={{ color: theme.settings.sectionText }}
+					containerStyle={{ backgroundColor: theme.settings.section }}
+				/>
+				<SettingsDividerShort />
+				<SettingsEditText
+					disabled={true}
+					title={Translator.get('ADVANCED_FILTERS')}
+					valuePlaceholder="..."
+					titleStyle={{ color: theme.settings.sectionText }}
+					valueStyle={{ color: theme.settings.sectionText }}
+					containerStyle={{ backgroundColor: theme.settings.section }}
+					value={this.state.advancedFilters}
+				/>
+				<SettingsDividerLong />
+				<SettingsCategoryHeader
+					title={Translator.get('APP_LAUNCHING')}
+					titleStyle={{ color: theme.settings.title }}
+				/>
+				<SettingsDividerLong />
+				<SettingsSwitch
+					disabled={true}
+					onSaveValue={(value) => {
+						this.setState({
+							openAppOnFavoriteGroup: value,
+						});
+					}}
+					title={Translator.get('OPEN_ON_FAVOURITE_GROUP')}
+					titleStyle={{ color: theme.settings.sectionText }}
+					valueStyle={{ color: theme.settings.sectionText }}
+					containerStyle={{ backgroundColor: theme.settings.section }}
+					value={this.state.openAppOnFavoriteGroup}
+					disabledOverlayStyle={{ backgroundColor: theme.settings.disabledOverlay }}
+					thumbColor={
+						this.state.openAppOnFavoriteGroup
+							? colors.switchEnabled
+							: colors.switchDisabled
+					}
+				/>
+				<SettingsDividerLong />
+				<SettingsEditText
+					onPress={this.openResetDialog}
+					valuePlaceholder=""
+					value=""
+					title={Translator.get('RESET_APP')}
+					titleStyle={{ color: theme.settings.sectionText }}
+					valueStyle={{ color: theme.settings.sectionText }}
+					containerStyle={{ backgroundColor: theme.settings.section }}
+				/>
+				<Dialog.Container visible={this.state.resetDialogVisible}>
+					<Dialog.Title>{Translator.get('RESET_APP')}</Dialog.Title>
+					<Dialog.Description>
+						{Translator.get('RESET_APP_CONFIRMATION')}
+					</Dialog.Description>
+					<Dialog.Button onPress={this.closeResetDialog} label="Cancel" />
+					<Dialog.Button onPress={SettingsManager.resetSettings} label="Reset" />
+				</Dialog.Container>
+				<SettingsDividerLong />
+
+				<PopupDialog
+					visible={true}
+					dialogStyle={{
+						position: 'absolute',
+						top: 20,
+						backgroundColor: theme.background,
+					}}
+					width={0.9}
+					ref={(dialog) => {
+						this.filtersDialog = dialog;
+					}}
+					onDismissed={this.onDismissFilters}
+					actions={[
+						<View
+							style={[
+								style.settings.actionsContainer,
+								{ borderTopColor: theme.border },
+							]}
+							key="filtersActions">
+							<DialogButton
+								buttonStyle={{
+									marginVertical: 0,
+									borderRightColor: theme.border,
+									borderRightWidth: 0.5,
+									flex: 1,
+								}}
+								textContainerStyle={{ paddingVertical: 10 }}
+								text={Translator.get('CANCEL')}
+								textStyle={{ color: colors.monza, fontWeight: '400' }}
+								onPress={this.closeFiltersDialog}
+							/>
+							<DialogButton
+								buttonStyle={{
+									marginVertical: 0,
+									borderLeftColor: theme.border,
+									borderLeftWidth: 0.5,
+									flex: 1,
+								}}
+								textContainerStyle={{ paddingVertical: 10 }}
+								text={Translator.get('SAVE')}
+								textStyle={{ fontWeight: '500', color: style.colors.green }}
+								onPress={this.saveFilters}
+							/>
+						</View>,
+					]}
+					height={this.state.height / 2 - 55}>
+					<View
+						style={{
+							backgroundColor: theme.collapsableBackground,
+							padding: 16,
+							borderTopLeftRadius: 8,
+							borderTopRightRadius: 8,
+							display: 'flex',
+						}}>
+						<Text style={{ color: theme.font }}>{Translator.get('FILTERS')}</Text>
+					</View>
+					<View style={style.settings.dialogContentView}>
+						<View style={{ marginVertical: 4 }}>
+							<Text style={{ color: theme.font, fontSize: 12 }}>
+								{Translator.get('FILTERS_ENTER_CODE')}
+							</Text>
+							<Text style={{ color: theme.font, fontSize: 12 }}>
+								{Translator.get('FILTERS_SEPARATE_CODE')}
+							</Text>
+						</View>
+						<View
+							style={[
+								style.settings.textInputContainer,
+								{ borderColor: theme.secondary },
+							]}>
+							<TextInput
+								ref={(textInput) => (this.filterInput = textInput)}
+								autoCorrect={false}
+								multiline={true}
+								numberOfLines={4}
+								onChangeText={(filters) => this.setState({ filters })}
+								value={this.state.filters}
+								editable={true}
+								underlineColorAndroid="transparent"
+								style={{ textAlignVertical: 'top', color: theme.font }}
+							/>
+						</View>
+					</View>
+				</PopupDialog>
+				<PopupDialog
+					visible={true}
+					dialogStyle={{
+						position: 'absolute',
+						top: 20,
+						backgroundColor: theme.background,
+					}}
+					width={0.9}
+					ref={(dialog) => {
+						this.languageDialog = dialog;
+					}}
+					onDismissed={this.closeLanguageDialog}
+					actions={[
+						<View
+							style={[
+								style.settings.actionsContainer,
+								{ borderTopColor: theme.border },
+							]}
+							key="filtersActions">
+							<DialogButton
+								buttonStyle={{
+									marginVertical: 0,
+									borderRightColor: theme.border,
+									borderRightWidth: 0.5,
+									flex: 1,
+								}}
+								textContainerStyle={{ paddingVertical: 10 }}
+								text={Translator.get('CANCEL')}
+								textStyle={{ color: colors.monza, fontWeight: '400' }}
+								onPress={this.closeLanguageDialog}
+							/>
+							<DialogButton
+								buttonStyle={{
+									marginVertical: 0,
+									borderLeftColor: theme.border,
+									borderLeftWidth: 0.5,
+									flex: 1,
+								}}
+								textContainerStyle={{ paddingVertical: 10 }}
+								text={Translator.get('SAVE')}
+								textStyle={{ fontWeight: '500', color: style.colors.green }}
+								onPress={this.saveLanguage}
+							/>
+						</View>,
+					]}>
+					<View
+						style={{
+							backgroundColor: theme.collapsableBackground,
+							padding: 16,
+							borderTopLeftRadius: 8,
+							borderTopRightRadius: 8,
+							display: 'flex',
+						}}>
+						<Text style={{ color: theme.font }}>{Translator.get('LANGUAGE')}</Text>
+					</View>
+					<View style={style.settings.dialogContentView}>
+						<Picker
+							selectedValue={this.state.language}
+							itemStyle={{ color: theme.font }}
+							style={{ color: theme.font, width: '100%', height: '100%' }}
+							onValueChange={(itemValue, itemIndex) =>
+								this.setState({ language: itemValue })
+							}>
+							<Picker.Item label="Français" value="fr" />
+							<Picker.Item label="English" value="en" />
+						</Picker>
+					</View>
+				</PopupDialog>
+			</SafeAreaView>
+		);
+	}
 }
 
 const mapStateToProps = (state) => {
-    return {
-        savedGroup: state.favorite.groupName,
-        filters: state.filters.filters,
-        language: state.language,
-        themeName: state.darkMode.themeName,
-    };
+	return {
+		savedGroup: state.favorite.groupName,
+		filters: state.filters.filters,
+		language: state.language,
+		themeName: state.darkMode.themeName,
+	};
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {
-        dispatchSetFilters: (filters) => {
-            dispatch(setFilters(filters));
-        },
-        dispatchSetLanguage: (language) => {
-            dispatch(setLanguage(language));
-        },
-    };
+	return {
+		dispatchSetFilters: (filters) => {
+			dispatch(setFilters(filters));
+		},
+		dispatchSetLanguage: (language) => {
+			dispatch(setLanguage(language));
+		},
+	};
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Settings);
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);

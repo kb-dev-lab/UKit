@@ -2,7 +2,6 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { TouchableOpacity, View } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { connect } from 'react-redux';
 
 import Home from '../pages/Home';
 import Group from '../pages/Group';
@@ -17,16 +16,14 @@ import WeekView from '../pages/WeekView';
 import NavBarHelper from '../components/NavBarHelper';
 import BackButton from '../components/buttons/BackButton';
 import SaveButton from '../components/buttons/SaveGroupButton';
-import { AppContext, AppContextProvider, treatTitle } from '../utils/DeviceUtils';
+import { AppContext, treatTitle } from '../utils/DeviceUtils';
 import Translator from '../utils/translator';
-
-const mapStateToProps = (state) => ({ themeName: state.darkMode.themeName });
 
 const Stack = createStackNavigator();
 
 const StackNavigator = () => (
     <AppContext.Consumer>
-        {({ themeName }) => (
+        {({ themeName, groupName }) => (
             <Stack.Navigator
                 screenOptions={({ navigation, route }) => {
                     let leftButton = <BackButton backAction={navigation.goBack} />;
@@ -154,7 +151,7 @@ const StackNavigator = () => (
                     component={WebBrowser}
                     options={({ route }) => {
                         let title = treatTitle(route.params?.title ?? Translator.get('WEB_BROWSER'));
-                        
+
                         return NavBarHelper({
                             title,
                             themeName,
@@ -169,7 +166,7 @@ const StackNavigator = () => (
                     name="Course"
                     component={Course}
                     options={({ route }) => {
-                        let title = route.params?.title ?? Translator.get('DETAILS')
+                        let title = route.params?.title ?? Translator.get('DETAILS');
 
                         return NavBarHelper({
                             title,
@@ -187,11 +184,9 @@ class CustomStackNavigator extends React.Component {
 
     render() {
         return (
-            <AppContextProvider value={{ themeName: this.props.themeName }}>
-                <StackNavigator navigation={this.props.navigation} />
-            </AppContextProvider>
+            <StackNavigator navigation={this.props.navigation} />
         );
     }
 }
 
-export default connect(mapStateToProps)(CustomStackNavigator);
+export default CustomStackNavigator;
