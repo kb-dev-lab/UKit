@@ -23,7 +23,12 @@ class MyGroupButton extends React.PureComponent {
 	}
 
 	_onPress = () => {
-		this.props.navigate('Group', { name: this.props.groupName });
+		this.props.navigate('Home', {
+			screen: 'Group',
+			params: {
+				name: this.props.groupName,
+			},
+		});
 	};
 
 	render() {

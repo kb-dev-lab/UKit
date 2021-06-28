@@ -177,13 +177,12 @@ class SettingsManager {
 			if (settings?.groupName) {
 				this._groupName = settings.groupName;
 			}
-			if (settings?.language) {
-				this.setLanguage(settings.language);
-			}
 			this._openAppOnFavoriteGroup = settings.openAppOnFavoriteGroup;
-
 			if (settings?.filters) {
 				this._filters = [...settings.filters];
+			}
+			if (settings?.language) {
+				this.setLanguage(settings.language);
 			}
 		} catch (error) {
 			const settingsError = new ErrorAlert(

@@ -11,8 +11,8 @@ const Translations = {
 };
 
 class Translator {
-    constructor(defaultLanguage = 'fr') {
-        this.setLanguage(defaultLanguage);
+    constructor() {
+        this.setLanguage(SettingsManager.getLanguage());
     }
 
     setLanguage(lang) {
