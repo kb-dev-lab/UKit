@@ -6,7 +6,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Home from '../pages/Home';
 import Group from '../pages/Group';
 import About from '../pages/About';
-import Settings from '../pages/NewSettings';
+import Settings from '../pages/Settings';
 import WebBrowser from '../pages/WebBrowser';
 import Geolocation from '../pages/Geolocation';
 import Course from '../pages/Course';
