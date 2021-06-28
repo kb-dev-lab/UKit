@@ -2,7 +2,6 @@ import React from 'react';
 import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import { connect } from 'react-redux';
 import moment from 'moment';
 
 import style from '../Style';
@@ -31,7 +30,7 @@ class Day extends React.Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		if (this.props.savedGroup !== prevProps.savedGroup) {
+		if (this.state.groupName !== prevProps.groupName) {
 			if (this.props.filtersList.length > 0) {
 				this.fetchSchedule();
 			}
@@ -120,7 +119,7 @@ class Day extends React.Component {
 			if (dayData != null) {
 				let schedule = this.computeSchedule(
 					dayData,
-					this.state.groupName === this.props.savedGroup,
+					this.state.groupName === this.state.groupName,
 				);
 				this.setState({ schedule, loading: false, cancelToken: null, cacheDate });
 			}
@@ -212,11 +211,4 @@ class Day extends React.Component {
 	}
 }
 
-const mapStateToProps = (state) => {
-	return {
-		savedGroup: state.favorite.groupName,
-		filters: state.filters.filters,
-	};
-};
-
-export default connect(mapStateToProps)(Day);
+export default Day;

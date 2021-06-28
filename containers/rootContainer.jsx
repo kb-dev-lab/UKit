@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Provider } from 'react-redux';
 import { View } from 'react-native';
-import { PersistGate } from 'redux-persist/es/integration/react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import StatusBar from '../components/ui/StatusBar';
 import Drawer from '../navigation/Drawer';
-import style from '../Style';
-import configureStore from '../stores';
 import { AppContextProvider } from '../utils/DeviceUtils';
 import SettingsManager from '../utils/SettingsManager';
 import Welcome from '../navigation/WelcomePageStack';
@@ -16,8 +12,6 @@ import Welcome from '../navigation/WelcomePageStack';
 // if (Platform.OS === 'android') {
 //     SafeAreaView.setStatusBarHeight(0);
 // }
-
-const { store, pStore } = configureStore();
 
 export default () => {
 	const [isFirstLoad, setFirstLoad] = useState(SettingsManager.isFirstLoad());
@@ -47,14 +41,10 @@ export default () => {
 	return (
 		<SafeAreaProvider>
 			<View style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
-				<Provider store={store} style={style.fonts.default}>
-					<AppContextProvider value={{ themeName, groupName, filters }}>
-						<PersistGate loading={null} persistor={pStore}>
-							<StatusBar />
-							{isFirstLoad ? <Welcome /> : <Drawer />}
-						</PersistGate>
-					</AppContextProvider>
-				</Provider>
+				<AppContextProvider value={{ themeName, groupName, filters }}>
+					<StatusBar />
+					{isFirstLoad ? <Welcome /> : <Drawer />}
+				</AppContextProvider>
 			</View>
 		</SafeAreaProvider>
 	);

@@ -2,7 +2,6 @@ import React from 'react';
 import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import { connect } from 'react-redux';
 import moment from 'moment';
 
 import style from '../Style';
@@ -38,7 +37,7 @@ class Week extends React.Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		if (this.props.savedGroup !== prevProps.savedGroup) {
+		if (this.state.groupName !== prevProps.groupName) {
 			if (this.props.filtersList.length > 0) {
 				this.fetchSchedule();
 			}
@@ -117,8 +116,10 @@ class Week extends React.Component {
 				offlineAlert.show();
 
 				let cache = await this.getCache(id);
-				weekData = cache.weekData;
-				cacheDate = cache.date;
+				if (cache) {
+					weekData = cache.weekData;
+					cacheDate = cache.date;
+				}
 			}
 
 			if (weekData != null) {
@@ -167,7 +168,7 @@ class Week extends React.Component {
 				<ActivityIndicator style={style.containerView} size="large" animating={true} />
 			);
 		} else if (this.state.schedule instanceof Array) {
-			let isFavorite = this.state.groupName === this.props.savedGroup;
+			let isFavorite = this.state.groupName === this.state.groupName;
 
 			if (this.state.cacheDate !== null) {
 				cacheMessage = (
@@ -213,11 +214,5 @@ class Week extends React.Component {
 		);
 	}
 }
-const mapStateToProps = (state) => {
-	return {
-		savedGroup: state.favorite.groupName,
-		filters: state.filters.filters,
-	};
-};
 
-export default connect(mapStateToProps)(Week);
+export default Week;
