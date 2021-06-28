@@ -1,7 +1,6 @@
 export default {
 	ABOUT: 'À propos',
-	ADVANCED_FILTERS: 'Filtres avancés',
-	APP_LAUNCHING: "Démarrage",
+	APP_LAUNCHING: 'Démarrage',
 	APP_READY:
 		"L'application est maintenant prête, vous pouvez dès à présent consulter votre emploi du temps !",
 	APPLICATION_HISTORY:
@@ -36,12 +35,15 @@ export default {
 	NONE: 'Aucun',
 	NO_CLASS_THIS_DAY: 'Aucun cours pendant ce jour',
 	NO_CONNECTION: 'Pas de connexion',
+	NO_FILTER: 'Aucun filtre actuellement',
 	NO_GROUP_FOUND_WITH_THIS_SEARCH: "Aucun groupe correspondant à cette recherche n'a été trouvé.",
 	OFFLINE_DISPLAY_FROM_DATE: 'Affichage hors ligne datant du $-',
 	OPEN_ON_FAVOURITE_GROUP: 'Ouvrir sur le groupe favori',
-	RESET: "Réinitialiser",
-    RESET_APP: "Réinitialiser l'application",
-	RESET_APP_CONFIRMATION: "Voulez vous réinitialiser l'application? Vous ne pourrez pas revenir en arrière.",
+	REMOVE_FILTER: "Maintenez enfoncé le bouton d'une UE pour la supprimer des filters.",
+	RESET: 'Réinitialiser',
+	RESET_APP: "Réinitialiser l'application",
+	RESET_APP_CONFIRMATION:
+		"Voulez vous réinitialiser l'application? Vous ne pourrez pas revenir en arrière.",
 	SAVE: 'Sauvegarder',
 	SETTINGS: 'Paramètres',
 	SETTINGS_TO_MAKE: "Avant d'utiliser l'application, nous avons quelques réglages à faire.",
@@ -49,7 +51,7 @@ export default {
 	START: 'Commencer',
 	THIS_WEEK: 'Cette semaine',
 	TODAY: "Aujourd'hui",
-	USE_SEARCH_BAR: "Utilisez la barre de recherche pour affiner les résultats.",
+	USE_SEARCH_BAR: 'Utilisez la barre de recherche pour affiner les résultats.',
 	YOUR_GROUP: 'Quel est ton groupe ?',
 	YOUR_LANGUAGE: 'Quelle est ta langue ?',
 	YOUR_SEMESTER: 'À quel semestre es-tu ?',

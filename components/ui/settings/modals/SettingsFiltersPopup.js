@@ -60,7 +60,7 @@ export default ({
 						</TouchableOpacity>
 					</View>
 					<Text style={theme.popup.textDescription}>
-						Maintenez une UE pour le supprimer de la liste des filters
+						{Translator.get('REMOVE_FILTER')}
 					</Text>
 					<View style={theme.popup.filterListContainer}>
 						<FlatList
@@ -70,7 +70,7 @@ export default ({
 							horizontal={true}
 							ListEmptyComponent={
 								<Text style={theme.popup.textDescription}>
-									Aucun filtre actuellement
+									{Translator.get('NO_FILTER')}
 								</Text>
 							}
 						/>
