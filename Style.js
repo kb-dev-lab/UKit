@@ -791,7 +791,7 @@ export default {
 		},
 		titleText: {
 			fontSize: 24,
-			fontWeight: '600',
+			fontWeight: 'bold',
 			textAlign: 'center',
 			paddingVertical: 8,
 		},
