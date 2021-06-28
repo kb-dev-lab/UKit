@@ -16,6 +16,7 @@ import WeekView from '../pages/WeekView';
 import NavBarHelper from '../components/NavBarHelper';
 import BackButton from '../components/buttons/BackButton';
 import SaveButton from '../components/buttons/SaveGroupButton';
+import FilterRemoveButton from '../components/buttons/FilterRemoveButton';
 import { AppContext, treatTitle } from '../utils/DeviceUtils';
 import Translator from '../utils/translator';
 
@@ -26,8 +27,8 @@ const StackNavigator = () => (
 		{({ themeName, groupName, filters }) => (
 			<Stack.Navigator
 				screenOptions={({ navigation, route }) => {
-					let leftButton = <BackButton backAction={navigation.goBack} />;
-					let title = route.name;
+					const leftButton = <BackButton backAction={navigation.goBack} />;
+					const title = route.name;
 
 					return NavBarHelper({
 						headerLeft: () => leftButton,
@@ -155,7 +156,7 @@ const StackNavigator = () => (
 					name="WebBrowser"
 					component={WebBrowser}
 					options={({ route }) => {
-						let title = treatTitle(
+						const title = treatTitle(
 							route.params?.title ?? Translator.get('WEB_BROWSER'),
 						);
 
@@ -169,10 +170,20 @@ const StackNavigator = () => (
 				<Stack.Screen
 					name="Course"
 					component={Course}
-					options={({ route }) => {
-						let title = route.params?.title ?? Translator.get('DETAILS');
-
+					options={({ navigation, route }) => {
+						const title = route.params?.title ?? Translator.get('DETAILS');
+						const rightButton = (
+							<View
+								style={{
+									justifyContent: 'space-around',
+									paddingRight: 16,
+									flexDirection: 'row',
+								}}>
+								<FilterRemoveButton UE={route.params?.data?.UE} themeName={themeName} backAction={navigation.goBack}/>
+							</View>
+						);
 						return NavBarHelper({
+							headerRight: () => rightButton,
 							title,
 							themeName,
 						});
