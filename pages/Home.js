@@ -83,7 +83,7 @@ class Home extends React.Component {
 		await this.fetchList();
 	};
 
-	async getCache() {
+	getCache = async () => {
 		let cache = await AsyncStorage.getItem('groups');
 		if (cache !== null) {
 			cache = JSON.parse(cache);
@@ -91,9 +91,9 @@ class Home extends React.Component {
 			return cache.list;
 		}
 		return null;
-	}
+	};
 
-	async fetchList() {
+	fetchList = async () => {
 		let list = null;
 
 		if (await DeviceUtils.isConnected()) {
@@ -147,7 +147,7 @@ class Home extends React.Component {
 		if (list !== null) {
 			this.generateSections(list, true);
 		}
-	}
+	};
 
 	openGroup = (name) => {
 		const { navigate } = this.props.navigation;

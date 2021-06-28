@@ -126,6 +126,7 @@ class WeekView extends React.Component {
 					groupName={this.state.groupName}
 					theme={theme}
 					navigation={this.props.navigation}
+					filtersList={this.context.filters}
 				/>
 				<View
 					style={{

@@ -140,52 +140,26 @@ class Settings extends React.Component {
 
 	render() {
 		const themeName = this.context.themeName;
-		const theme = style.Theme[themeName].settings
+		const theme = style.Theme[themeName].settings;
 
 		return (
 			<SafeAreaView style={theme.background}>
-				<Text style={theme.separationText}>
-					{Translator.get('DISPLAY').toUpperCase()}
-				</Text>
+				<Text style={theme.separationText}>{Translator.get('DISPLAY').toUpperCase()}</Text>
 
-				<TouchableOpacity
-					style={theme.button}
-					onPress={this.openLanguageDialog}>
-					<MaterialIcons
-						name="language"
-						size={24}
-						style={theme.leftIcon}
-					/>
-					<Text style={theme.buttonMainText}>
-						{Translator.get('LANGUAGE')}
-					</Text>
+				<TouchableOpacity style={theme.button} onPress={this.openLanguageDialog}>
+					<MaterialIcons name="language" size={24} style={theme.leftIcon} />
+					<Text style={theme.buttonMainText}>{Translator.get('LANGUAGE')}</Text>
 					<Text style={theme.buttonSecondaryText}>
 						{Translator.get(LANGUAGE_LIST[this.state.language])}
 					</Text>
-					<MaterialIcons
-						name="keyboard-arrow-right"
-						size={24}
-						style={theme.rightIcon}
-					/>
+					<MaterialIcons name="keyboard-arrow-right" size={24} style={theme.rightIcon} />
 				</TouchableOpacity>
 
-				<TouchableOpacity
-					style={theme.button}
-					onPress={this.openFiltersDialog}>
-					<MaterialIcons
-						name="filter-list"
-						size={24}
-						style={theme.leftIcon}
-					/>
-					<Text style={theme.buttonMainText}>
-						{Translator.get('FILTERS')}
-					</Text>
+				<TouchableOpacity style={theme.button} onPress={this.openFiltersDialog}>
+					<MaterialIcons name="filter-list" size={24} style={theme.leftIcon} />
+					<Text style={theme.buttonMainText}>{Translator.get('FILTERS')}</Text>
 					<Text style={theme.buttonSecondaryText}>...</Text>
-					<MaterialIcons
-						name="keyboard-arrow-right"
-						size={24}
-						style={theme.rightIcon}
-					/>
+					<MaterialIcons name="keyboard-arrow-right" size={24} style={theme.rightIcon} />
 				</TouchableOpacity>
 
 				<View style={{ marginTop: 20 }}></View>
@@ -220,17 +194,9 @@ class Settings extends React.Component {
 					/>
 				</TouchableOpacity>
 
-				<TouchableOpacity
-					style={theme.button}
-					onPress={this.openResetDialog}>
-					<MaterialCommunityIcons
-						name="restart"
-						size={24}
-						style={theme.leftIcon}
-					/>
-					<Text style={theme.buttonMainText}>
-						{Translator.get('RESET_APP')}
-					</Text>
+				<TouchableOpacity style={theme.button} onPress={this.openResetDialog}>
+					<MaterialCommunityIcons name="restart" size={24} style={theme.leftIcon} />
+					<Text style={theme.buttonMainText}>{Translator.get('RESET_APP')}</Text>
 					<MaterialIcons
 						name="keyboard-arrow-right"
 						size={24}
@@ -348,9 +314,7 @@ class Settings extends React.Component {
 									onChangeText={this.setFilterTextInput}
 									value={this.state.filterTextInput}
 									placeholder="4TIN603U"
-									placeholderTextColor={
-										theme.popup.textInputPlaceholderColor
-									}
+									placeholderTextColor={theme.popup.textInputPlaceholderColor}
 									autoCorrect={false}
 									keyboardType={
 										Platform.OS === 'ios' ? 'default' : 'visible-password'

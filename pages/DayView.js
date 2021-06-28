@@ -11,188 +11,231 @@ import Translator from '../utils/translator';
 import { AppContext } from '../utils/DeviceUtils';
 
 function capitalize(str) {
-    return `${str.charAt(0).toUpperCase()}${str.substr(1)}`;
+	return `${str.charAt(0).toUpperCase()}${str.substr(1)}`;
 }
 
 class DayView extends React.Component {
-    static contextType = AppContext;
-    
-    constructor(props) {
-        super(props);
+	static contextType = AppContext;
 
-        const currentDay = moment();
-        const days = DayView.generateDays();
+	constructor(props) {
+		super(props);
 
-        this.state = {
-            groupName: this.props.groupName,
-            currentDay: currentDay,
-            currentDayIndex: days.findIndex((e) => e.isSame(currentDay, 'day')),
-            shownMonth: {
-                number: currentDay.month(),
-                string: capitalize(currentDay.format('MMMM')),
-            },
-            days,
-            selectedDay: currentDay,
-        };
+		const currentDay = moment();
+		const days = DayView.generateDays();
 
-        this.viewability = {
-            itemVisiblePercentThreshold: 50,
-        };
+		this.state = {
+			groupName: this.props.groupName,
+			currentDay: currentDay,
+			currentDayIndex: days.findIndex((e) => e.isSame(currentDay, 'day')),
+			shownMonth: {
+				number: currentDay.month(),
+				string: capitalize(currentDay.format('MMMM')),
+			},
+			days,
+			selectedDay: currentDay,
+		};
 
-    }
+		this.viewability = {
+			itemVisiblePercentThreshold: 50,
+		};
+	}
 
-    static getCalendarListItemLayout(data, index) {
-        return {
-            length: style.calendarList.itemSize,
-            offset: style.calendarList.itemSize * index,
-            index,
-        };
-    }
+	static getCalendarListItemLayout(data, index) {
+		return {
+			length: style.calendarList.itemSize,
+			offset: style.calendarList.itemSize * index,
+			index,
+		};
+	}
 
-    renderCalendarListItem = ({ item }) => {
-        return (
-            <CalendarDay
-                item={item}
-                selectedDay={this.state.selectedDay}
-                currentDay={this.state.currentDay}
-                onPressItem={this.onDayPress}
-                theme={style.Theme[this.context.themeName]}
-            />
-        );
-    };
+	renderCalendarListItem = ({ item }) => {
+		return (
+			<CalendarDay
+				item={item}
+				selectedDay={this.state.selectedDay}
+				currentDay={this.state.currentDay}
+				onPressItem={this.onDayPress}
+				theme={style.Theme[this.context.themeName]}
+			/>
+		);
+	};
 
-    extractCalendarListItemKey = (item) => {
-        return `${item.date()}-${item.month()}-${this.context.themeName}`;
-    };
+	extractCalendarListItemKey = (item) => {
+		return `${item.date()}-${item.month()}-${this.context.themeName}`;
+	};
 
-    onTodayPress = () => {
-        this.setState(
-            {
-                selectedDay: this.state.currentDay,
-            },
-            () => {
-                if (this.calendarList) {
-                    this.calendarList.scrollToIndex({ index: this.state.currentDayIndex, animated: true });
-                }
-            }
-        );
-    };
+	onTodayPress = () => {
+		this.setState(
+			{
+				selectedDay: this.state.currentDay,
+			},
+			() => {
+				if (this.calendarList) {
+					this.calendarList.scrollToIndex({
+						index: this.state.currentDayIndex,
+						animated: true,
+					});
+				}
+			},
+		);
+	};
 
-    onWeekPress = () => {
-        this.props.navigation.navigate('Week', { groupName: this.state.groupName });
-    };
+	onWeekPress = () => {
+		this.props.navigation.navigate('Week', { groupName: this.state.groupName });
+	};
 
-    onDayPress = (dayItem) => {
-        this.setState({
-            selectedDay: dayItem,
-        });
-    };
+	onDayPress = (dayItem) => {
+		this.setState({
+			selectedDay: dayItem,
+		});
+	};
 
-    static generateDays() {
-        const currentDate = moment();
-        const beginningGenerationDate = moment()
-            .date(1)
-            .month(7);
+	static generateDays() {
+		const currentDate = moment();
+		const beginningGenerationDate = moment()
+			.date(1)
+			.month(7);
 
-        if (currentDate.month() > 6) {
-            beginningGenerationDate.year(currentDate.year());
-        } else {
-            beginningGenerationDate.year(currentDate.year() - 1);
-        }
+		if (currentDate.month() > 6) {
+			beginningGenerationDate.year(currentDate.year());
+		} else {
+			beginningGenerationDate.year(currentDate.year() - 1);
+		}
 
-        const days = [];
+		const days = [];
 
-        for (let i = 0, iMax = 365; i < iMax; i++) {
-            days.push(moment(beginningGenerationDate).add(i, 'd'));
-        }
+		for (let i = 0, iMax = 365; i < iMax; i++) {
+			days.push(moment(beginningGenerationDate).add(i, 'd'));
+		}
 
-        return days;
-    }
+		return days;
+	}
 
-    checkViewableItems = (info) => {
-        if (!info.viewableItems.length) {
-            return;
-        }
+	checkViewableItems = (info) => {
+		if (!info.viewableItems.length) {
+			return;
+		}
 
-        const date = moment(info.viewableItems[0].item);
+		const date = moment(info.viewableItems[0].item);
 
-        if (date.month() !== this.state.shownMonth.number) {
-            this.setState({
-                shownMonth: {
-                    number: date.month(),
-                    string: capitalize(date.format('MMMM')),
-                },
-            });
-        }
-    };
+		if (date.month() !== this.state.shownMonth.number) {
+			this.setState({
+				shownMonth: {
+					number: date.month(),
+					string: capitalize(date.format('MMMM')),
+				},
+			});
+		}
+	};
 
-    render() {
-        const theme = style.Theme[this.context.themeName];
+	render() {
+		const theme = style.Theme[this.context.themeName];
 
-        return (
-            <SafeAreaView style={{ flex: 1, backgroundColor: theme.greyBackground }}>
-                <DayComponent
-                    key={`${this.state.days[0].dayOfYear()}-${this.context.themeName}`}
-                    day={this.state.selectedDay}
-                    groupName={this.state.groupName}
-                    theme={theme}
-                    navigation={this.props.navigation}
-                />
-                <View
-                    style={{
-                        flexGrow: 0,
-                        backgroundColor: 'white',
-                        borderTopColor: theme.border,
-                        borderTopWidth: 1,
-                    }}>
-                    <View
-                        style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            alignItems: 'stretch',
-                            height: 38,
-                            backgroundColor: theme.background,
-                        }}>
-                        <View style={{ position: 'absolute', top: 0, right: 0, left: 0 }}>
-                            <Text style={{ textAlign: 'center', fontSize: 18, marginVertical: 8, color: theme.font }}>
-                                {this.state.shownMonth.string}
-                            </Text>
-                        </View>
-                        <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={this.onTodayPress}>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 16 }}>
-                                <MaterialIcons name="event-note" size={18} style={{ color: theme.icon }} />
-                                <Text style={{ textAlign: 'center', fontSize: 12, marginLeft: 8, color: theme.font }}>
-                                    {Translator.get('TODAY')}
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={this.onWeekPress}>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 16 }}>
-                                <Text style={{ textAlign: 'center', fontSize: 12, marginRight: 8, color: theme.font }}>
-                                    {Translator.get('WEEK')}
-                                </Text>
-                                <MaterialCommunityIcons name="calendar-range" size={18} style={{ color: theme.icon }} />
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                    <FlatList
-                        ref={(list) => (this.calendarList = list)}
-                        showsHorizontalScrollIndicator={false}
-                        data={this.state.days}
-                        horizontal={true}
-                        keyExtractor={this.extractCalendarListItemKey}
-                        viewabilityConfig={this.viewability}
-                        onViewableItemsChanged={this.checkViewableItems}
-                        initialScrollIndex={this.state.currentDayIndex}
-                        getItemLayout={DayView.getCalendarListItemLayout}
-                        extraData={this.state}
-                        renderItem={this.renderCalendarListItem}
-                        style={{ backgroundColor: theme.background }}
-                    />
-                </View>
-            </SafeAreaView>
-        );
-    }
+		return (
+			<SafeAreaView style={{ flex: 1, backgroundColor: theme.greyBackground }}>
+				<DayComponent
+					key={`${this.state.days[0].dayOfYear()}-${this.context.themeName}`}
+					day={this.state.selectedDay}
+					groupName={this.state.groupName}
+					theme={theme}
+					navigation={this.props.navigation}
+					filtersList={this.context.filters}
+				/>
+				<View
+					style={{
+						flexGrow: 0,
+						backgroundColor: 'white',
+						borderTopColor: theme.border,
+						borderTopWidth: 1,
+					}}>
+					<View
+						style={{
+							flexDirection: 'row',
+							justifyContent: 'space-between',
+							alignItems: 'stretch',
+							height: 38,
+							backgroundColor: theme.background,
+						}}>
+						<View style={{ position: 'absolute', top: 0, right: 0, left: 0 }}>
+							<Text
+								style={{
+									textAlign: 'center',
+									fontSize: 18,
+									marginVertical: 8,
+									color: theme.font,
+								}}>
+								{this.state.shownMonth.string}
+							</Text>
+						</View>
+						<TouchableOpacity
+							style={{ flexDirection: 'row', alignItems: 'center' }}
+							onPress={this.onTodayPress}>
+							<View
+								style={{
+									flexDirection: 'row',
+									alignItems: 'center',
+									marginHorizontal: 16,
+								}}>
+								<MaterialIcons
+									name="event-note"
+									size={18}
+									style={{ color: theme.icon }}
+								/>
+								<Text
+									style={{
+										textAlign: 'center',
+										fontSize: 12,
+										marginLeft: 8,
+										color: theme.font,
+									}}>
+									{Translator.get('TODAY')}
+								</Text>
+							</View>
+						</TouchableOpacity>
+						<TouchableOpacity
+							style={{ flexDirection: 'row', alignItems: 'center' }}
+							onPress={this.onWeekPress}>
+							<View
+								style={{
+									flexDirection: 'row',
+									alignItems: 'center',
+									marginHorizontal: 16,
+								}}>
+								<Text
+									style={{
+										textAlign: 'center',
+										fontSize: 12,
+										marginRight: 8,
+										color: theme.font,
+									}}>
+									{Translator.get('WEEK')}
+								</Text>
+								<MaterialCommunityIcons
+									name="calendar-range"
+									size={18}
+									style={{ color: theme.icon }}
+								/>
+							</View>
+						</TouchableOpacity>
+					</View>
+					<FlatList
+						ref={(list) => (this.calendarList = list)}
+						showsHorizontalScrollIndicator={false}
+						data={this.state.days}
+						horizontal={true}
+						keyExtractor={this.extractCalendarListItemKey}
+						viewabilityConfig={this.viewability}
+						onViewableItemsChanged={this.checkViewableItems}
+						initialScrollIndex={this.state.currentDayIndex}
+						getItemLayout={DayView.getCalendarListItemLayout}
+						extraData={this.state}
+						renderItem={this.renderCalendarListItem}
+						style={{ backgroundColor: theme.background }}
+					/>
+				</View>
+			</SafeAreaView>
+		);
+	}
 }
 
 export default DayView;

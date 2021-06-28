@@ -24,6 +24,7 @@ export default () => {
 	const [themeName, setThemeName] = useState(SettingsManager.getTheme());
 	const [groupName, setGroupName] = useState(SettingsManager.getGroup());
 	const [language, setLanguage] = useState(SettingsManager.getLanguage());
+	const [filters, setFilters] = useState(SettingsManager.getFilters());
 
 	useEffect(() => {
 		SettingsManager.on('theme', (newTheme) => {
@@ -38,13 +39,16 @@ export default () => {
 		SettingsManager.on('language', (newLang) => {
 			setLanguage(newLang);
 		});
+		SettingsManager.on('filter', (newFilter) => {
+			setFilters(newFilter);
+		});
 	}, []);
 
 	return (
 		<SafeAreaProvider>
 			<View style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
 				<Provider store={store} style={style.fonts.default}>
-					<AppContextProvider value={{ themeName, groupName }}>
+					<AppContextProvider value={{ themeName, groupName, filters }}>
 						<PersistGate loading={null} persistor={pStore}>
 							<StatusBar />
 							{isFirstLoad ? <Welcome /> : <Drawer />}

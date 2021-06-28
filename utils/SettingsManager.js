@@ -22,7 +22,8 @@ class SettingsManager {
 	};
 
 	notify = (event, ...args) => {
-		if (!this._subscribers[event]) {
+		this.saveSettings();
+		if (!this._subscribers[event] || !args) {
 			return;
 		}
 
@@ -31,8 +32,6 @@ class SettingsManager {
 			.forEach((fn) => {
 				fn(...args);
 			});
-
-		this.saveSettings();
 	};
 
 	getTheme = () => {
@@ -108,6 +107,7 @@ class SettingsManager {
 
 	resetFilter = () => {
 		this._filters = [];
+		this.notify('filter', this._filters);
 	};
 
 	addFilters = (filter) => {
@@ -123,9 +123,9 @@ class SettingsManager {
 			if (index > -1) {
 				const newFilterList = this._filters.filter((e) => e !== filter);
 				this._filters = [...newFilterList];
-				this.notify('filter', this._filters);
 			}
 		}
+		this.notify('filter', this._filters);
 	};
 
 	resetSettings = () => {
