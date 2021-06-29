@@ -46,7 +46,7 @@ const CustomDrawerContentComponent = (props) => {
 							icon={'list'}
 							color={theme.icon}
 							fontColor={theme.font}
-							onPress={() => props.navigation.closeDrawer()}
+							onPress={props.navigation.closeDrawer}
 						/>
 						<Split
 							title={Translator.get('MY_GROUP')}
