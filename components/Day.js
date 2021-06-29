@@ -27,10 +27,13 @@ class Day extends React.Component {
 
 	componentDidMount() {
 		this.fetchSchedule();
+		this._unsubscribe = this.props.navigation.addListener('focus', () => {
+			this.fetchSchedule();
+		});
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		if (this.state.groupName !== prevProps.groupName) {
+		if (this.state.groupName !== prevState.groupName) {
 			if (this.props.filtersList.length > 0) {
 				this.fetchSchedule();
 			}
@@ -45,6 +48,7 @@ class Day extends React.Component {
 		if (this.state.cancelToken) {
 			this.state.cancelToken.cancel('Operation canceled due component being unmounted.');
 		}
+		this._unsubscribe();
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState) {
