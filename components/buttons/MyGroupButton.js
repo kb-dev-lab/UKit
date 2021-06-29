@@ -1,9 +1,7 @@
 import React from 'react';
-import { Text, View } from 'react-native';
 
 import DrawerButton from './DrawerButton';
 import style from '../../Style';
-import Translator from '../../utils/translator';
 import SettingsManager from '../../utils/SettingsManager';
 
 class MyGroupButton extends React.PureComponent {
@@ -35,25 +33,17 @@ class MyGroupButton extends React.PureComponent {
 		const theme = style.Theme[this.props.themeName];
 		const favoriteGroup = this.props.groupName;
 
-		if (!favoriteGroup) {
-			return (
-				<View style={{ paddingLeft: 24, paddingVertical: 4 }}>
-					<Text style={{ color: theme.font }}>{Translator.get('NONE')}</Text>
-				</View>
-			);
-		} else {
-			return (
-				<DrawerButton
-					title={favoriteGroup.replace('_', ' ')}
-					size={28}
-					textSize={14}
-					icon={'star'}
-					color={theme.icon}
-					fontColor={theme.font}
-					onPress={this._onPress}
-				/>
-			);
-		}
+		return (
+			<DrawerButton
+				title={favoriteGroup.replace('_', ' ')}
+				size={28}
+				textSize={14}
+				icon={'star'}
+				color={theme.icon}
+				fontColor={theme.font}
+				onPress={this._onPress}
+			/>
+		);
 	}
 }
 
