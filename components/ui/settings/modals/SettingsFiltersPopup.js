@@ -38,16 +38,18 @@ export default ({
 				onLongPress={removeFilters}
 				style={theme.popup.filters.button}>
 				<Text style={theme.popup.filters.buttonText}>{item}</Text>
-				<MaterialIcons name="close" size={22} color={theme.popup.filters.iconColor} />
 			</TouchableOpacity>
 		);
 	};
 	const addFilterTextInput = () => {
 		submitFilterTextInput();
+		setTimeout(() => {
+			scrollToEnd();
+		}, 500);
 	};
 	return (
 		<Modal
-			animationType="fade"
+			animationType="slide"
 			transparent={true}
 			visible={popupVisible}
 			onRequestClose={popupClose}>
@@ -74,8 +76,6 @@ export default ({
 						<View style={theme.popup.filterListContainer}>
 							<FlatList
 								ref={flatListRef}
-								onContentSizeChange={scrollToEnd}
-								onLayout={scrollToEnd}
 								keyExtractor={(item) => item}
 								data={filterList}
 								renderItem={renderFilterItem}
