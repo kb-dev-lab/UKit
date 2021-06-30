@@ -42,7 +42,7 @@ export default {
 	NO_GROUP_FOUND_WITH_THIS_SEARCH: "Aucun groupe correspondant à cette recherche n'a été trouvé.",
 	OFFLINE_DISPLAY_FROM_DATE: 'Affichage hors ligne datant du $-',
 	OPEN_ON_FAVOURITE_GROUP: 'Ouvrir sur le groupe favori',
-	REMOVE_FILTER: "Maintenez enfoncé le bouton d'une UE pour la supprimer des filters.",
+	REMOVE_FILTER: "Maintenez enfoncé le bouton d'une UE pour la supprimer des filtres.",
 	RESET: 'Réinitialiser',
 	RESET_APP: "Réinitialiser l'application",
 	RESET_APP_CONFIRMATION:
@@ -62,7 +62,7 @@ export default {
 	YOUR_YEAR: 'Quel est ton année ?',
 	WEBSITE: 'Site web',
 	WELCOME: 'Bienvenue !',
-	WELL_DONE: 'Bravo!',
+	WELL_DONE: 'Bravo !',
 	WEEK: 'Semaine',
 	WEB_BROWSER: 'Navigateur web',
 };
