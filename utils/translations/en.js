@@ -17,7 +17,7 @@ export default {
 	ERROR_WITH_CODE: 'Server send an error $-',
 	ERROR_WITH_MESSAGE: 'Error : $-',
 	FILTERS: 'Filters',
-	FILTERS_ENTER_CODE: "Enter in textbox UE codes you don' want to see.",
+	FILTERS_ENTER_CODE: "Enter in textbox UE codes you don't want to see.",
 	FILTERS_SEPARATE_CODE: 'Separate each code by a comma and respect the case.',
 	FINISH: 'Finish',
 	FRENCH: 'French',

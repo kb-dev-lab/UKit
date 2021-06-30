@@ -94,7 +94,7 @@ const Theme = {
 		font: '#202020',
 		lightFont: '#F0F0F0',
 		link: '#1565c0',
-		icon: '#757575',
+		icon: '#4C5464',
 		border: '#CCCCCC',
 		background: '#ffffff',
 		greyBackground: '#DDDDDD',
@@ -124,12 +124,12 @@ const Theme = {
 		},
 		settings: {
 			switchThumbColor: {
-				false: '#F0F0F0',
-				true: '#F0F0F0',
+				false: '#E3E3E3',
+				true: '#4C5464',
 			},
 			switchTrackColor: {
-				false: '#767577',
-				true: '#767577',
+				false: '#E3E3E3',
+				true: '#E3E3E3',
 			},
 			background: {
 				flex: 1,
@@ -176,6 +176,42 @@ const Theme = {
 				marginHorizontal: 4,
 			},
 			popup: {
+				filters: {
+					container: {
+						flex: 1,
+						flexGrow: 1,
+						backgroundColor: '#FFFFFF',
+						padding: 16,
+						justifyContent: 'space-between',
+					},
+					header: {
+						flexDirection: 'row',
+						justifyContent: 'space-between',
+						alignItems: 'center',
+						marginTop: 8,
+					},
+					button: {
+						backgroundColor: '#EAEAEC',
+						padding: 8,
+						borderRadius: 16,
+						margin: 8,
+						flexDirection: 'row',
+						alignItems: 'center',
+					},
+					buttonText: {
+						fontSize: 18,
+						fontWeight: 'bold',
+						color: '#4C5464',
+					},
+					iconColor: '#4C5464AA',
+					footer: {
+						marginTop: 16,
+						justifyContent: 'flex-end',
+						alignItems: 'flex-end',
+						flexDirection: 'row',
+						marginHorizontal: 4,
+					},
+				},
 				background: {
 					flex: 1,
 					justifyContent: 'center',
@@ -185,7 +221,8 @@ const Theme = {
 					backgroundColor: '#FFFFFF',
 					borderRadius: 20,
 					padding: 16,
-					marginHorizontal: 35,
+					marginHorizontal: 16,
+					marginVertical: 50,
 				},
 				header: {
 					flexDirection: 'row',
@@ -246,10 +283,9 @@ const Theme = {
 					color: '#4C5464',
 				},
 				filterListContainer: {
-					display: 'flex',
+					flex: 1,
 					flexDirection: 'row',
-					flexWrap: 'wrap',
-					justifyContent: 'flex-start',
+					justifyContent: 'space-around',
 				},
 				textInputContainer: {
 					flexDirection: 'row',
@@ -352,11 +388,11 @@ const Theme = {
 		settings: {
 			switchThumbColor: {
 				false: '#4C5464',
-				true: '#4C5464',
+				true: '#D9D9D9',
 			},
 			switchTrackColor: {
-				false: '#D9D9D9',
-				true: '#D9D9D9',
+				false: '#451C47',
+				true: '#451C47',
 			},
 			background: {
 				flex: 1,
@@ -403,6 +439,42 @@ const Theme = {
 				marginHorizontal: 4,
 			},
 			popup: {
+				filters: {
+					container: {
+						flex: 1,
+						flexGrow: 1,
+						backgroundColor: '#451C47',
+						padding: 16,
+						justifyContent: 'space-between',
+					},
+					header: {
+						flexDirection: 'row',
+						justifyContent: 'space-between',
+						alignItems: 'center',
+						marginTop: 8,
+					},
+					button: {
+						backgroundColor: '#674669',
+						padding: 8,
+						borderRadius: 16,
+						margin: 8,
+						flexDirection: 'row',
+						alignItems: 'center',
+					},
+					buttonText: {
+						fontSize: 18,
+						fontWeight: 'bold',
+						color: '#FFFFFFAA',
+					},
+					iconColor: '#FFFFFFAA',
+					footer: {
+						marginTop: 16,
+						justifyContent: 'flex-end',
+						alignItems: 'flex-end',
+						flexDirection: 'row',
+						marginHorizontal: 4,
+					},
+				},
 				background: {
 					flex: 1,
 					justifyContent: 'center',
@@ -412,8 +484,8 @@ const Theme = {
 					backgroundColor: '#674669',
 					borderRadius: 20,
 					padding: 16,
-					marginHorizontal: 35,
-					marginVertical: 100,
+					marginHorizontal: 16,
+					marginVertical: 50,
 				},
 				header: {
 					flexDirection: 'row',
@@ -474,10 +546,9 @@ const Theme = {
 					color: '#D9D9D9',
 				},
 				filterListContainer: {
-					display: 'flex',
+					flex: 1,
 					flexDirection: 'row',
-					flexWrap: 'wrap',
-					justifyContent: 'flex-start',
+					justifyContent: 'space-around',
 				},
 				textInputContainer: {
 					flexDirection: 'row',

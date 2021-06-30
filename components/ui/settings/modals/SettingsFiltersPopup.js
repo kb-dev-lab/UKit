@@ -1,38 +1,19 @@
-import React from 'react';
-import { Text, TouchableOpacity, View, Modal, Platform, FlatList, TextInput } from 'react-native';
+import React, { useRef } from 'react';
+import {
+	Text,
+	TouchableOpacity,
+	View,
+	Modal,
+	Platform,
+	FlatList,
+	TextInput,
+	KeyboardAvoidingView,
+} from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import Translator from '../../../../utils/translator';
 import SettingsManager from '../../../../utils/SettingsManager';
-
-const renderFilterItem = ({ item }) => {
-	const removeFilters = () => {
-		SettingsManager.removeFilters(item);
-	};
-	return (
-		<TouchableOpacity
-			key={item}
-			onLongPress={removeFilters}
-			style={{
-				backgroundColor: '#EAEAEC',
-				padding: 8,
-				borderRadius: 16,
-				margin: 8,
-				flexDirection: 'row',
-				alignItems: 'center',
-			}}>
-			<Text
-				style={{
-					fontSize: 18,
-					fontWeight: 'bold',
-					color: '#4C5464',
-				}}>
-				{item}
-			</Text>
-			<MaterialIcons name="close" size={22} color="#4C546455" />
-		</TouchableOpacity>
-	);
-};
+import SettingsDismissKeyboard from '../SettingsDismissKeyboard';
 
 export default ({
 	theme,
@@ -43,61 +24,95 @@ export default ({
 	setFilterTextInput,
 	submitFilterTextInput,
 }) => {
+	const flatListRef = useRef(null);
+	const scrollToEnd = () => {
+		flatListRef.current.scrollToEnd();
+	};
+	const renderFilterItem = ({ item }) => {
+		const removeFilters = () => {
+			SettingsManager.removeFilters(item);
+		};
+		return (
+			<TouchableOpacity
+				key={item}
+				onLongPress={removeFilters}
+				style={theme.popup.filters.button}>
+				<Text style={theme.popup.filters.buttonText}>{item}</Text>
+				<MaterialIcons name="close" size={22} color={theme.popup.filters.iconColor} />
+			</TouchableOpacity>
+		);
+	};
+	const addFilterTextInput = () => {
+		submitFilterTextInput();
+	};
 	return (
 		<Modal
 			animationType="fade"
 			transparent={true}
 			visible={popupVisible}
 			onRequestClose={popupClose}>
-			<View style={theme.popup.background}>
-				<View style={theme.popup.container}>
-					<View style={theme.popup.header}>
-						<Text style={theme.popup.textHeader}>
-							{Translator.get('FILTERS').toUpperCase()}
+			<KeyboardAvoidingView
+				behavior={Platform.OS === 'ios' ? 'height' : ''}
+				style={{ flex: 1 }}>
+				<SettingsDismissKeyboard>
+					<View style={theme.popup.filters.container}>
+						<View style={theme.popup.filters.header}>
+							<Text style={theme.popup.textHeader}>
+								{Translator.get('FILTERS').toUpperCase()}
+							</Text>
+							<TouchableOpacity onPress={popupClose}>
+								<MaterialIcons
+									name="close"
+									size={32}
+									style={theme.popup.closeIcon}
+								/>
+							</TouchableOpacity>
+						</View>
+						<Text style={theme.popup.textDescription}>
+							{Translator.get('REMOVE_FILTER')}
 						</Text>
-						<TouchableOpacity onPress={popupClose}>
-							<MaterialIcons name="close" size={32} style={theme.popup.closeIcon} />
-						</TouchableOpacity>
-					</View>
-					<Text style={theme.popup.textDescription}>
-						{Translator.get('REMOVE_FILTER')}
-					</Text>
-					<View style={theme.popup.filterListContainer}>
-						<FlatList
-							keyExtractor={(item) => item}
-							data={filterList}
-							renderItem={renderFilterItem}
-							horizontal={true}
-							ListEmptyComponent={
-								<Text style={theme.popup.textDescription}>
-									{Translator.get('NO_FILTER')}
-								</Text>
-							}
-						/>
-					</View>
-					<Text style={theme.popup.textDescription}>
-						{Translator.get('FILTERS_ENTER_CODE')}
-					</Text>
-					<View style={theme.popup.textInputContainer}>
-						<TextInput
-							style={theme.popup.textInput}
-							onChangeText={setFilterTextInput}
-							value={filterTextInput}
-							placeholder="4TIN603U"
-							placeholderTextColor={theme.popup.textInputPlaceholderColor}
-							autoCorrect={false}
-							keyboardType={Platform.OS === 'ios' ? 'default' : 'visible-password'}
-						/>
-						<TouchableOpacity onPress={submitFilterTextInput}>
-							<MaterialIcons
-								name="add"
-								size={32}
-								color={theme.popup.textInputIconColor}
+						<View style={theme.popup.filterListContainer}>
+							<FlatList
+								ref={flatListRef}
+								onContentSizeChange={scrollToEnd}
+								onLayout={scrollToEnd}
+								keyExtractor={(item) => item}
+								data={filterList}
+								renderItem={renderFilterItem}
+								numColumns={2}
+								ListEmptyComponent={
+									<Text style={theme.popup.textDescription}>
+										{Translator.get('NO_FILTER')}
+									</Text>
+								}
 							/>
-						</TouchableOpacity>
+						</View>
+						<View style={theme.popup.filters.footer}>
+							<TextInput
+								style={theme.popup.textInput}
+								onChangeText={setFilterTextInput}
+								value={filterTextInput}
+								placeholder="4TIN603U"
+								placeholderTextColor={theme.popup.textInputPlaceholderColor}
+								autoCorrect={false}
+								keyboardType={
+									Platform.OS === 'ios' ? 'default' : 'visible-password'
+								}
+							/>
+							<TouchableOpacity onPress={addFilterTextInput}>
+								<MaterialIcons
+									name="add"
+									size={32}
+									color={theme.popup.textInputIconColor}
+								/>
+							</TouchableOpacity>
+						</View>
+						<Text style={theme.popup.textDescription}>
+							{Translator.get('FILTERS_ENTER_CODE')}
+						</Text>
 					</View>
-				</View>
-			</View>
+				</SettingsDismissKeyboard>
+			</KeyboardAvoidingView>
 		</Modal>
 	);
 };

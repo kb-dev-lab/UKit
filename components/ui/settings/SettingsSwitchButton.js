@@ -16,7 +16,7 @@ export default ({ theme, leftIcon, leftText, switchOnValueChange, switchValue })
 					marginRight: 8,
 				}}
 				trackColor={theme.switchTrackColor}
-				ios_backgroundColor="#FFFFFF"
+				ios_backgroundColor={theme.switchTrackColor.false}
 				thumbColor={
 					switchValue ? theme.switchThumbColor.true : theme.switchThumbColor.false
 				}
