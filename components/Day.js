@@ -2,7 +2,6 @@ import React from 'react';
 import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import { connect } from 'react-redux';
 import moment from 'moment';
 
 import style from '../Style';
@@ -28,16 +27,19 @@ class Day extends React.Component {
 
 	componentDidMount() {
 		this.fetchSchedule();
+		this._unsubscribe = this.props.navigation.addListener('focus', () => {
+			this.fetchSchedule();
+		});
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		if (this.props.savedGroup !== prevProps.savedGroup) {
-			if (this.props.filters.length > 0) {
+		if (this.state.groupName !== prevState.groupName) {
+			if (this.props.filtersList.length > 0) {
 				this.fetchSchedule();
 			}
 		} else if (this.state.day !== prevState.day) {
 			this.fetchSchedule();
-		} else if (!isArraysEquals(this.props.filters, prevProps.filters)) {
+		} else if (!isArraysEquals(this.props.filtersList, prevProps.filtersList)) {
 			this.fetchSchedule();
 		}
 	}
@@ -46,6 +48,7 @@ class Day extends React.Component {
 		if (this.state.cancelToken) {
 			this.state.cancelToken.cancel('Operation canceled due component being unmounted.');
 		}
+		this._unsubscribe();
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState) {
@@ -58,16 +61,16 @@ class Day extends React.Component {
 		return nextState;
 	}
 
-	async getCache(id) {
+	getCache = async (id) => {
 		let cache = await AsyncStorage.getItem(id);
 		if (cache !== null) {
 			cache = JSON.parse(cache);
 			return cache;
 		}
 		return null;
-	}
+	};
 
-	fetchSchedule() {
+	fetchSchedule = () => {
 		if (this.state.loading) {
 			this.state.cancelToken.cancel('Another request called');
 		}
@@ -120,12 +123,12 @@ class Day extends React.Component {
 			if (dayData != null) {
 				let schedule = this.computeSchedule(
 					dayData,
-					this.state.groupName === this.props.savedGroup,
+					this.state.groupName === this.state.groupName,
 				);
 				this.setState({ schedule, loading: false, cancelToken: null, cacheDate });
 			}
 		});
-	}
+	};
 
 	computeSchedule(schedule, isFavorite) {
 		let regexUE = RegExp('([0-9][A-Z0-9]+) (.+)', 'im');
@@ -143,8 +146,8 @@ class Day extends React.Component {
 			if (
 				isFavorite &&
 				course.UE !== null &&
-				this.props.filters instanceof Array &&
-				this.props.filters.includes(course.UE)
+				this.props.filtersList instanceof Array &&
+				this.props.filtersList.includes(course.UE)
 			) {
 				course = { schedule: 0, category: 'masked' };
 			}
@@ -212,11 +215,4 @@ class Day extends React.Component {
 	}
 }
 
-const mapStateToProps = (state) => {
-	return {
-		savedGroup: state.favorite.groupName,
-		filters: state.filters.filters,
-	};
-};
-
-export default connect(mapStateToProps)(Day);
+export default Day;

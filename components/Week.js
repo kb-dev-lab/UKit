@@ -2,7 +2,6 @@ import React from 'react';
 import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import { connect } from 'react-redux';
 import moment from 'moment';
 
 import style from '../Style';
@@ -38,13 +37,13 @@ class Week extends React.Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		if (this.props.savedGroup !== prevProps.savedGroup) {
-			if (this.props.filters.length > 0) {
+		if (this.state.groupName !== prevProps.groupName) {
+			if (this.props.filtersList.length > 0) {
 				this.fetchSchedule();
 			}
 		} else if (this.state.week !== prevState.week) {
 			this.fetchSchedule();
-		} else if (!isArraysEquals(this.props.filters, prevProps.filters)) {
+		} else if (!isArraysEquals(this.props.filtersList, prevProps.filtersList)) {
 			this.fetchSchedule();
 		}
 	}
@@ -65,7 +64,16 @@ class Week extends React.Component {
 		return nextState;
 	}
 
-	fetchSchedule() {
+	getCache = async (id) => {
+		let cache = await AsyncStorage.getItem(id);
+		if (cache !== null) {
+			cache = JSON.parse(cache);
+			return cache;
+		}
+		return null;
+	};
+
+	fetchSchedule = () => {
 		if (this.state.loading) {
 			this.state.cancelToken.cancel('Another request called');
 		}
@@ -94,8 +102,10 @@ class Week extends React.Component {
 						RequestError.handle(error);
 
 						let cache = await this.getCache(id);
-						weekData = cache.weekData;
-						cacheDate = cache.date;
+						if (cache) {
+							weekData = cache.weekData;
+							cacheDate = cache.date;
+						}
 					}
 				}
 			} else {
@@ -106,15 +116,17 @@ class Week extends React.Component {
 				offlineAlert.show();
 
 				let cache = await this.getCache(id);
-				weekData = cache.weekData;
-				cacheDate = cache.date;
+				if (cache) {
+					weekData = cache.weekData;
+					cacheDate = cache.date;
+				}
 			}
 
 			if (weekData != null) {
 				this.setState({ schedule: weekData, loading: false, cancelToken: null, cacheDate });
 			}
 		});
-	}
+	};
 
 	displayWeek() {
 		return Translator.get('WEEK') + ' ' + this.state.week;
@@ -136,8 +148,8 @@ class Week extends React.Component {
 			if (
 				isFavorite &&
 				course.UE !== null &&
-				this.props.filters instanceof Array &&
-				this.props.filters.includes(course.UE)
+				this.props.filtersList instanceof Array &&
+				this.props.filtersList.includes(course.UE)
 			) {
 				course = { schedule: 0, category: 'masked' };
 			}
@@ -156,7 +168,7 @@ class Week extends React.Component {
 				<ActivityIndicator style={style.containerView} size="large" animating={true} />
 			);
 		} else if (this.state.schedule instanceof Array) {
-			let isFavorite = this.state.groupName === this.props.savedGroup;
+			let isFavorite = this.state.groupName === this.state.groupName;
 
 			if (this.state.cacheDate !== null) {
 				cacheMessage = (
@@ -202,11 +214,5 @@ class Week extends React.Component {
 		);
 	}
 }
-const mapStateToProps = (state) => {
-	return {
-		savedGroup: state.favorite.groupName,
-		filters: state.filters.filters,
-	};
-};
 
-export default connect(mapStateToProps)(Week);
+export default Week;

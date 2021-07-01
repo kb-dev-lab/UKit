@@ -8,6 +8,8 @@ class SettingsManager {
 		this._theme = 'light';
 		this._groupName = null;
 		this._language = 'fr';
+		this._openAppOnFavoriteGroup = true;
+		this._filters = [];
 		this._subscribers = {};
 	}
 
@@ -20,7 +22,8 @@ class SettingsManager {
 	};
 
 	notify = (event, ...args) => {
-		if (!this._subscribers[event]) {
+		this.saveSettings();
+		if (!this._subscribers[event] || !args) {
 			return;
 		}
 
@@ -29,8 +32,6 @@ class SettingsManager {
 			.forEach((fn) => {
 				fn(...args);
 			});
-
-		this.saveSettings();
 	};
 
 	getTheme = () => {
@@ -91,10 +92,48 @@ class SettingsManager {
 		this.notify('language', this._language);
 	};
 
+	getOpenAppOnFavoriteGroup = () => {
+		return this._openAppOnFavoriteGroup;
+	};
+
+	setOpenAppOnFavoriteGroup = (newOpenAppBool) => {
+		this._openAppOnFavoriteGroup = newOpenAppBool;
+		this.saveSettings();
+	};
+
+	getFilters = () => {
+		return this._filters;
+	};
+
+	resetFilter = () => {
+		this._filters = [];
+		this.notify('filter', this._filters);
+	};
+
+	addFilters = (filter) => {
+		if (filter && !this._filters.includes(filter)) {
+			this._filters.push(filter);
+		}
+		this.notify('filter', this._filters);
+	};
+
+	removeFilters = (filter) => {
+		if (filter) {
+			const index = this._filters.indexOf(filter);
+			if (index > -1) {
+				const newFilterList = this._filters.filter((e) => e !== filter);
+				this._filters = [...newFilterList];
+			}
+		}
+		this.notify('filter', this._filters);
+	};
+
 	resetSettings = () => {
 		this.setTheme('light');
 		this.setLanguage('fr');
 		this.setGroup(null);
+		this.setOpenAppOnFavoriteGroup(true);
+		this.resetFilter();
 		this.setFirstLoad(true);
 	};
 
@@ -106,6 +145,8 @@ class SettingsManager {
 				theme: this._theme,
 				groupName: this._groupName,
 				language: this._language,
+				openAppOnFavoriteGroup: this._openAppOnFavoriteGroup,
+				filters: this._filters,
 			}),
 		);
 	};
@@ -135,6 +176,10 @@ class SettingsManager {
 			}
 			if (settings?.groupName) {
 				this._groupName = settings.groupName;
+			}
+			this._openAppOnFavoriteGroup = settings.openAppOnFavoriteGroup;
+			if (settings?.filters) {
+				this._filters = [...settings.filters];
 			}
 			if (settings?.language) {
 				this.setLanguage(settings.language);
