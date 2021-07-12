@@ -84,7 +84,7 @@ const GroupItem = ({ item, index, selected, selectGroup, theme }) => {
 
 	return (
 		<TouchableOpacity onPress={_onPress} key={index} style={styleButton}>
-			<Text style={styleText}>{item.replace('_', ' ')}</Text>
+			<Text style={styleText}>{item}</Text>
 		</TouchableOpacity>
 	);
 };
@@ -107,11 +107,10 @@ class ThirdWelcomePage extends React.Component {
 			const list = this.props.navigatorState.groupList;
 
 			newList = list.filter((e) => {
-				const groupName = e.toLowerCase().replace('_',' ');
-				return filterSeason[season.id][year.id].some(
-					(filter) =>
-						groupName.includes(filter.toLowerCase()) &&
-						groupName.includes(textFilter.toLowerCase()),
+				const groupName = e.toUpperCase();
+				return filterSeason[season.id][year.id].some((filter) =>
+					// groupName.includes(filter.toUpperCase()) &&
+					groupName.includes(textFilter.toUpperCase()),
 				);
 			});
 		}
@@ -175,13 +174,15 @@ class ThirdWelcomePage extends React.Component {
 			if (this.getGroupListFiltered().length > MAXIMUM_NUMBER_ITEMS_GROUPLIST) {
 				return (
 					<>
-					<Text style={styles[theme].greyBottomText}>
-						{Translator.get(
-							'HIDDEN_RESULT',
-							this.getGroupListFiltered().length - MAXIMUM_NUMBER_ITEMS_GROUPLIST,
-						)}
-					</Text>
-					<Text style={styles[theme].greyBottomText}>{Translator.get('USE_SEARCH_BAR')}</Text>
+						<Text style={styles[theme].greyBottomText}>
+							{Translator.get(
+								'HIDDEN_RESULT',
+								this.getGroupListFiltered().length - MAXIMUM_NUMBER_ITEMS_GROUPLIST,
+							)}
+						</Text>
+						<Text style={styles[theme].greyBottomText}>
+							{Translator.get('USE_SEARCH_BAR')}
+						</Text>
 					</>
 				);
 			} else if (!this.getGroupListFiltered.length) {
@@ -271,7 +272,7 @@ class ThirdWelcomePage extends React.Component {
 									onChangeText={this.onChangeText}
 								/>
 								<FlatList
-									data={this.getGroupListFiltered()}
+									data={this.getGroupListFiltered}
 									renderItem={this.renderGroupListItem}
 									keyExtractor={this.extractGroupListItemId}
 									extraData={this.groupSelected}

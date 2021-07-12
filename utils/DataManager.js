@@ -1,7 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
-
-import URL from '../utils/URL';
+import FetchManager from './FetchManager';
 
 class DataManager {
 	constructor() {
@@ -38,10 +36,9 @@ class DataManager {
 	};
 
 	fetchGroupList = async () => {
-		const response = await axios.get(URL['API'] + '?clean=true');
-		const groupListRaw = response.data;
-		const groupListFormated = Array.from(new Set(groupListRaw.map((e) => e.name)));
-		this.setGroupList(groupListFormated);
+		console.log('fetching');
+		const groupList = await FetchManager.fetchGroupList();
+		this.setGroupList(groupList);
 	};
 
 	saveData = () => {

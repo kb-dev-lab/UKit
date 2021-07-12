@@ -129,6 +129,7 @@ class SettingsManager {
 	};
 
 	resetSettings = () => {
+		// AsyncStorage.multiRemove(['firstload', 'settings', 'groupList']);
 		this.setTheme('light');
 		this.setLanguage('fr');
 		this.setGroup(null);

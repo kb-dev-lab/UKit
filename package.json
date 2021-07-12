@@ -33,6 +33,7 @@
     "expo-linear-gradient": "~9.1.0",
     "moment": "^2.22.2",
     "prop-types": "^15.6.2",
+    "qs": "^6.10.1",
     "react": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
     "react-native-appearance": "~0.3.3",
