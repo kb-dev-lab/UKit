@@ -18,9 +18,13 @@ import RootContainer from './containers/rootContainer';
 import SettingsManager from './utils/SettingsManager';
 import DataManager from './utils/DataManager';
 
-function cacheFonts(fonts) {
-	return fonts.map((font) => Font.loadAsync(font));
-}
+const cacheFonts = async (fonts) => {
+	await Promise.all(
+		fonts.map(async (font) => {
+			await Font.loadAsync(font);
+		}),
+	);
+};
 
 function cacheImages(images) {
 	return images.map((image) => {
@@ -58,7 +62,9 @@ export default class App extends React.Component {
 	_loadAssetsAsync = async () => {
 		const imageAssets = cacheImages([require('./assets/icons/app.png')]);
 
-		const fontAssets = cacheFonts([
+		await Font.loadAsync({ Montserrat_500Medium });
+
+		const fontAssets = await cacheFonts([
 			FontAwesome.font,
 			Feather.font,
 			Ionicons.font,
@@ -71,8 +77,6 @@ export default class App extends React.Component {
 		await DataManager.loadData();
 
 		await SettingsManager.loadSettings();
-
-		await Font.loadAsync({ Montserrat_500Medium });
 
 		await Promise.all([...imageAssets, ...fontAssets]);
 	};

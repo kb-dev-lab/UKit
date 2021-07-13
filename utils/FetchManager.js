@@ -10,13 +10,23 @@ class FetchManager {
 	fetchGroupList = async () => {
 		const options = {
 			method: 'GET',
-			url: 'http://celcat.u-bordeaux.fr/Home/ReadResourceListItems',
+			url: 'https://celcat.u-bordeaux.fr/Home/ReadResourceListItems',
 			params: { searchTerm: '_', pageSize: '10000', resType: '103' },
+			headers: {
+				Connection: 'keep-alive',
+				'Content-Type': 'application/x-www-form-urlencoded',
+				Pragma: 'no-cache',
+				'Cache-Control': 'no-cache',
+				'X-Requested-With': 'XMLHttpRequest',
+				'Sec-Fetch-Mode': 'cors',
+				Accept: 'application/json',
+				'Content-Type': 'application/json; charset=utf-8',
+			},
 		};
-		console.log(options);
+		// console.log(options);
 		try {
 			const results = await axios.request(options);
-			console.log(results);
+			// console.log(results);
 			const groupList = results.data.results;
 			const groupListFormated = Array.from(new Set(groupList.map((e) => e.id)));
 

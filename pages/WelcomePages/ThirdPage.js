@@ -109,7 +109,7 @@ class ThirdWelcomePage extends React.Component {
 			newList = list.filter((e) => {
 				const groupName = e.toUpperCase();
 				return filterSeason[season.id][year.id].some((filter) =>
-					// groupName.includes(filter.toUpperCase()) &&
+					groupName.includes(filter.toUpperCase()) &&
 					groupName.includes(textFilter.toUpperCase()),
 				);
 			});
@@ -272,7 +272,7 @@ class ThirdWelcomePage extends React.Component {
 									onChangeText={this.onChangeText}
 								/>
 								<FlatList
-									data={this.getGroupListFiltered}
+									data={this.getGroupListFiltered()}
 									renderItem={this.renderGroupListItem}
 									keyExtractor={this.extractGroupListItemId}
 									extraData={this.groupSelected}
