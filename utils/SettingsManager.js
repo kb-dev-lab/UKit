@@ -162,11 +162,7 @@ class SettingsManager {
 				this._firstload = isFirstLoad;
 			}
 		} catch (error) {
-			const settingsError = new ErrorAlert(
-				Translator.get('ERROR_WITH_MESSAGE', "Settings couldn't be loaded"),
-				ErrorAlert.durations.SHORT,
-			);
-			settingsError.show();
+			console.log('SETTINGS COULNT BE LOADED', error);
 		}
 
 		try {
@@ -186,11 +182,7 @@ class SettingsManager {
 				this.setLanguage(settings.language);
 			}
 		} catch (error) {
-			const settingsError = new ErrorAlert(
-				Translator.get('ERROR_WITH_MESSAGE', "Settings couldn't be loaded"),
-				ErrorAlert.durations.SHORT,
-			);
-			settingsError.show();
+			console.log('SETTINGS COULNT BE LOADED', error);
 		}
 	};
 }
