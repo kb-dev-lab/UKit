@@ -1,5 +1,5 @@
 export default {
-	DOMAIN: 'http://celcat.u-bordeaux.fr/Home/',
+	DOMAIN: 'http://192.168.1.130:3000/Home/',
 	GROUPS: 'ReadResourceListItems',
 	CALENDARDATA: 'GetCalendarData',
 	SIDEBAR: 'GetSideBarEvent',

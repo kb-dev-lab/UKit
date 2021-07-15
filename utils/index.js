@@ -51,12 +51,12 @@ function getLocations(str) {
 }
 
 function getLocationsInText(str) {
-    let regexBuilding = RegExp('(Bat|Bât[a-z.]*) ([A-Z0-9]+)', 'im');
+    let regexBuilding = RegExp('([A-Z][0-9]+)', 'im');
     let match = regexBuilding.exec(str);
 
     let location = null;
-    if (match && match.length === 3) {
-        location = getLocation(match[2]);
+    if (match && match.length === 2) {
+        location = getLocation(match[1]);
     }
     if (location === null) {
         return [];

@@ -43,6 +43,10 @@ const UNIVERSITY_YEARS_LIST = [
 		id: 'M2',
 		title: 'Master 2',
 	},
+	{
+		id: 'AUTRE',
+		title: 'Autre',
+	},
 ];
 
 const UNIVERSITY_SEASON_LIST = [
@@ -54,16 +58,18 @@ const filterCaseAutumn = {
 	L1: ['10', 'MIASHS1'],
 	L2: ['30', 'MIASHS3'],
 	L3: ['50', 'MIASHS5'],
-	M1: ['Master1'],
-	M2: ['Master2'],
+	M1: ['M1', '70'],
+	M2: ['M2', '90'],
+	AUTRE: [''],
 };
 
 const filterCaseSpring = {
 	L1: ['20', 'MIASHS2'],
 	L2: ['40', 'MIASHS4'],
 	L3: ['60', 'MIASHS6'],
-	M1: ['Master1'],
-	M2: ['Master2'],
+	M1: ['M1', '80'],
+	M2: ['M2', '000', '001', '002', '003', '004'],
+	AUTRE: [''],
 };
 
 const filterSeason = {
@@ -108,9 +114,10 @@ class ThirdWelcomePage extends React.Component {
 
 			newList = list.filter((e) => {
 				const groupName = e.toUpperCase();
-				return filterSeason[season.id][year.id].some((filter) =>
-					groupName.includes(filter.toUpperCase()) &&
-					groupName.includes(textFilter.toUpperCase()),
+				return filterSeason[season.id][year.id].some(
+					(filter) =>
+						groupName.includes(filter.toUpperCase()) &&
+						groupName.includes(textFilter.toUpperCase()),
 				);
 			});
 		}

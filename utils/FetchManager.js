@@ -2,33 +2,37 @@ import axios from 'axios';
 import qs from 'qs';
 import moment from 'moment';
 import 'moment/locale/fr';
+import { decode } from 'html-entities';
 moment.locale('fr');
 
 import WebApiURL from './WebApiURL';
 
+const formatDescription = (string) => {
+	const str = decode(
+		string
+			.replace(/\r/g, '')
+			.replace(/<br \/>/g, '')
+			.replace(/\n\n/g, '\n'),
+	);
+	return str;
+};
+
 class FetchManager {
 	fetchGroupList = async () => {
-		const headers = new Headers();
-
-		headers
-
 		const options = {
 			method: 'GET',
-			url: 'https://celcat.u-bordeaux.fr/Home/ReadResourceListItems',
-			
-			headers,
+			url: WebApiURL.DOMAIN + WebApiURL.GROUPS,
+			params: { searchTerm: '_', pageSize: '10000', resType: '103' },
 		};
-		// console.log(options);
-		try {
-			const results = await fetch(options.url).then((e) => {
-				console.log('e', e);
-			}).catch((f) => {
-				console.log('f', f)
-			});
 
-			// console.log(results);
+		try {
+			const results = await axios.request(options);
+			if (!results.data) return [];
 			const groupList = results.data.results;
-			const groupListFormated = Array.from(new Set(groupList.map((e) => e.id)));
+			const groupListFormated = groupList
+				.map((e) => e.id)
+				.filter((e) => e.length > 2)
+				.sort();
 
 			return groupListFormated;
 		} catch (error) {
@@ -53,25 +57,31 @@ class FetchManager {
 			data: qs.stringify(data),
 		};
 
-		let response;
 		try {
-			response = await axios.request(options);
+			let response = await axios.request(options);
+			if (response.data.elements) {
+				const annotation = response.data.elements?.find((e) => e.label === 'Remarques')
+					.content;
+				const staff = response.data.elements
+					.filter((e) => e.entityType === 101)
+					.map((e) => e.content)
+					.join(' | ');
+				const room = response.data.elements
+					.filter((e) => e.entityType === 102)
+					.map((e) => e.content)
+					.join(' | ');
+
+				return {
+					annotation: annotation ?? 'N/C',
+					staff: staff ?? 'N/C',
+					room: room ?? 'N/C',
+				};
+			}
+			return { annotation: 'N/C', staff: 'N/C', room: 'N/C' };
 		} catch (error) {
 			console.log(error);
 		}
-		if (response?.status !== 200) return null;
-
-		const annotation = response.data.elements?.find((e) => e.label === 'Remarques').content;
-		const staff = response.data.elements
-			.filters((e) => e.entityType === 101)
-			.map((e) => e.content)
-			.join(' | ');
-		const room = response.data.elements
-			.filters((e) => e.entityType === 102)
-			.map((e) => e.content)
-			.join(' | ');
-
-		return { annotation, staff, room };
+		return { annotation: 'N/C', staff: 'N/C', room: 'N/C' };
 	};
 
 	fetchCalendarDay = async (group, date) => {
@@ -81,6 +91,7 @@ class FetchManager {
 			resType: '103',
 			calView: 'agendaDay',
 			'federationIds[]': group,
+			colourScheme: '3',
 		};
 		const options = {
 			method: 'POST',
@@ -97,67 +108,92 @@ class FetchManager {
 		let response;
 		try {
 			response = await axios.request(options);
+
+			const eventList = [];
+
+			for (const event of response.data) {
+				if (event.eventCategory === 'Vacances') continue;
+				const startDate = moment(event.start);
+				const endDate = moment(event.end);
+				const starttime =
+					String(startDate.hours()).padStart(2, '0') +
+					':' +
+					String(startDate.minutes()).padStart(2, '0');
+				const endtime =
+					String(endDate.hours()).padStart(2, '0') +
+					':' +
+					String(endDate.minutes()).padStart(2, '0');
+
+				let subject = event.eventCategory;
+				if (event.modules !== null) {
+					subject = event.modules.shift();
+				}
+
+				const unfilteredDescription = formatDescription(event.description).split('\n');
+				const description = [];
+				for (const field of unfilteredDescription) {
+					if (!field.includes(event.eventCategory) && !field.includes(subject)) {
+						description.push(field.trim());
+					}
+				}
+
+				const newEvent = {
+					id: event.id,
+					style: 'style="background-color:' + event.backgroundColor + '"',
+					color: event.backgroundColor,
+					schedule: starttime + '-' + endtime + ' ' + event.eventCategory,
+					starttime,
+					endtime,
+					subject,
+					description: description.filter((e) => e != '').join('\n'),
+					category: event.eventCategory,
+					group: group,
+				};
+				eventList.push(newEvent);
+			}
+
+			return eventList.sort((a, b) => {
+				if (a.starttime > b.starttime) return 1;
+				if (a.starttime < b.starttime) return -1;
+				return 0;
+			});
 		} catch (error) {
+			console.log('ERROR FETCHING CALENDAR');
 			console.log(error);
+			return [];
 		}
-		if (response?.status !== 200) return;
-
-		const eventList = [];
-
-		for (const event of response.data) {
-			const startDate = new Date(event.start);
-			const endDate = new Date(event.end);
-			const starttime =
-				String(startDate.getHours()).padStart(2, '0') +
-				':' +
-				String(startDate.getMinutes()).padStart(2, '0');
-			const endtime =
-				String(endDate.getHours()).padStart(2, '0') +
-				':' +
-				String(endDate.getMinutes()).padStart(2, '0');
-
-			const { annotation, staff, room } = await fetchSideBarInformation(event.id);
-
-			const newEvent = {
-				style: 'style="background-color:' + event.backgroundColor + '"',
-				color: event.backgroundColor,
-				schedule: starttime + '-' + endtime + ' ' + event.eventCategory,
-				starttime,
-				endtime,
-				subject: event.modules.join(' | '),
-				staff,
-				category: event.category,
-				room,
-				annotation,
-				group: group,
-			};
-			eventList.push(newEvent);
-		}
-
-		return eventList;
 	};
 
 	fetchCalendarWeek = async (group, week) => {
+		console.log('getting week', group, week);
 		const currentDate = moment();
-		let year;
+		let year = currentDate.year();
 
-		if (currentDate.month() > 6) {
+		if (currentDate.month() > 7) {
 			year = currentDate.year();
 		} else {
-			year = currentDate.year() - 1;
+			year = currentDate.year() + 1;
 		}
 
 		const searchDate = moment(String(year)).isoWeek(week);
 
-		const begin = searchDate.startOf('week');
-		const end = searchDate.endOf('week');
+		const begin = searchDate.startOf('week').format('YYYY-MM-DD');
+		const end = searchDate.endOf('week').format('YYYY-MM-DD');
 		const data = {
 			start: begin,
 			end: end,
 			resType: '103',
 			calView: 'agendaWeek',
 			'federationIds[]': group,
+			colourScheme: '3',
 		};
+		console.log({
+			currentDate,
+			year,
+			searchDate,
+			begin,
+			end,
+		});
 		const options = {
 			method: 'POST',
 			url: WebApiURL.DOMAIN + WebApiURL.CALENDARDATA,
@@ -178,41 +214,39 @@ class FetchManager {
 		}
 		if (response?.status !== 200) return;
 
-		const eventList = [];
+		const eventList = [[], [], [], [], [], [], []];
 
 		for (const event of response.data) {
-			const startDate = new Date(event.start);
-			const endDate = new Date(event.end);
+			if (event.eventCategory === 'Vacances') continue;
+			const startDate = moment(event.start);
+			const endDate = moment(event.end);
 			const day = moment(startDate).format('dddd DD/MM/YYYY');
-			const dayNumber = String(moment(startDate).isoWeekday());
+			const dayNumberInt = moment(startDate).isoWeekday();
+			const dayNumber = String(dayNumberInt);
 
 			const starttime =
-				String(startDate.getHours()).padStart(2, '0') +
+				String(startDate.hours()).padStart(2, '0') +
 				':' +
-				String(startDate.getMinutes()).padStart(2, '0');
+				String(startDate.minutes()).padStart(2, '0');
 			const endtime =
-				String(endDate.getHours()).padStart(2, '0') +
+				String(endDate.hours()).padStart(2, '0') +
 				':' +
-				String(endDate.getMinutes()).padStart(2, '0');
-
-			const { annotation, staff, room } = await fetchSideBarInformation(event.id);
+				String(endDate.minutes()).padStart(2, '0');
 
 			const newEvent = {
+				id: event.id,
 				style: 'style="background-color:' + event.backgroundColor + '"',
 				color: event.backgroundColor,
 				schedule: starttime + '-' + endtime + ' ' + event.eventCategory,
 				starttime,
 				endtime,
 				subject: event.modules.join(' | '),
-				staff,
 				category: event.category,
-				room,
-				annotation,
 				group: group,
 				day,
 				dayNumber,
 			};
-			eventList.push(newEvent);
+			eventList[dayNumberInt].push(newEvent);
 		}
 
 		return eventList;

@@ -12,6 +12,7 @@ import RequestError from './alerts/RequestError';
 import DeviceUtils from '../utils/DeviceUtils';
 import Translator from '../utils/translator';
 import URL from '../utils/URL';
+import FetchManager from '../utils/FetchManager';
 
 class Week extends React.Component {
 	constructor(props) {
@@ -80,7 +81,6 @@ class Week extends React.Component {
 
 		const cancelToken = axios.CancelToken.source();
 		const groupName = this.state.groupName;
-		const data = groupName.split('_');
 		const id = `${this.state.groupName}@Week${this.state.week}`;
 		let weekData = null;
 		let cacheDate = null;
@@ -88,29 +88,18 @@ class Week extends React.Component {
 		this.setState({ schedule: null, loading: true, cancelToken }, async () => {
 			if (await DeviceUtils.isConnected()) {
 				try {
-					const response = await axios.get(
-						URL['API'] +
-							`?type=week&name=${data[0]}&group=${data[1]}&week=${this.state.week}&clean=true`,
-						{
-							cancelToken: cancelToken.token,
-						},
-					);
-					weekData = response.data;
+					weekData = await FetchManager.fetchCalendarWeek(groupName, this.state.week);
 					AsyncStorage.setItem(id, JSON.stringify({ weekData, date: moment() }));
 				} catch (error) {
-					if (!axios.isCancel(error)) {
-						RequestError.handle(error);
-
-						let cache = await this.getCache(id);
-						if (cache) {
-							weekData = cache.weekData;
-							cacheDate = cache.date;
-						}
+					let cache = await this.getCache(id);
+					if (cache) {
+						weekData = cache.weekData;
+						cacheDate = cache.date;
 					}
 				}
 			} else {
 				const offlineAlert = new ErrorAlert(
-					'Pas de connexion internet',
+					Translator.get('NO_CONNECTION'),
 					ErrorAlert.durations.SHORT,
 				);
 				offlineAlert.show();

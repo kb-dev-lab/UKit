@@ -93,7 +93,7 @@ class Course extends React.Component {
 			locations = locations.concat(getLocationsInText(this.state.data.room));
 		}
 		if (locations.length < 1) {
-			locations = getLocationsInText(this.state.data.annotation);
+			locations = getLocationsInText(this.state.data.description);
 		}
 
 		if (locations.length > 0) {
