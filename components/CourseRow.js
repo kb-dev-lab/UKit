@@ -48,22 +48,17 @@ export default class CourseRow extends React.PureComponent {
 			return null;
 		} else {
 			let annotations = null,
-				staff = null,
 				subject = null,
-				room = null,
 				ue = null,
 				group = null,
-				annotationsTitle = null,
-				staffTitle = null,
-				roomTitle = null,
 				ueTitle = null,
 				groupTitle = null;
 
 			if (this.props.data.UE) {
 				ueTitle = (
 					<View style={style.schedule.course.iconHeader}>
-						<FontAwesome
-							name="book"
+						<MaterialIcons
+							name="code"
 							size={18}
 							style={{ width: 18, height: 18, color: theme.font }}
 						/>
@@ -73,26 +68,6 @@ export default class CourseRow extends React.PureComponent {
 				ue = <Text style={{ color: theme.font }}>{this.props.data.UE}</Text>;
 			}
 
-			// if (this.props.data.staff !== 'N/C') {
-			// 	staffTitle = (
-			// 		<View style={style.schedule.course.iconHeader}>
-			// 			<MaterialCommunityIcons
-			// 				name="account-voice"
-			// 				size={18}
-			// 				style={{ width: 18, height: 18, color: theme.font }}
-			// 			/>
-			// 		</View>
-			// 	);
-			// 	staff = this.props.data.staff.split(' | ').map((staff, key) => {
-			// 		return (
-			// 			<Text
-			// 				key={key}
-			// 				style={[style.schedule.course.content, { color: theme.font }]}>
-			// 				{staff}
-			// 			</Text>
-			// 		);
-			// 	});
-			// }
 			if (this.props.data.subject !== 'N/C') {
 				subject = (
 					<View style={{ flex: 1 }}>
@@ -131,7 +106,6 @@ export default class CourseRow extends React.PureComponent {
 				});
 			}
 			if (this.props.data.description?.length > 0) {
-				// TODO detect location
 				annotationsTitle = (
 					<View style={style.schedule.course.iconHeader}>
 						<MaterialIcons
@@ -150,25 +124,6 @@ export default class CourseRow extends React.PureComponent {
 				});
 			}
 
-			// if (this.props.data.room !== 'N/C') {
-			// 	roomTitle = (
-			// 		<View style={style.schedule.course.iconHeader}>
-			// 			<Entypo
-			// 				name="location"
-			// 				size={14}
-			// 				style={{ width: 14, height: 14, color: theme.font }}
-			// 			/>
-			// 		</View>
-			// 	);
-			// 	room = this.props.data.room.split(' | ').map((room, key) => {
-			// 		return (
-			// 			<Text key={key} style={{ color: theme.font }}>
-			// 				{room}
-			// 			</Text>
-			// 		);
-			// 	});
-			// }
-
 			let isLargeMode = true;
 			let actions = null;
 			if (this.props.navigation) {
@@ -184,6 +139,7 @@ export default class CourseRow extends React.PureComponent {
 							backgroundColor: this.state.backgroundColor,
 							borderColor: this.state.borderColor,
 							marginHorizontal: isLargeMode ? 0 : 12,
+							borderRadius: isLargeMode ? 0 : 16,
 						},
 					]}>
 					<View style={style.schedule.course.row}>
@@ -230,28 +186,9 @@ export default class CourseRow extends React.PureComponent {
 								{ueTitle}
 								<View style={style.schedule.course.container}>{ue}</View>
 							</View>
-
-							{/* <View style={style.schedule.course.line}>
-								{staffTitle}
-								<View style={style.schedule.course.container}>{staff}</View>
-							</View> */}
-
-							{/* <View
-								style={[
-									style.schedule.course.groupsContainer,
-									{ alignItems: 'flex-start' },
-								]}>
-								{roomTitle}
-								<View style={style.schedule.course.groupsContent}>{room}</View>
-							</View> */}
+							<View style={{ marginBottom: 16 }} />
 
 							<View style={style.schedule.course.groupsContainer}>
-								{groupTitle}
-								<View style={style.schedule.course.groupsContent}>{group}</View>
-							</View>
-
-							<View style={style.schedule.course.groupsContainer}>
-								{annotationsTitle}
 								<View style={style.schedule.course.groupsContent}>
 									{annotations}
 								</View>

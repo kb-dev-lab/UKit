@@ -6,6 +6,7 @@ import { decode } from 'html-entities';
 moment.locale('fr');
 
 import WebApiURL from './WebApiURL';
+import { upperCaseFirstLetter } from '.';
 
 const formatDescription = (string) => {
 	const str = decode(
@@ -147,7 +148,7 @@ class FetchManager {
 					subject,
 					description: description.filter((e) => e != '').join('\n'),
 					category: event.eventCategory,
-					group: group,
+					group,
 				};
 				eventList.push(newEvent);
 			}
@@ -165,17 +166,10 @@ class FetchManager {
 	};
 
 	fetchCalendarWeek = async (group, week) => {
-		console.log('getting week', group, week);
-		const currentDate = moment();
-		let year = currentDate.year();
-
-		if (currentDate.month() > 7) {
-			year = currentDate.year();
-		} else {
-			year = currentDate.year() + 1;
+		const searchDate = moment().isoWeek(week);
+		if (week > 31 && moment().month() < 7) {
+			searchDate.subtract(1, 'y');
 		}
-
-		const searchDate = moment(String(year)).isoWeek(week);
 
 		const begin = searchDate.startOf('week').format('YYYY-MM-DD');
 		const end = searchDate.endOf('week').format('YYYY-MM-DD');
@@ -188,9 +182,7 @@ class FetchManager {
 			colourScheme: '3',
 		};
 		console.log({
-			currentDate,
-			year,
-			searchDate,
+			week,
 			begin,
 			end,
 		});
@@ -213,14 +205,25 @@ class FetchManager {
 			console.log(error);
 		}
 		if (response?.status !== 200) return;
+		const eventList = [];
 
-		const eventList = [[], [], [], [], [], [], []];
+		for (let i = 1; i < 7; i++) {
+			const obj = {
+				dayNumber: String(i),
+				dayTimestamp: searchDate
+					.startOf('week')
+					.add(i - 1, 'day')
+					.unix(),
+				courses: [],
+			};
+			eventList.push(obj);
+		}
 
 		for (const event of response.data) {
 			if (event.eventCategory === 'Vacances') continue;
 			const startDate = moment(event.start);
 			const endDate = moment(event.end);
-			const day = moment(startDate).format('dddd DD/MM/YYYY');
+			const day = upperCaseFirstLetter(moment(startDate).format('dddd L'));
 			const dayNumberInt = moment(startDate).isoWeekday();
 			const dayNumber = String(dayNumberInt);
 
@@ -233,6 +236,19 @@ class FetchManager {
 				':' +
 				String(endDate.minutes()).padStart(2, '0');
 
+			let subject = event.eventCategory;
+			if (event.modules !== null) {
+				subject = event.modules.shift();
+			}
+
+			const unfilteredDescription = formatDescription(event.description).split('\n');
+			const description = [];
+			for (const field of unfilteredDescription) {
+				if (!field.includes(event.eventCategory) && !field.includes(subject)) {
+					description.push(field.trim());
+				}
+			}
+
 			const newEvent = {
 				id: event.id,
 				style: 'style="background-color:' + event.backgroundColor + '"',
@@ -240,13 +256,23 @@ class FetchManager {
 				schedule: starttime + '-' + endtime + ' ' + event.eventCategory,
 				starttime,
 				endtime,
-				subject: event.modules.join(' | '),
-				category: event.category,
-				group: group,
+				subject,
+				description: description.filter((e) => e != '').join('\n'),
+				category: event.eventCategory,
+				group,
 				day,
 				dayNumber,
 			};
-			eventList[dayNumberInt].push(newEvent);
+			eventList[dayNumberInt - 1].courses.push(newEvent);
+		}
+
+		for (const day of eventList) {
+			const tmp = day.courses.sort((a, b) => {
+				if (a.starttime > b.starttime) return 1;
+				if (a.starttime < b.starttime) return -1;
+				return 0;
+			});
+			day.courses = tmp;
 		}
 
 		return eventList;

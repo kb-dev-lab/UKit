@@ -36,7 +36,6 @@ class DataManager {
 	};
 
 	fetchGroupList = async () => {
-		console.log('fetching');
 		const groupList = await FetchManager.fetchGroupList();
 		this.setGroupList(groupList);
 	};
@@ -46,17 +45,16 @@ class DataManager {
 	};
 
 	loadData = async () => {
-		// try {
-		// 	const groupList = JSON.parse(await AsyncStorage.getItem('groupList'));
-		// 	if (groupList) {
-		// 		this.setGroupList(groupList);
-		// 	} else {
-		// 		await this.fetchGroupList();
-		// 	}
-		// } catch (error) {
-		// 	console.warn('COULDNT RETREIVE GROUP LIST...');
-		// }
-		await this.fetchGroupList();
+		try {
+			const groupList = JSON.parse(await AsyncStorage.getItem('groupList'));
+			if (groupList) {
+				this.setGroupList(groupList);
+			} else {
+				await this.fetchGroupList();
+			}
+		} catch (error) {
+			console.warn('COULDNT RETREIVE GROUP LIST...');
+		}
 	};
 }
 
