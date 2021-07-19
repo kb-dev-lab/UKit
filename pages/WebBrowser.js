@@ -23,7 +23,7 @@ class WebBrowser extends React.Component {
 	constructor(props) {
 		super(props);
 
-		let uri = URL['UKIT_WEBSITE'];
+		let uri = URL.UKIT_WEBSITE;
 		if (this.props.route.params) {
 			const { entrypoint, href } = this.props.route.params;
 			if (entrypoint) {

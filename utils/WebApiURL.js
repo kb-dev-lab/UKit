@@ -1,5 +1,5 @@
 export default {
-	DOMAIN: 'http://192.168.1.46:3000/Home/',
+	DOMAIN: 'https://ukit.kbdev.io/Home/',
 	GROUPS: 'ReadResourceListItems',
 	CALENDARDATA: 'GetCalendarData',
 	SIDEBAR: 'GetSideBarEvent',

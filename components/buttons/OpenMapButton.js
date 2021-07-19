@@ -23,11 +23,11 @@ export default class OpenMapButton extends React.Component {
 		let location = locations[this.state.location];
 		if (location.hasOwnProperty('placeID')) {
 			return (
-				URL['MAP'] +
+				URL.MAP +
 				`search/?api=1&query=${location.lat},${location.lng}&query_place_id=${location.placeID}`
 			);
 		}
-		return URL['MAP'] + `search/?api=1&query=${location.lat},${location.lng}`;
+		return URL.MAP + `search/?api=1&query=${location.lat},${location.lng}`;
 	}
 
 	render() {
