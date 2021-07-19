@@ -41,49 +41,49 @@ class FetchManager {
 		}
 	};
 
-	fetchSideBarInformation = async (id) => {
-		const data = {
-			eventId: id,
-		};
-		const options = {
-			method: 'POST',
-			url: WebApiURL.DOMAIN + WebApiURL.SIDEBAR,
-			headers: {
-				Connection: 'keep-alive',
-				Pragma: 'no-cache',
-				'Cache-Control': 'no-cache',
-				Accept: 'application/json',
-				'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-			},
-			data: qs.stringify(data),
-		};
+	// fetchSideBarInformation = async (id) => {
+	// 	const data = {
+	// 		eventId: id,
+	// 	};
+	// 	const options = {
+	// 		method: 'POST',
+	// 		url: WebApiURL.DOMAIN + WebApiURL.SIDEBAR,
+	// 		headers: {
+	// 			Connection: 'keep-alive',
+	// 			Pragma: 'no-cache',
+	// 			'Cache-Control': 'no-cache',
+	// 			Accept: 'application/json',
+	// 			'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+	// 		},
+	// 		data: qs.stringify(data),
+	// 	};
 
-		try {
-			let response = await axios.request(options);
-			if (response.data.elements) {
-				const annotation = response.data.elements?.find((e) => e.label === 'Remarques')
-					.content;
-				const staff = response.data.elements
-					.filter((e) => e.entityType === 101)
-					.map((e) => e.content)
-					.join(' | ');
-				const room = response.data.elements
-					.filter((e) => e.entityType === 102)
-					.map((e) => e.content)
-					.join(' | ');
+	// 	try {
+	// 		let response = await axios.request(options);
+	// 		if (response.data.elements) {
+	// 			const annotation = response.data.elements?.find((e) => e.label === 'Remarques')
+	// 				.content;
+	// 			const staff = response.data.elements
+	// 				.filter((e) => e.entityType === 101)
+	// 				.map((e) => e.content)
+	// 				.join(' | ');
+	// 			const room = response.data.elements
+	// 				.filter((e) => e.entityType === 102)
+	// 				.map((e) => e.content)
+	// 				.join(' | ');
 
-				return {
-					annotation: annotation ?? 'N/C',
-					staff: staff ?? 'N/C',
-					room: room ?? 'N/C',
-				};
-			}
-			return { annotation: 'N/C', staff: 'N/C', room: 'N/C' };
-		} catch (error) {
-			console.warn(error);
-		}
-		return { annotation: 'N/C', staff: 'N/C', room: 'N/C' };
-	};
+	// 			return {
+	// 				annotation: annotation ?? 'N/C',
+	// 				staff: staff ?? 'N/C',
+	// 				room: room ?? 'N/C',
+	// 			};
+	// 		}
+	// 		return { annotation: 'N/C', staff: 'N/C', room: 'N/C' };
+	// 	} catch (error) {
+	// 		console.warn(error);
+	// 	}
+	// 	return { annotation: 'N/C', staff: 'N/C', room: 'N/C' };
+	// };
 
 	fetchCalendarDay = async (group, date) => {
 		const data = {

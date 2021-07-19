@@ -775,7 +775,6 @@ export default {
 				borderColor: colors.darkblue,
 				padding: 8,
 				borderWidth: 0,
-				borderRadius: 16,
 				marginHorizontal: 12,
 				marginVertical: 1,
 				backgroundColor: '#EEEEEE',

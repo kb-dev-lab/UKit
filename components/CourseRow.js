@@ -139,7 +139,7 @@ export default class CourseRow extends React.PureComponent {
 							backgroundColor: this.state.backgroundColor,
 							borderColor: this.state.borderColor,
 							marginHorizontal: isLargeMode ? 0 : 12,
-							borderRadius: isLargeMode ? 0 : 16,
+							borderRadius: isLargeMode ? 0 : 8,
 						},
 					]}>
 					<View style={style.schedule.course.row}>
