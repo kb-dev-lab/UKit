@@ -10,20 +10,36 @@ import style from '../Style';
 import Translator from '../utils/translator';
 import { AppContext } from '../utils/DeviceUtils';
 
+const isEqualsObject = (obj1, ojb2) => {
+	// objects must be in the same order
+	return Object.entries(obj1).toString() === Object.entries(ojb2).toString();
+};
+
+const findIndexOfObject = (objectList, object) => {
+	for (let i = 0; i < objectList.length; i++) {
+		const element = objectList[i];
+		if (isEqualsObject(element, object)) {
+			return i;
+		}
+	}
+	return -1;
+};
+
 class WeekView extends React.Component {
 	static contextType = AppContext;
 
 	constructor(props) {
 		super(props);
 
-		const currentWeek = moment().isoWeek();
+		const currentDate = moment();
+		const currentWeek = { week: currentDate.isoWeek(), year: currentDate.year() };
 		const groupName = this.props.route.params.groupName;
 		const weeks = WeekView.generateWeeks();
 
 		this.state = {
 			groupName,
 			currentWeek: currentWeek,
-			currentWeekIndex: weeks.findIndex((e) => e === currentWeek),
+			currentWeekIndex: findIndexOfObject(weeks, currentWeek),
 			weeks,
 			selectedWeek: currentWeek,
 		};
@@ -54,7 +70,7 @@ class WeekView extends React.Component {
 	};
 
 	extractCalendarListItemKey = (item) => {
-		return `S${item}-${this.context.themeName}`;
+		return `S${item.week}-${this.context.themeName}`;
 	};
 
 	onTodayPress = () => {
@@ -99,14 +115,14 @@ class WeekView extends React.Component {
 		let firstWeek = null;
 
 		for (let i = 0, iMax = 365; i < iMax; i += 7) {
-			const week = moment(beginningGenerationDate)
-				.add(i, 'd')
-				.isoWeek();
+			const date = moment(beginningGenerationDate).add(i, 'd');
+			const week = date.isoWeek();
+			const year = date.year();
 			if (week !== firstWeek) {
 				if (firstWeek === null) {
 					firstWeek = week;
 				}
-				weeks.push(week);
+				weeks.push({ week, year });
 			} else {
 				break;
 			}

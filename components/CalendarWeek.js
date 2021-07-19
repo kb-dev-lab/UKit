@@ -1,18 +1,7 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import PropTypes from 'prop-types';
-
-import style from '../Style';
 
 class CalendarWeek extends React.Component {
-	static propTypes = {
-		currentWeek: PropTypes.number,
-		onPressItem: PropTypes.func,
-		selectedWeek: PropTypes.number,
-		week: PropTypes.number,
-		theme: PropTypes.object,
-	};
-
 	_onPress = () => {
 		if (this.props.onPressItem) {
 			requestAnimationFrame(() => {
@@ -22,9 +11,11 @@ class CalendarWeek extends React.Component {
 	};
 
 	static getBackgroundColor(props) {
-		return props.week === props.selectedWeek
+		return props.week.week === props.selectedWeek.week &&
+			props.week.year === props.selectedWeek.year
 			? props.theme.calendar.selection
-			: props.week === props.currentWeek
+			: props.week.week === props.currentWeek.week &&
+			  props.week.year === props.currentWeek.year
 			? props.theme.calendar.currentDay
 			: 'transparent';
 	}
@@ -63,7 +54,7 @@ class CalendarWeek extends React.Component {
 									? theme.lightFont
 									: theme.font,
 						}}>
-						{this.props.week}
+						{this.props.week.week}
 					</Text>
 				</View>
 			</TouchableOpacity>

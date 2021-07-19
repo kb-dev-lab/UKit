@@ -8,10 +8,8 @@ import style from '../Style';
 import DayWeek from './ui/DayWeek';
 import { isArraysEquals } from '../utils';
 import ErrorAlert from './alerts/ErrorAlert';
-import RequestError from './alerts/RequestError';
 import DeviceUtils from '../utils/DeviceUtils';
 import Translator from '../utils/translator';
-import URL from '../utils/URL';
 import FetchManager from '../utils/FetchManager';
 
 class Week extends React.Component {
@@ -42,7 +40,7 @@ class Week extends React.Component {
 			if (this.props.filtersList.length > 0) {
 				this.fetchSchedule();
 			}
-		} else if (this.state.week !== prevState.week) {
+		} else if (this.state.week.week !== prevState.week.week) {
 			this.fetchSchedule();
 		} else if (!isArraysEquals(this.props.filtersList, prevProps.filtersList)) {
 			this.fetchSchedule();
@@ -58,7 +56,7 @@ class Week extends React.Component {
 	static getDerivedStateFromProps(nextProps, prevState) {
 		const nextState = {};
 
-		if (nextProps.week !== prevState.week) {
+		if (nextProps.week.week !== prevState.week.week) {
 			nextState.week = nextProps.week;
 		}
 
@@ -81,7 +79,7 @@ class Week extends React.Component {
 
 		const cancelToken = axios.CancelToken.source();
 		const groupName = this.state.groupName;
-		const id = `${this.state.groupName}@Week${this.state.week}`;
+		const id = `${this.state.groupName}@Week${this.state.week.week}`;
 		let weekData = null;
 		let cacheDate = null;
 
@@ -118,7 +116,7 @@ class Week extends React.Component {
 	};
 
 	displayWeek() {
-		return Translator.get('WEEK') + ' ' + this.state.week;
+		return Translator.get('WEEK') + ' ' + this.state.week.week;
 	}
 
 	computeSchedule(schedule, isFavorite) {

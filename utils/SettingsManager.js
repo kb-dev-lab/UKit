@@ -162,7 +162,7 @@ class SettingsManager {
 				this._firstload = isFirstLoad;
 			}
 		} catch (error) {
-			console.log('SETTINGS COULNT BE LOADED', error);
+			console.warn('SETTINGS COULNT BE LOADED', error);
 		}
 
 		try {
@@ -182,7 +182,7 @@ class SettingsManager {
 				this.setLanguage(settings.language);
 			}
 		} catch (error) {
-			console.log('SETTINGS COULNT BE LOADED', error);
+			console.warn('SETTINGS COULNT BE LOADED', error);
 		}
 	};
 }

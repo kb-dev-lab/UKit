@@ -37,7 +37,7 @@ class FetchManager {
 
 			return groupListFormated;
 		} catch (error) {
-			console.log(error);
+			console.warn(error);
 		}
 	};
 
@@ -80,7 +80,7 @@ class FetchManager {
 			}
 			return { annotation: 'N/C', staff: 'N/C', room: 'N/C' };
 		} catch (error) {
-			console.log(error);
+			console.warn(error);
 		}
 		return { annotation: 'N/C', staff: 'N/C', room: 'N/C' };
 	};
@@ -159,17 +159,15 @@ class FetchManager {
 				return 0;
 			});
 		} catch (error) {
-			console.log('ERROR FETCHING CALENDAR');
-			console.log(error);
+			console.warn(error);
 			return [];
 		}
 	};
 
 	fetchCalendarWeek = async (group, week) => {
-		const searchDate = moment().isoWeek(week);
-		if (week > 31 && moment().month() < 7) {
-			searchDate.subtract(1, 'y');
-		}
+		const searchDate = moment()
+			.year(week.year)
+			.isoWeek(week.week);
 
 		const begin = searchDate.startOf('week').format('YYYY-MM-DD');
 		const end = searchDate.endOf('week').format('YYYY-MM-DD');
@@ -181,11 +179,6 @@ class FetchManager {
 			'federationIds[]': group,
 			colourScheme: '3',
 		};
-		console.log({
-			week,
-			begin,
-			end,
-		});
 		const options = {
 			method: 'POST',
 			url: WebApiURL.DOMAIN + WebApiURL.CALENDARDATA,
@@ -202,7 +195,7 @@ class FetchManager {
 		try {
 			response = await axios.request(options);
 		} catch (error) {
-			console.log(error);
+			console.warn(error);
 		}
 		if (response?.status !== 200) return;
 		const eventList = [];

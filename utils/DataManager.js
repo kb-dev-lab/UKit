@@ -5,6 +5,8 @@ class DataManager {
 	constructor() {
 		this._groupList = [];
 		this._subscribers = {};
+		// refresh group list cache every week
+		this._cacheTimeLimit = 7 * 24 * 60 * 60 * 1000;
 	}
 
 	on = (event, callback) => {
@@ -37,6 +39,7 @@ class DataManager {
 
 	fetchGroupList = async () => {
 		const groupList = await FetchManager.fetchGroupList();
+		await AsyncStorage.setItem('groupListTimestamp', String(Date.now()));
 		this.setGroupList(groupList);
 	};
 
@@ -47,7 +50,10 @@ class DataManager {
 	loadData = async () => {
 		try {
 			const groupList = JSON.parse(await AsyncStorage.getItem('groupList'));
-			if (groupList) {
+			const timestamp = await AsyncStorage.getItem('groupListTimestamp');
+			const difference = Date.now() - parseInt(timestamp);
+
+			if (groupList && difference < this._cacheTimeLimit) {
 				this.setGroupList(groupList);
 			} else {
 				await this.fetchGroupList();
