@@ -41,6 +41,27 @@ class FetchManager {
 		}
 	};
 
+	sortFunctionGroup = (a, b) => {
+		const regexUE = RegExp('([0-9][A-Z0-9]+) (.+)', 'im');
+		let subectA = a.subject.toUpperCase();
+		let subectB = b.subject.toUpperCase();
+		const matchA = regexUE.exec(subectA);
+		const matchB = regexUE.exec(subectB);
+
+		if (matchA && matchA.length === 3) {
+			subectA = `${matchA[2]}`;
+		}
+		if (matchB && matchB.length === 3) {
+			subectB = `${matchB[2]}`;
+		}
+
+		if (a.starttime > b.starttime) return 1;
+		if (a.starttime < b.starttime) return -1;
+		else if (subectA > subectB) return 1;
+		else if (subectA < subectB) return -1;
+		return 0;
+	};
+
 	// fetchSideBarInformation = async (id) => {
 	// 	const data = {
 	// 		eventId: id,
@@ -153,11 +174,7 @@ class FetchManager {
 				eventList.push(newEvent);
 			}
 
-			return eventList.sort((a, b) => {
-				if (a.starttime > b.starttime) return 1;
-				if (a.starttime < b.starttime) return -1;
-				return 0;
-			});
+			return eventList.sort(this.sortFunctionGroup);
 		} catch (error) {
 			console.warn(error);
 			return [];
@@ -260,11 +277,7 @@ class FetchManager {
 		}
 
 		for (const day of eventList) {
-			const tmp = day.courses.sort((a, b) => {
-				if (a.starttime > b.starttime) return 1;
-				if (a.starttime < b.starttime) return -1;
-				return 0;
-			});
+			const tmp = day.courses.sort(this.sortFunctionGroup);
 			day.courses = tmp;
 		}
 
