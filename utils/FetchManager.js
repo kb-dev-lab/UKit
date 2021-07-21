@@ -137,14 +137,8 @@ class FetchManager {
 				if (event.eventCategory === 'Vacances') continue;
 				const startDate = moment(event.start);
 				const endDate = moment(event.end);
-				const starttime =
-					String(startDate.hours()).padStart(2, '0') +
-					':' +
-					String(startDate.minutes()).padStart(2, '0');
-				const endtime =
-					String(endDate.hours()).padStart(2, '0') +
-					':' +
-					String(endDate.minutes()).padStart(2, '0');
+				const starttime = startDate.format('HH:mm');
+				const endtime = endDate.format('HH:mm');
 
 				let subject = event.eventCategory;
 				if (event.modules !== null) {
@@ -237,14 +231,8 @@ class FetchManager {
 			const dayNumberInt = moment(startDate).isoWeekday();
 			const dayNumber = String(dayNumberInt);
 
-			const starttime =
-				String(startDate.hours()).padStart(2, '0') +
-				':' +
-				String(startDate.minutes()).padStart(2, '0');
-			const endtime =
-				String(endDate.hours()).padStart(2, '0') +
-				':' +
-				String(endDate.minutes()).padStart(2, '0');
+			const starttime = startDate.format('HH:mm');
+			const endtime = endDate.format('HH:mm');
 
 			let subject = event.eventCategory;
 			if (event.modules !== null) {

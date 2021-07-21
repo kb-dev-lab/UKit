@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Appearance } from 'react-native-appearance';
 import ErrorAlert from '../components/alerts/ErrorAlert';
+import Translator from './translator';
 
 class SettingsManager {
 	constructor() {
@@ -129,7 +130,6 @@ class SettingsManager {
 	};
 
 	resetSettings = () => {
-		// AsyncStorage.multiRemove(['firstload', 'settings', 'groupList']);
 		this.setTheme('light');
 		this.setLanguage('fr');
 		this.setGroup(null);
@@ -162,7 +162,10 @@ class SettingsManager {
 				this._firstload = isFirstLoad;
 			}
 		} catch (error) {
-			console.warn('SETTINGS COULNT BE LOADED', error);
+			new ErrorAlert(
+				Translator.get('ERROR_WITH_MESSAGE', "Settings couldn't be loaded"),
+				ErrorAlert.durations.SHORT,
+			).show();
 		}
 
 		try {
@@ -184,7 +187,10 @@ class SettingsManager {
 				this.setLanguage(settings.language);
 			}
 		} catch (error) {
-			console.warn('SETTINGS COULNT BE LOADED', error);
+			new ErrorAlert(
+				Translator.get('ERROR_WITH_MESSAGE', "Settings couldn't be loaded"),
+				ErrorAlert.durations.SHORT,
+			).show();
 		}
 	};
 }
