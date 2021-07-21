@@ -174,7 +174,7 @@ class SettingsManager {
 			if (settings?.groupName) {
 				this._groupName = settings.groupName;
 			}
-			if (settings?._openAppOnFavoriteGroup !== null) {
+			if (settings?.openAppOnFavoriteGroup !== null) {
 				this._openAppOnFavoriteGroup = settings.openAppOnFavoriteGroup;
 			}
 			if (settings?.filters) {
