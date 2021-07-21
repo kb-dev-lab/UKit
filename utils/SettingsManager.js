@@ -1,7 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Appearance } from 'react-native-appearance';
 import ErrorAlert from '../components/alerts/ErrorAlert';
-import Translator from './translator';
 
 class SettingsManager {
 	constructor() {
@@ -162,10 +161,7 @@ class SettingsManager {
 				this._firstload = isFirstLoad;
 			}
 		} catch (error) {
-			new ErrorAlert(
-				Translator.get('ERROR_WITH_MESSAGE', "Settings couldn't be loaded"),
-				ErrorAlert.durations.SHORT,
-			).show();
+			new ErrorAlert("Settings couldn't be loaded", ErrorAlert.durations.SHORT).show();
 		}
 
 		try {
@@ -187,10 +183,7 @@ class SettingsManager {
 				this.setLanguage(settings.language);
 			}
 		} catch (error) {
-			new ErrorAlert(
-				Translator.get('ERROR_WITH_MESSAGE', "Settings couldn't be loaded"),
-				ErrorAlert.durations.SHORT,
-			).show();
+			new ErrorAlert("Settings couldn't be loaded", ErrorAlert.durations.SHORT).show();
 		}
 	};
 }
