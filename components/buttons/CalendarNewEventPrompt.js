@@ -63,21 +63,21 @@ export default class CalendarNewEventPrompt extends React.Component {
 		if (!this.state.calendarStatus) {
 			await this.askCalendarPermissions();
 		}
-		const calendarId = await this.getCalendarId();
-		const details = {
-			title: this.props.data.subject,
-			startDate: new Date(this.props.data.date.start.toDate()),
-			endDate: new Date(this.props.data.date.end.toDate()),
-			timeZone: 'Europe/Paris',
-			notes: this.props.data.schedule + '\n' + this.props.data.description,
-		};
-		const newEventId = await Calendar.createEventAsync(calendarId, details);
-		if (Platform.OS === 'android') Calendar.openEventInCalendar(newEventId);
-		this.closePopup();
-		Toast.show(Translator.get('ADD_TO_CALENDAR_DONE'), {
-			duration: Toast.durations.LONG,
-			position: Toast.positions.BOTTOM,
-		});
+		try {
+			const calendarId = await this.getCalendarId();
+			const details = {
+				title: this.props.data.subject,
+				startDate: new Date(this.props.data.date.start),
+				endDate: new Date(this.props.data.date.end),
+				timeZone: 'Europe/Paris',
+				endTimeZone: 'Europe/Paris',
+				notes: this.props.data.schedule + '\n' + this.props.data.description,
+			};
+			await Calendar.createEventAsync(calendarId, details);
+			this.closePopup();
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	render() {

@@ -5,6 +5,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import CalendarNewEventPrompt from './buttons/CalendarNewEventPrompt';
 import style from '../Style';
 import Translator from '../utils/translator';
+import Toast from 'react-native-root-toast';
+import ErrorAlert from './alerts/ErrorAlert';
 
 export default class CourseRow extends React.PureComponent {
 	constructor(props) {
