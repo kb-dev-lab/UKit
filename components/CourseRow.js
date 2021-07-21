@@ -1,7 +1,8 @@
 import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
-import { Entypo, FontAwesome, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
+import CalendarNewEventPrompt from './buttons/CalendarNewEventPrompt';
 import style from '../Style';
 import Translator from '../utils/translator';
 
@@ -22,8 +23,12 @@ export default class CourseRow extends React.PureComponent {
 			lineColor = props.theme.courses.default.line;
 		}
 
-		this.state = { backgroundColor, borderColor, lineColor };
+		this.state = { backgroundColor, borderColor, lineColor, popupVisible: false };
 	}
+
+	closePopup = () => this.setState({ popupVisible: false });
+
+	openPopup = () => this.setState({ popupVisible: true });
 
 	_onPress = () => {
 		requestAnimationFrame(() => {
@@ -175,9 +180,21 @@ export default class CourseRow extends React.PureComponent {
 			let body = content;
 			if (this.props.navigation) {
 				body = (
-					<TouchableHighlight onPress={this._onPress} underlayColor={theme.selection}>
-						{content}
-					</TouchableHighlight>
+					<View>
+						<TouchableHighlight
+							onPress={this._onPress}
+							onLongPress={this.openPopup}
+							underlayColor={theme.selection}>
+							{content}
+						</TouchableHighlight>
+						<CalendarNewEventPrompt
+							popupVisible={this.state.popupVisible}
+							closePopup={this.closePopup}
+							openPopup={this.openPopup}
+							theme={theme}
+							data={this.props.data}
+						/>
+					</View>
 				);
 			}
 

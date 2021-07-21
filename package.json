@@ -47,7 +47,8 @@
     "react-native-screens": "~3.4.0",
     "react-native-svg": "12.1.1",
     "react-native-textinput-effects": "^0.6.1",
-    "react-native-webview": "11.6.2"
+    "react-native-webview": "11.6.2",
+    "expo-calendar": "~9.2.2"
   },
   "devDependencies": {
     "prettier": "^1.14.2"
