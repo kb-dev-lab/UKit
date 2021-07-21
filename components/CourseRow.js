@@ -50,9 +50,7 @@ export default class CourseRow extends React.PureComponent {
 			let annotations = null,
 				subject = null,
 				ue = null,
-				group = null,
-				ueTitle = null,
-				groupTitle = null;
+				ueTitle = null;
 
 			if (this.props.data.UE) {
 				ueTitle = (
@@ -85,36 +83,7 @@ export default class CourseRow extends React.PureComponent {
 					</View>
 				);
 			}
-			if (this.props.data.group !== 'N/C') {
-				let groups = this.props.data.group.split(' | ');
-
-				groupTitle = (
-					<View style={style.schedule.course.iconHeader}>
-						<MaterialCommunityIcons
-							name="account-multiple"
-							size={18}
-							style={{ width: 18, height: 18, color: theme.font }}
-						/>
-					</View>
-				);
-				group = groups.map((group, key) => {
-					return (
-						<Text key={key} style={{ color: theme.font }}>
-							{group}
-						</Text>
-					);
-				});
-			}
 			if (this.props.data.description?.length > 0) {
-				annotationsTitle = (
-					<View style={style.schedule.course.iconHeader}>
-						<MaterialIcons
-							name="speaker-notes"
-							size={18}
-							style={{ width: 18, height: 18, color: theme.font }}
-						/>
-					</View>
-				);
 				annotations = this.props.data.description.split('\n').map((annotation, key) => {
 					return (
 						<Text key={key} style={{ color: theme.font }}>
@@ -177,7 +146,11 @@ export default class CourseRow extends React.PureComponent {
 											style.schedule.course.title,
 											{ color: theme.font },
 										]}>
-										{this.props.data.category}
+										{this.props.data.category !== this.props.data.subject ? (
+											this.props.data.category
+										) : (
+											<></>
+										)}
 									</Text>
 								</View>
 							</View>
