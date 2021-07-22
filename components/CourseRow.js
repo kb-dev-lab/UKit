@@ -11,17 +11,13 @@ import ErrorAlert from './alerts/ErrorAlert';
 export default class CourseRow extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		let backgroundColor = '#FFF';
-		let borderColor = '#FFF';
+		let backgroundColor = props.theme.eventBackground;
+		let borderColor = props.theme.eventBorder;
 		let lineColor = '#FFF';
 
 		if (props.theme.courses[props.data.color]) {
-			backgroundColor = props.theme.courses[props.data.color].background;
-			borderColor = props.theme.courses[props.data.color].border;
 			lineColor = props.theme.courses[props.data.color].line;
 		} else {
-			backgroundColor = props.theme.courses.default.background;
-			borderColor = props.theme.courses.default.border;
 			lineColor = props.theme.courses.default.line;
 		}
 
@@ -116,6 +112,16 @@ export default class CourseRow extends React.PureComponent {
 							borderColor: this.state.borderColor,
 							marginHorizontal: isLargeMode ? 0 : 12,
 							borderRadius: isLargeMode ? 0 : 8,
+							// borderWidth: 2,
+							shadowColor: '#000',
+							shadowOffset: {
+								width: 0,
+								height: 2,
+							},
+							shadowOpacity: 0.23,
+							shadowRadius: 2.62,
+
+							elevation: 4,
 						},
 					]}>
 					<View style={style.schedule.course.row}>

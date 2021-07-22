@@ -186,13 +186,13 @@ class Day extends React.Component {
 						/>
 					)}
 					keyExtractor={(item, index) => item.schedule + String(index)}
-					style={{ backgroundColor: theme.greyBackground }}
+					style={{ backgroundColor: theme.courseBackground }}
 				/>
 			);
 		}
 
 		return (
-			<View style={[style.schedule.containerView, { backgroundColor: theme.greyBackground }]}>
+			<View style={[style.schedule.containerView, { backgroundColor: theme.courseBackground }]}>
 				<View style={style.schedule.titleView}>
 					<Text style={[style.schedule.titleText, { color: theme.font }]}>
 						{this.displayDate()}
