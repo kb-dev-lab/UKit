@@ -3,6 +3,8 @@ export default {
 	ADD_TO_CALENDAR: 'Add event to calendar',
 	ADD_TO_CALENDAR_DESCRIPTION: 'Would you like to add the event "$-" to calendar?',
 	ADD_TO_CALENDAR_DONE: 'Event added!',
+	ADD_TO_CALENDAR_PERMISSIONS:
+		'This application needs permissions in order to add events to calendar',
 	APP_LAUNCHING: 'Start-up',
 	APP_READY: 'The app is now ready, you can now check your class schedule!',
 	APPLICATION_HISTORY:

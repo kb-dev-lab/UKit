@@ -3,6 +3,8 @@ export default {
 	ADD_TO_CALENDAR: "Ajouter l'événement au calendrier",
 	ADD_TO_CALENDAR_DESCRIPTION: 'Voulez vous ajouter l\'événement "$-" au calendrier?',
 	ADD_TO_CALENDAR_DONE: 'Événement ajouté !',
+	ADD_TO_CALENDAR_PERMISSIONS:
+		"L'application a besoin des permissions pour ajouter des événement au calendrier",
 	APP_LAUNCHING: 'Démarrage',
 	APP_READY:
 		"L'application est maintenant prête, vous pouvez dès à présent consulter votre emploi du temps !",

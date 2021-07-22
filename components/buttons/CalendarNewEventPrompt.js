@@ -9,16 +9,7 @@ import { Platform } from 'react-native';
 export default class CalendarNewEventPrompt extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			calendarStatus: false,
-		};
 	}
-
-	componentDidMount = async () => {
-		this.setState({
-			calendarStatus: await this.getCalendarPermissions(),
-		});
-	};
 
 	closePopup = () => this.props.closePopup();
 
@@ -30,11 +21,8 @@ export default class CalendarNewEventPrompt extends React.Component {
 	};
 
 	askCalendarPermissions = async () => {
-		if (!this.state.calendarStatus) {
-			const { granted } = await Calendar.requestCalendarPermissionsAsync();
-			if (granted) {
-				this.setState((calendarStatus = true));
-			}
+		if (!(await this.getCalendarPermissions())) {
+			await Calendar.requestCalendarPermissionsAsync();
 		}
 	};
 
@@ -59,10 +47,7 @@ export default class CalendarNewEventPrompt extends React.Component {
 		}
 	};
 
-	addCalendarEvent = async () => {
-		if (!this.state.calendarStatus) {
-			await this.askCalendarPermissions();
-		}
+	addCalendarEventWithPermissions = async () => {
 		try {
 			const calendarId = await this.getCalendarId();
 			const details = {
@@ -78,9 +63,31 @@ export default class CalendarNewEventPrompt extends React.Component {
 				duration: Toast.durations.LONG,
 				position: Toast.positions.BOTTOM,
 			});
-			this.closePopup();
 		} catch (error) {
 			console.warn(error);
+			Toast.show(Translator.get('ERROR_WITH_MESSAGE', "Couldn't add event to calendar"), {
+				duration: Toast.durations.LONG,
+				position: Toast.positions.BOTTOM,
+			});
+		}
+	};
+
+	addCalendarEvent = async () => {
+		if (!(await this.getCalendarPermissions())) {
+			await this.askCalendarPermissions();
+			if (await this.getCalendarPermissions()) {
+				await this.addCalendarEventWithPermissions();
+				this.closePopup();
+			} else {
+				this.closePopup();
+				Toast.show(Translator.get('ADD_TO_CALENDAR_PERMISSIONS'), {
+					duration: Toast.durations.LONG,
+					position: Toast.positions.BOTTOM,
+				});
+			}
+		} else {
+			await this.addCalendarEventWithPermissions();
+			this.closePopup();
 		}
 	};
 
