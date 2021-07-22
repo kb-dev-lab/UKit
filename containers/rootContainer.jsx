@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { RootSiblingParent } from 'react-native-root-siblings';
 
 import StatusBar from '../components/ui/StatusBar';
 import Drawer from '../navigation/Drawer';
@@ -39,13 +40,15 @@ export default () => {
 	}, []);
 
 	return (
-		<SafeAreaProvider>
-			<View style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
-				<AppContextProvider value={{ themeName, groupName, filters }}>
-					<StatusBar />
-					{isFirstLoad ? <Welcome /> : <Drawer />}
-				</AppContextProvider>
-			</View>
-		</SafeAreaProvider>
+		<RootSiblingParent>
+			<SafeAreaProvider>
+				<View style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
+					<AppContextProvider value={{ themeName, groupName, filters }}>
+						<StatusBar />
+						{isFirstLoad ? <Welcome /> : <Drawer />}
+					</AppContextProvider>
+				</View>
+			</SafeAreaProvider>
+		</RootSiblingParent>
 	);
 };

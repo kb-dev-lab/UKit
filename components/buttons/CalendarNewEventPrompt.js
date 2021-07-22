@@ -74,9 +74,13 @@ export default class CalendarNewEventPrompt extends React.Component {
 				notes: this.props.data.schedule + '\n' + this.props.data.description,
 			};
 			await Calendar.createEventAsync(calendarId, details);
+			Toast.show(Translator.get('ADD_TO_CALENDAR_DONE'), {
+				duration: Toast.durations.LONG,
+				position: Toast.positions.BOTTOM,
+			});
 			this.closePopup();
 		} catch (error) {
-			console.log(error);
+			console.warn(error);
 		}
 	};
 
