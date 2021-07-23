@@ -56,6 +56,8 @@ export default class App extends React.Component {
 	}
 
 	_loadAssetsAsync = async () => {
+		await Font.loadAsync({ Montserrat_500Medium });
+
 		const imageAssets = cacheImages([require('./assets/icons/app.png')]);
 
 		const fontAssets = cacheFonts([
@@ -71,8 +73,6 @@ export default class App extends React.Component {
 		await DataManager.loadData();
 
 		await SettingsManager.loadSettings();
-
-		await Font.loadAsync({ Montserrat_500Medium });
 
 		await Promise.all([...imageAssets, ...fontAssets]);
 	};

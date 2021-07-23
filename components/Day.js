@@ -7,11 +7,10 @@ import moment from 'moment';
 import style from '../Style';
 import CourseRow from './CourseRow';
 import { isArraysEquals, upperCaseFirstLetter } from '../utils';
-import RequestError from './alerts/RequestError';
 import ErrorAlert from './alerts/ErrorAlert';
 import Translator from '../utils/translator';
 import DeviceUtils from '../utils/DeviceUtils';
-import URL from '../utils/URL';
+import FetchManager from '../utils/FetchManager';
 
 class Day extends React.Component {
 	constructor(props) {
@@ -77,7 +76,6 @@ class Day extends React.Component {
 
 		const cancelToken = axios.CancelToken.source();
 		const groupName = this.state.groupName;
-		const data = groupName.split('_');
 		const date = this.state.day.format('YYYY/MM/DD');
 		const id = `${this.state.groupName}@${date}`;
 		let dayData = null;
@@ -86,24 +84,16 @@ class Day extends React.Component {
 		this.setState({ schedule: null, loading: true, cancelToken }, async () => {
 			if (await DeviceUtils.isConnected()) {
 				try {
-					const response = await axios.get(
-						URL['API'] + `?type=day&name=${data[0]}&group=${data[1]}&date=${date}`,
-						{
-							cancelToken: cancelToken.token,
-						},
+					dayData = await FetchManager.fetchCalendarDay(
+						groupName,
+						date.replace(/\//g, '-'),
 					);
-
-					dayData = response.data;
 					AsyncStorage.setItem(id, JSON.stringify({ dayData, date: moment() }));
 				} catch (error) {
-					if (!axios.isCancel(error)) {
-						RequestError.handle(error);
-
-						let cache = await this.getCache(id);
-						if (cache) {
-							dayData = cache.dayData;
-							cacheDate = cache.date;
-						}
+					let cache = await this.getCache(id);
+					if (cache) {
+						dayData = cache.dayData;
+						cacheDate = cache.date;
 					}
 				}
 			} else {

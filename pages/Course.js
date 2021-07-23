@@ -65,11 +65,11 @@ class Course extends React.Component {
 
 	onPressGoogleMaps = () => {
 		let link =
-			URL['MAP'] +
+			URL.MAP +
 			`search/?api=1&query=${this.state.locations[0].lat},${this.state.locations[0].lng}`;
 		if (this.state.locations[0].placeID) {
 			link =
-				URL['MAP'] +
+				URL.MAP +
 				`search/?api=1&query=${this.state.locations[0].lat},${this.state.locations[0].lng}&query_place_id=${this.state.locations[0].placeID}`;
 		}
 
@@ -93,7 +93,7 @@ class Course extends React.Component {
 			locations = locations.concat(getLocationsInText(this.state.data.room));
 		}
 		if (locations.length < 1) {
-			locations = getLocationsInText(this.state.data.annotation);
+			locations = getLocationsInText(this.state.data.description);
 		}
 
 		if (locations.length > 0) {

@@ -14,6 +14,7 @@ import style from '../Style';
 import Translator from '../utils/translator';
 import DeviceUtils, { AppContext } from '../utils/DeviceUtils';
 import URL from '../utils/URL';
+import FetchManager from '../utils/FetchManager';
 
 class Home extends React.Component {
 	static contextType = AppContext;
@@ -41,16 +42,17 @@ class Home extends React.Component {
 		let sectionIndex = -1;
 
 		list.forEach((e) => {
-			let splitName = e.name.split('_');
+			// let splitName = e.name.split('_');
+			let splitName = e.name.substring(0, 3);
 
-			e.cleanName = `${splitName[0]} ${splitName[1]}`;
+			e.cleanName = e.name;
 
-			if (splitName[0] !== previousSection) {
+			if (splitName !== previousSection) {
 				if (previousSection !== null) {
 					sections.push(sectionContent);
 				}
 
-				previousSection = splitName[0];
+				previousSection = splitName;
 				sectionContent = {
 					key: previousSection,
 					data: [],
@@ -98,9 +100,11 @@ class Home extends React.Component {
 
 		if (await DeviceUtils.isConnected()) {
 			try {
-				const response = await axios.get(URL['API'] + '?clean=true');
+				const groupList = await FetchManager.fetchGroupList();
 				this.setState({ cacheDate: null });
-				list = response.data;
+				list = groupList.map((e) => ({
+					name: e,
+				}));
 				AsyncStorage.setItem('groups', JSON.stringify({ list, date: moment() }));
 			} catch (error) {
 				if (error.response) {

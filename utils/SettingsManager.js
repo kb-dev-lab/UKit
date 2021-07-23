@@ -161,11 +161,7 @@ class SettingsManager {
 				this._firstload = isFirstLoad;
 			}
 		} catch (error) {
-			const settingsError = new ErrorAlert(
-				Translator.get('ERROR_WITH_MESSAGE', "Settings couldn't be loaded"),
-				ErrorAlert.durations.SHORT,
-			);
-			settingsError.show();
+			new ErrorAlert("Settings couldn't be loaded", ErrorAlert.durations.SHORT).show();
 		}
 
 		try {
@@ -177,7 +173,9 @@ class SettingsManager {
 			if (settings?.groupName) {
 				this._groupName = settings.groupName;
 			}
-			this._openAppOnFavoriteGroup = settings.openAppOnFavoriteGroup;
+			if (settings?.openAppOnFavoriteGroup !== null) {
+				this._openAppOnFavoriteGroup = settings.openAppOnFavoriteGroup;
+			}
 			if (settings?.filters) {
 				this._filters = [...settings.filters];
 			}
@@ -185,11 +183,7 @@ class SettingsManager {
 				this.setLanguage(settings.language);
 			}
 		} catch (error) {
-			const settingsError = new ErrorAlert(
-				Translator.get('ERROR_WITH_MESSAGE', "Settings couldn't be loaded"),
-				ErrorAlert.durations.SHORT,
-			);
-			settingsError.show();
+			new ErrorAlert("Settings couldn't be loaded", ErrorAlert.durations.SHORT).show();
 		}
 	};
 }
