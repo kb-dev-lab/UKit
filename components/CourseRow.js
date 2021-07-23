@@ -5,8 +5,6 @@ import { MaterialIcons } from '@expo/vector-icons';
 import CalendarNewEventPrompt from './buttons/CalendarNewEventPrompt';
 import style from '../Style';
 import Translator from '../utils/translator';
-import Toast from 'react-native-root-toast';
-import ErrorAlert from './alerts/ErrorAlert';
 
 export default class CourseRow extends React.PureComponent {
 	constructor(props) {
@@ -16,9 +14,9 @@ export default class CourseRow extends React.PureComponent {
 		let lineColor = '#FFF';
 
 		if (props.theme.courses[props.data.color]) {
-			lineColor = props.theme.courses[props.data.color].line;
+			lineColor = props.theme.courses[props.data.color];
 		} else {
-			lineColor = props.theme.courses.default.line;
+			lineColor = props.theme.courses.default;
 		}
 
 		this.state = { backgroundColor, borderColor, lineColor, popupVisible: false };
@@ -109,10 +107,8 @@ export default class CourseRow extends React.PureComponent {
 						style.schedule.course.root,
 						{
 							backgroundColor: this.state.backgroundColor,
-							borderColor: this.state.borderColor,
 							marginHorizontal: isLargeMode ? 0 : 12,
 							borderRadius: isLargeMode ? 0 : 8,
-							// borderWidth: 2,
 							shadowColor: '#000',
 							shadowOffset: {
 								width: 0,
@@ -120,8 +116,10 @@ export default class CourseRow extends React.PureComponent {
 							},
 							shadowOpacity: 0.23,
 							shadowRadius: 2.62,
-
 							elevation: 4,
+
+							borderLeftWidth: 12,
+							borderLeftColor: this.state.lineColor,
 						},
 					]}>
 					<View style={style.schedule.course.row}>

@@ -312,68 +312,24 @@ const Theme = {
 			},
 		},
 		courses: {
-			'#FFFF00': {
-				// TP
-				// Lime
-				background: '#e6ee9c',
-				border: '#E65100',
-				line: '#c0ca33',
-			},
-			'#00FFFF': {
-				// Cours
-				// Cyan
-				background: '#4dd0e1',
-				border: '#006064',
-				line: '#00acc1',
-			},
-			'#800040': {
-				// Réunion de rentré
-				// Blue grey
-				background: '#b0bec5',
-				border: '#1A237E',
-				line: '#546e7a',
-			},
-			'#808000': {
-				// Atelier
-				// Blue grey
-				background: '#b0bec5',
-				border: '#1A237E',
-				line: '#546e7a',
-			},
-			'#800000': {
-				// TD Machine
-				// Red
-				background: '#e57373',
-				border: '#B71C1C',
-				line: '#e53935',
-			},
-			'#8000FF': {
-				// Oraux
-				// Orange
-				background: '#ffb74d',
-				border: '#311B92',
-				line: '#fb8c00',
-			},
-			'#00FF00': {
-				// TD
-				// Green
-				background: '#81c784',
-				border: '#004D40',
-				line: '#43a047',
-			},
-			'#400080': {
-				// Cours/TD
-				// Indigo
-				background: '#7986cb',
-				border: '#4A148C',
-				line: '#3949ab',
-			},
-			default: {
-				// Indigo
-				background: '#7986cb',
-				border: '#4A148C',
-				line: '#3949ab',
-			},
+			// TP: Lime
+			'#FFFF00': '#c0ca33',
+			// Cours: Cyan
+			'#00FFFF': '#00acc1',
+			// Réunion de rentré: Blue Grey
+			'#800040': '#546e7a',
+			// Atelier: Blue Grey
+			'#808000': '#546e7a',
+			// TD Machine: Red
+			'#800000': '#e53935',
+			// Oraux: Orange
+			'#8000FF': '#fb8c00',
+			// TD: Green
+			'#00FF00': '#43a047',
+			// Cours/TD: Indigo
+			'#400080': '#3949ab',
+			// Others: Indigo
+			default: '#3949ab',
 		},
 	},
 	dark: {
@@ -588,68 +544,24 @@ const Theme = {
 			},
 		},
 		courses: {
-			'#FFFF00': {
-				// TP
-				// Lime
-				background: '#7c8500',
-				border: '#B71C1C',
-				line: '#b4a647',
-			},
-			'#00FFFF': {
-				// Cours
-				// Cyan
-				background: '#006064',
-				border: '#006064',
-				line: '#428e92',
-			},
-			'#800040': {
-				// Réunion de rentré
-				// Blue grey
-				background: '#37474f',
-				border: '#1A237E',
-				line: '#4f5b62',
-			},
-			'#808000': {
-				// Réunion de rentré
-				// Blue grey
-				background: '#37474f',
-				border: '#1A237E',
-				line: '#4f5b62',
-			},
-			'#800000': {
-				// TD MACHINE
-				// Red
-				background: '#b71c1c',
-				border: '#004D40',
-				line: '#f05545',
-			},
-			'#8000FF': {
-				// Oraux
-				// Orange
-				background: '#e65100',
-				border: '#311B92',
-				line: '#ff833a',
-			},
-			'#00FF00': {
-				// TD
-				// Green
-				background: '#1b5e20',
-				border: '#4A148C',
-				line: '#4c8c4a',
-			},
-			'#400080': {
-				// Cours/TD
-				// Indigo
-				background: '#283593',
-				border: '#E65100',
-				line: '#534bae',
-			},
-			default: {
-				// Indigo
-				background: '#283593',
-				border: '#E65100',
-				line: '#534bae',
-			},
+			// TP: Lime
+			'#FFFF00': '#7c8500',
+			// Cours: Cyan
+			'#00FFFF': '#006064',
+			// Réunion de rentré: Blue Grey
+			'#800040': '#37474f',
+			// Atelier: Blue Grey
+			'#808000': '#37474f',
+			// TD Machine: Red
+			'#800000': '#b71c1c',
+			// Oraux: Orange
+			'#8000FF': '#e65100',
+			// TD: Green
+			'#00FF00': '#1b5e20',
+			// Cours/TD: Indigo
+			'#400080': '#283593',
+			// Others: Indigo
+			default: '#283593',
 		},
 	},
 };
@@ -778,11 +690,10 @@ export default {
 		course: {
 			root: {
 				flexDirection: 'column',
-				borderColor: colors.darkblue,
 				padding: 8,
 				borderWidth: 0,
 				marginHorizontal: 12,
-				marginVertical: 1,
+				marginVertical: 2,
 				backgroundColor: '#EEEEEE',
 			},
 			row: {
@@ -790,8 +701,8 @@ export default {
 				flexDirection: 'row',
 			},
 			hours: {
-				borderRightWidth: 5,
-				borderColor: colors.lightblue,
+				borderRightWidth: 2,
+				borderColor: colors.darkblue,
 				flexDirection: 'column',
 				justifyContent: 'space-between',
 				alignContent: 'center',
