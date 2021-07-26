@@ -14,7 +14,7 @@ const colors = {
 
 const hintColors = {
 	green: '#55da59',
-	gray: '#9a9a9a',
+	gray: '#9499a1AA',
 };
 
 const colors200 = {
@@ -37,28 +37,6 @@ const colors200 = {
 	brown: '#BCAAA4',
 	grey: '#EEEEEE',
 	blueGrey: '#B0BEC5',
-};
-
-const colors100 = {
-	red: '#FFCDD2',
-	pink: '#F8BBD0',
-	purple: '#E1BEE7',
-	deepPurple: '#D1C4E9',
-	indigo: '#C5CAE9',
-	blue: '#BBDEFB',
-	lightBlue: '#B3E5FC',
-	cyan: '#B2EBF2',
-	teal: '#B2DFDB',
-	green: '#C8E6C9',
-	lightGreen: '#DCEDC8',
-	lime: '#F0F4C3',
-	yellow: '#FFF9C4',
-	amber: '#FFECB3',
-	orange: '#FFE0B2',
-	deepOrange: '#FFCCBC',
-	brown: '#D7CCC8',
-	grey: '#F5F5F5',
-	blueGrey: '#CFD8DC',
 };
 
 const colors50 = {
@@ -103,22 +81,8 @@ const Theme = {
 		greyBackground: '#F0F0F0',
 		collapsableBackground: '#00000011',
 		field: '#ffffff',
-		sections: [
-			colors50.deepOrange,
-			colors50.pink,
-			colors50.lightBlue,
-			colors50.blueGrey,
-			colors50.green,
-			colors50.purple,
-		],
-		sectionsHeaders: [
-			colors200.deepOrange,
-			colors200.pink,
-			colors200.lightBlue,
-			colors200.blueGrey,
-			colors200.green,
-			colors200.purple,
-		],
+		sections: ['#009ee030', '#008eca30', '#007eb330', '#4dbbe930', '#33b1e630', '#1aa8e330'],
+		sectionsHeaders: ['#009ee0', '#008eca', '#007eb3', '#4dbbe9', '#33b1e6', '#1aa8e3'],
 		statusBar: '#006F9F',
 		calendar: {
 			sunday: '#CCCCCC',
@@ -349,13 +313,13 @@ const Theme = {
 		greyBackground: '#200f21',
 		field: '#200f21',
 		collapsableBackground: '#FFFFFF11',
-		sections: ['#141326', '#1E2117', '#2C162D', '#1D2426', '#261313', '#00251a'],
-		sectionsHeaders: ['#292839', '#32352C', '#3F2B40', '#313739', '#392828', '#004d40'],
+		sections: ['#451c4730', '#3e194030', '#37163930', '#58335930', '#6a496c30', '#7d607e30'],
+		sectionsHeaders: ['#451c47', '#3e1940', '#371639', '#583359', '#6a496c', '#7d607e'],
 		statusBar: '#000000',
 		calendar: {
-			sunday: '#002D3A',
-			currentDay: '#00617E',
-			selection: '#31442C',
+			sunday: '#2f1230',
+			currentDay: '#572159',
+			selection: '#674669',
 		},
 		settings: {
 			switchThumbColor: {
