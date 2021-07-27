@@ -65,13 +65,13 @@ const CustomDrawerContentComponent = (props) => {
 							</View>
 						)}
 						<DrawerButton
-							title={'ToDoList'}
+							title={Translator.get('NOTES')}
 							size={28}
 							textSize={14}
-							icon={'event-note'}
+							icon={'notes'}
 							color={theme.icon}
 							fontColor={theme.font}
-							onPress={() => navigate('ToDoList')}
+							onPress={() => navigate('Notes')}
 						/>
 						<Split
 							title={Translator.get('NAVIGATION')}

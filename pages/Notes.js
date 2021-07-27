@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, FlatList, TextInput } from 'react-native';
+import { Text, View, FlatList, TextInput, Keyboard } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -10,43 +10,46 @@ import moment from 'moment';
 import { TouchableOpacity } from 'react-native';
 import DataManager from '../utils/DataManager';
 
-const NOTES_CONTENT = [
-	{
-		id: '1',
-		text: 'BLABLA',
-		selected: false,
-	},
-	{
-		id: '2',
-		text:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tristique eu urna a feugiat. In euismod hendrerit augue, et ultrices lorem molestie nec. Integer nisi felis, posuere non semper viverra, feugiat quis turpis. Maecenas quis volutpat lectus, eget venenatis eros. ',
-		selected: true,
-	},
-	{
-		id: '3',
-		text: 'BLABLA',
-		selected: true,
-	},
-];
-
-class ToDoList extends React.Component {
+class Notes extends React.Component {
+	static contextType = AppContext;
 	constructor(props) {
 		super(props);
 		this.state = {
-			toDoList: DataManager.getToDoList(),
+			notesList: DataManager.getNotesList(),
+			textInput: '',
 		};
 	}
-	static contextType = AppContext;
+
+	changeTextInput = (textInput) => {
+		this.setState({ textInput });
+	};
+
+	addTextInputToList = () => {
+		if (this.state.textInput !== '') {
+			const item = {
+				id: 'xxxxxxxxxxxxxxxx'.replace(/x/g, () => Math.ceil(Math.random() * 10)),
+				text: this.state.textInput,
+				selected: false,
+			};
+			DataManager.addNotesList(item);
+			this.setState({ textInput: '' });
+			Keyboard.dismiss();
+		}
+	};
 
 	renderItem = ({ item }) => {
 		const theme = style.Theme[this.context.themeName];
 		const _onPress = () => {
 			item.selected = !item.selected;
-			DataManager.updateToDoList(item);
+			DataManager.updateNotesList(item);
+		};
+		const _onLongPress = () => {
+			DataManager.removeNotesList(item);
 		};
 		return (
 			<TouchableOpacity
 				onPress={_onPress}
+				onLongPress={_onLongPress}
 				style={{
 					backgroundColor: theme.settings.button.backgroundColor,
 					marginHorizontal: 16,
@@ -77,8 +80,8 @@ class ToDoList extends React.Component {
 	render() {
 		const theme = style.Theme[this.context.themeName];
 
-		DataManager.on('toDoList', (newList) => {
-			this.setState({ toDoList: newList });
+		DataManager.on('notesList', (newList) => {
+			this.setState({ notesList: newList });
 		});
 
 		return (
@@ -97,25 +100,45 @@ class ToDoList extends React.Component {
 				</View>
 				<View style={{ flex: 1 }}>
 					<FlatList
-						data={this.state.toDoList}
+						data={this.state.notesList}
 						renderItem={this.renderItem}
 						keyExtractor={(item) => item.id}
 					/>
 				</View>
-				<View style={{ marginVertical: 8 }}>
-					<TextInput
-						style={{
-							backgroundColor: theme.settings.button.backgroundColor,
-							marginHorizontal: 16,
-							marginVertical: 4,
-							padding: 8,
-							borderRadius: 16,
-						}}
-					/>
+				<View style={{ marginVertical: 8, marginHorizontal: 16 }}>
+					<View style={{ flexDirection: 'row' }}>
+						<TextInput
+							value={this.state.textInput}
+							onChangeText={this.changeTextInput}
+							style={{
+								backgroundColor: theme.settings.button.backgroundColor,
+								color: theme.fontSecondary,
+								marginHorizontal: 4,
+								fontSize: 16,
+								marginVertical: 4,
+								padding: 8,
+								borderRadius: 16,
+								flex: 1,
+							}}
+						/>
+						<TouchableOpacity
+							onPress={this.addTextInputToList}
+							style={{
+								marginHorizontal: 4,
+								justifyContent: 'center',
+								alignItems: 'center',
+							}}>
+							<MaterialCommunityIcons
+								name={'plus-circle-outline'}
+								size={36}
+								color={theme.icon}
+							/>
+						</TouchableOpacity>
+					</View>
 				</View>
 			</SafeAreaView>
 		);
 	}
 }
 
-export default ToDoList;
+export default Notes;

@@ -4,24 +4,7 @@ import FetchManager from './FetchManager';
 class DataManager {
 	constructor() {
 		this._subscribers = {};
-		this._toDoList = [
-			{
-				id: '1',
-				text: 'BLABLA',
-				selected: false,
-			},
-			{
-				id: '2',
-				text:
-					'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tristique eu urna a feugiat. In euismod hendrerit augue, et ultrices lorem molestie nec. Integer nisi felis, posuere non semper viverra, feugiat quis turpis. Maecenas quis volutpat lectus, eget venenatis eros. ',
-				selected: true,
-			},
-			{
-				id: '3',
-				text: 'BLABLA',
-				selected: true,
-			},
-		];
+		this._notesList = [];
 		this._groupList = [];
 		// refresh group list cache every week
 		this._cacheTimeLimit = 7 * 24 * 60 * 60 * 1000;
@@ -61,33 +44,37 @@ class DataManager {
 		this.setGroupList(groupList);
 	};
 
-	getToDoList = () => {
-		return this._toDoList;
+	getNotesList = () => {
+		return this._notesList;
 	};
 
-	setToDoList = (newList) => {
-		this._toDoList = [...newList];
-		this.notify('toDoList', this._toDoList);
+	setNotesList = (newList) => {
+		this._notesList = [...newList];
+		this.notify('notesList', this._notesList);
 	};
 
-	addToDoList = (item) => {
-		this._toDoList.push(item);
-		this.notify('toDoList', this._toDoList);
+	addNotesList = (item) => {
+		this._notesList.push(item);
+		this.notify('notesList', this._notesList);
 	};
 
-	updateToDoList = (item) => {
-		for (const i of this._toDoList) {
+	updateNotesList = (item) => {
+		for (const i of this._notesList) {
 			if (i.id === item.id) {
-				this._toDoList.i = item;
-				this.notify('toDoList', this._toDoList);
+				this._notesList.i = item;
+				this.notify('notesList', this._notesList);
 				break;
 			}
 		}
 	};
 
+	removeNotesList = (item) => {
+		this.setNotesList(this._notesList.filter((element) => element.id !== item.id));
+	};
+
 	saveData = async () => {
 		await AsyncStorage.setItem('groupList', JSON.stringify(this._groupList));
-		await AsyncStorage.setItem('toDoList', JSON.stringify(this._toDoList));
+		await AsyncStorage.setItem('notesList', JSON.stringify(this._notesList));
 	};
 
 	loadData = async () => {
@@ -102,12 +89,12 @@ class DataManager {
 				await this.fetchGroupList();
 			}
 
-			const toDoList = JSON.parse(await AsyncStorage.getItem('toDoList'));
-			if (toDoList) {
-				this.setToDoList(toDoList);
+			const notesList = JSON.parse(await AsyncStorage.getItem('notesList'));
+			if (notesList) {
+				this.setNotesList(notesList);
 			}
 		} catch (error) {
-			console.warn('COULDNT RETREIVE GROUP LIST...');
+			console.warn('COULDNT RETREIVE DATA...');
 		}
 	};
 }

@@ -42,6 +42,7 @@ export default {
 	NAVIGATION: 'Navigation',
 	NEXT: 'Suivant',
 	NONE: 'Aucun',
+	NOTES: 'Notes',
 	NO_CLASS_THIS_DAY: 'Aucun cours pendant ce jour',
 	NO_CONNECTION: 'Pas de connexion',
 	NO_FILTER: 'Aucun filtre actuellement',

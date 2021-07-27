@@ -19,7 +19,7 @@ import SaveButton from '../components/buttons/SaveGroupButton';
 import FilterRemoveButton from '../components/buttons/FilterRemoveButton';
 import { AppContext, treatTitle } from '../utils/DeviceUtils';
 import Translator from '../utils/translator';
-import ToDoList from '../pages/ToDoList';
+import Notes from '../pages/Notes';
 
 const Stack = createStackNavigator();
 
@@ -147,10 +147,10 @@ const StackNavigator = () => (
 					}}
 				/>
 				<Stack.Screen
-					name="ToDoList"
-					component={ToDoList}
+					name="Notes"
+					component={Notes}
 					options={{
-						title: 'To Do List',
+						title: Translator.get('NOTES'),
 					}}
 				/>
 				<Stack.Screen
