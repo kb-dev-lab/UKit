@@ -222,19 +222,21 @@ class WeekView extends React.Component {
 							</View>
 						</TouchableOpacity>
 					</View>
-					<FlatList
-						ref={(list) => (this.calendarList = list)}
-						showsHorizontalScrollIndicator={false}
-						data={this.state.weeks}
-						horizontal={true}
-						keyExtractor={this.extractCalendarListItemKey}
-						viewabilityConfig={this.viewability}
-						initialScrollIndex={this.state.currentWeekIndex}
-						getItemLayout={WeekView.getCalendarListItemLayout}
-						extraData={this.state}
-						renderItem={this.renderCalendarListItem}
-						style={{ backgroundColor: theme.courseBackground }}
-					/>
+					<SafeAreaView>
+						<FlatList
+							ref={(list) => (this.calendarList = list)}
+							showsHorizontalScrollIndicator={false}
+							data={this.state.weeks}
+							horizontal={true}
+							keyExtractor={this.extractCalendarListItemKey}
+							viewabilityConfig={this.viewability}
+							initialScrollIndex={this.state.currentWeekIndex}
+							getItemLayout={WeekView.getCalendarListItemLayout}
+							extraData={this.state}
+							renderItem={this.renderCalendarListItem}
+							style={{ backgroundColor: theme.courseBackground }}
+						/>
+					</SafeAreaView>
 				</View>
 			</SafeAreaView>
 		);
