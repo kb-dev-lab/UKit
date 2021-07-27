@@ -218,20 +218,22 @@ class DayView extends React.Component {
 							</View>
 						</TouchableOpacity>
 					</View>
-					<FlatList
-						ref={(list) => (this.calendarList = list)}
-						showsHorizontalScrollIndicator={false}
-						data={this.state.days}
-						horizontal={true}
-						keyExtractor={this.extractCalendarListItemKey}
-						viewabilityConfig={this.viewability}
-						onViewableItemsChanged={this.checkViewableItems}
-						initialScrollIndex={this.state.currentDayIndex}
-						getItemLayout={DayView.getCalendarListItemLayout}
-						extraData={this.state}
-						renderItem={this.renderCalendarListItem}
-						style={{ backgroundColor: theme.courseBackground }}
-					/>
+					<SafeAreaView>
+						<FlatList
+							ref={(list) => (this.calendarList = list)}
+							showsHorizontalScrollIndicator={false}
+							data={this.state.days}
+							horizontal={true}
+							keyExtractor={this.extractCalendarListItemKey}
+							viewabilityConfig={this.viewability}
+							onViewableItemsChanged={this.checkViewableItems}
+							initialScrollIndex={this.state.currentDayIndex}
+							getItemLayout={DayView.getCalendarListItemLayout}
+							extraData={this.state}
+							renderItem={this.renderCalendarListItem}
+							style={{ backgroundColor: theme.courseBackground }}
+						/>
+					</SafeAreaView>
 				</View>
 			</View>
 		);

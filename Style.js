@@ -81,8 +81,8 @@ const Theme = {
 		greyBackground: '#F0F0F0',
 		collapsableBackground: '#00000011',
 		field: '#ffffff',
-		sections: ['#009ee030', '#008eca30', '#007eb330', '#4dbbe930', '#33b1e630', '#1aa8e330'],
-		sectionsHeaders: ['#009ee0', '#008eca', '#007eb3', '#4dbbe9', '#33b1e6', '#1aa8e3'],
+		sections: ['#009ee030', '#33b1e630', '#66c5ec30', '#007eb330', '#005f8630', '#003f5a30'],
+		sectionsHeaders: ['#009ee0', '#33b1e6', '#66c5ec', '#007eb3', '#005f86', '#003f5a'],
 		statusBar: '#006F9F',
 		calendar: {
 			sunday: '#CCCCCC',
@@ -313,8 +313,8 @@ const Theme = {
 		greyBackground: '#200f21',
 		field: '#200f21',
 		collapsableBackground: '#FFFFFF11',
-		sections: ['#451c4730', '#3e194030', '#37163930', '#58335930', '#6a496c30', '#7d607e30'],
-		sectionsHeaders: ['#451c47', '#3e1940', '#371639', '#583359', '#6a496c', '#7d607e'],
+		sections: ['#451c4730', '#6a496c30', '#8f779130', '#37163930', '#29112b30', '#1c0b1c30'],
+		sectionsHeaders: ['#451c47', '#6a496c', '#8f7791', '#371639', '#29112b', '#1c0b1c'],
 		statusBar: '#000000',
 		calendar: {
 			sunday: '#2f1230',
