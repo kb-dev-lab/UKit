@@ -19,6 +19,7 @@ import SaveButton from '../components/buttons/SaveGroupButton';
 import FilterRemoveButton from '../components/buttons/FilterRemoveButton';
 import { AppContext, treatTitle } from '../utils/DeviceUtils';
 import Translator from '../utils/translator';
+import ToDoList from '../pages/ToDoList';
 
 const Stack = createStackNavigator();
 
@@ -146,6 +147,13 @@ const StackNavigator = () => (
 					}}
 				/>
 				<Stack.Screen
+					name="ToDoList"
+					component={ToDoList}
+					options={{
+						title: 'To Do List',
+					}}
+				/>
+				<Stack.Screen
 					name="Settings"
 					component={Settings}
 					options={{
@@ -179,7 +187,11 @@ const StackNavigator = () => (
 									paddingRight: 16,
 									flexDirection: 'row',
 								}}>
-								<FilterRemoveButton UE={route.params?.data?.UE} themeName={themeName} backAction={navigation.goBack}/>
+								<FilterRemoveButton
+									UE={route.params?.data?.UE}
+									themeName={themeName}
+									backAction={navigation.goBack}
+								/>
 							</View>
 						);
 						return NavBarHelper({

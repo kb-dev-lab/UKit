@@ -64,6 +64,15 @@ const CustomDrawerContentComponent = (props) => {
 								<Text style={{ color: theme.font }}>{Translator.get('NONE')}</Text>
 							</View>
 						)}
+						<DrawerButton
+							title={'ToDoList'}
+							size={28}
+							textSize={14}
+							icon={'event-note'}
+							color={theme.icon}
+							fontColor={theme.font}
+							onPress={() => navigate('ToDoList')}
+						/>
 						<Split
 							title={Translator.get('NAVIGATION')}
 							lineColor={theme.border}
