@@ -7,6 +7,8 @@ import { upperCaseFirstLetter } from '../utils';
 import { AppContext } from '../utils/DeviceUtils';
 import style from '../Style';
 import moment from 'moment';
+import { TouchableOpacity } from 'react-native';
+import DataManager from '../utils/DataManager';
 
 const NOTES_CONTENT = [
 	{
@@ -28,14 +30,25 @@ const NOTES_CONTENT = [
 ];
 
 class ToDoList extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			toDoList: DataManager.getToDoList(),
+		};
+	}
 	static contextType = AppContext;
 
 	renderItem = ({ item }) => {
 		const theme = style.Theme[this.context.themeName];
+		const _onPress = () => {
+			item.selected = !item.selected;
+			DataManager.updateToDoList(item);
+		};
 		return (
-			<View
+			<TouchableOpacity
+				onPress={_onPress}
 				style={{
-					backgroundColor: '#FFF',
+					backgroundColor: theme.settings.button.backgroundColor,
 					marginHorizontal: 16,
 					marginVertical: 4,
 					padding: 16,
@@ -57,15 +70,20 @@ class ToDoList extends React.Component {
 					}}>
 					{item.text}
 				</Text>
-			</View>
+			</TouchableOpacity>
 		);
 	};
 
 	render() {
 		const theme = style.Theme[this.context.themeName];
 
+		DataManager.on('toDoList', (newList) => {
+			this.setState({ toDoList: newList });
+		});
+
 		return (
-			<SafeAreaView style={{ flex: 1, backgroundColor: theme.greyBackground }}>
+			<SafeAreaView
+				style={{ flex: 1, backgroundColor: theme.settings.background.backgroundColor }}>
 				<View
 					style={{
 						justifyContent: 'center',
@@ -79,20 +97,22 @@ class ToDoList extends React.Component {
 				</View>
 				<View style={{ flex: 1 }}>
 					<FlatList
-						data={NOTES_CONTENT}
+						data={this.state.toDoList}
 						renderItem={this.renderItem}
 						keyExtractor={(item) => item.id}
 					/>
 				</View>
-				<TextInput
-					style={{
-						backgroundColor: '#FFF',
-						marginHorizontal: 16,
-						marginVertical: 4,
-						padding: 8,
-						borderRadius: 16,
-					}}
-				/>
+				<View style={{ marginVertical: 8 }}>
+					<TextInput
+						style={{
+							backgroundColor: theme.settings.button.backgroundColor,
+							marginHorizontal: 16,
+							marginVertical: 4,
+							padding: 8,
+							borderRadius: 16,
+						}}
+					/>
+				</View>
 			</SafeAreaView>
 		);
 	}
