@@ -135,7 +135,7 @@ class WeekView extends React.Component {
 		const theme = style.Theme[this.context.themeName];
 
 		return (
-			<SafeAreaView style={{ flex: 1, backgroundColor: theme.greyBackground }}>
+			<SafeAreaView style={{ flex: 1, backgroundColor: theme.courseBackground }}>
 				<WeekComponent
 					key={`weekComponent-${this.context.themeName}`}
 					week={this.state.selectedWeek}
@@ -157,7 +157,7 @@ class WeekView extends React.Component {
 							justifyContent: 'space-between',
 							alignItems: 'stretch',
 							height: 38,
-							backgroundColor: theme.background,
+							backgroundColor: theme.courseBackground,
 						}}>
 						<View style={{ position: 'absolute', top: 0, right: 0, left: 0 }}>
 							<Text
@@ -233,7 +233,7 @@ class WeekView extends React.Component {
 						getItemLayout={WeekView.getCalendarListItemLayout}
 						extraData={this.state}
 						renderItem={this.renderCalendarListItem}
-						style={{ backgroundColor: theme.background }}
+						style={{ backgroundColor: theme.courseBackground }}
 					/>
 				</View>
 			</SafeAreaView>

@@ -187,7 +187,7 @@ class Week extends React.Component {
 		}
 
 		return (
-			<View style={[style.schedule.containerView, { backgroundColor: theme.greyBackground }]}>
+			<View style={[style.schedule.containerView, { backgroundColor: theme.courseBackground }]}>
 				<View style={style.schedule.titleView}>
 					<View style={style.schedule.titleTextView}>
 						<Text style={[style.schedule.titleText, { color: theme.font }]}>

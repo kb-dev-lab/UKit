@@ -14,7 +14,7 @@ const colors = {
 
 const hintColors = {
 	green: '#55da59',
-	gray: '#9a9a9a',
+	gray: '#9499a1AA',
 };
 
 const colors200 = {
@@ -37,28 +37,6 @@ const colors200 = {
 	brown: '#BCAAA4',
 	grey: '#EEEEEE',
 	blueGrey: '#B0BEC5',
-};
-
-const colors100 = {
-	red: '#FFCDD2',
-	pink: '#F8BBD0',
-	purple: '#E1BEE7',
-	deepPurple: '#D1C4E9',
-	indigo: '#C5CAE9',
-	blue: '#BBDEFB',
-	lightBlue: '#B3E5FC',
-	cyan: '#B2EBF2',
-	teal: '#B2DFDB',
-	green: '#C8E6C9',
-	lightGreen: '#DCEDC8',
-	lime: '#F0F4C3',
-	yellow: '#FFF9C4',
-	amber: '#FFECB3',
-	orange: '#FFE0B2',
-	deepOrange: '#FFCCBC',
-	brown: '#D7CCC8',
-	grey: '#F5F5F5',
-	blueGrey: '#CFD8DC',
 };
 
 const colors50 = {
@@ -88,6 +66,9 @@ const Theme = {
 	secondary: '#0098c5',
 	light: {
 		primary: '#009ee0',
+		courseBackground: '#F3F2F9',
+		eventBackground: '#FFFFFF',
+		eventBorder: '#3D3D3D',
 		secondary: '#0098c5',
 		selection: '#ededed',
 		accentFont: 'darkred',
@@ -100,22 +81,8 @@ const Theme = {
 		greyBackground: '#F0F0F0',
 		collapsableBackground: '#00000011',
 		field: '#ffffff',
-		sections: [
-			colors50.deepOrange,
-			colors50.pink,
-			colors50.lightBlue,
-			colors50.blueGrey,
-			colors50.green,
-			colors50.purple,
-		],
-		sectionsHeaders: [
-			colors200.deepOrange,
-			colors200.pink,
-			colors200.lightBlue,
-			colors200.blueGrey,
-			colors200.green,
-			colors200.purple,
-		],
+		sections: ['#009ee030', '#33b1e630', '#66c5ec30', '#007eb330', '#005f8630', '#003f5a30'],
+		sectionsHeaders: ['#009ee0', '#33b1e6', '#66c5ec', '#007eb3', '#005f86', '#003f5a'],
 		statusBar: '#006F9F',
 		calendar: {
 			sunday: '#CCCCCC',
@@ -309,91 +276,50 @@ const Theme = {
 			},
 		},
 		courses: {
-			'#FFFF00': {
-				// TP
-				// Lime
-				background: '#e6ee9c',
-				border: '#E65100',
-				line: '#c0ca33',
-			},
-			'#00FFFF': {
-				// Cours
-				// Cyan
-				background: '#4dd0e1',
-				border: '#006064',
-				line: '#00acc1',
-			},
-			'#800040': {
-				// Réunion de rentré
-				// Blue grey
-				background: '#b0bec5',
-				border: '#1A237E',
-				line: '#546e7a',
-			},
-			'#808000': {
-				// Atelier
-				// Blue grey
-				background: '#b0bec5',
-				border: '#1A237E',
-				line: '#546e7a',
-			},
-			'#800000': {
-				// TD Machine
-				// Red
-				background: '#e57373',
-				border: '#B71C1C',
-				line: '#e53935',
-			},
-			'#8000FF': {
-				// Oraux
-				// Orange
-				background: '#ffb74d',
-				border: '#311B92',
-				line: '#fb8c00',
-			},
-			'#00FF00': {
-				// TD
-				// Green
-				background: '#81c784',
-				border: '#004D40',
-				line: '#43a047',
-			},
-			'#400080': {
-				// Cours/TD
-				// Indigo
-				background: '#7986cb',
-				border: '#4A148C',
-				line: '#3949ab',
-			},
-			default: {
-				// Indigo
-				background: '#7986cb',
-				border: '#4A148C',
-				line: '#3949ab',
-			},
+			// TP: Lime
+			'#FFFF00': '#c0ca33',
+			// Cours: Cyan
+			'#00FFFF': '#00acc1',
+			// Réunion de rentré: Blue Grey
+			'#800040': '#546e7a',
+			// Atelier: Blue Grey
+			'#808000': '#546e7a',
+			// TD Machine: Red
+			'#800000': '#e53935',
+			// Oraux: Orange
+			'#8000FF': '#fb8c00',
+			// TD: Green
+			'#00FF00': '#43a047',
+			// Cours/TD: Indigo
+			'#400080': '#3949ab',
+			// Others: Indigo
+			default: '#3949ab',
 		},
 	},
 	dark: {
 		primary: '#200f21',
-		secondary: '#00617E',
+		courseBackground: '#451C47',
+		eventBackground: '#674669',
+		eventBorder: '#A192A2',
+		secondary: '#C2BDC2',
 		selection: '#00617E',
 		accentFont: '#f9fbe7',
 		font: '#C2BDC2',
 		link: '#4fc3f7',
 		lightFont: '#F0F0F0',
-		icon: '#00617E',
+		icon: '#C2BDC2',
 		border: '#372639',
 		background: '#200f21',
 		greyBackground: '#200f21',
 		field: '#200f21',
 		collapsableBackground: '#FFFFFF11',
-		sections: ['#141326', '#1E2117', '#2C162D', '#1D2426', '#261313', '#00251a'],
-		sectionsHeaders: ['#292839', '#32352C', '#3F2B40', '#313739', '#392828', '#004d40'],
+		sections: ['#451c4730', '#6a496c30', '#8f779130', '#37163930', '#29112b30', '#1c0b1c30'],
+		sectionsHeaders: ['#451c47', '#6a496c', '#8f7791', '#371639', '#29112b', '#1c0b1c'],
 		statusBar: '#000000',
 		calendar: {
-			sunday: '#002D3A',
-			currentDay: '#00617E',
-			selection: '#31442C',
+			sunday: '#2f1230',
+			currentDay: '#572159',
+			selection: '#674669',
 		},
 		settings: {
 			switchThumbColor: {
@@ -582,68 +508,24 @@ const Theme = {
 			},
 		},
 		courses: {
-			'#FFFF00': {
-				// TP
-				// Lime
-				background: '#7c8500',
-				border: '#B71C1C',
-				line: '#b4a647',
-			},
-			'#00FFFF': {
-				// Cours
-				// Cyan
-				background: '#006064',
-				border: '#006064',
-				line: '#428e92',
-			},
-			'#800040': {
-				// Réunion de rentré
-				// Blue grey
-				background: '#37474f',
-				border: '#1A237E',
-				line: '#4f5b62',
-			},
-			'#808000': {
-				// Réunion de rentré
-				// Blue grey
-				background: '#37474f',
-				border: '#1A237E',
-				line: '#4f5b62',
-			},
-			'#800000': {
-				// TD MACHINE
-				// Red
-				background: '#b71c1c',
-				border: '#004D40',
-				line: '#f05545',
-			},
-			'#8000FF': {
-				// Oraux
-				// Orange
-				background: '#e65100',
-				border: '#311B92',
-				line: '#ff833a',
-			},
-			'#00FF00': {
-				// TD
-				// Green
-				background: '#1b5e20',
-				border: '#4A148C',
-				line: '#4c8c4a',
-			},
-			'#400080': {
-				// Cours/TD
-				// Indigo
-				background: '#283593',
-				border: '#E65100',
-				line: '#534bae',
-			},
-			default: {
-				// Indigo
-				background: '#283593',
-				border: '#E65100',
-				line: '#534bae',
-			},
+			// TP: Lime
+			'#FFFF00': '#7c8500',
+			// Cours: Cyan
+			'#00FFFF': '#006064',
+			// Réunion de rentré: Blue Grey
+			'#800040': '#37474f',
+			// Atelier: Blue Grey
+			'#808000': '#37474f',
+			// TD Machine: Red
+			'#800000': '#b71c1c',
+			// Oraux: Orange
+			'#8000FF': '#e65100',
+			// TD: Green
+			'#00FF00': '#1b5e20',
+			// Cours/TD: Indigo
+			'#400080': '#283593',
+			// Others: Indigo
+			default: '#283593',
 		},
 	},
 };
@@ -772,11 +654,10 @@ export default {
 		course: {
 			root: {
 				flexDirection: 'column',
-				borderColor: colors.darkblue,
 				padding: 8,
 				borderWidth: 0,
 				marginHorizontal: 12,
-				marginVertical: 1,
+				marginVertical: 2,
 				backgroundColor: '#EEEEEE',
 			},
 			row: {
@@ -784,8 +665,8 @@ export default {
 				flexDirection: 'row',
 			},
 			hours: {
-				borderRightWidth: 5,
-				borderColor: colors.lightblue,
+				borderRightWidth: 2,
+				borderColor: colors.darkblue,
 				flexDirection: 'column',
 				justifyContent: 'space-between',
 				alignContent: 'center',

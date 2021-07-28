@@ -5,24 +5,18 @@ import { MaterialIcons } from '@expo/vector-icons';
 import CalendarNewEventPrompt from './buttons/CalendarNewEventPrompt';
 import style from '../Style';
 import Translator from '../utils/translator';
-import Toast from 'react-native-root-toast';
-import ErrorAlert from './alerts/ErrorAlert';
 
 export default class CourseRow extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		let backgroundColor = '#FFF';
-		let borderColor = '#FFF';
+		let backgroundColor = props.theme.eventBackground;
+		let borderColor = props.theme.eventBorder;
 		let lineColor = '#FFF';
 
 		if (props.theme.courses[props.data.color]) {
-			backgroundColor = props.theme.courses[props.data.color].background;
-			borderColor = props.theme.courses[props.data.color].border;
-			lineColor = props.theme.courses[props.data.color].line;
+			lineColor = props.theme.courses[props.data.color];
 		} else {
-			backgroundColor = props.theme.courses.default.background;
-			borderColor = props.theme.courses.default.border;
-			lineColor = props.theme.courses.default.line;
+			lineColor = props.theme.courses.default;
 		}
 
 		this.state = { backgroundColor, borderColor, lineColor, popupVisible: false };
@@ -113,9 +107,19 @@ export default class CourseRow extends React.PureComponent {
 						style.schedule.course.root,
 						{
 							backgroundColor: this.state.backgroundColor,
-							borderColor: this.state.borderColor,
 							marginHorizontal: isLargeMode ? 0 : 12,
 							borderRadius: isLargeMode ? 0 : 8,
+							shadowColor: '#000',
+							shadowOffset: {
+								width: 0,
+								height: 2,
+							},
+							shadowOpacity: 0.23,
+							shadowRadius: 2.62,
+							elevation: 4,
+
+							borderLeftWidth: 12,
+							borderLeftColor: this.state.lineColor,
 						},
 					]}>
 					<View style={style.schedule.course.row}>
