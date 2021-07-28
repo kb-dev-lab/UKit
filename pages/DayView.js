@@ -132,7 +132,7 @@ class DayView extends React.Component {
 		const theme = style.Theme[this.context.themeName];
 
 		return (
-			<View style={{ flex: 1, backgroundColor: theme.greyBackground }}>
+			<SafeAreaView style={{ flex: 1, backgroundColor: theme.greyBackground }}>
 				<DayComponent
 					key={`${this.state.days[0].dayOfYear()}-${this.context.themeName}`}
 					day={this.state.selectedDay}
@@ -218,7 +218,7 @@ class DayView extends React.Component {
 							</View>
 						</TouchableOpacity>
 					</View>
-					<SafeAreaView>
+					<View>
 						<FlatList
 							ref={(list) => (this.calendarList = list)}
 							showsHorizontalScrollIndicator={false}
@@ -233,9 +233,9 @@ class DayView extends React.Component {
 							renderItem={this.renderCalendarListItem}
 							style={{ backgroundColor: theme.courseBackground }}
 						/>
-					</SafeAreaView>
+					</View>
 				</View>
-			</View>
+			</SafeAreaView>
 		);
 	}
 }

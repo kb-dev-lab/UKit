@@ -222,7 +222,7 @@ class WeekView extends React.Component {
 							</View>
 						</TouchableOpacity>
 					</View>
-					<SafeAreaView>
+					<View>
 						<FlatList
 							ref={(list) => (this.calendarList = list)}
 							showsHorizontalScrollIndicator={false}
@@ -236,7 +236,7 @@ class WeekView extends React.Component {
 							renderItem={this.renderCalendarListItem}
 							style={{ backgroundColor: theme.courseBackground }}
 						/>
-					</SafeAreaView>
+					</View>
 				</View>
 			</SafeAreaView>
 		);
