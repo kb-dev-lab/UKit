@@ -1,5 +1,10 @@
 export default {
 	ABOUT: 'À propos',
+	ADD_TO_CALENDAR: "Ajouter l'événement au calendrier",
+	ADD_TO_CALENDAR_DESCRIPTION: 'Voulez vous ajouter l\'événement "$-" au calendrier ?',
+	ADD_TO_CALENDAR_DONE: 'Événement ajouté !',
+	ADD_TO_CALENDAR_PERMISSIONS:
+		"L'application a besoin des permissions pour ajouter des événements au calendrier",
 	APP_LAUNCHING: 'Démarrage',
 	APP_READY:
 		"L'application est maintenant prête, vous pouvez dès à présent consulter votre emploi du temps !",
@@ -19,7 +24,8 @@ export default {
 	ERROR_WITH_CODE: 'Le serveur a renvoyé une erreur $-',
 	ERROR_WITH_MESSAGE: 'Erreur : $-',
 	FILTERS: 'Filtres',
-	FILTERS_CONFIRMATION: 'Voulez vous filtrer cette UE? Vous pouvez toujours annuler cette action dans les paramètres.',
+	FILTERS_CONFIRMATION:
+		'Voulez-vous filtrer cette UE ? Vous pouvez toujours annuler cette action dans les paramètres.',
 	FILTERS_ENTER_CODE: 'Entrez ci-dessous les codes des UE que vous ne voulez afficher.',
 	FILTERS_SEPARATE_CODE: 'Séparer les codes des UE par des virgules et respectez la casse.',
 	FILTERS_UE: 'Filter une UE',
@@ -46,7 +52,7 @@ export default {
 	RESET: 'Réinitialiser',
 	RESET_APP: "Réinitialiser l'application",
 	RESET_APP_CONFIRMATION:
-		"Voulez vous réinitialiser l'application? Vous ne pourrez pas revenir en arrière.",
+		"Voulez vous réinitialiser l'application ? Vous ne pourrez pas revenir en arrière.",
 	SAVE: 'Sauvegarder',
 	SETTINGS: 'Paramètres',
 	SETTINGS_TO_MAKE: "Avant d'utiliser l'application, nous avons quelques réglages à faire.",

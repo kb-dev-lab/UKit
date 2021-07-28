@@ -24,6 +24,9 @@
       "bundleIdentifier": "com.bordeaux.ukit",
       "config": {
         "googleMapsApiKey": "AIzaSyB5JDcHP9k40e0ozKCSA9ObjPYusnhETBI"
+      },
+      "infoPlist": {
+        "NSRemindersUsageDescription": "This app needs access to the calendar in order to create events from your schedule"
       }
     },
     "android": {
@@ -37,7 +40,10 @@
         "foregroundImage": "./assets/icons/android_foreground.png",
         "backgroundImage": "./assets/icons/android_background.png"
       },
-      "permissions": [],
+      "permissions": [
+        "READ_CALENDAR",
+        "WRITE_CALENDAR"
+      ],
       "versionCode": 56
     },
     "androidStatusBar": {
