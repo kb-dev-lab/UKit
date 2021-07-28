@@ -135,7 +135,7 @@ class WeekView extends React.Component {
 		const theme = style.Theme[this.context.themeName];
 
 		return (
-			<SafeAreaView style={{ flex: 1, backgroundColor: theme.greyBackground }}>
+			<SafeAreaView style={{ flex: 1, backgroundColor: theme.courseBackground }}>
 				<WeekComponent
 					key={`weekComponent-${this.context.themeName}`}
 					week={this.state.selectedWeek}
@@ -222,21 +222,19 @@ class WeekView extends React.Component {
 							</View>
 						</TouchableOpacity>
 					</View>
-					<SafeAreaView>
-						<FlatList
-							ref={(list) => (this.calendarList = list)}
-							showsHorizontalScrollIndicator={false}
-							data={this.state.weeks}
-							horizontal={true}
-							keyExtractor={this.extractCalendarListItemKey}
-							viewabilityConfig={this.viewability}
-							initialScrollIndex={this.state.currentWeekIndex}
-							getItemLayout={WeekView.getCalendarListItemLayout}
-							extraData={this.state}
-							renderItem={this.renderCalendarListItem}
-							style={{ backgroundColor: theme.courseBackground }}
-						/>
-					</SafeAreaView>
+					<FlatList
+						ref={(list) => (this.calendarList = list)}
+						showsHorizontalScrollIndicator={false}
+						data={this.state.weeks}
+						horizontal={true}
+						keyExtractor={this.extractCalendarListItemKey}
+						viewabilityConfig={this.viewability}
+						initialScrollIndex={this.state.currentWeekIndex}
+						getItemLayout={WeekView.getCalendarListItemLayout}
+						extraData={this.state}
+						renderItem={this.renderCalendarListItem}
+						style={{ backgroundColor: theme.courseBackground }}
+					/>
 				</View>
 			</SafeAreaView>
 		);
