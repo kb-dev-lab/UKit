@@ -9,7 +9,7 @@
       "ios",
       "android"
     ],
-    "version": "3.6.1",
+    "version": "4.0.0",
     "orientation": "portrait",
     "primaryColor": "#006F9F",
     "icon": "./assets/icons/ios.png",
