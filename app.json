@@ -13,6 +13,7 @@
     "orientation": "portrait",
     "primaryColor": "#006F9F",
     "icon": "./assets/icons/ios.png",
+    "owner": "kbdev",
     "splash": {
       "image": "./assets/icons/splash.png",
       "backgroundColor": "#009de0",
