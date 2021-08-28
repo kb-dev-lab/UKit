@@ -45,7 +45,7 @@
         "READ_CALENDAR",
         "WRITE_CALENDAR"
       ],
-      "versionCode": 56
+      "versionCode": 57
     },
     "androidStatusBar": {
       "barStyle": "light-content",
