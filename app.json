@@ -9,11 +9,11 @@
       "ios",
       "android"
     ],
-    "version": "4.0.0",
+    "version": "4.0.1",
     "orientation": "portrait",
     "primaryColor": "#006F9F",
     "icon": "./assets/icons/ios.png",
-    "owner": "kbdev",
+    "owner": "hackjack",
     "splash": {
       "image": "./assets/icons/splash.png",
       "backgroundColor": "#009de0",
@@ -24,7 +24,8 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.bordeaux.ukit",
       "config": {
-        "googleMapsApiKey": "AIzaSyB5JDcHP9k40e0ozKCSA9ObjPYusnhETBI"
+        "googleMapsApiKey": "AIzaSyB5JDcHP9k40e0ozKCSA9ObjPYusnhETBI",
+        "usesNonExemptEncryption": false
       },
       "infoPlist": {
         "NSRemindersUsageDescription": "This app needs access to the calendar in order to create events from your schedule"
@@ -45,7 +46,7 @@
         "READ_CALENDAR",
         "WRITE_CALENDAR"
       ],
-      "versionCode": 56
+      "versionCode": 57
     },
     "androidStatusBar": {
       "barStyle": "light-content",
