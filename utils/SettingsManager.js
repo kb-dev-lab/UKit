@@ -161,7 +161,9 @@ class SettingsManager {
 				this._firstload = isFirstLoad;
 			}
 		} catch (error) {
-			new ErrorAlert("Settings couldn't be loaded", ErrorAlert.durations.SHORT).show();
+			this._firstload = true;
+
+			return;
 		}
 
 		try {
