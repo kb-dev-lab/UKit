@@ -25,6 +25,7 @@
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.5",
     "axios": "^0.21.1",
+    "dotenv": "^10.0.0",
     "expo": "^42.0.0",
     "expo-app-loading": "^1.0.3",
     "expo-asset": "^8.3.2",
@@ -49,7 +50,11 @@
     "react-native-screens": "~3.4.0",
     "react-native-svg": "12.1.1",
     "react-native-textinput-effects": "^0.6.1",
-    "react-native-webview": "11.6.2"
+    "react-native-webview": "11.6.2",
+    "sentry-expo": "^4.0.0",
+    "expo-application": "~3.2.0",
+    "expo-device": "~3.3.0",
+    "expo-updates": "~0.8.2"
   },
   "devDependencies": {
     "prettier": "^1.14.2"

@@ -162,7 +162,9 @@ class SettingsManager {
 			}
 		} catch (error) {
 			this._firstload = true;
+		}
 
+		if (this._firstload) {
 			return;
 		}
 

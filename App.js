@@ -3,6 +3,7 @@ import { Image } from 'react-native';
 import AppLoading from 'expo-app-loading';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
+import Constants from 'expo-constants';
 import {
 	Entypo,
 	Feather,
@@ -13,10 +14,21 @@ import {
 	SimpleLineIcons,
 } from '@expo/vector-icons';
 import { Montserrat_500Medium } from '@expo-google-fonts/montserrat';
+import * as Sentry from 'sentry-expo';
 
 import RootContainer from './containers/rootContainer';
 import SettingsManager from './utils/SettingsManager';
 import DataManager from './utils/DataManager';
+
+if (Constants.manifest.extra.sentryDSN) {
+	Sentry.init({
+		dsn: Constants.manifest.extra.sentryDSN,
+		enableInExpoDevelopment: false,
+		debug: false, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
+	});
+} else {
+	console.error('No Sentry URL provided.');
+}
 
 function cacheFonts(fonts) {
 	return fonts.map((font) => Font.loadAsync(font));
