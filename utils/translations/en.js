@@ -54,6 +54,7 @@ export default {
 	SAVE: 'Save',
 	SETTINGS: 'Settings',
 	SETTINGS_TO_MAKE: 'Before using the app, we have some settings to make.',
+	SPANISH: 'Spanish',
 	SPRING: 'Spring',
 	START: 'Start',
 	THIS_WEEK: 'This week',

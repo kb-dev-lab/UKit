@@ -56,6 +56,7 @@ export default {
 	SAVE: 'Sauvegarder',
 	SETTINGS: 'Paramètres',
 	SETTINGS_TO_MAKE: "Avant d'utiliser l'application, nous avons quelques réglages à faire.",
+	SPANISH: 'Espagnol',
 	SPRING: 'Printemps',
 	START: 'Commencer',
 	THIS_WEEK: 'Cette semaine',

@@ -4,7 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import Translator from '../../../../utils/translator';
 
-export default ({ theme, popupVisible, popupClose, language, setLanguageToFrench, setLanguageToEnglish }) => {
+export default ({ theme, popupVisible, popupClose, language, setLanguageToFrench, setLanguageToEnglish, setLanguageToSpanish }) => {
 	return (
 		<Modal
 			animationType="fade"
@@ -52,6 +52,20 @@ export default ({ theme, popupVisible, popupClose, language, setLanguageToFrench
 								color={theme.popup.radioIconColor}
 							/>
 							<Text style={theme.popup.radioText}>{Translator.get('ENGLISH')}</Text>
+						</TouchableOpacity>
+						<TouchableOpacity
+							onPress={setLanguageToSpanish}
+							style={theme.popup.radioContainer}>
+							<MaterialIcons
+								name={
+									language === 'es'
+										? 'radio-button-on'
+										: 'radio-button-off'
+								}
+								size={24}
+								color={theme.popup.radioIconColor}
+							/>
+							<Text style={theme.popup.radioText}>{Translator.get('SPANISH')}</Text>
 						</TouchableOpacity>
 					</View>
 				</View>

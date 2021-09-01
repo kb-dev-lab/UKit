@@ -17,6 +17,7 @@ import Translator from '../utils/translator';
 const LANGUAGE_LIST = {
 	fr: 'FRENCH',
 	en: 'ENGLISH',
+	es: 'SPANISH',
 };
 
 class Settings extends React.Component {
@@ -51,6 +52,10 @@ class Settings extends React.Component {
 
 	setLanguageToEnglish = () => {
 		if (this.state.language !== 'en') this.setSelectedLanguage('en');
+	};
+
+	setLanguageToSpanish = () => {
+		if (this.state.language !== 'es') this.setSelectedLanguage('es');
 	};
 
 	refreshFiltersList = () => {

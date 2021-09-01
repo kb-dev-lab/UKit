@@ -7,6 +7,7 @@ import FR from './translations/fr';
 
 const Translations = {
     en: EN,
+    es: ES,
     fr: FR,
 };
 
@@ -52,6 +53,8 @@ class Translator {
                 return 'Français';
             case 'en':
                 return 'English';
+            case 'es':
+                return 'Español';
             default:
                 return '';
         }
