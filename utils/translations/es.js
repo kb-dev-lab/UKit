@@ -9,7 +9,7 @@ export default {
 	APP_READY:
 		"¡La aplicación está ahora lista, puedes ahora puedes ahora consultar tu horario!",
 	APPLICATION_HISTORY:
-		"Esta aplicación ha sido desarrollada por Jean B. para el concurso de HackeTaFac 2017. Hoy en día, está mantenida por KBDev SARL.\nMuchas gracias a Thomas Clément (Github @thclmnt) por su energía, su entusiasmo y su tiempo, permitiendo a UKit ser siempre más agradable para todos.",
+		"Esta aplicación ha sido desarrollada por Jean B. para el concurso de HackeTaFac 2017. Hoy en día, está mantenida por KBDev SARL.\nMuchas gracias a Thomas Clément (Github @thclmnt) por su energía, su entusiasmo y su tiempo, permitiendo a UKit ser siempre más agradable para todos.\nGracias a @Gogotron (Github) para la traducción en español.",
 	AUTUMN: 'Otoño',
 	CANCEL: 'Cancelar',
 	COMPANY_WEBSITE: "Página web de la empresa",

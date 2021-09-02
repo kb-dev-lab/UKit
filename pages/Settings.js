@@ -153,6 +153,7 @@ class Settings extends React.Component {
 					language={this.state.language}
 					setLanguageToFrench={this.setLanguageToFrench}
 					setLanguageToEnglish={this.setLanguageToEnglish}
+					setLanguageToSpanish={this.setLanguageToSpanish}
 				/>
 
 				<SettingsFiltersPopup

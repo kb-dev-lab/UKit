@@ -1,9 +1,11 @@
 import * as moment from 'moment';
 import 'moment/locale/fr';
+import 'moment/locale/es';
 
 import SettingsManager from '../utils/SettingsManager';
 import EN from './translations/en';
 import FR from './translations/fr';
+import ES from './translations/es';
 
 const Translations = {
     en: EN,
