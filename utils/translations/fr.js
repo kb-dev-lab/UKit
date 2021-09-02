@@ -9,7 +9,7 @@ export default {
 	APP_READY:
 		"L'application est maintenant prête, vous pouvez dès à présent consulter votre emploi du temps !",
 	APPLICATION_HISTORY:
-		"Cette application a été développée par Jean B. dans le cadre du concours HackeTaFac 2017. Aujourd'hui, elle est maintenue par KBDev SARL.\nUn grand merci à Thomas Clément (Github @thclmnt) pour son énergie, son enthousiasme et son temps, permettant à UKit d'être toujours plus agréable pour toutes et tous.",
+		"Cette application a été développée par Jean B. dans le cadre du concours HackeTaFac 2017. Aujourd'hui, elle est maintenue par KBDev SARL.\nUn grand merci à Thomas Clément (Github @thclmnt) pour son énergie, son enthousiasme et son temps, permettant à UKit d'être toujours plus agréable pour toutes et tous.\nMerci à @Gogotron (Github) pour la traduction espagnole.",
 	AUTUMN: 'Automne',
 	CANCEL: 'Annuler',
 	COMPANY_WEBSITE: "Site web de l'entreprise",
@@ -56,6 +56,7 @@ export default {
 	SAVE: 'Sauvegarder',
 	SETTINGS: 'Paramètres',
 	SETTINGS_TO_MAKE: "Avant d'utiliser l'application, nous avons quelques réglages à faire.",
+	SPANISH: 'Espagnol',
 	SPRING: 'Printemps',
 	START: 'Commencer',
 	THIS_WEEK: 'Cette semaine',

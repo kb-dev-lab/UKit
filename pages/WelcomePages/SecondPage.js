@@ -20,6 +20,7 @@ const THEME_LIST = [
 const LANGUAGE_LIST = [
 	{ id: 'fr', title: 'FRENCH' },
 	{ id: 'en', title: 'ENGLISH' },
+	{ id: 'es', title: 'SPANISH' },
 ];
 
 class SecondWelcomePage extends React.Component {

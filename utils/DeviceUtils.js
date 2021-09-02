@@ -10,6 +10,14 @@ export function deviceLanguage() {
 }
 
 export function languageFromDevice() {
+	switch (deviceLanguage()) {
+		case 'fr_FR':
+			return 'fr';
+		case 'es_ES':
+			return 'es';
+		default:
+			return 'en';
+	}
 	if (deviceLanguage() === 'fr_FR') {
 		return 'fr';
 	} else {

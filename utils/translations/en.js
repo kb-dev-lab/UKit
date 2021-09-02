@@ -8,7 +8,7 @@ export default {
 	APP_LAUNCHING: 'Start-up',
 	APP_READY: 'The app is now ready, you can now check your class schedule!',
 	APPLICATION_HISTORY:
-		'This application has been developed by Jean B. for the HackeTaFac contest. App is now maintained by KBDev SARL.\nMany thanks to Thomas Clément (Github @thclmnt) for his energy, his enthusiasm and his time. With his help, UKit is a better application for everyone.',
+		'This application has been developed by Jean B. for the HackeTaFac contest. App is now maintained by KBDev SARL.\nMany thanks to Thomas Clément (Github @thclmnt) for his energy, his enthusiasm and his time. With his help, UKit is a better application for everyone.\nThanks to @Gogotron (Github) for the spanish translation.',
 	AUTUMN: 'Autumn',
 	CANCEL: 'Cancel',
 	COMPANY_WEBSITE: 'Company website',
@@ -54,6 +54,7 @@ export default {
 	SAVE: 'Save',
 	SETTINGS: 'Settings',
 	SETTINGS_TO_MAKE: 'Before using the app, we have some settings to make.',
+	SPANISH: 'Spanish',
 	SPRING: 'Spring',
 	START: 'Start',
 	THIS_WEEK: 'This week',
