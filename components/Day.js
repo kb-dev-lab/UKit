@@ -122,8 +122,8 @@ class Day extends React.Component {
 
 	computeSchedule(schedule, isFavorite) {
 		let regexUE = RegExp('([0-9][A-Z0-9]+) (.+)', 'im');
-
-		return schedule.map((course) => {
+		schedule = schedule.map((course, i) => {
+			// Split subject with UE and title of the course
 			if (course.subject && course.subject !== 'N/C') {
 				let match = regexUE.exec(course.subject);
 				if (match && match.length === 3) {
@@ -133,16 +133,15 @@ class Day extends React.Component {
 					course.UE = null;
 				}
 			}
-			if (
-				isFavorite &&
-				course.UE !== null &&
-				this.props.filtersList instanceof Array &&
-				this.props.filtersList.includes(course.UE)
-			) {
-				course = { schedule: 0, category: 'masked' };
-			}
 			return course;
-		});
+		}).filter((course) => isFavorite
+			&& course.toFilter !== null
+			&& course.UE !== null
+			&& this.props.filtersList instanceof Array
+			&& this.props.filtersList.includes(course.toFilter)
+			&& this.props.filtersList.includes(course.UE)
+		);
+		return schedule;
 	}
 
 	displayDate() {

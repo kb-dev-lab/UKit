@@ -13,7 +13,7 @@ const formatDescription = (string) => {
 		string
 			.replace(/\r/g, '')
 			.replace(/<br \/>/g, '')
-			.replace(/\n\n/g, '\n'),
+			.replace(/\n\n\n\n/g, ';'),
 	);
 	return str;
 };
@@ -145,7 +145,7 @@ class FetchManager {
 					subject = event.modules.shift();
 				}
 
-				const unfilteredDescription = formatDescription(event.description).split('\n');
+				const unfilteredDescription = formatDescription(event.description).split(';');
 				const description = [];
 				for (const field of unfilteredDescription) {
 					if (!field.includes(event.eventCategory) && !field.includes(subject)) {
@@ -165,6 +165,7 @@ class FetchManager {
 					description: description.filter((e) => e != '').join('\n'),
 					category: event.eventCategory,
 					group,
+					toFilter:description[0]
 				};
 				eventList.push(newEvent);
 			}
@@ -262,6 +263,7 @@ class FetchManager {
 				group,
 				day,
 				dayNumber,
+				toFilter:description[0]
 			};
 			eventList[dayNumberInt - 1].courses.push(newEvent);
 		}
