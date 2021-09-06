@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { AppState, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { RootSiblingParent } from 'react-native-root-siblings';
 
@@ -8,6 +8,7 @@ import Drawer from '../navigation/Drawer';
 import { AppContextProvider } from '../utils/DeviceUtils';
 import SettingsManager from '../utils/SettingsManager';
 import Welcome from '../navigation/WelcomePageStack';
+import Style from '../Style';
 
 // See : https://github.com/react-navigation/react-navigation/issues/5568
 // if (Platform.OS === 'android') {
@@ -20,6 +21,10 @@ export default () => {
 	const [groupName, setGroupName] = useState(SettingsManager.getGroup());
 	const [language, setLanguage] = useState(SettingsManager.getLanguage());
 	const [filters, setFilters] = useState(SettingsManager.getFilters());
+
+	function reloadData() {
+		SettingsManager.loadCalendars();
+	}
 
 	useEffect(() => {
 		SettingsManager.on('theme', (newTheme) => {
@@ -37,7 +42,13 @@ export default () => {
 		SettingsManager.on('filter', (newFilter) => {
 			setFilters(newFilter);
 		});
+
+		AppState.addEventListener('change', reloadData);
+
+		return () => AppState.removeEventListener('change', reloadData);
 	}, []);
+
+	const theme = Style.Theme[themeName];
 
 	return (
 		<RootSiblingParent>
@@ -45,7 +56,7 @@ export default () => {
 				<View style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
 					<AppContextProvider value={{ themeName, groupName, filters }}>
 						<StatusBar />
-						{isFirstLoad ? <Welcome /> : <Drawer />}
+						{isFirstLoad ? <Welcome /> : <Drawer background={theme.background} />}
 					</AppContextProvider>
 				</View>
 			</SafeAreaProvider>

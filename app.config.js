@@ -28,6 +28,7 @@ export default {
 		infoPlist: {
 			NSRemindersUsageDescription:
 				'This app needs access to the calendar in order to create events from your schedule',
+			UIBackgroundModes: ['fetch'],
 		},
 	},
 	android: {

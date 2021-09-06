@@ -273,6 +273,117 @@ class FetchManager {
 
 		return eventList;
 	};
+
+	fetchCalendarForSynchronization = async (group) => {
+		const currentDate = moment();
+		const begin = moment()
+			.set('month', 'August')
+			.startOf('month');
+		const end = moment()
+			.set('month', 'August')
+			.startOf('month')
+			.add(1, 'year');
+
+		// Returns false if we're between August and December
+		// Example : if we're in Sept 21 -> begin is August 21 and end August 22
+		//           if we're in Jan 22 -> begin is August 21 and end August 22
+		if (currentDate.isBefore(begin)) {
+			begin.subtract(1, 'year');
+			end.subtract(1, 'year');
+		}
+
+		const data = {
+			start: begin.format('YYYY-MM-DD'),
+			end: end.format('YYYY-MM-DD'),
+			resType: '103',
+			calView: 'agendaWeek',
+			'federationIds[]': group,
+			colourScheme: '3',
+		};
+
+		const options = {
+			method: 'POST',
+			url: WebApiURL.DOMAIN + WebApiURL.CALENDARDATA,
+			headers: {
+				Connection: 'keep-alive',
+				Pragma: 'no-cache',
+				'Cache-Control': 'no-cache',
+				Accept: 'application/json',
+				'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+			},
+			data: qs.stringify(data),
+		};
+
+		let response;
+
+		try {
+			response = await axios.request(options);
+		} catch (error) {
+			console.warn(error);
+		}
+
+		if (response?.status !== 200) return;
+
+		const events = [];
+
+		for (const event of response.data) {
+			if (event.eventCategory === 'Vacances') continue;
+
+			const startDate = moment(event.start);
+			const endDate = moment(event.end);
+			const day = upperCaseFirstLetter(moment(startDate).format('dddd L'));
+			const dayNumberInt = moment(startDate).isoWeekday();
+			const dayNumber = String(dayNumberInt);
+
+			const starttime = startDate.format('HH:mm');
+			const endtime = endDate.format('HH:mm');
+
+			let subject = event.eventCategory;
+			if (event.modules !== null) {
+				subject = event.modules.shift();
+			}
+
+			const unfilteredDescription = formatDescription(event.description).split('\n');
+			const description = [];
+
+			for (const field of unfilteredDescription) {
+				if (!field.includes(event.eventCategory) && !field.includes(subject)) {
+					description.push(field.trim());
+				}
+			}
+
+			const newEvent = {
+				id: event.id,
+				style: 'style="background-color:' + event.backgroundColor + '"',
+				color: event.backgroundColor,
+				schedule: starttime + '-' + endtime + ' ' + event.eventCategory,
+				starttime,
+				endtime,
+				date: { start: startDate.toISOString(), end: endDate.toISOString() },
+				subject,
+				description: description.filter((e) => e != '').join('\n'),
+				category: event.eventCategory,
+				group,
+				day,
+				dayNumber,
+			};
+
+			/*const details = {
+				title: this.props.data.subject,
+				startDate: new Date(this.props.data.date.start),
+				endDate: new Date(this.props.data.date.end),
+				timeZone: 'Europe/Paris',
+				endTimeZone: 'Europe/Paris',
+				notes: this.props.data.schedule + '\n' + this.props.data.description,
+			};*/
+
+			events.push(newEvent);
+		}
+
+		events.sort(this.sortFunctionGroup);
+
+		return events;
+	};
 }
 
 export default new FetchManager();
