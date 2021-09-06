@@ -29,6 +29,7 @@ export default {
 	ENGLISH: 'Anglais',
 	ERROR_WITH_CODE: 'Le serveur a renvoyé une erreur $-',
 	ERROR_WITH_MESSAGE: 'Erreur : $-',
+	EXISTING_CALENDARS: 'Calendriers existants :',
 	FILTERS: 'Filtres',
 	FILTERS_CONFIRMATION:
 		'Voulez-vous filtrer cette UE ? Vous pouvez toujours annuler cette action dans les paramètres.',
@@ -74,6 +75,7 @@ export default {
 	SYNC_ENABLED: 'Sync. auto activée',
 	THIS_WEEK: 'Cette semaine',
 	TODAY: "Aujourd'hui",
+	UKIT_CALENDAR: 'Nouveau calendrier UKit',
 	USE_SEARCH_BAR: 'Utilisez la barre de recherche pour affiner les résultats.',
 	YOUR_CALENDAR: 'Quel calendrier doit être utilisé pour la synchronisation ?',
 	YOUR_GROUP: 'Quel est ton groupe ?',

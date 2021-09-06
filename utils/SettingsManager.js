@@ -29,6 +29,54 @@ function formatCalendarEventData(event) {
 	};
 }
 
+async function createUKitCalendar(calendars) {
+	let calendar = {
+		title: `UKit`,
+		name: `UKit`,
+		color: '#009ee0',
+		entityType: Calendar.EntityTypes.EVENT,
+		allowsModifications: true,
+		source: {
+			isLocalAccount: true,
+			name: 'UKit',
+			type: Calendar.SourceType.LOCAL,
+		},
+		ownerAccount: 'ukit',
+		timeZone: 'Europe/Paris',
+		isVisible: true,
+		isPrimary: false,
+		isSynced: false,
+		allowedAvailabilities: ['busy', 'free'],
+		allowedReminders: ['default', 'alert', 'email'],
+		accessLevel: 'owner',
+		allowedAttendeeTypes: ['none', 'required', 'optional'],
+	};
+
+	if (Platform.OS === 'ios') {
+		const local = calendars.filter(
+			(fetchedCalendar) =>
+				fetchedCalendar.source &&
+				(fetchedCalendar.source.type === Calendar.CalendarType.LOCAL ||
+					(fetchedCalendar.source.type === Calendar.CalendarType.CALDAV &&
+						fetchedCalendar.source.name === 'iCloud')),
+		);
+		if (local.length < 1) {
+			throw new Error('Impossible to find a source calendar');
+		}
+
+		calendar = {
+			title: `UKit`,
+			color: '#009ee0',
+			entityType: Calendar.EntityTypes.EVENT,
+			allowsModifications: true,
+			allowedAvailabilities: [],
+			sourceId: local[0].source.id,
+		};
+	}
+
+	return await Calendar.createCalendarAsync(calendar);
+}
+
 class SettingsManager {
 	constructor() {
 		this._calendar = -1;
@@ -154,8 +202,28 @@ class SettingsManager {
 	};
 
 	syncCalendar = async () => {
+		if (this._calendar === -1) {
+			return;
+		}
+		
 		this._isSynchronizingCalendar = true;
 		this.notify('isSynchronizingCalendar', true);
+
+		if (this._calendar === 'UKit') {
+			let ukitCalendar = this._calendars.find((cal) => cal.title === 'UKit');
+
+			if (ukitCalendar) {
+				await Calendar.deleteCalendarAsync(ukitCalendar.id);
+				console.log('deletion', ukitCalendar);
+				ukitCalendar = null;
+			}
+
+			if (!ukitCalendar) {
+				this._calendar = await createUKitCalendar(this._calendars);
+			} else {
+				this._calendar = ukitCalendar.id;
+			}
+		}
 
 		const events = await FetchManager.fetchCalendarForSynchronization(this._groupName);
 		let existingCalendarEvents = {};

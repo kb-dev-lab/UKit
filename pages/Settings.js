@@ -50,8 +50,13 @@ class Settings extends React.Component {
 	}
 
 	setCalendar = (calendar) => {
-		this.setState({ selectedCalendar: calendar.id });
-		SettingsManager.setSyncCalendar(calendar.id);
+		if (calendar === 'UKit') {
+			this.setState({ selectedCalendar: calendar });
+			SettingsManager.setSyncCalendar(calendar);
+		} else {
+			this.setState({ selectedCalendar: calendar.id });
+			SettingsManager.setSyncCalendar(calendar.id);
+		}
 	};
 
 	setSelectedLanguage = (newLang) => {
@@ -184,7 +189,11 @@ class Settings extends React.Component {
 		const themeName = this.context.themeName;
 		const theme = style.Theme[themeName].settings;
 		const calendar = this.state.calendars.find((cal) => this.state.selectedCalendar === cal.id);
-		const calendarName = !!calendar ? calendar.title : Translator.get('NOT_FOUND');
+		const calendarName = !!calendar
+			? calendar.title
+			: this.state.selectedCalendar === 'UKit'
+			? 'UKit'
+			: Translator.get('NOT_FOUND');
 		const lastSyncDate = SettingsManager.getLastSyncDate();
 
 		return (
@@ -260,7 +269,10 @@ class Settings extends React.Component {
 							<SettingsDefaultButton
 								theme={theme}
 								onPress={SettingsManager.syncCalendar}
-								disabled={this.state.isSynchronizingCalendar}
+								disabled={
+									this.state.selectedCalendar !== -1 &&
+									this.state.isSynchronizingCalendar
+								}
 								leftIconAnimation={
 									this.state.isSynchronizingCalendar ? 'rotate' : ''
 								}
