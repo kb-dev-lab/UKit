@@ -11,6 +11,7 @@ import ErrorAlert from './alerts/ErrorAlert';
 import DeviceUtils from '../utils/DeviceUtils';
 import Translator from '../utils/translator';
 import FetchManager from '../utils/FetchManager';
+import CourseManager from "../utils/CourseManager";
 
 class Week extends React.Component {
 	constructor(props) {
@@ -120,28 +121,11 @@ class Week extends React.Component {
 	}
 
 	computeSchedule(schedule, isFavorite) {
-		let regexUE = RegExp('([0-9][A-Z0-9]+) (.+)', 'im');
-
-		schedule.courses = schedule.courses.map((course) => {
-			if (course.subject && course.subject !== 'N/C') {
-				let match = regexUE.exec(course.subject);
-				if (match && match.length === 3) {
-					course.UE = match[1];
-					course.subject = `${match[2]}`;
-				} else {
-					course.UE = null;
-				}
-			}
-			if (
-				isFavorite &&
-				course.UE !== null &&
-				this.props.filtersList instanceof Array &&
-				this.props.filtersList.includes(course.UE)
-			) {
-				course = { schedule: 0, category: 'masked' };
-			}
-			return course;
-		});
+		schedule.courses = schedule.courses.map((course) =>
+			CourseManager.computeCourseUE(course)
+		).filter((course) =>
+            CourseManager.filterCourse(isFavorite, course, this.props.filtersList)
+        );
 		return schedule;
 	}
 

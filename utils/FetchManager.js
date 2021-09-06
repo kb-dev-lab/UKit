@@ -153,6 +153,12 @@ class FetchManager {
 					}
 				}
 
+				let toFilter = null;
+				if (description[0].includes(group)) {
+					let filter = description[0].replace(group,'').replace('-','').trim();
+					toFilter = (filter !== '') ? filter : null;
+				}
+
 				const newEvent = {
 					id: event.id,
 					style: 'style="background-color:' + event.backgroundColor + '"',
@@ -165,7 +171,7 @@ class FetchManager {
 					description: description.filter((e) => e != '').join('\n'),
 					category: event.eventCategory,
 					group,
-					toFilter:description[0]
+					toFilter
 				};
 				eventList.push(newEvent);
 			}
@@ -249,6 +255,12 @@ class FetchManager {
 				}
 			}
 
+			let toFilter = null;
+			if (description[0].includes(group)) {
+				let filter = description[0].replace(group,'').replace('-','').trim();
+				toFilter = (filter !== '') ? filter : null;
+			}
+
 			const newEvent = {
 				id: event.id,
 				style: 'style="background-color:' + event.backgroundColor + '"',
@@ -263,7 +275,7 @@ class FetchManager {
 				group,
 				day,
 				dayNumber,
-				toFilter:description[0]
+				toFilter
 			};
 			eventList[dayNumberInt - 1].courses.push(newEvent);
 		}
