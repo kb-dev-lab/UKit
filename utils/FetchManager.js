@@ -13,7 +13,7 @@ const formatDescription = (string) => {
 		string
 			.replace(/\r/g, '')
 			.replace(/<br \/>/g, '')
-			.replace(/\n\n/g, '\n'),
+			.replace(/\n\n\n\n/g, ';'),
 	);
 	return str;
 };
@@ -145,12 +145,18 @@ class FetchManager {
 					subject = event.modules.shift();
 				}
 
-				const unfilteredDescription = formatDescription(event.description).split('\n');
+				const unfilteredDescription = formatDescription(event.description).split(';');
 				const description = [];
 				for (const field of unfilteredDescription) {
 					if (!field.includes(event.eventCategory) && !field.includes(subject)) {
 						description.push(field.trim());
 					}
+				}
+
+				let toFilter = null;
+				if (description[0].includes(group)) {
+					let filter = description[0].replace(group,'').replace('-','').trim();
+					toFilter = (filter !== '') ? filter : null;
 				}
 
 				const newEvent = {
@@ -165,6 +171,7 @@ class FetchManager {
 					description: description.filter((e) => e != '').join('\n'),
 					category: event.eventCategory,
 					group,
+					toFilter
 				};
 				eventList.push(newEvent);
 			}
@@ -248,6 +255,12 @@ class FetchManager {
 				}
 			}
 
+			let toFilter = null;
+			if (description[0].includes(group)) {
+				let filter = description[0].replace(group,'').replace('-','').trim();
+				toFilter = (filter !== '') ? filter : null;
+			}
+
 			const newEvent = {
 				id: event.id,
 				style: 'style="background-color:' + event.backgroundColor + '"',
@@ -262,6 +275,7 @@ class FetchManager {
 				group,
 				day,
 				dayNumber,
+				toFilter
 			};
 			eventList[dayNumberInt - 1].courses.push(newEvent);
 		}
