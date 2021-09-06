@@ -197,26 +197,69 @@ class SettingsManager {
 	};
 
 	setSyncCalendar = (newCalendar) => {
+		if (this._calendar !== -1) {
+			this.deleteAllPreviousCalendarEntries(this._calendar);
+		}
+
 		this._calendar = newCalendar;
 		this.notify('calendar', this._calendar);
+	};
+
+	deleteAllPreviousCalendarEntries = async (calendar) => {
+		if (calendar === -1) {
+			return;
+		}
+
+		if (calendar === 'UKit') {
+			const ukitCalendar = this._calendars.find((cal) => cal.title === 'UKit');
+
+			if (ukitCalendar) {
+				await Calendar.deleteCalendarAsync(ukitCalendar.id);
+			}
+
+			await AsyncStorage.removeItem('previousSyncData');
+			await AsyncStorage.removeItem('previousSyncTime');
+
+			return;
+		}
+
+		let existingCalendarEvents = {};
+
+		try {
+			const data = await AsyncStorage.getItem('previousSyncData');
+
+			existingCalendarEvents = JSON.parse(data);
+
+			if (!existingCalendarEvents) {
+				existingCalendarEvents = {};
+			}
+		} catch (e) {
+			// Invalid or inexisting data, so consider there's no previous data
+			existingCalendarEvents = {};
+		}
+
+		const existingInternalCalendarEvents = Object.values(existingCalendarEvents);
+
+		await Promise.all(
+			existingInternalCalendarEvents.map((id) => Calendar.deleteEventAsync(id)),
+		);
+
+		await AsyncStorage.removeItem('previousSyncData');
+		await AsyncStorage.removeItem('previousSyncTime');
+
+		this._lastSyncDate = null;
 	};
 
 	syncCalendar = async () => {
 		if (this._calendar === -1) {
 			return;
 		}
-		
+
 		this._isSynchronizingCalendar = true;
 		this.notify('isSynchronizingCalendar', true);
 
 		if (this._calendar === 'UKit') {
-			let ukitCalendar = this._calendars.find((cal) => cal.title === 'UKit');
-
-			if (ukitCalendar) {
-				await Calendar.deleteCalendarAsync(ukitCalendar.id);
-				console.log('deletion', ukitCalendar);
-				ukitCalendar = null;
-			}
+			const ukitCalendar = this._calendars.find((cal) => cal.title === 'UKit');
 
 			if (!ukitCalendar) {
 				this._calendar = await createUKitCalendar(this._calendars);
