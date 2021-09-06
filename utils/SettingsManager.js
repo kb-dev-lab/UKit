@@ -234,7 +234,7 @@ class SettingsManager {
 
 		if (state === true) {
 			BackgroundFetch.registerTaskAsync(BACKGROUND_FETCH_TASK, {
-				minimumInterval: 1,
+				minimumInterval: TASK_DELAY,
 				stopOnTerminate: false,
 				startOnBoot: true,
 			});
