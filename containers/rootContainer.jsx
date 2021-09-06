@@ -8,6 +8,7 @@ import Drawer from '../navigation/Drawer';
 import { AppContextProvider } from '../utils/DeviceUtils';
 import SettingsManager from '../utils/SettingsManager';
 import Welcome from '../navigation/WelcomePageStack';
+import Style from '../Style';
 
 // See : https://github.com/react-navigation/react-navigation/issues/5568
 // if (Platform.OS === 'android') {
@@ -39,13 +40,15 @@ export default () => {
 		});
 	}, []);
 
+	const theme = Style.Theme[themeName];
+
 	return (
 		<RootSiblingParent>
 			<SafeAreaProvider>
 				<View style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
 					<AppContextProvider value={{ themeName, groupName, filters }}>
 						<StatusBar />
-						{isFirstLoad ? <Welcome /> : <Drawer />}
+						{isFirstLoad ? <Welcome /> : <Drawer background={theme.background} />}
 					</AppContextProvider>
 				</View>
 			</SafeAreaProvider>
