@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { AppState, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { RootSiblingParent } from 'react-native-root-siblings';
 
@@ -22,6 +22,10 @@ export default () => {
 	const [language, setLanguage] = useState(SettingsManager.getLanguage());
 	const [filters, setFilters] = useState(SettingsManager.getFilters());
 
+	function reloadData() {
+		SettingsManager.loadCalendars();
+	}
+
 	useEffect(() => {
 		SettingsManager.on('theme', (newTheme) => {
 			setThemeName(newTheme);
@@ -38,6 +42,10 @@ export default () => {
 		SettingsManager.on('filter', (newFilter) => {
 			setFilters(newFilter);
 		});
+
+		AppState.addEventListener('change', reloadData);
+
+		return () => AppState.removeEventListener('change', reloadData);
 	}, []);
 
 	const theme = Style.Theme[themeName];

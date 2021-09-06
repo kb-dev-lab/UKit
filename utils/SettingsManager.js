@@ -1,9 +1,38 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Appearance } from 'react-native-appearance';
+import * as Calendar from 'expo-calendar';
+import moment from 'moment';
+import * as BackgroundFetch from 'expo-background-fetch';
+import * as TaskManager from 'expo-task-manager';
+
 import ErrorAlert from '../components/alerts/ErrorAlert';
+
+import FetchManager from './FetchManager';
+
+const TASK_DELAY = 12 * 60 * 60; // 12 hours
+const BACKGROUND_FETCH_TASK = 'background-fetch';
+
+TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
+	await Manager.syncCalendar();
+
+	return BackgroundFetch.Result.NewData;
+});
+
+function formatCalendarEventData(event) {
+	return {
+		title: event.subject,
+		startDate: new Date(event.date.start),
+		endDate: new Date(event.date.end),
+		timeZone: 'Europe/Paris',
+		endTimeZone: 'Europe/Paris',
+		notes: event.schedule + '\n' + event.description,
+	};
+}
 
 class SettingsManager {
 	constructor() {
+		this._calendar = -1;
+		this._calendars = [];
 		this._firstload = true;
 		this._theme = 'light';
 		this._groupName = null;
@@ -11,6 +40,9 @@ class SettingsManager {
 		this._openAppOnFavoriteGroup = true;
 		this._filters = [];
 		this._subscribers = {};
+		this._calendarSyncEnabled = false;
+		this._isSynchronizingCalendar = false;
+		this._lastSyncDate = null;
 	}
 
 	on = (event, callback) => {
@@ -19,6 +51,18 @@ class SettingsManager {
 		}
 
 		this._subscribers[event].push(callback);
+	};
+
+	unsubscribe = (event, callback) => {
+		if (!this._subscribers[event]?.length) {
+			return;
+		}
+
+		const index = this._subscribers[event]?.indexOf(callback);
+
+		if (index !== -1) {
+			this._subscribers[event].splice(index, 1);
+		}
 	};
 
 	notify = (event, ...args) => {
@@ -65,6 +109,10 @@ class SettingsManager {
 		return this._firstload;
 	};
 
+	isSynchronizingCalendar = () => {
+		return this._isSynchronizingCalendar;
+	};
+
 	setFirstLoad = (newState) => {
 		this._firstload = newState;
 		this.notify('firstload', this._firstload);
@@ -90,6 +138,109 @@ class SettingsManager {
 	setLanguage = (newLang) => {
 		this._language = newLang;
 		this.notify('language', this._language);
+	};
+
+	getLastSyncDate = () => {
+		return this._lastSyncDate;
+	};
+
+	getSyncCalendar = () => {
+		return this._calendar;
+	};
+
+	setSyncCalendar = (newCalendar) => {
+		this._calendar = newCalendar;
+		this.notify('calendar', this._calendar);
+	};
+
+	syncCalendar = async () => {
+		this._isSynchronizingCalendar = true;
+		this.notify('isSynchronizingCalendar', true);
+
+		const events = await FetchManager.fetchCalendarForSynchronization(this._groupName);
+		let existingCalendarEvents = {};
+
+		try {
+			const data = await AsyncStorage.getItem('previousSyncData');
+
+			existingCalendarEvents = JSON.parse(data);
+
+			if (!existingCalendarEvents) {
+				existingCalendarEvents = {};
+			}
+		} catch (e) {
+			// Invalid or inexisting data, so consider there's no previous data
+			existingCalendarEvents = {};
+		}
+
+		const existingInternalCalendarEvents = Object.values(existingCalendarEvents);
+
+		const updatedEvents = [];
+		const nextExistingCalendarEvents = {};
+
+		await events.reduce((p, event) => {
+			return p.then(async () => {
+				const eventToCreate = formatCalendarEventData(event);
+				const existingInternalEventId = existingCalendarEvents[String(event.id)];
+
+				if (existingInternalEventId) {
+					try {
+						await Calendar.updateEventAsync(existingInternalEventId, eventToCreate);
+
+						updatedEvents.push(existingInternalEventId);
+						nextExistingCalendarEvents[String(event.id)] = existingInternalEventId;
+					} catch (e) {
+						// Event is not found, so create event instead
+						const id = await Calendar.createEventAsync(this._calendar, eventToCreate);
+
+						nextExistingCalendarEvents[String(event.id)] = id;
+					}
+				} else {
+					const id = await Calendar.createEventAsync(this._calendar, eventToCreate);
+
+					nextExistingCalendarEvents[String(event.id)] = id;
+				}
+			});
+		}, Promise.resolve());
+
+		const internalEventsToDelete = existingInternalCalendarEvents.filter(
+			(id) => updatedEvents.indexOf(id) === -1,
+		);
+
+		if (internalEventsToDelete.length) {
+			await Promise.all(internalEventsToDelete.map((id) => Calendar.deleteEventAsync(id)));
+		}
+
+		await AsyncStorage.setItem('previousSyncData', JSON.stringify(nextExistingCalendarEvents));
+		await AsyncStorage.setItem('previousSyncTime', String(Date.now()));
+
+		this._lastSyncDate = moment();
+
+		this._isSynchronizingCalendar = false;
+		this.notify('isSynchronizingCalendar', false);
+	};
+
+	getCalendars = () => {
+		return this._calendars;
+	};
+
+	getCalendarSyncEnabled = () => {
+		return this._calendarSyncEnabled;
+	};
+
+	setCalendarSyncEnabled = (state) => {
+		this._calendarSyncEnabled = state;
+		this.notify('calendarSyncEnabled', state);
+
+		if (state === true) {
+			BackgroundFetch.registerTaskAsync(BACKGROUND_FETCH_TASK, {
+				minimumInterval: 1,
+				stopOnTerminate: false,
+				startOnBoot: true,
+			});
+		} else {
+			BackgroundFetch.unregisterTaskAsync(BACKGROUND_FETCH_TASK);
+		}
 	};
 
 	getOpenAppOnFavoriteGroup = () => {
@@ -128,6 +279,12 @@ class SettingsManager {
 		this.notify('filter', this._filters);
 	};
 
+	loadCalendars = async () => {
+		if ((await Calendar.getCalendarPermissionsAsync()).status === 'granted') {
+			this._calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
+		}
+	};
+
 	resetSettings = () => {
 		this.setTheme('light');
 		this.setLanguage('fr');
@@ -142,16 +299,20 @@ class SettingsManager {
 		AsyncStorage.setItem(
 			'settings',
 			JSON.stringify({
+				calendar: this._calendar,
 				theme: this._theme,
 				groupName: this._groupName,
 				language: this._language,
 				openAppOnFavoriteGroup: this._openAppOnFavoriteGroup,
 				filters: this._filters,
+				calendarSyncEnabled: this._calendarSyncEnabled,
 			}),
 		);
 	};
 
 	loadSettings = async () => {
+		await this.loadCalendars();
+
 		try {
 			const isFirstLoad = JSON.parse(await AsyncStorage.getItem('firstload'));
 
@@ -166,6 +327,12 @@ class SettingsManager {
 
 		if (this._firstload) {
 			return;
+		}
+
+		const lastSyncDateItem = await AsyncStorage.getItem('previousSyncTime');
+
+		if (lastSyncDateItem !== null) {
+			this._lastSyncDate = moment(parseInt(lastSyncDateItem, 10));
 		}
 
 		try {
@@ -183,6 +350,12 @@ class SettingsManager {
 			if (settings?.filters) {
 				this._filters = [...settings.filters];
 			}
+			if (settings?.calendar !== undefined) {
+				this._calendar = settings?.calendar;
+			}
+			if (settings?.calendarSyncEnabled) {
+				this._calendarSyncEnabled = true;
+			}
 			if (settings?.language) {
 				this.setLanguage(settings.language);
 			}
@@ -192,4 +365,6 @@ class SettingsManager {
 	};
 }
 
-export default new SettingsManager();
+const Manager = new SettingsManager();
+
+export default Manager;

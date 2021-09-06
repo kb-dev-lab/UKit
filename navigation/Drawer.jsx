@@ -140,8 +140,8 @@ const CustomDrawerContentComponent = (props) => {
 
 const Drawer = createDrawerNavigator();
 
-export default () => (
-	<NavigationContainer>
+export default ({ background }) => (
+	<NavigationContainer theme={{ colors: { background } }}>
 		<Drawer.Navigator drawerContent={(props) => <CustomDrawerContentComponent {...props} />}>
 			<Drawer.Screen name="Home" component={StackNavigator} />
 		</Drawer.Navigator>

@@ -179,7 +179,11 @@ const StackNavigator = () => (
 									paddingRight: 16,
 									flexDirection: 'row',
 								}}>
-								<FilterRemoveButton UE={route.params?.data?.UE} themeName={themeName} backAction={navigation.goBack}/>
+								<FilterRemoveButton
+									UE={route.params?.data?.UE}
+									themeName={themeName}
+									backAction={navigation.goBack}
+								/>
 							</View>
 						);
 						return NavBarHelper({
