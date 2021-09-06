@@ -16,6 +16,7 @@ export default ({ theme, onPress, leftIcon, leftIconAnimation, leftText, rightTe
 			).start();
 		} else {
 			Animated.timing(rotatingAnimation).stop();
+			rotatingAnimation.setValue(0);
 		}
 	}, [leftIconAnimation]);
 
