@@ -107,7 +107,9 @@ class FetchManager {
 	// };
 
 	fetchCalendarDay = async (group, date) => {
-		const endQueryDate = moment(date, "YYYY-MM-DD").add(1,'day').format("YYYY-MM-DD");
+		const endQueryDate = moment(date, 'YYYY-MM-DD')
+			.add(1, 'day')
+			.format('YYYY-MM-DD');
 		const data = {
 			start: date,
 			end: endQueryDate,
@@ -156,8 +158,11 @@ class FetchManager {
 
 				let toFilter = null;
 				if (description[0].includes(group)) {
-					let filter = description[0].replace(group,'').replace('-','').trim();
-					toFilter = (filter !== '') ? filter : null;
+					let filter = description[0]
+						.replace(group, '')
+						.replace('-', '')
+						.trim();
+					toFilter = filter !== '' ? filter : null;
 				}
 
 				const newEvent = {
@@ -172,7 +177,7 @@ class FetchManager {
 					description: description.filter((e) => e != '').join('\n'),
 					category: event.eventCategory,
 					group,
-					toFilter
+					toFilter,
 				};
 				eventList.push(newEvent);
 			}
@@ -258,8 +263,11 @@ class FetchManager {
 
 			let toFilter = null;
 			if (description[0].includes(group)) {
-				let filter = description[0].replace(group,'').replace('-','').trim();
-				toFilter = (filter !== '') ? filter : null;
+				let filter = description[0]
+					.replace(group, '')
+					.replace('-', '')
+					.trim();
+				toFilter = filter !== '' ? filter : null;
 			}
 
 			const newEvent = {
@@ -276,7 +284,7 @@ class FetchManager {
 				group,
 				day,
 				dayNumber,
-				toFilter
+				toFilter,
 			};
 			eventList[dayNumberInt - 1].courses.push(newEvent);
 		}
