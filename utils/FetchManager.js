@@ -107,9 +107,10 @@ class FetchManager {
 	// };
 
 	fetchCalendarDay = async (group, date) => {
+		const endQueryDate = moment(date, "YYYY-MM-DD").add(1,'day').format("YYYY-MM-DD");
 		const data = {
 			start: date,
-			end: date,
+			end: endQueryDate,
 			resType: '103',
 			calView: 'agendaDay',
 			'federationIds[]': group,
