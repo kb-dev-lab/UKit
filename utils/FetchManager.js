@@ -138,6 +138,7 @@ class FetchManager {
 
 			for (const event of response.data) {
 				if (event.eventCategory === 'Vacances') continue;
+				if (moment(event.start).format('YYYY-MM-DD') !== date) continue;
 				const startDate = moment(event.start);
 				const endDate = moment(event.end);
 				const starttime = startDate.format('HH:mm');
