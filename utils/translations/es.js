@@ -7,6 +7,7 @@ export default {
 		'La aplicación necesita permisos para añadir eventos al calendario',
 	APP_LAUNCHING: 'Puesta en marcha',
 	APP_READY: '¡La aplicación está ahora lista, puedes ahora puedes ahora consultar tu horario!',
+	APPLICATION: 'Aplicación',
 	APPLICATION_HISTORY:
 		'Esta aplicación ha sido desarrollada por Jean B. para el concurso de HackeTaFac 2017. Hoy en día, está mantenida por KBDev SARL.\nMuchas gracias a Thomas Clément (Github @thclmnt) por su energía, su entusiasmo y su tiempo, permitiendo a UKit ser siempre más agradable para todos.\nGracias a @Gogotron (Github) por la traducción en español.',
 	AUTO_SYNC_DESCRIPTION:

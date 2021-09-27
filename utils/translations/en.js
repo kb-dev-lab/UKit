@@ -7,6 +7,7 @@ export default {
 		'This application needs permissions in order to add events to calendar',
 	APP_LAUNCHING: 'Start-up',
 	APP_READY: 'The app is now ready, you can now check your class schedule!',
+	APPLICATION: 'Application',
 	APPLICATION_HISTORY:
 		'This application has been developed by Jean B. for the HackeTaFac contest. App is now maintained by KBDev SARL.\nMany thanks to Thomas Clément (Github @thclmnt) for his energy, his enthusiasm and his time. With his help, UKit is a better application for everyone.\nThanks to @Gogotron (Github) for the spanish translation.',
 	AUTO_SYNC_DESCRIPTION:
