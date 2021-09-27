@@ -10,7 +10,7 @@ export default {
 		"L'application est maintenant prête, vous pouvez dès à présent consulter votre emploi du temps !",
 	APPLICATION: 'Application',
 	APPLICATION_HISTORY:
-		"Cette application a été développée par Jean B. dans le cadre du concours HackeTaFac 2017. Aujourd'hui, elle est maintenue par KBDev SARL.\nUn grand merci à Thomas Clément (Github @thclmnt) pour son énergie, son enthousiasme et son temps, permettant à UKit d'être toujours plus agréable pour toutes et tous.\nMerci à @Gogotron (Github) pour la traduction espagnole.",
+		"Cette application a été développée par Jean B. dans le cadre du concours HackeTaFac 2017. Aujourd'hui, elle est maintenue par KBDev SARL.\nUn grand merci à Thomas Clément (Github @thclmnt) pour son énergie, son enthousiasme et son temps, permettant à UKit d'être toujours plus agréable pour toutes et tous.\nMerci à Iñigo Diaz Iribarnegaray (Github @Gogotron) pour la traduction espagnole.",
 	AUTO_SYNC_DESCRIPTION:
 		"La synchronisation automatique s'active tous les 12 heures pour rafraîchir les données du calendrier.",
 	AUTUMN: 'Automne',

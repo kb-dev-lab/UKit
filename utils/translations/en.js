@@ -9,7 +9,7 @@ export default {
 	APP_READY: 'The app is now ready, you can now check your class schedule!',
 	APPLICATION: 'Application',
 	APPLICATION_HISTORY:
-		'This application has been developed by Jean B. for the HackeTaFac contest. App is now maintained by KBDev SARL.\nMany thanks to Thomas Clément (Github @thclmnt) for his energy, his enthusiasm and his time. With his help, UKit is a better application for everyone.\nThanks to @Gogotron (Github) for the spanish translation.',
+		'This application has been developed by Jean B. for the HackeTaFac contest. App is now maintained by KBDev SARL.\nMany thanks to Thomas Clément (Github @thclmnt) for his energy, his enthusiasm and his time. With his help, UKit is a better application for everyone.\nThanks to Iñigo Diaz Iribarnegaray (Github @Gogotron) for the spanish translation.',
 	AUTO_SYNC_DESCRIPTION:
 		'Auto sync. is triggered every 12 hours to refresh data in the calendar.',
 	AUTUMN: 'Autumn',
