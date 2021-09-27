@@ -77,6 +77,7 @@ export default {
 	START: 'Commencer',
 	SYNCHRONIZING: 'Synchronisation en cours',
 	SYNC_ENABLED: 'Sync. auto activée',
+	SYNC_NOW: 'Sync. maintenant',
 	THIS_WEEK: 'Cette semaine',
 	TODAY: "Aujourd'hui",
 	UKIT_CALENDAR: 'Nouveau calendrier UKit',
