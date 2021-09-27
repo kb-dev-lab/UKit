@@ -13,6 +13,7 @@ export default {
 	AUTO_SYNC_DESCRIPTION:
 		'La sincronización automática se activa cada 12 horas para actualizar los datos de la agenda.',
 	AUTUMN: 'Otoño',
+	BACHELORS: 'Licenciatura',
 	CALENDAR: 'Calendario',
 	CALENDAR_SYNCHRONIZATION: 'Sincronización con un calendario',
 	CANCEL: 'Cancelar',
@@ -48,6 +49,7 @@ export default {
 	LEGAL_NOTICE: 'Aviso legal',
 	LIGHT_THEME: 'Claro',
 	MAILBOX: 'Buzón',
+	MASTERS: 'Master',
 	MY_GROUP: 'Mi grupo',
 	NAVIGATION: 'Navegacíon',
 	NEXT: 'Siguiente',
@@ -62,6 +64,7 @@ export default {
 	OFFLINE_DISPLAY_FROM_DATE: 'Muestra fuera de linea de $-',
 	OPEN_ON_FAVOURITE_GROUP: 'Abrir en el grupo favorito',
 	OPEN_SYSTEM_SETTINGS: 'Abrir los ajustes del sistema',
+	OTHER: 'Otro',
 	REMOVE_FILTER: 'Manten sujetado el botón de una UE para eliminarla de los filtros.',
 	RESET: 'Reiniciar',
 	RESET_APP: 'Reiniciar la aplicación',

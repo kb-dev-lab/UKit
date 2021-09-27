@@ -13,6 +13,7 @@ export default {
 	AUTO_SYNC_DESCRIPTION:
 		'Auto sync. is triggered every 12 hours to refresh data in the calendar.',
 	AUTUMN: 'Autumn',
+	BACHELORS: "Bachelor's",
 	CANCEL: 'Cancel',
 	CALENDAR: 'Calendar',
 	CALENDAR_SYNCHRONIZATION: 'Synchronization with a calendar',
@@ -47,6 +48,7 @@ export default {
 	LEGAL_NOTICE: 'Legal Notice',
 	LIGHT_THEME: 'Light',
 	MAILBOX: 'Mailbox',
+	MASTERS: "Master's",
 	MY_GROUP: 'My group',
 	NAVIGATION: 'Navigation',
 	NEXT: 'Next',
@@ -60,6 +62,7 @@ export default {
 	OFFLINE_DISPLAY_FROM_DATE: 'Offline display from $-',
 	OPEN_SYSTEM_SETTINGS: 'Open system settings',
 	OPEN_ON_FAVOURITE_GROUP: 'Open on favourite group',
+	OTHER: 'Other',
 	REMOVE_FILTER: 'Hold down the button of an UE to remove it from the filters.',
 	RESET: 'Reset',
 	RESET_APP: 'Reset application',

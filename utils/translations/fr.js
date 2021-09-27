@@ -14,6 +14,7 @@ export default {
 	AUTO_SYNC_DESCRIPTION:
 		"La synchronisation automatique s'active tous les 12 heures pour rafraîchir les données du calendrier.",
 	AUTUMN: 'Automne',
+	BACHELORS: 'Licence',
 	CANCEL: 'Annuler',
 	CALENDAR: 'Calendrier',
 	CALENDAR_SYNCHRONIZATION: 'Synchronisation avec un calendrier',
@@ -48,6 +49,7 @@ export default {
 	LEGAL_NOTICE: 'Mentions légales',
 	LIGHT_THEME: 'Clair',
 	MAILBOX: 'Boîte mail',
+	MASTERS: 'Master',
 	MY_GROUP: 'Mon groupe',
 	NAVIGATION: 'Navigation',
 	NEXT: 'Suivant',
@@ -61,6 +63,7 @@ export default {
 	OFFLINE_DISPLAY_FROM_DATE: 'Affichage hors ligne datant du $-',
 	OPEN_ON_FAVOURITE_GROUP: 'Ouvrir sur le groupe favori',
 	OPEN_SYSTEM_SETTINGS: 'Ouvrir les réglages du système',
+	OTRO: 'Autre',
 	REMOVE_FILTER: "Maintenez enfoncé le bouton d'une UE pour la supprimer des filtres.",
 	RESET: 'Réinitialiser',
 	RESET_APP: "Réinitialiser l'application",

@@ -25,27 +25,27 @@ const MAXIMUM_NUMBER_ITEMS_GROUPLIST = 10;
 const UNIVERSITY_YEARS_LIST = [
 	{
 		id: 'L1',
-		title: 'Licence 1',
+		title: Translator.get('BACHELORS') + ' 1',
 	},
 	{
 		id: 'L2',
-		title: 'Licence 2',
+		title: Translator.get('BACHELORS') + ' 2',
 	},
 	{
 		id: 'L3',
-		title: 'Licence 3',
+		title: Translator.get('BACHELORS') + ' 3',
 	},
 	{
 		id: 'M1',
-		title: 'Master 1',
+		title: Translator.get('MASTERS') + ' 1',
 	},
 	{
 		id: 'M2',
-		title: 'Master 2',
+		title: Translator.get('MASTERS') + ' 2',
 	},
 	{
 		id: 'AUTRE',
-		title: 'Autre',
+		title: Translator.get('OTHER'),
 	},
 ];
 
