@@ -6,7 +6,7 @@ export default {
 	ADD_TO_CALENDAR_PERMISSIONS:
 		'La aplicación necesita permisos para añadir eventos al calendario',
 	APP_LAUNCHING: 'Puesta en marcha',
-	APP_READY: '¡La aplicación está ahora lista, puedes ahora puedes ahora consultar tu horario!',
+	APP_READY: '¡La aplicación está ahora lista, puedes ahora consultar tu horario!',
 	APPLICATION: 'Aplicación',
 	APPLICATION_HISTORY:
 		'Esta aplicación ha sido desarrollada por Jean B. para el concurso de HackeTaFac 2017. Hoy en día, está mantenida por KBDev SARL.\nMuchas gracias a Thomas Clément (Github @thclmnt) por su energía, su entusiasmo y su tiempo, permitiendo a UKit ser siempre más agradable para todos.\nGracias a @Gogotron (Github) por la traducción en español.',
@@ -29,8 +29,8 @@ export default {
 		'Permita que la aplicación acceda a sus calendarios a través de los Ajustes del sistema antes de utilizar esta función.',
 	ENGLISH: 'Inglés',
 	ERROR_WITH_CODE: 'El servidor a devuelto un error $-',
-	ERROR_WITH_MESSAGE: 'Error : $-',
-	EXISTING_CALENDARS: 'Calendarios existentes :',
+	ERROR_WITH_MESSAGE: 'Error: $-',
+	EXISTING_CALENDARS: 'Calendarios existentes:',
 	FILTERS: 'Filtros',
 	FILTERS_CONFIRMATION:
 		'Quieres filtrar esta UE ? Siempre puedes cancelar esta acción en los ajustes.',
@@ -60,7 +60,7 @@ export default {
 	NO_FILTER: 'Actualmente sin filtro',
 	NO_GROUP_FOUND_WITH_THIS_SEARCH:
 		'No se ha encontrado ningún grupo que corresponda con esta busqueda.',
-	NO_SYNCHRONIZATION_DONE: 'No se realiza la sincronización',
+	NO_SYNCHRONIZATION_DONE: 'No se ha realizado una sincronización',
 	OFFLINE_DISPLAY_FROM_DATE: 'Muestra fuera de linea de $-',
 	OPEN_ON_FAVOURITE_GROUP: 'Abrir en el grupo favorito',
 	OPEN_SYSTEM_SETTINGS: 'Abrir los ajustes del sistema',
@@ -75,7 +75,7 @@ export default {
 	SPANISH: 'Español',
 	SPRING: 'Primavera',
 	START: 'Empezar',
-	SYNCHRONIZING: 'Sincronización continua',
+	SYNCHRONIZING: 'Sincronizando',
 	SYNC_ENABLED: 'Sinc. auto activada',
 	SYNC_NOW: 'Sinc. ahora',
 	THIS_WEEK: 'Esta semana',
