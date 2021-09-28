@@ -101,6 +101,8 @@ class Home extends React.Component {
 		if (await DeviceUtils.isConnected()) {
 			try {
 				const groupList = await FetchManager.fetchGroupList();
+				if (groupList === null) throw 'network error';
+
 				this.setState({ cacheDate: null });
 				list = groupList.map((e) => ({
 					name: e,

@@ -88,6 +88,7 @@ class Week extends React.Component {
 			if (await DeviceUtils.isConnected()) {
 				try {
 					weekData = await FetchManager.fetchCalendarWeek(groupName, this.state.week);
+					if (weekData === null) throw 'network error';
 					AsyncStorage.setItem(id, JSON.stringify({ weekData, date: moment() }));
 				} catch (error) {
 					let cache = await this.getCache(id);
@@ -153,8 +154,6 @@ class Week extends React.Component {
 					</View>
 				);
 			}
-
-			console.log(this.state.schedule);
 
 			content = (
 				<ScrollView>
