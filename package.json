@@ -1,6 +1,6 @@
 {
   "name": "ukit",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "Ukit",
   "author": "HackJack",
   "private": true,
@@ -8,7 +8,7 @@
     "start": "expo start",
     "android": "expo build:android -t app-bundle",
     "sdk": "expo build:android",
-    "ios": "expo build:ios",
+    "ios": "expo build:ios -t archive",
     "eject": "expo eject",
     "lint": "./node_modules/.bin/eslint .",
     "postinstall": "rm -rf ./node_modules/expo/node_modules/expo-font/"
