@@ -11,7 +11,7 @@ import ErrorAlert from './alerts/ErrorAlert';
 import Translator from '../utils/translator';
 import DeviceUtils from '../utils/DeviceUtils';
 import FetchManager from '../utils/FetchManager';
-import CourseManager from "../utils/CourseManager";
+import CourseManager from '../utils/CourseManager';
 
 class Day extends React.Component {
 	constructor(props) {
@@ -89,6 +89,7 @@ class Day extends React.Component {
 						groupName,
 						date.replace(/\//g, '-'),
 					);
+					if (dayData === null) throw 'network error';
 					AsyncStorage.setItem(id, JSON.stringify({ dayData, date: moment() }));
 				} catch (error) {
 					let cache = await this.getCache(id);
@@ -122,11 +123,11 @@ class Day extends React.Component {
 	};
 
 	computeSchedule(schedule, isFavorite) {
-		schedule = schedule.map((course) =>
-			CourseManager.computeCourseUE(course)
-		).filter((course) =>
-			CourseManager.filterCourse(isFavorite, course, this.props.filtersList)
-		);
+		schedule = schedule
+			.map((course) => CourseManager.computeCourseUE(course))
+			.filter((course) =>
+				CourseManager.filterCourse(isFavorite, course, this.props.filtersList),
+			);
 		return schedule;
 	}
 
@@ -177,7 +178,8 @@ class Day extends React.Component {
 		}
 
 		return (
-			<View style={[style.schedule.containerView, { backgroundColor: theme.courseBackground }]}>
+			<View
+				style={[style.schedule.containerView, { backgroundColor: theme.courseBackground }]}>
 				<View style={style.schedule.titleView}>
 					<Text style={[style.schedule.titleText, { color: theme.font }]}>
 						{this.displayDate()}

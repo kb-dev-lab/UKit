@@ -28,7 +28,9 @@ class FetchManager {
 
 		try {
 			const results = await axios.request(options);
-			if (!results.data) return [];
+			if (results?.status !== 200) return null;
+			if (!results.data) return null;
+
 			const groupList = results.data.results;
 			const groupListFormated = groupList
 				.map((e) => e.id)
@@ -37,7 +39,7 @@ class FetchManager {
 
 			return groupListFormated;
 		} catch (error) {
-			console.warn(error);
+			// console.warn(error);
 		}
 	};
 
@@ -133,6 +135,7 @@ class FetchManager {
 		let response;
 		try {
 			response = await axios.request(options);
+			if (response?.status !== 200) return null;
 
 			const eventList = [];
 
@@ -186,7 +189,7 @@ class FetchManager {
 			return eventList.sort(this.sortFunctionGroup);
 		} catch (error) {
 			console.warn(error);
-			return [];
+			return null;
 		}
 	};
 
@@ -222,8 +225,9 @@ class FetchManager {
 			response = await axios.request(options);
 		} catch (error) {
 			console.warn(error);
+			return null;
 		}
-		if (response?.status !== 200) return;
+		if (response?.status !== 200) return null;
 		const eventList = [];
 
 		for (let i = 1; i < 7; i++) {
