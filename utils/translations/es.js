@@ -81,6 +81,9 @@ export default {
 	THIS_WEEK: 'Esta semana',
 	TODAY: 'Hoy',
 	UKIT_CALENDAR: 'Nuevo calendario UKit',
+	UPDATE_UKIT: 'Actualización',
+	UPDATE_UKIT_DESCRIPTION:
+		'Hay una actualización disponible. Para tener la mejor experiencia posible, le recomendamos que descargue esta actualización.',
 	USE_SEARCH_BAR: 'Usa la barra de búsqueda para restringir los resultados.',
 	YOUR_CALENDAR: '¿Qué calendario debe utilizarse para la sincronización?',
 	YOUR_GROUP: '¿Cuál es tu grupo?',

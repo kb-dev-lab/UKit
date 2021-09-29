@@ -63,7 +63,7 @@ export default {
 	OFFLINE_DISPLAY_FROM_DATE: 'Affichage hors ligne datant du $-',
 	OPEN_ON_FAVOURITE_GROUP: 'Ouvrir sur le groupe favori',
 	OPEN_SYSTEM_SETTINGS: 'Ouvrir les réglages du système',
-	OTRO: 'Autre',
+	OTHER: 'Autre',
 	REMOVE_FILTER: "Maintenez enfoncé le bouton d'une UE pour la supprimer des filtres.",
 	RESET: 'Réinitialiser',
 	RESET_APP: "Réinitialiser l'application",
@@ -81,6 +81,9 @@ export default {
 	THIS_WEEK: 'Cette semaine',
 	TODAY: "Aujourd'hui",
 	UKIT_CALENDAR: 'Nouveau calendrier UKit',
+	UPDATE_UKIT: 'Mettre à jour',
+	UPDATE_UKIT_DESCRIPTION:
+		"Une mise à jour de l'application est disponible. Afin de profiter de la meilleure expérience possible, nous vous recommandons de télécharger cette mise à jour!",
 	USE_SEARCH_BAR: 'Utilisez la barre de recherche pour affiner les résultats.',
 	YOUR_CALENDAR: 'Quel calendrier doit être utilisé pour la synchronisation ?',
 	YOUR_GROUP: 'Quel est ton groupe ?',
