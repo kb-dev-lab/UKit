@@ -9,6 +9,7 @@ import { AppContextProvider } from '../utils/DeviceUtils';
 import SettingsManager from '../utils/SettingsManager';
 import Welcome from '../navigation/WelcomePageStack';
 import Style from '../Style';
+import UpdateAlert from '../components/UpdateAlert';
 
 // See : https://github.com/react-navigation/react-navigation/issues/5568
 // if (Platform.OS === 'android') {
@@ -57,6 +58,7 @@ export default () => {
 					<AppContextProvider value={{ themeName, groupName, filters }}>
 						<StatusBar />
 						{isFirstLoad ? <Welcome /> : <Drawer background={theme.background} />}
+						<UpdateAlert />
 					</AppContextProvider>
 				</View>
 			</SafeAreaProvider>
