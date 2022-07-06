@@ -37,7 +37,7 @@
     "expo-linear-gradient": "~9.2.0",
     "expo-updates": "~0.8.2",
     "html-entities": "^2.3.2",
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "prop-types": "^15.6.2",
     "qs": "^6.10.1",
     "react": "16.13.1",
