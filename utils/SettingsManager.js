@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Appearance } from 'react-native-appearance';
+import { Appearance } from 'react-native';
 import * as Calendar from 'expo-calendar';
 import moment from 'moment';
 import * as BackgroundFetch from 'expo-background-fetch';

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Image } from 'react-native';
-import AppLoading from 'expo-app-loading';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import Constants from 'expo-constants';
+import * as SplashScreen from 'expo-splash-screen';
 import {
 	Entypo,
 	Feather,
@@ -44,48 +44,56 @@ function cacheImages(images) {
 	});
 }
 
-export default class App extends React.Component {
-	state = {
-		isSplashReady: false,
-	};
+export default function App() {
+	const [appIsReady, setAppIsReady] = useState(false);
 
-	constructor(props) {
-		super(props);
-	}
+	useEffect(() => {
+		async function prepare() {
+			try {
+				await Font.loadAsync({ Montserrat_500Medium });
 
-	render() {
-		if (!this.state.isSplashReady) {
-			return (
-				<AppLoading
-					startAsync={this._loadAssetsAsync}
-					onFinish={() => this.setState({ isSplashReady: true })}
-					onError={console.warn}
-				/>
-			);
+				const imageAssets = cacheImages([require('./assets/icons/app.png')]);
+
+				const fontAssets = cacheFonts([
+					FontAwesome.font,
+					Feather.font,
+					Ionicons.font,
+					MaterialCommunityIcons.font,
+					MaterialIcons.font,
+					SimpleLineIcons.font,
+					Entypo.font,
+				]);
+
+				await DataManager.loadData();
+
+				await SettingsManager.loadSettings();
+
+				await Promise.all([...imageAssets, ...fontAssets]);
+			} catch (e) {
+				console.warn(e);
+			} finally {
+				// Tell the application to render
+				setAppIsReady(true);
+			}
 		}
 
-		return <RootContainer />;
+		prepare();
+	}, []);
+
+	const onLayoutRootView = useCallback(async () => {
+		if (appIsReady) {
+			// This tells the splash screen to hide immediately! If we call this after
+			// `setAppIsReady`, then we may see a blank screen while the app is
+			// loading its initial state and rendering its first pixels. So instead,
+			// we hide the splash screen once we know the root view has already
+			// performed layout.
+			await SplashScreen.hideAsync();
+		}
+	}, [appIsReady]);
+
+	if (!appIsReady) {
+		return null;
 	}
 
-	_loadAssetsAsync = async () => {
-		await Font.loadAsync({ Montserrat_500Medium });
-
-		const imageAssets = cacheImages([require('./assets/icons/app.png')]);
-
-		const fontAssets = cacheFonts([
-			FontAwesome.font,
-			Feather.font,
-			Ionicons.font,
-			MaterialCommunityIcons.font,
-			MaterialIcons.font,
-			SimpleLineIcons.font,
-			Entypo.font,
-		]);
-
-		await DataManager.loadData();
-
-		await SettingsManager.loadSettings();
-
-		await Promise.all([...imageAssets, ...fontAssets]);
-	};
+	return <RootContainer />;
 }
