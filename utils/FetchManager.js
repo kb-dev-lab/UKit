@@ -28,7 +28,9 @@ class FetchManager {
 
 		try {
 			const results = await axios.request(options);
-			if (!results.data) return [];
+			if (results?.status !== 200) return null;
+			if (!results.data) return null;
+
 			const groupList = results.data.results;
 			const groupListFormated = groupList
 				.map((e) => e.id)
@@ -37,7 +39,7 @@ class FetchManager {
 
 			return groupListFormated;
 		} catch (error) {
-			console.warn(error);
+			// console.warn(error);
 		}
 	};
 
@@ -107,7 +109,9 @@ class FetchManager {
 	// };
 
 	fetchCalendarDay = async (group, date) => {
-		const endQueryDate = moment(date, "YYYY-MM-DD").add(1,'day').format("YYYY-MM-DD");
+		const endQueryDate = moment(date, 'YYYY-MM-DD')
+			.add(1, 'day')
+			.format('YYYY-MM-DD');
 		const data = {
 			start: date,
 			end: endQueryDate,
@@ -131,11 +135,13 @@ class FetchManager {
 		let response;
 		try {
 			response = await axios.request(options);
+			if (response?.status !== 200) return null;
 
 			const eventList = [];
 
 			for (const event of response.data) {
 				if (event.eventCategory === 'Vacances') continue;
+				if (moment(event.start).format('YYYY-MM-DD') !== date) continue;
 				const startDate = moment(event.start);
 				const endDate = moment(event.end);
 				const starttime = startDate.format('HH:mm');
@@ -156,8 +162,11 @@ class FetchManager {
 
 				let toFilter = null;
 				if (description[0].includes(group)) {
-					let filter = description[0].replace(group,'').replace('-','').trim();
-					toFilter = (filter !== '') ? filter : null;
+					let filter = description[0]
+						.replace(group, '')
+						.replace('-', '')
+						.trim();
+					toFilter = filter !== '' ? filter : null;
 				}
 
 				const newEvent = {
@@ -172,7 +181,7 @@ class FetchManager {
 					description: description.filter((e) => e != '').join('\n'),
 					category: event.eventCategory,
 					group,
-					toFilter
+					toFilter,
 				};
 				eventList.push(newEvent);
 			}
@@ -180,7 +189,7 @@ class FetchManager {
 			return eventList.sort(this.sortFunctionGroup);
 		} catch (error) {
 			console.warn(error);
-			return [];
+			return null;
 		}
 	};
 
@@ -216,8 +225,9 @@ class FetchManager {
 			response = await axios.request(options);
 		} catch (error) {
 			console.warn(error);
+			return null;
 		}
-		if (response?.status !== 200) return;
+		if (response?.status !== 200) return null;
 		const eventList = [];
 
 		for (let i = 1; i < 7; i++) {
@@ -258,8 +268,11 @@ class FetchManager {
 
 			let toFilter = null;
 			if (description[0].includes(group)) {
-				let filter = description[0].replace(group,'').replace('-','').trim();
-				toFilter = (filter !== '') ? filter : null;
+				let filter = description[0]
+					.replace(group, '')
+					.replace('-', '')
+					.trim();
+				toFilter = filter !== '' ? filter : null;
 			}
 
 			const newEvent = {
@@ -276,7 +289,7 @@ class FetchManager {
 				group,
 				day,
 				dayNumber,
-				toFilter
+				toFilter,
 			};
 			eventList[dayNumberInt - 1].courses.push(newEvent);
 		}

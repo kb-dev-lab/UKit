@@ -43,7 +43,7 @@ export default {
 			backgroundImage: './assets/icons/android_background.png',
 		},
 		permissions: ['READ_CALENDAR', 'WRITE_CALENDAR'],
-		versionCode: 57,
+		versionCode: 60,
 	},
 	androidStatusBar: {
 		barStyle: 'light-content',

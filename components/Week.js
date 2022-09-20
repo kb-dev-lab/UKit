@@ -11,7 +11,7 @@ import ErrorAlert from './alerts/ErrorAlert';
 import DeviceUtils from '../utils/DeviceUtils';
 import Translator from '../utils/translator';
 import FetchManager from '../utils/FetchManager';
-import CourseManager from "../utils/CourseManager";
+import CourseManager from '../utils/CourseManager';
 
 class Week extends React.Component {
 	constructor(props) {
@@ -88,6 +88,7 @@ class Week extends React.Component {
 			if (await DeviceUtils.isConnected()) {
 				try {
 					weekData = await FetchManager.fetchCalendarWeek(groupName, this.state.week);
+					if (weekData === null) throw 'network error';
 					AsyncStorage.setItem(id, JSON.stringify({ weekData, date: moment() }));
 				} catch (error) {
 					let cache = await this.getCache(id);
@@ -121,11 +122,11 @@ class Week extends React.Component {
 	}
 
 	computeSchedule(schedule, isFavorite) {
-		schedule.courses = schedule.courses.map((course) =>
-			CourseManager.computeCourseUE(course)
-		).filter((course) =>
-            CourseManager.filterCourse(isFavorite, course, this.props.filtersList)
-        );
+		schedule.courses = schedule.courses
+			.map((course) => CourseManager.computeCourseUE(course))
+			.filter((course) =>
+				CourseManager.filterCourse(isFavorite, course, this.props.filtersList),
+			);
 		return schedule;
 	}
 
@@ -171,7 +172,8 @@ class Week extends React.Component {
 		}
 
 		return (
-			<View style={[style.schedule.containerView, { backgroundColor: theme.courseBackground }]}>
+			<View
+				style={[style.schedule.containerView, { backgroundColor: theme.courseBackground }]}>
 				<View style={style.schedule.titleView}>
 					<View style={style.schedule.titleTextView}>
 						<Text style={[style.schedule.titleText, { color: theme.font }]}>

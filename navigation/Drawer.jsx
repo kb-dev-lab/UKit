@@ -96,7 +96,7 @@ const CustomDrawerContentComponent = (props) => {
 							fontColor={theme.font}
 							onPress={() => navigate('WebBrowser', { entrypoint: 'apogee' })}
 						/>
-						<Split title="Application" lineColor={theme.border} color={theme.icon} />
+						<Split title={Translator.get('APPLICATION')} lineColor={theme.border} color={theme.icon} />
 						<DrawerButton
 							title={Translator.get('SETTINGS')}
 							size={28}
