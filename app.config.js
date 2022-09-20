@@ -7,7 +7,7 @@ export default {
 	privacy: 'public',
 	githubUrl: 'https://github.com/kb-dev/UKit',
 	platforms: ['ios', 'android'],
-	version: '4.0.4',
+	version: '4.1.0',
 	orientation: 'portrait',
 	primaryColor: '#006F9F',
 	icon: './assets/icons/ios.png',
@@ -43,7 +43,7 @@ export default {
 			backgroundImage: './assets/icons/android_background.png',
 		},
 		permissions: ['READ_CALENDAR', 'WRITE_CALENDAR'],
-		versionCode: 60,
+		versionCode: 61,
 	},
 	androidStatusBar: {
 		barStyle: 'light-content',
