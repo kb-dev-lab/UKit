@@ -371,7 +371,7 @@ class FetchManager {
 				subject = event.modules.shift();
 			}
 
-			const unfilteredDescription = formatDescription(event.description).split('\n');
+			const unfilteredDescription = formatDescription(event.description).split(';');
 			const description = [];
 
 			for (const field of unfilteredDescription) {

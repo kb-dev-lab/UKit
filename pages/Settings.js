@@ -233,7 +233,7 @@ class Settings extends React.Component {
 					<View style={{ marginTop: 20 }}></View>
 					<SettingsTextHeader
 						theme={theme}
-						text={`[BETA] ${Translator.get('CALENDAR_SYNCHRONIZATION')}`}
+						text={Translator.get('CALENDAR_SYNCHRONIZATION')}
 					/>
 
 					{this.state.hasCalendarPermission ? (
