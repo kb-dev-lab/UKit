@@ -65,7 +65,7 @@ const WelcomeNavigator = ({ changeState, navigatorState }) => {
 	);
 };
 
-export default () => {
+export default (props) => {
 	const [WelcomeSettings, setWelcomeSettings] = useState({
 		language: 'fr',
 		theme: 'light',

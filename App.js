@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Image } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Animated, Image, StyleSheet, View } from 'react-native';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import Constants from 'expo-constants';
@@ -30,22 +30,12 @@ if (Constants.manifest.extra.sentryDSN) {
 	console.warn('No Sentry URL provided.');
 }
 
-function cacheFonts(fonts) {
-	return fonts.map((font) => Font.loadAsync(font));
-}
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
 
-function cacheImages(images) {
-	return images.map((image) => {
-		if (typeof image === 'string') {
-			return Image.prefetch(image);
-		} else {
-			return Asset.fromModule(image).downloadAsync();
-		}
-	});
-}
-
-export default function App() {
+function AnimatedAppLoader({ children }) {
 	const [appIsReady, setAppIsReady] = useState(false);
+	const imageSrc = require('./assets/icons/splash.png');
 
 	useEffect(() => {
 		async function prepare() {
@@ -63,7 +53,6 @@ export default function App() {
 					SimpleLineIcons.font,
 					Entypo.font,
 				]);
-
 				await DataManager.loadData();
 
 				await SettingsManager.loadSettings();
@@ -87,7 +76,7 @@ export default function App() {
 			// loading its initial state and rendering its first pixels. So instead,
 			// we hide the splash screen once we know the root view has already
 			// performed layout.
-			await SplashScreen.hideAsync();
+			setTimeout(() => SplashScreen.hideAsync());
 		}
 	}, [appIsReady]);
 
@@ -95,5 +84,83 @@ export default function App() {
 		return null;
 	}
 
-	return <RootContainer />;
+	return <AnimatedSplashScreen image={imageSrc}>{children}</AnimatedSplashScreen>;
+}
+
+function AnimatedSplashScreen({ children, image }) {
+	const animation = useMemo(() => new Animated.Value(1), []);
+	const [isAppReady, setAppReady] = useState(false);
+	const [isSplashAnimationComplete, setAnimationComplete] = useState(false);
+
+	useEffect(() => {
+		if (isAppReady) {
+			Animated.timing(animation, {
+				toValue: 0,
+				duration: 1000,
+				useNativeDriver: true,
+			}).start(() => setAnimationComplete(true));
+		}
+	}, [isAppReady]);
+
+	const onImageLoaded = useCallback(async () => {
+		try {
+			await SplashScreen.hideAsync();
+		} catch (e) {
+			console.log('err', e);
+			// handle errors
+		} finally {
+			setAppReady(true);
+		}
+	}, []);
+
+	return (
+		<View style={{ flex: 1 }}>
+			{isAppReady && children}
+			{!isSplashAnimationComplete && (
+				<Animated.View
+					pointerEvents="none"
+					style={[
+						StyleSheet.absoluteFill,
+						{
+							backgroundColor: Constants.manifest.splash.backgroundColor,
+							opacity: animation,
+						},
+					]}>
+					<Animated.Image
+						style={{
+							width: '100%',
+							height: '100%',
+							resizeMode: Constants.manifest.splash.resizeMode || 'contain',
+						}}
+						source={image}
+						onError={(e) => console.log(e.nativeEvent.error)}
+						onLoadEnd={onImageLoaded}
+						fadeDuration={0}
+					/>
+				</Animated.View>
+			)}
+		</View>
+	);
+}
+
+function cacheFonts(fonts) {
+	return fonts.map((font) => Font.loadAsync(font));
+}
+
+function cacheImages(images) {
+	return images.map((image) => {
+		if (typeof image === 'string') {
+			return Image.prefetch(image);
+		} else {
+			return Asset.fromModule(image).downloadAsync();
+		}
+	});
+}
+
+export default function App() {
+	return (
+		<AnimatedAppLoader>
+			<RootContainer />
+		</AnimatedAppLoader>
+	);
 }

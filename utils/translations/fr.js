@@ -83,7 +83,7 @@ export default {
 	UKIT_CALENDAR: 'Nouveau calendrier UKit',
 	UPDATE_UKIT: 'Mettre à jour',
 	UPDATE_UKIT_DESCRIPTION:
-		"Une mise à jour de l'application est disponible. Afin de profiter de la meilleure expérience possible, nous vous recommandons de télécharger cette mise à jour!",
+		"Une mise à jour de l'application est disponible. Afin de profiter de la meilleure expérience possible, nous vous recommandons de télécharger cette mise à jour !",
 	USE_SEARCH_BAR: 'Utilisez la barre de recherche pour affiner les résultats.',
 	YOUR_CALENDAR: 'Quel calendrier doit être utilisé pour la synchronisation ?',
 	YOUR_GROUP: 'Quel est ton groupe ?',

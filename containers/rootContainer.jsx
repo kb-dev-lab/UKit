@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { AppState, View } from 'react-native';
+import { AppState, SafeAreaView, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { RootSiblingParent } from 'react-native-root-siblings';
 
 import StatusBar from '../components/ui/StatusBar';
 import Drawer from '../navigation/Drawer';
@@ -16,7 +15,7 @@ import UpdateAlert from '../components/UpdateAlert';
 //     SafeAreaView.setStatusBarHeight(0);
 // }
 
-export default () => {
+export default (props) => {
 	const [isFirstLoad, setFirstLoad] = useState(SettingsManager.isFirstLoad());
 	const [themeName, setThemeName] = useState(SettingsManager.getTheme());
 	const [groupName, setGroupName] = useState(SettingsManager.getGroup());
@@ -44,24 +43,23 @@ export default () => {
 			setFilters(newFilter);
 		});
 
-		AppState.addEventListener('change', reloadData);
+		const eventSubscription = AppState.addEventListener('change', reloadData);
 
-		return () => AppState.removeEventListener('change', reloadData);
+		return () => eventSubscription.remove();
 	}, []);
 
 	const theme = Style.Theme[themeName];
 
 	return (
-		<RootSiblingParent>
-			<SafeAreaProvider>
-				<View style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
-					<AppContextProvider value={{ themeName, groupName, filters }}>
-						<StatusBar />
-						{isFirstLoad ? <Welcome /> : <Drawer background={theme.background} />}
-						<UpdateAlert />
-					</AppContextProvider>
-				</View>
-			</SafeAreaProvider>
-		</RootSiblingParent>
+		<View
+			style={{
+				flex: 1,
+				marginTop: StatusBar.currentHeight,
+			}}>
+			<AppContextProvider value={{ themeName, groupName, filters }}>
+				<StatusBar />
+				{isFirstLoad ? <Welcome /> : <Drawer background={theme.background} />}
+			</AppContextProvider>
+		</View>
 	);
 };
