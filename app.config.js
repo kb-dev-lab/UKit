@@ -7,7 +7,7 @@ export default {
 	privacy: 'public',
 	githubUrl: 'https://github.com/kb-dev/UKit',
 	platforms: ['ios', 'android'],
-	version: '4.1.0',
+	version: '4.1.1',
 	orientation: 'portrait',
 	primaryColor: '#006F9F',
 	icon: './assets/icons/ios.png',
@@ -43,7 +43,7 @@ export default {
 			backgroundImage: './assets/icons/android_background.png',
 		},
 		permissions: ['READ_CALENDAR', 'WRITE_CALENDAR'],
-		versionCode: 61,
+		versionCode: 62,
 	},
 	androidStatusBar: {
 		barStyle: 'light-content',
@@ -55,7 +55,7 @@ export default {
 	},
 	extra: {
 		eas: {
-			projectId: "2a05b568-4dc7-4e7b-bcec-eb00ed808aee"
+			projectId: '2a05b568-4dc7-4e7b-bcec-eb00ed808aee',
 		},
 		sentryDSN: process.env.SENTRY_DSN,
 	},
