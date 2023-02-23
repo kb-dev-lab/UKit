@@ -26,6 +26,8 @@ export default {
 			usesNonExemptEncryption: false,
 		},
 		infoPlist: {
+			NSCalendarsUsageDescription:
+				'This app use calendar access to synchronize your group calendar to a external calendar (only if the feature is enabled in Settings).',
 			NSRemindersUsageDescription:
 				'This app needs access to the calendar in order to create events from your schedule',
 			UIBackgroundModes: ['fetch'],
