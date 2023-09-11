@@ -7,7 +7,7 @@ export default {
 	privacy: 'public',
 	githubUrl: 'https://github.com/kb-dev/UKit',
 	platforms: ['ios', 'android'],
-	version: '4.1.1',
+	version: '4.1.2',
 	orientation: 'portrait',
 	primaryColor: '#006F9F',
 	icon: './assets/icons/ios.png',
@@ -45,7 +45,7 @@ export default {
 			backgroundImage: './assets/icons/android_background.png',
 		},
 		permissions: ['READ_CALENDAR', 'WRITE_CALENDAR'],
-		versionCode: 62,
+		versionCode: 63,
 	},
 	androidStatusBar: {
 		barStyle: 'light-content',
@@ -61,4 +61,7 @@ export default {
 		},
 		sentryDSN: process.env.SENTRY_DSN,
 	},
+	plugins: [
+		'sentry-expo',
+	],
 };
